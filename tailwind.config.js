@@ -3,6 +3,7 @@ module.exports = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/containers/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
@@ -14,7 +15,17 @@ module.exports = {
       sm: { max: "640px" },
       xs: { max: "480px" },
     },
-    extend: {},
+    extend: {
+      colors: {
+        "accent-1-base": "#D9D9D9",
+      },
+      maxWidth: {
+        "8xl": "100rem",
+      },
+      fontSize: {
+        "1.5xl": "1.375rem",
+      },
+    },
   },
   plugins: [],
 };
