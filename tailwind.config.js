@@ -8,12 +8,12 @@ module.exports = {
   ],
   theme: {
     screens: {
-      "2xl": { max: "1440px" },
+      "2xl": { max: "1536px" },
       xl: { max: "1280px" },
       lg: { max: "1024px" },
       md: { max: "768px" },
       sm: { max: "640px" },
-      xs: { max: "480px" },
+      xs: { max: "360px" },
     },
     extend: {
       colors: {
@@ -24,6 +24,10 @@ module.exports = {
       },
       fontSize: {
         "1.5xl": "1.375rem",
+      },
+      transitionProperty: {
+        "grid-rows": "grid-template-rows",
+        padding: "padding",
       },
     },
   },
