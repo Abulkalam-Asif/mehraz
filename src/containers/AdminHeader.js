@@ -6,9 +6,9 @@ import React from "react";
 const AdminHeader = () => {
   return (
     <>
-      <header className="pt-7 2xl:pt-5 lg:pb-12">
-        <div className="max-w-8xl mx-auto px-8 flex items-center justify-between">
-          <Link href="/admin" className="text-6xl 2xl:text-5xl lg:text-4xl">
+      <header className="pt-7 sticky top-0 left-0 right-0 bg-white z-10 2xl:pt-5">
+        <div className="max-w-8xl mx-auto px-10 flex items-center justify-between xs:px-5">
+          <Link href="/admin" className="text-6xl uppercase 2xl:text-5xl lg:text-4xl">
             Mehraz
           </Link>
           <button>

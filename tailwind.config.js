@@ -18,12 +18,15 @@ module.exports = {
     extend: {
       colors: {
         "accent-1-base": "#D9D9D9",
+        "accent-1-dark": "#666666",
       },
       maxWidth: {
         "8xl": "100rem",
       },
       fontSize: {
         "1.5xl": "1.375rem",
+        "3.5xl": "2rem",
+        "4.5xl": "2.5rem",
       },
       transitionProperty: {
         "grid-rows": "grid-template-rows",
