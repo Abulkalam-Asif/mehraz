@@ -18,10 +18,10 @@ const ProjectDisplayBoxMob = ({
         <h2 className="font-bold">{project_title}</h2>
         <p className="text-sm">{stringEllipsis(project_description, 120)}</p>
         <h3 className="text-lg font-bold my-2">
-          {project_date_created.toLocaleString("en-US", {
-            year: "numeric",
+          {new Date(project_date_created).toLocaleString("en-US", {
             month: "short",
             day: "2-digit",
+            year: "numeric",
           })}
         </h3>
         <div className="flex items-center gap-5 ml-2">
