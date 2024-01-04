@@ -5,8 +5,8 @@ import { Carousel, Table } from "@/containers";
 import { stringEllipsis } from "@/utils/stringEllipsis";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
-
+import React, { useEffect } from "react";
+import fetchAllProjects from "@/Firebase/FetchAllProjects";
 const projects = [
   {
     project_id: "project1",
@@ -64,7 +64,9 @@ const projects = [
       "Create a design for a mixed-use development that seamlessly integrates residential, commercial, and recreational spaces. Emphasize walkability, community engagement, and a vibrant urban atmosphere.",
     project_date_created: new Date(Date.now()),
   },
+
 ];
+
 
 // convert projects array into an array of arrays with 2 projects each
 const projectsArray = projects.reduce((acc, project, index) => {
@@ -74,10 +76,12 @@ const projectsArray = projects.reduce((acc, project, index) => {
 }, []);
 
 const Projects = () => {
+ 
   const deleteProjectHandler = (e) => {
     const projectId = e.currentTarget.dataset.projectId;
-    console.log(projectId);
+    console.log('ProjectId: ',projectId);
     // TODO: delete project from database
+    
   };
   return (
     <>
