@@ -58,24 +58,24 @@ const Admin = () => {
         <div className="flex flex-col max-w-4xl mx-auto gap-3 2xl:max-w-2xl lg:hidden">
           <div className="flex items-end gap-3">
             <AdminDashboardGroup title={"uploads"} className="flex-col">
-              {linksData.uploads.map(({ text, href }) => (
-                <LinkButton type="admin-dashboard" href={href} text={text} />
+              {linksData.uploads.map(({ text, href }, index) => (
+                <LinkButton key={index} type="admin-dashboard" href={href} text={text} />
               ))}
             </AdminDashboardGroup>
             <AdminDashboardGroup title={"group chats"} className="flex-col">
-              {linksData.groupChats.map(({ text, href }) => (
-                <LinkButton type="admin-dashboard" href={href} text={text} />
+              {linksData.groupChats.map(({ text, href }, index) => (
+                <LinkButton key={index} type="admin-dashboard" href={href} text={text} />
               ))}
             </AdminDashboardGroup>
           </div>
           <AdminDashboardGroup title={"members"} className="flex-row">
-            {linksData.members.map(({ text, href }) => (
-              <LinkButton type="admin-dashboard" href={href} text={text} />
+            {linksData.members.map(({ text, href }, index) => (
+              <LinkButton key={index} type="admin-dashboard" href={href} text={text} />
             ))}
           </AdminDashboardGroup>
           <AdminDashboardGroup title={"teams & others"} className="flex-col">
-            {linksData.teamsAndOthers.map(({ text, href }) => (
-              <LinkButton type="admin-dashboard" href={href} text={text} />
+            {linksData.teamsAndOthers.map(({ text, href }, index) => (
+              <LinkButton key={index} type="admin-dashboard" href={href} text={text} />
             ))}
           </AdminDashboardGroup>
         </div>
