@@ -58,12 +58,12 @@ const Carousel = ({ children, className }) => {
         </div>
         <button
           onClick={previousSlide}
-          className="absolute top-1/2 -translate-y-1/2 -left-5 bg-accent-1-base p-4 rounded-full">
+          className="absolute top-1/2 -translate-y-1/2 left-0 -translate-x-2/3 bg-accent-1-base p-4 rounded-full">
           <Image src={chevronLeftIcon} alt="chevron left" />
         </button>
         <button
           onClick={nextSlide}
-          className="absolute top-1/2 -translate-y-1/2 -right-5 bg-accent-1-base p-4 rounded-full">
+          className="absolute top-1/2 -translate-y-1/2 right-0 translate-x-2/3 bg-accent-1-base p-4 rounded-full">
           <Image src={chevronRightIcon} alt="chevron right" />
         </button>
       </div>
