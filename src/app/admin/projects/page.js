@@ -114,7 +114,7 @@ const Projects = () => {
     <>
       <section className="pb-4 px-8">
         <div className="max-w-8xl mx-auto">
-          <div className="flex justify-between items-center py-6">
+          <div className="flex justify-between items-center py-6 xs:items-start">
             <Link
               href={"/admin"}
               className="bg-accent-1-base rounded-full p-5 lg:p-4 md:hidden">
@@ -125,11 +125,30 @@ const Projects = () => {
               />
             </Link>
             <H1 text="projects" />
-            <LinkButton
-              href="/admin/projects/create-new"
-              text="create new +"
-              className="lg:text-base sm:text-sm"
-            />
+            <div className="flex sm:hidden items-center gap-x-6">
+              <LinkButton
+                href="/admin/projects/free-design"
+                text="free design +"
+                className="lg:text-base"
+              />
+              <LinkButton
+                href="/admin/projects/create-new"
+                text="create new +"
+                className="lg:text-base"
+              />
+            </div>
+            <div className="hidden sm:flex gap-x-4 items-center gap-y-2 xs:flex-col">
+              <LinkButton
+                href="/admin/projects/free-design"
+                text="free +"
+                className="text-sm xs:px-3 xs:py-2"
+              />
+              <LinkButton
+                href="/admin/projects/create-new"
+                text="create +"
+                className="text-sm xs:px-3 xs:py-2"
+              />
+            </div>
           </div>
           {projects ? (
             <>

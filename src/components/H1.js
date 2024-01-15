@@ -5,7 +5,7 @@ const H1 = ({ text = "", className = "", type = "general" }) => {
   if (type === "general") {
     typeStyles = "text-3.5xl lg:text-2xl sm:text-xl";
   } else if (type === "admin-dashboard") {
-    typeStyles = "text-2xl mb-6 lg:text-xl lg:mb-12";
+    typeStyles = "text-1.5xl mb-6 lg:text-xl lg:mb-12";
   }
   return (
     <>

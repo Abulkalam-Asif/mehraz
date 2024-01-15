@@ -11,7 +11,7 @@ const AdminHeader = () => {
           <Link href="/admin" className="uppercase text-5xl lg:text-4xl">
             Mehraz
           </Link>
-          <button>
+          <button className="p-2">
             <Image src={bellIcon} alt="bell" className="w-8 lg:w-7" />
           </button>
         </div>

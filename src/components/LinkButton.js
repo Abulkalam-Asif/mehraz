@@ -11,13 +11,13 @@ const LinkButton = ({
   if (type === "general") {
     typeStyles = "px-4 py-3";
   } else if (type === "admin-dashboard") {
-    typeStyles = "px-11 py-3";
+    typeStyles = "px-10 py-3";
   }
   return (
     <>
       <Link
         href={href}
-        className={`font-bold uppercase bg-accent-1-base rounded-2xl text-lg ${className} ${typeStyles}`}>
+        className={`font-bold uppercase bg-accent-1-base rounded-2xl ${className} ${typeStyles}`}>
         {text}
       </Link>
     </>

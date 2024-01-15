@@ -49,11 +49,7 @@ const Admin = () => {
   return (
     <>
       <section className="pb-4 px-8 lg:mt-12">
-        <H1
-          text="welcome back to dashboard"
-          type="admin-dashboard"
-          className="mb-8"
-        />
+        <H1 text="welcome back to dashboard" type="admin-dashboard" />
         {/* This div will be displayed for over 1024px width */}
         <div className="flex flex-col mx-auto gap-3 max-w-2xl lg:hidden">
           <div className="flex items-end gap-3">

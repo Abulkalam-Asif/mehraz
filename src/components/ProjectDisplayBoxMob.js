@@ -15,7 +15,7 @@ const ProjectDisplayBoxMob = ({
   return (
     <>
       <div className="py-4 px-5 border-2 border-black rounded-xl">
-        <h2 className="font-bold">{project_title}</h2>
+        <h2 className="font-bold uppercase">{project_title}</h2>
         <p className="text-sm">{stringEllipsis(project_description, 120)}</p>
         <h3 className="text-lg font-bold my-2">
           {new Date(project_date_created).toLocaleString("en-US", {
