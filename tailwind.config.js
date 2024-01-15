@@ -8,7 +8,6 @@ module.exports = {
   ],
   theme: {
     screens: {
-      "2xl": { max: "1536px" },
       xl: { max: "1280px" },
       lg: { max: "1024px" },
       md: { max: "768px" },
@@ -21,7 +20,8 @@ module.exports = {
         "accent-1-dark": "#666666",
       },
       maxWidth: {
-        "8xl": "100rem",
+        "8xl": "90rem",
+        "6.5xl": "75rem",
       },
       fontSize: {
         "1.5xl": "1.375rem",
