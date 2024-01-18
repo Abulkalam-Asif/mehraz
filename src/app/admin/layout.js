@@ -3,7 +3,7 @@ import React from "react";
 
 const AdminLayout = ({ children }) => {
   return (
-    <main>
+    <main className="h-screen">
       <AdminHeader />
       {children}
     </main>

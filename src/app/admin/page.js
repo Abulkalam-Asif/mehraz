@@ -48,7 +48,7 @@ const linksData = {
 const Admin = () => {
   return (
     <>
-      <section className="pb-4 px-8 lg:mt-12">
+      <section className="px-8 h-[calc(100vh-6rem)] lg:h-[calc(100vh-4rem)] lg:mt-12">
         <H1 text="welcome back to dashboard" type="admin-dashboard" />
         {/* This div will be displayed for over 1024px width */}
         <div className="flex flex-col mx-auto gap-3 max-w-2xl lg:hidden">

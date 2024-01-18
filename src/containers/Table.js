@@ -1,11 +1,13 @@
 import React from "react";
 
-const Table = ({ children, className = "" }) => {
+const Table = ({ children, className = "", border = true }) => {
   return (
     <>
       <div
-        className={`border-2 border-accent-1-dark p-4 rounded-3xl ${className}`}>
-        <table>{children}</table>
+        className={`${
+          border ? "border-2 border-accent-1-dark rounded-3xl p-4" : ""
+        } ${className}`}>
+        <table className="w-full">{children}</table>
       </div>
     </>
   );

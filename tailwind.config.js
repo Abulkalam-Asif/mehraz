@@ -32,6 +32,12 @@ module.exports = {
         "grid-rows": "grid-template-rows",
         padding: "padding",
       },
+      maxHeight: {
+        "2/3": "66%",
+        "1/3": "33%",
+        "1/2": "50%",
+        "1/4": "25%",
+      },
     },
   },
   plugins: [],

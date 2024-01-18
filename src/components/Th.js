@@ -12,7 +12,7 @@ const Th = ({ children, className = "", position = "middle" }) => {
   return (
     <>
       <th
-        className={`text-center ${positionStyles} border-accent-1-dark ${className}`}>
+        className={`uppercase text-center ${positionStyles} border-accent-1-dark ${className}`}>
         {children}
       </th>
     </>

@@ -6,7 +6,7 @@ import React from "react";
 const AdminHeader = () => {
   return (
     <>
-      <header className="sticky top-0 left-0 right-0 bg-white z-10 pt-5">
+      <header className="bg-white pt-5 h-20 lg:h-16">
         <div className="max-w-6.5xl mx-auto px-8 flex items-center justify-between xs:px-5">
           <Link href="/admin" className="uppercase text-5xl lg:text-4xl">
             Mehraz

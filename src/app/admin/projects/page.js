@@ -15,7 +15,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import fetchAllProjects from "@/Firebase/fetchAllProjects";
 
-const projects1 = [
+const projects = [
   {
     project_id: "project1",
     project_title: "Modern Residence Design",
@@ -75,35 +75,35 @@ const projects1 = [
 ];
 
 // convert projects array into an array of arrays with 2 projects each
-const projectsArray1 = projects1.reduce((acc, project, index) => {
+const projectsArray = projects.reduce((acc, project, index) => {
   const arrayIndex = Math.floor(index / 2);
   acc[arrayIndex] = [...(acc[arrayIndex] || []), project];
   return acc;
 }, []);
 
 const Projects = () => {
-  const [projects, setProjects] = useState(null);
-  const [projectsArray, setProjectsArray] = useState(null);
+  // const [projects, setProjects] = useState(null);
+  // const [projectsArray, setProjectsArray] = useState(null);
 
-  useEffect(() => {
-    fetchAllProjects().then((projects) => {
-      const newProjects = projects.map((project) => {
-        return { ...project.data, project_id: project.id };
-      });
-      setProjects(newProjects);
-    });
-  }, []);
+  // useEffect(() => {
+  //   fetchAllProjects().then((projects) => {
+  //     const newProjects = projects.map((project) => {
+  //       return { ...project.data, project_id: project.id };
+  //     });
+  //     setProjects(newProjects);
+  //   });
+  // }, []);
 
-  useEffect(() => {
-    if (projects) {
-      const projectsArray = projects.reduce((acc, project, index) => {
-        const arrayIndex = Math.floor(index / 2);
-        acc[arrayIndex] = [...(acc[arrayIndex] || []), project];
-        return acc;
-      }, []);
-      setProjectsArray(projectsArray);
-    }
-  }, [projects]);
+  // useEffect(() => {
+  //   if (projects) {
+  //     const projectsArray = projects.reduce((acc, project, index) => {
+  //       const arrayIndex = Math.floor(index / 2);
+  //       acc[arrayIndex] = [...(acc[arrayIndex] || []), project];
+  //       return acc;
+  //     }, []);
+  //     setProjectsArray(projectsArray);
+  //   }
+  // }, [projects]);
 
   const deleteProjectHandler = (e) => {
     const projectId = e.currentTarget.dataset.projectId;
@@ -112,7 +112,7 @@ const Projects = () => {
   };
   return (
     <>
-      <section className="pb-4 px-8">
+      <section className="px-8 h-[calc(100vh-6rem)] lg:h-[calc(100vh-4rem)] overflow-y-auto">
         <div className="max-w-8xl mx-auto">
           <div className="flex justify-between items-center py-6 xs:items-start">
             <Link
@@ -153,7 +153,7 @@ const Projects = () => {
           {projects ? (
             <>
               <Table className="max-w-8xl lg:hidden">
-                <thead className="uppercase text-1.5xl whitespace-nowrap text-lg">
+                <thead className="whitespace-nowrap">
                   <tr>
                     <Th position="beginning" className="w-2/12 py-3 px-5">
                       project title
