@@ -5,7 +5,7 @@ const Table = ({ children, className = "", border = true }) => {
     <>
       <div
         className={`${
-          border ? "border-2 border-accent-1-dark rounded-3xl p-4" : ""
+          border ? "border-2 border-accent-1-dark rounded-3xl" : ""
         } ${className}`}>
         <table className="w-full">{children}</table>
       </div>

@@ -5,3 +5,4 @@ export { default as chevronLeftIcon } from "./icons/chevron-left.svg";
 export { default as chevronRightIcon } from "./icons/chevron-right.svg";
 export { default as deleteIcon } from "./icons/delete.svg";
 export { default as editIcon } from "./icons/edit.svg";
+export { default as linkIcon } from "./icons/link.svg";

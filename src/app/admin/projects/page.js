@@ -152,7 +152,7 @@ const Projects = () => {
           </div>
           {projects ? (
             <>
-              <Table className="max-w-8xl lg:hidden">
+              <Table className="max-w-8xl p-4 lg:hidden">
                 <thead className="whitespace-nowrap">
                   <tr>
                     <Th position="beginning" className="w-2/12 py-3 px-5">
