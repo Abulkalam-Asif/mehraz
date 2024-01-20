@@ -1,6 +1,16 @@
 "use client";
 import { chevronLeftIcon, linkIcon } from "@/assets";
-import { Button, H1, H2, Td, Th } from "@/components";
+import {
+  Button,
+  H1,
+  H2,
+  InputBox,
+  Modal,
+  MultiCheckbox,
+  RolesAnalyticsCitiesModal,
+  Td,
+  Th,
+} from "@/components";
 import { RolesAnalyticsCitiesContainer, Table } from "@/containers";
 import Image from "next/image";
 import Link from "next/link";
@@ -37,7 +47,9 @@ const users = {
   receptionists: ["hamza"],
 };
 
-const currencies = [
+const givenCities = ["karachi", "lahore", "islamabad", "peshawar"];
+
+const givenCurrencies = [
   {
     name: "usd",
     cities: ["karachi", "lahore", "islamabad", "peshawar"],
@@ -111,11 +123,83 @@ const styles = [
   },
 ];
 
-const cities = ["karachi", "lahore", "islamabad", "peshawar", "quetta"];
 const RolesAnalyticsCities = () => {
   const [usersRows, setUsersRows] = useState(null);
 
+  // Currency states and functions
+  const [currencies, setCurrencies] = useState(givenCurrencies);
+  const [newCurrency, setNewCurrency] = useState({
+    name: "",
+    cities: [],
+    inPkr: 0,
+  });
+  const newCurrencyInputHandler = (e, value = null) => {
+    setNewCurrency((prevState) => ({
+      ...prevState,
+      [e.target.name]: value || e.target.value,
+    }));
+  };
+  const addNewCurrencyHandler = (e) => {
+    e.preventDefault();
+    if (
+      newCurrency.name === "" ||
+      newCurrency.inPkr <= 0 ||
+      newCurrency.inPkr === "" ||
+      newCurrency.cities.length === 0
+    ) {
+      // TODO: Show warning message
+      alert("please fill all fields with valid data");
+      return;
+    } else if (
+      currencies.find((currency) => currency.name === newCurrency.name)
+    ) {
+      // TODO: Show warning message (currency already exists)
+      alert("currency already exists");
+      return;
+    } else {
+      // TODO: Show success message
+      alert("currency added successfully");
+      setCurrencies((prevState) => [...prevState, newCurrency]);
+      toggleModal();
+      // TODO: Send data to server
+    }
+  };
+
+  // Cities states and functions
+  const [cities, setCities] = useState(givenCities);
+  const [newCity, setNewCity] = useState("");
   useEffect(() => {
+    console.log(newCity);
+  }, [newCity]);
+  const addNewCityHandler = (e) => {
+    e.preventDefault();
+    if (newCity === "") {
+      // TODO: Show warning message
+      alert("please fill all fields");
+      return;
+    } else if (cities.includes(newCity)) {
+      // TODO: Show warning message
+      alert("city already exists");
+      return;
+    } else {
+      setCities((prevState) => [...prevState, newCity]);
+      // TODO: Show success message
+      alert("city added successfully");
+      setNewCity("");
+      toggleModal();
+      // TODO: Send data to server
+    }
+  };
+
+  // Modal states and functions
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState(null);
+  const toggleModal = () => {
+    setIsModalOpen((prevState) => !prevState);
+  };
+
+  useEffect(() => {
+    // Converting array of users into array of rows
     const maxLength = Math.max(
       ...Object.values(users).map((user) => user.length)
     );
@@ -158,7 +242,7 @@ const RolesAnalyticsCities = () => {
               className="row-span-2 flex flex-col">
               <H2 text="roles" className="mb-2" />
               <Table border={false} className="h-full overflow-y-auto">
-                <thead className="bg-accent-1-base xl:text-sm">
+                <thead className="bg-accent-1-base text-sm">
                   <tr>
                     <Th position="beginning" className="w-1/3">
                       admin
@@ -169,7 +253,7 @@ const RolesAnalyticsCities = () => {
                     </Th>
                   </tr>
                 </thead>
-                <tbody className="xl:text-xs xl:font-semibold">
+                <tbody className="text-xs font-semibold">
                   {usersRows?.map((row, i) => (
                     <tr key={i}>
                       {row.map((user, j) => (
@@ -194,7 +278,7 @@ const RolesAnalyticsCities = () => {
             <RolesAnalyticsCitiesContainer className="row-span-1 flex flex-col gap-y-2">
               <H2 text="currencies" />
               <Table border={false} className="h-full overflow-y-auto">
-                <thead className="bg-accent-1-base xl:text-sm">
+                <thead className="bg-accent-1-base text-sm">
                   <tr>
                     <Th position="beginning" className="w-1/4 xl:w-1/3">
                       name
@@ -205,7 +289,7 @@ const RolesAnalyticsCities = () => {
                     </Th>
                   </tr>
                 </thead>
-                <tbody className="xl:text-xs xl:font-semibold">
+                <tbody className="text-xs font-semibold">
                   {currencies.map((currency, i) => (
                     <tr key={i}>
                       <Td
@@ -215,7 +299,7 @@ const RolesAnalyticsCities = () => {
                       </Td>
                       <Td
                         isLastRow={i === currencies.length - 1}
-                        className="flex gap-x-2 flex-wrap">
+                        className="flex gap-x-2 flex-wrap border-x-0">
                         {currency.cities.map((city, i) => (
                           <span key={i}>{city}</span>
                         ))}
@@ -229,7 +313,14 @@ const RolesAnalyticsCities = () => {
                   ))}
                 </tbody>
               </Table>
-              <Button text="add currency" className="text-xs mr-auto" />
+              <Button
+                text="add currency"
+                className="text-xs mr-auto"
+                onClick={() => {
+                  setModalContent("currency");
+                  toggleModal();
+                }}
+              />
             </RolesAnalyticsCitiesContainer>
           </div>
           <RolesAnalyticsCitiesContainer className="w-full grid grid-rows-4">
@@ -251,7 +342,14 @@ const RolesAnalyticsCities = () => {
                   ))}
                 </tbody>
               </Table>
-              <Button text="add currency" className="text-xs mr-auto" />
+              <Button
+                text="add city"
+                className="text-xs mr-auto"
+                onClick={() => {
+                  setModalContent("city");
+                  toggleModal();
+                }}
+              />
             </div>
             <div className="flex flex-col gap-y-2">
               <H2 text="office locations" />
@@ -383,6 +481,59 @@ const RolesAnalyticsCities = () => {
           </RolesAnalyticsCitiesContainer>
         </div>
       </section>
+      {isModalOpen && (
+        <Modal toggleModal={toggleModal} isModalOpen={isModalOpen}>
+          {modalContent === "city" && (
+            <RolesAnalyticsCitiesModal
+              heading="add city"
+              buttonText="add city"
+              onButtonClick={addNewCityHandler}>
+              <InputBox
+                label="Enter city name"
+                value={newCity}
+                setInput={setNewCity}
+                placeholder="Enter city name"
+                idHtmlFor="city"
+              />
+            </RolesAnalyticsCitiesModal>
+          )}
+          {modalContent === "currency" && (
+            <RolesAnalyticsCitiesModal
+              heading="add currency"
+              buttonText="add currency"
+              onButtonClick={addNewCurrencyHandler}
+              className={"flex items-center gap-2"}>
+              <div className="w-1/2 space-y-3">
+                <InputBox
+                  label="Enter currency name"
+                  value={newCurrency.name}
+                  inputHandler={newCurrencyInputHandler}
+                  placeholder="Enter currency name"
+                  idHtmlFor="name"
+                  name="name"
+                />
+                <InputBox
+                  type="number"
+                  label="Enter value in PKR"
+                  value={newCurrency.inPkr}
+                  inputHandler={newCurrencyInputHandler}
+                  placeholder="Enter currency name"
+                  idHtmlFor="inPkr"
+                  name="inPkr"
+                />
+              </div>
+              <div className="w-1/2">
+                <MultiCheckbox
+                  options={cities}
+                  name="cities"
+                  checked={newCurrency.cities}
+                  onChange={newCurrencyInputHandler}
+                />
+              </div>
+            </RolesAnalyticsCitiesModal>
+          )}
+        </Modal>
+      )}
     </>
   );
 };
