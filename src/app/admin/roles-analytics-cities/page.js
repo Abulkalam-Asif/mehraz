@@ -14,6 +14,8 @@ import {
 import { RolesAnalyticsCitiesContainer, Table } from "@/containers";
 import addCurrencyToDB from "@/Firebase/addCurrencyToFirebase";
 import useCurrenciesFromDB from "@/Firebase/GetCurrenciesFromFirebase";
+import addCityToDB from "@/Firebase/addCityToFirebase";
+import useCitiesFromDB from "@/Firebase/getCitiesFromFirebase";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
@@ -52,29 +54,6 @@ const users = {
 };
 
 const givenCities = ["karachi", "lahore", "islamabad", "peshawar"];
-
-// const givenCurrencies = [
-//   {
-//     name: "usd",
-//     cities: ["karachi", "lahore", "islamabad", "peshawar"],
-//     inPkr: 300,
-//   },
-//   {
-//     name: "gbp",
-//     cities: ["lahore"],
-//     inPkr: 305,
-//   },
-//   {
-//     name: "gbp",
-//     cities: ["lahore"],
-//     inPkr: 305,
-//   },
-//   {
-//     name: "gbp",
-//     cities: ["lahore"],
-//     inPkr: 305,
-//   },
-// ];
 
 const officeLocations = [
 	{
@@ -130,13 +109,16 @@ const styles = [
 const RolesAnalyticsCities = () => {
 	const [usersRows, setUsersRows] = useState(null);
 	// Currency states and functions
+
 	const [currencies, setCurrencies] = useState([]);
 	const [newCurrency, setNewCurrency] = useState({
 		name: "",
 		cities: [],
 		inPkr: 0,
 	});
-	useCurrenciesFromDB(currencies,setCurrencies);
+	// Cities states and functions
+	const [cities, setCities] = useState([]);
+	const [newCity, setNewCity] = useState("");
 
 	const newCurrencyInputHandler = (e, value = null) => {
 		setNewCurrency((prevState) => ({
@@ -144,6 +126,7 @@ const RolesAnalyticsCities = () => {
 			[e.target.name]: value || e.target.value,
 		}));
 	};
+
 	const addNewCurrencyHandler = (e) => {
 		e.preventDefault();
 		if (
@@ -177,10 +160,6 @@ const RolesAnalyticsCities = () => {
 		}
 	};
 
-	// Cities states and functions
-	const [cities, setCities] = useState(givenCities);
-	const [newCity, setNewCity] = useState("");
-
 	const addNewCityHandler = (e) => {
 		e.preventDefault();
 		if (newCity === "") {
@@ -192,12 +171,9 @@ const RolesAnalyticsCities = () => {
 			alert("city already exists");
 			return;
 		} else {
-			setCities((prevState) => [...prevState, newCity]);
-			// TODO: Show success message
-			alert("city added successfully");
+			addCityToDB(newCity).then(alert("City Successfully Added"));
 			setNewCity("");
 			toggleModal();
-			// TODO: Send data to server
 		}
 	};
 
@@ -207,6 +183,7 @@ const RolesAnalyticsCities = () => {
 	const toggleModal = () => {
 		setIsModalOpen((prevState) => !prevState);
 	};
+
 	useEffect(() => {
 		// Converting array of users into array of rows
 		const maxLength = Math.max(
@@ -224,6 +201,10 @@ const RolesAnalyticsCities = () => {
 		setUsersRows(rows);
 	}, []);
 
+
+	useCurrenciesFromDB(currencies, setCurrencies);
+	useCitiesFromDB(setCities);
+	
 	return (
 		<>
 			<section className="px-8 flex flex-col h-[calc(100vh-6rem)] lg:h-[calc(100vh-4rem)]">
@@ -553,7 +534,7 @@ const RolesAnalyticsCities = () => {
 							</div>
 							<div className="w-1/2">
 								<MultiCheckbox
-									options={cities}
+									options={cities.map((city) => ({ label: city, value: city }))}
 									name="cities"
 									checked={newCurrency.cities}
 									onChange={newCurrencyInputHandler}
