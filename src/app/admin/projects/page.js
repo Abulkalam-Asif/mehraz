@@ -3,7 +3,7 @@ import { chevronLeftIcon, deleteIcon, editIcon } from "@/assets";
 import {
   H1,
   LinkButton,
-  Loading,
+  Spinner,
   ProjectDisplayBoxMob,
   Td,
   Th,
@@ -12,7 +12,7 @@ import { Carousel, Table } from "@/containers";
 import { stringEllipsis } from "@/utils/stringEllipsis";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import fetchAllProjects from "@/Firebase/fetchAllProjects";
 
 const projects = [
@@ -113,7 +113,7 @@ const Projects = () => {
   return (
     <>
       <section className="px-8 h-[calc(100vh-6rem)] lg:h-[calc(100vh-4rem)] overflow-y-auto">
-        <div className="max-w-8xl mx-auto">
+        <div className="max-w-8xl w-full mx-auto">
           <div className="flex justify-between items-center py-6 xs:items-start">
             <Link
               href={"/admin"}
@@ -262,7 +262,7 @@ const Projects = () => {
             </>
           ) : (
             <div className="flex justify-center pt-6">
-              <Loading text={"Loading projects"} />
+              <Spinner size={"lg"} text={"Loading projects..."} />
             </div>
           )}
         </div>

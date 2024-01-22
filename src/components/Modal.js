@@ -1,7 +1,5 @@
 import { closeIcon } from "@/assets";
 import Image from "next/image";
-import React from "react";
-
 const Modal = ({
   isModalOpen = false,
   toggleModal = () => {},

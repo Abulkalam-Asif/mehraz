@@ -1,12 +1,15 @@
 import { AdminHeader } from "@/containers";
-import React from "react";
-
+import AlertContainer from "@/containers/AlertContainer";
+import { AlertProvider } from "../context/AlertContext";
 const AdminLayout = ({ children }) => {
   return (
-    <main className="h-screen">
-      <AdminHeader />
-      {children}
-    </main>
+    <AlertProvider>
+      <main className="h-screen">
+        <AdminHeader />
+        <AlertContainer />
+        {children}
+      </main>
+    </AlertProvider>
   );
 };
 

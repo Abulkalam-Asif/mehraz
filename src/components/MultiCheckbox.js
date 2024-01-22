@@ -1,5 +1,3 @@
-import React from "react";
-
 const MultiCheckbox = ({ options, name, checked, onChange }) => {
   return (
     <>

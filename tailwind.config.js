@@ -38,6 +38,19 @@ module.exports = {
         "1/2": "50%",
         "1/4": "25%",
       },
+      animation: {
+        alert: "alert-keyframes 5s linear",
+      },
+      keyframes: {
+        "alert-keyframes": {
+          from: {
+            transform: "translateX(-100%)",
+          },
+          to: {
+            tranform: "translateX(0%)",
+          },
+        },
+      },
     },
   },
   plugins: [],

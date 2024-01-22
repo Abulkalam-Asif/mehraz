@@ -1,7 +1,5 @@
 import { H1, LinkButton } from "@/components";
 import { AdminDashboardDropdowns, AdminDashboardGroup } from "@/containers";
-import React from "react";
-
 const linksCategories = [
   {
     title: "uploads",

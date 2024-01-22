@@ -1,4 +1,3 @@
-import React from "react";
 import { Button, H2 } from "./";
 
 const RolesAnalyticsCitiesModal = ({

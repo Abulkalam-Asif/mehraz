@@ -9,4 +9,5 @@ export { default as H2 } from "./H2";
 export { default as Th } from "./Th";
 export { default as Td } from "./Td";
 export { default as ProjectDisplayBoxMob } from "./ProjectDisplayBoxMob";
-export { default as Loading } from "./Loading";
+export { default as Spinner } from "./Spinner";
+export { default as Alert } from "./Alert";

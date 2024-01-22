@@ -3,8 +3,6 @@ import { deleteIcon, editIcon } from "@/assets";
 import { stringEllipsis } from "@/utils/stringEllipsis";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
-
 const ProjectDisplayBoxMob = ({
   project_id = "",
   project_title = "",

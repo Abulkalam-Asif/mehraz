@@ -5,3 +5,4 @@ export { default as AdminDashboardDropdowns } from "./AdminDashboardDropdowns";
 export { default as Table } from "./Table";
 export { default as Carousel } from "./Carousel";
 export { default as RolesAnalyticsCitiesContainer } from "./RolesAnalyticsCitiesContainer";
+export { default as RolesAnalyticsCitiesContainerAlertContainer } from "./AlertContainer";

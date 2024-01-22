@@ -1,5 +1,3 @@
-import React from "react";
-
 const AdminDashboardGroup = ({ className = "", title, children }) => {
   return (
     <>

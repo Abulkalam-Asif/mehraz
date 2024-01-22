@@ -2,7 +2,7 @@
 import { chevronDownIcon } from "@/assets";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 
 const AdminDashboardDropdown = ({
   title = "",
