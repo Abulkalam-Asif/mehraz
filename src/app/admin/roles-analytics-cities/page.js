@@ -11,6 +11,7 @@ import {
   Spinner,
   Td,
   Th,
+  Dropzone,
 } from "@/components";
 import { RolesAnalyticsCitiesContainer, Table } from "@/containers";
 import addCurrencyToDB from "@/Firebase/addCurrencyToFirebase";
@@ -57,7 +58,7 @@ const roles = {
 
 // const givenCities = ["karachi", "lahore", "islamabad", "peshawar"];
 
-const officeLocations = [
+const givenOfficeLocations = [
   {
     city: "karachi",
     address: "abc",
@@ -110,6 +111,7 @@ const styles = [
 
 const RolesAnalyticsCities = () => {
   const { showAlert } = useContext(AlertContext);
+  const [showModalSpinner, setShowModalSpinner] = useState(false);
 
   // Roles states and functions
   const [rolesRows, setRolesRows] = useState(null);
@@ -133,11 +135,12 @@ const RolesAnalyticsCities = () => {
   // Currency states and functions
   const [currencies, setCurrencies] = useState(null);
   useCurrenciesFromDB(currencies, setCurrencies);
-  const [newCurrency, setNewCurrency] = useState({
+  const defaultCurrency = {
     name: "",
     cities: [],
     inPkr: 0,
-  });
+  };
+  const [newCurrency, setNewCurrency] = useState(defaultCurrency);
 
   const newCurrencyInputHandler = (e, value = null) => {
     setNewCurrency((prevState) => ({
@@ -148,33 +151,46 @@ const RolesAnalyticsCities = () => {
 
   const addNewCurrencyHandler = (e) => {
     e.preventDefault();
-    if (
-      newCurrency.name === "" ||
-      newCurrency.inPkr <= 0 ||
-      newCurrency.inPkr === "" ||
-      newCurrency.cities.length === 0
-    ) {
-      // TODO: Show warning message
-      alert("please fill all fields with valid data");
+    // Trim and convert currency name to uppercase
+    const formattedCurrencyName = newCurrency.name.trim().toUpperCase();
+
+    if (formattedCurrencyName === "") {
+      showAlert({ type: "warning", message: "Please enter a currency name" });
       return;
     } else if (
-      currencies.find((currency) => currency.name === newCurrency.name)
+      currencies.find((currency) => currency.name === formattedCurrencyName)
     ) {
-      // TODO: Show warning message (currency already exists)
-      alert("currency already exists");
+      showAlert({ type: "error", message: "This currency already exists" });
       return;
+    } else if (newCurrency.inPkr <= 0 || newCurrency.inPkr === "") {
+      showAlert({ type: "warning", message: "Please enter a valid PKR value" });
+    } else if (newCurrency.cities.length === 0) {
+      showAlert({
+        type: "warning",
+        message: "Please select at least one city",
+      });
     } else {
-      // setCurrencies((prevState) => [...prevState, newCurrency]);
-      toggleModal();
-      // TODO: Send data to server
-      addCurrencyToDB(newCurrency.name, newCurrency.inPkr, newCurrency.cities)
+      setShowModalSpinner(true);
+      addCurrencyToDB(
+        formattedCurrencyName,
+        newCurrency.inPkr,
+        newCurrency.cities
+      )
         .then(() => {
-          // TODO: Show success message
-
-          alert("Currency added successfully");
+          showAlert({
+            type: "success",
+            message: "Currency added successfully",
+          });
+          setShowModalSpinner(false);
+          setNewCurrency(defaultCurrency);
+          hideModal();
         })
-        .catch((error) => {
-          console.error("Failed to add currency: ", error);
+        .catch(() => {
+          showAlert({
+            type: "error",
+            message: "An error occured! Please try again.",
+          });
+          setShowModalSpinner(false);
         });
     }
   };
@@ -186,19 +202,79 @@ const RolesAnalyticsCities = () => {
 
   const addNewCityHandler = (e) => {
     e.preventDefault();
-    const trimmedToUpperCaseCity = newCity.trim().toUpperCase();
-    if (trimmedToUpperCaseCity === "") {
+    // Trim and convert city name to uppercase
+    const formattedCity = newCity.trim().toUpperCase();
+
+    if (formattedCity === "") {
       showAlert({ type: "warning", message: "Please enter a city name" });
       return;
-    } else if (cities.includes(trimmedToUpperCaseCity)) {
+    } else if (cities.includes(formattedCity)) {
       showAlert({ type: "error", message: "This city already exists" });
       return;
     } else {
-      addCityToDB(trimmedToUpperCaseCity).then(() => {
-        showAlert({ type: "success", message: "City added successfully" });
-      });
-      setNewCity("");
-      toggleModal();
+      setShowModalSpinner(true);
+      addCityToDB(formattedCity)
+        .then(() => {
+          showAlert({ type: "success", message: "City added successfully" });
+          setShowModalSpinner(false);
+          setNewCity("");
+          hideModal();
+        })
+        .catch(() => {
+          showAlert({
+            type: "error",
+            message: "An error occured! Please try again.",
+          });
+          setShowModalSpinner(false);
+        });
+    }
+  };
+
+  // Office locations states and functions
+  const [officeLocations, setOfficeLocations] = useState(givenOfficeLocations); // Should be set to null
+  // TODO: Fetch office locations from DB
+  const [newOfficeLocation, setNewOfficeLocation] = useState({
+    city: "",
+    address: "",
+    mapsLink: "",
+    image: null,
+  });
+  const newOfficeLocationInputHandler = (e) => {
+    setNewOfficeLocation((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+  const addNewOfficeLocationHandler = (e) => {
+    e.preventDefault();
+    // Trim and convert city name to uppercase
+    const formattedOfficeLocation = {
+      ...newOfficeLocation,
+      city: newOfficeLocation.city.trim().toUpperCase(),
+      address: newOfficeLocation.address.trim(),
+      mapsLink: newOfficeLocation.mapsLink.trim(),
+    };
+
+    if (formattedOfficeLocation.city === "") {
+      showAlert({ type: "warning", message: "Please enter a city name" });
+      return;
+    } else if (formattedOfficeLocation.address === "") {
+      showAlert({ type: "warning", message: "Please enter an address" });
+      return;
+    } else if (formattedOfficeLocation.mapsLink === "") {
+      showAlert({ type: "warning", message: "Please enter a maps link" });
+      return;
+    } else if (
+      !formattedOfficeLocation.mapsLink.match(/^https?:\/\/[^\s/$.?#].[^\s]*$/)
+    ) {
+      showAlert({ type: "warning", message: "Please enter a valid maps link" });
+      return;
+    } else if (!formattedOfficeLocation.image) {
+      showAlert({ type: "warning", message: "Please attach an image" });
+      return;
+    } else {
+      setShowModalSpinner(true);
+      // TODO: Add office location to DB
     }
   };
 
@@ -207,6 +283,9 @@ const RolesAnalyticsCities = () => {
   const [modalContent, setModalContent] = useState(null);
   const toggleModal = () => {
     setIsModalOpen((prevState) => !prevState);
+  };
+  const hideModal = () => {
+    setIsModalOpen(false);
   };
 
   return (
@@ -418,7 +497,14 @@ const RolesAnalyticsCities = () => {
                   ))}
                 </tbody>
               </Table>
-              <Button text="add office" className="text-xs mr-auto" />
+              <Button
+                text="add office"
+                onClick={() => {
+                  setModalContent("office");
+                  toggleModal();
+                }}
+                className="text-xs mr-auto"
+              />
             </div>
             <div className="flex flex-col gap-y-2">
               <H2 text="plots" />
@@ -502,49 +588,86 @@ const RolesAnalyticsCities = () => {
             <RolesAnalyticsCitiesModal
               heading="add city"
               buttonText="add city"
-              onButtonClick={addNewCityHandler}>
+              onButtonClick={addNewCityHandler}
+              showModalSpinner={showModalSpinner}>
               <InputBox
                 label="Enter city name"
                 value={newCity}
                 setInput={setNewCity}
-                placeholder="Enter city name"
                 idHtmlFor="city"
               />
             </RolesAnalyticsCitiesModal>
+          ) : modalContent === "currency" ? (
+            <RolesAnalyticsCitiesModal
+              heading="add currency"
+              buttonText="add currency"
+              onButtonClick={addNewCurrencyHandler}
+              className={"flex items-center gap-8"}
+              showModalSpinner={showModalSpinner}>
+              <div className="w-1/2 space-y-3">
+                <InputBox
+                  label="Enter currency name"
+                  value={newCurrency.name}
+                  inputHandler={newCurrencyInputHandler}
+                  idHtmlFor="name"
+                  name="name"
+                />
+                <InputBox
+                  type="number"
+                  label="Enter value in PKR"
+                  value={newCurrency.inPkr}
+                  inputHandler={newCurrencyInputHandler}
+                  idHtmlFor="inPkr"
+                  name="inPkr"
+                />
+              </div>
+              <div className="w-1/2 space-y-1">
+                <span className="text-accent-1-dark">Select cities</span>
+                <MultiCheckbox
+                  className={"max-h-24 pl-2 overflow-y-auto"}
+                  options={cities}
+                  name="cities"
+                  checked={newCurrency.cities}
+                  onChange={newCurrencyInputHandler}
+                />
+              </div>
+            </RolesAnalyticsCitiesModal>
           ) : (
-            modalContent === "currency" && (
+            modalContent === "office" && (
               <RolesAnalyticsCitiesModal
-                heading="add currency"
-                buttonText="add currency"
-                onButtonClick={addNewCurrencyHandler}
-                className={"flex items-center gap-2"}>
-                <div className="w-1/2 space-y-3">
+                heading="add office"
+                buttonText="add office"
+                onButtonClick={addNewOfficeLocationHandler}
+                className={"flex items-stretch gap-8"}
+                showModalSpinner={showModalSpinner}>
+                <div className="w-1/2 space-y-2">
                   <InputBox
-                    label="Enter currency name"
-                    value={newCurrency.name}
-                    inputHandler={newCurrencyInputHandler}
-                    placeholder="Enter currency name"
-                    idHtmlFor="name"
-                    name="name"
+                    label="Enter city name"
+                    value={newOfficeLocation.city}
+                    inputHandler={newOfficeLocationInputHandler}
+                    idHtmlFor="city"
+                    name="city"
                   />
                   <InputBox
-                    type="number"
-                    label="Enter value in PKR"
-                    value={newCurrency.inPkr}
-                    inputHandler={newCurrencyInputHandler}
-                    placeholder="Enter currency name"
-                    idHtmlFor="inPkr"
-                    name="inPkr"
+                    label="Enter office address"
+                    value={newOfficeLocation.address}
+                    inputHandler={newOfficeLocationInputHandler}
+                    idHtmlFor="address"
+                    name="address"
+                  />
+                  <InputBox
+                    label="Enter maps link"
+                    value={newOfficeLocation.mapsLink}
+                    inputHandler={newOfficeLocationInputHandler}
+                    idHtmlFor="mapsLink"
+                    name="mapsLink"
                   />
                 </div>
-                <div className="w-1/2">
-                  <MultiCheckbox
-                    options={cities}
-                    name="cities"
-                    checked={newCurrency.cities}
-                    onChange={newCurrencyInputHandler}
-                  />
-                </div>
+                <Dropzone
+                  content={"Attach an image"}
+                  title={"Attach an image here"}
+                  className={"w-1/2"}
+                />
               </RolesAnalyticsCitiesModal>
             )
           )}

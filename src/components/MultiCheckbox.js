@@ -1,8 +1,8 @@
-const MultiCheckbox = ({ options, name, checked, onChange }) => {
+const MultiCheckbox = ({ className, options, name, checked, onChange }) => {
   return (
     <>
-      <div>
-        {options.map((option, index) => {
+      <div className={`${className}`}>
+        {options?.map((option, index) => {
           return (
             <div key={index} className="flex items-center space-x-2">
               <input

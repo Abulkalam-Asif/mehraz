@@ -20,7 +20,7 @@ const Modal = ({
          ${className}`}>
         <button
           onClick={toggleModal}
-          className="absolute top-2 right-3 bg-accent-1-base p-2 rounded-full ">
+          className="z-[4] absolute top-2 right-3 bg-accent-1-base p-2 rounded-full ">
           <Image src={closeIcon} alt="close" />
         </button>
         {children}
