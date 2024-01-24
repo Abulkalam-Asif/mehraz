@@ -245,6 +245,7 @@ const RolesAnalyticsCities = () => {
       [e.target.name]: e.target.value,
     }));
   };
+
   const addNewOfficeLocationHandler = (e) => {
     e.preventDefault();
     // Trim and convert city name to uppercase
@@ -664,9 +665,17 @@ const RolesAnalyticsCities = () => {
                   />
                 </div>
                 <Dropzone
-                  content={"Attach an image"}
+                  message={"Attach an image (.jpg, .png, .gif etc)"}
                   title={"Attach an image here"}
+                  accept="image/*"
                   className={"w-1/2"}
+                  file={newOfficeLocation?.image}
+                  fileUploadHandler={(file) =>
+                    setNewOfficeLocation((prevState) => ({
+                      ...prevState,
+                      image: file,
+                    }))
+                  }
                 />
               </RolesAnalyticsCitiesModal>
             )
