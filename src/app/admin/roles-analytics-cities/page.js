@@ -1,5 +1,5 @@
 "use client";
-import { chevronLeftIcon, linkIcon } from "@/assets";
+import { chevronLeftIcon, deleteIcon, editIcon, linkIcon } from "@/assets";
 import {
   Button,
   H1,
@@ -229,6 +229,12 @@ const RolesAnalyticsCities = () => {
         });
     }
   };
+  const editCityHandler = (e) => {
+    e.preventDefault();
+    setModalContent("city");
+    toggleModal();
+    // Fetch the data from the local array on the basis of city id and display on the modal for the user to edit it.
+  };
 
   // Office locations states and functions
   const [officeLocations, setOfficeLocations] = useState(givenOfficeLocations); // Should be set to null
@@ -422,12 +428,36 @@ const RolesAnalyticsCities = () => {
                   <tbody className="text-sm">
                     {cities.map((city, i) => (
                       <tr key={i}>
-                        <td
-                          className={`border-accent-1-dark ${
-                            i === cities.length - 1 ? "" : "border-b-2"
-                          }`}>
+                        <Td
+                          isLastRow={i === cities.length - 1}
+                          position="beginning">
                           {city}
-                        </td>
+                        </Td>
+                        <Td isLastRow={i === cities.length - 1} position="end">
+                          <div className="flex items-center justify-center gap-3">
+                            <button
+                              onClick={editCityHandler}
+                              // data-city-id={city} TODO: Add ID of the city here
+                              className="hover:bg-accent-1-base p-1.5 rounded-full">
+                              <Image
+                                src={editIcon}
+                                alt="edit"
+                                className="w-4"
+                              />
+                            </button>
+                            <button
+                              className="hover:bg-accent-1-base p-1.5 rounded-full"
+                              // onClick={deleteProjectHandler}
+                              // data-project-id={project_id}
+                            >
+                              <Image
+                                src={deleteIcon}
+                                alt="delete"
+                                className="w-4"
+                              />
+                            </button>
+                          </div>
+                        </Td>
                       </tr>
                     ))}
                   </tbody>
