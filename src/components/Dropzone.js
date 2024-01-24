@@ -1,3 +1,4 @@
+"use client"
 import { AlertContext } from "@/app/context/AlertContext";
 import React, { useContext, useState } from "react";
 

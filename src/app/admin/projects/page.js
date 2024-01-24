@@ -13,7 +13,7 @@ import { stringEllipsis } from "@/utils/stringEllipsis";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import fetchAllProjects from "@/Firebase/fetchAllProjects";
+import fetchAllProjects from "@/Firebase/Project Functions/fetchAllProjects";
 
 const projects = [
   {

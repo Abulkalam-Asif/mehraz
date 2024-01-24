@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { collection, onSnapshot } from "firebase/firestore";
-import { db } from "./firebase";
+import { db } from "../firebase";
 
 const useCitiesFromDB = (setCities) => {
 	const ref = collection(db, "City");

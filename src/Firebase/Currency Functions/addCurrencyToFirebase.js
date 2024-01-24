@@ -1,4 +1,4 @@
-import { db } from "./firebase";
+import { db } from "../firebase";
 import { addDoc, collection } from "firebase/firestore";
 
 const addCurrencyToDB = async ( name, valueInPkr, cities ) => {

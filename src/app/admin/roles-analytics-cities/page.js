@@ -14,16 +14,16 @@ import {
   Dropzone,
 } from "@/components";
 import { RolesAnalyticsCitiesContainer, Table } from "@/containers";
-import addCurrencyToDB from "@/Firebase/addCurrencyToFirebase";
-import useCurrenciesFromDB from "@/Firebase/GetCurrenciesFromFirebase";
-import addCityToDB from "@/Firebase/addCityToFirebase";
-import useCitiesFromDB from "@/Firebase/getCitiesFromFirebase";
+import addCurrencyToDB from "@/Firebase/Currency Functions/addCurrencyToFirebase";
+import useCurrenciesFromDB from "@/Firebase/Currency Functions/GetCurrenciesFromFirebase";
+import addCityToDB from "@/Firebase/City Functions/addCityToFirebase";
+import useCitiesFromDB from "@/Firebase/City Functions/getCitiesFromFirebase";
+import addOfficeToDB from "@/Firebase/Office Functions/addOfficeToDB";
 import Image from "next/image";
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
-import { collection, onSnapshot } from "firebase/firestore";
-import { db } from "@/Firebase/firebase";
 import { AlertContext } from "@/app/context/AlertContext";
+import useOfficesFromDB from "@/Firebase/Office Functions/getOfficesFromDB";
 
 const roles = {
   admins: [
@@ -55,29 +55,6 @@ const roles = {
   architects: ["abulkalam", "jafar"],
   receptionists: ["hamza"],
 };
-
-// const givenCities = ["karachi", "lahore", "islamabad", "peshawar"];
-
-const givenOfficeLocations = [
-  {
-    city: "karachi",
-    address: "abc",
-    mapsLink: "https://www.google.com/maps",
-    image: "https://picsum.photos/200/300",
-  },
-  {
-    city: "lahore",
-    address: "abc",
-    mapsLink: "https://www.google.com/maps",
-    image: "https://picsum.photos/200/300",
-  },
-  {
-    city: "islamabad",
-    address: "abc",
-    mapsLink: "https://www.google.com/maps",
-    image: "https://picsum.photos/200/300",
-  },
-];
 
 const plots = [
   {
@@ -237,7 +214,7 @@ const RolesAnalyticsCities = () => {
   };
 
   // Office locations states and functions
-  const [officeLocations, setOfficeLocations] = useState(givenOfficeLocations); // Should be set to null
+  const [officeLocations, setOfficeLocations] = useState([]); 
   // TODO: Fetch office locations from DB
   const [newOfficeLocation, setNewOfficeLocation] = useState({
     city: "",
@@ -245,6 +222,8 @@ const RolesAnalyticsCities = () => {
     mapsLink: "",
     image: null,
   });
+  useOfficesFromDB(officeLocations, setOfficeLocations);
+
   const newOfficeLocationInputHandler = (e) => {
     setNewOfficeLocation((prevState) => ({
       ...prevState,
@@ -271,6 +250,7 @@ const RolesAnalyticsCities = () => {
     } else if (formattedOfficeLocation.mapsLink === "") {
       showAlert({ type: "warning", message: "Please enter a maps link" });
       return;
+      
     } else if (
       !formattedOfficeLocation.mapsLink.match(/^https?:\/\/[^\s/$.?#].[^\s]*$/)
     ) {
@@ -279,10 +259,36 @@ const RolesAnalyticsCities = () => {
     } else if (!formattedOfficeLocation.image) {
       showAlert({ type: "warning", message: "Please attach an image" });
       return;
-    } else {
-      setShowModalSpinner(true);
-      // TODO: Add office location to DB
-    }
+    } 
+    else if (officeLocations.some((obj) => obj.city === formattedOfficeLocation.city)) {
+			showAlert({ type: "error", message: "An office location with this city already exists" });
+			return;
+		} else {
+			setShowModalSpinner(true);
+			addOfficeToDB(formattedOfficeLocation)
+				.then((response) => {
+					showAlert({
+						type: "success",
+						message: "Office added successfully",
+					});
+					setShowModalSpinner(false);
+					setNewOfficeLocation({
+						city: "",
+						address: "",
+						mapsLink: "",
+						image: null,
+					});
+					hideModal();
+				})
+				.catch((error) => {
+					showAlert({
+						type: "error",
+						message: `An error occurred! ${error}`,
+					});
+					setShowModalSpinner(false);
+				});
+
+		}
   };
 
   // Modal states and functions
