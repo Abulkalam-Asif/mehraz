@@ -2,7 +2,7 @@ import { db, storage } from "../firebase";
 import { addDoc, collection } from "firebase/firestore";
 import { ref, uploadBytes } from "firebase/storage";
 
-const addCityToDB = async ({ city, address, mapsLink, image }) => {
+const addOfficeToDB = async ({ city, address, mapsLink, image }) => {
 	const collectionRef = collection(db, "Office");
 	try {
 		const docRef = await addDoc(collectionRef, {
@@ -26,4 +26,4 @@ const addCityToDB = async ({ city, address, mapsLink, image }) => {
 	}
 };
 
-export default addCityToDB;
+export default addOfficeToDB;

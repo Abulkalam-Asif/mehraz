@@ -19,11 +19,12 @@ import useCurrenciesFromDB from "@/Firebase/Currency Functions/GetCurrenciesFrom
 import addCityToDB from "@/Firebase/City Functions/addCityToFirebase";
 import useCitiesFromDB from "@/Firebase/City Functions/getCitiesFromFirebase";
 import addOfficeToDB from "@/Firebase/Office Functions/addOfficeToDB";
+import useOfficesFromDB from "@/Firebase/Office Functions/getOfficesFromDB";
+
 import Image from "next/image";
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import { AlertContext } from "@/app/context/AlertContext";
-import useOfficesFromDB from "@/Firebase/Office Functions/getOfficesFromDB";
 
 const roles = {
   admins: [

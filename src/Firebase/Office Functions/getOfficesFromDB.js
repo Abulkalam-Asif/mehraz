@@ -2,7 +2,7 @@ import {useEffect } from "react";
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase";
 
-const useOfficesFromDB = (currencies, setCurrencies) => {
+const useOfficesFromDB = (offices, setOffices) => {
 	const ref = collection(db, "Office");
 
 	useEffect(() => {
@@ -19,13 +19,13 @@ const useOfficesFromDB = (currencies, setCurrencies) => {
 					arr.push(DocData);
 				});
 
-				setCurrencies(arr);
+				setOffices(arr);
 			});
 
 			return () => unsubscribe();
 		};
 		fetchData();
-	}, [ref, currencies]);
+	}, [ref, offices]);
 };
 
 export default useOfficesFromDB;
