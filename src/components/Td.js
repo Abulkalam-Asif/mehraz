@@ -3,6 +3,7 @@ const Td = ({
   className = "",
   position = "middle",
   isLastRow = false,
+  align = "left",
 }) => {
   // position can be beginning, middle or end
   // position and isLastRow are used to determine the border styles
@@ -15,6 +16,7 @@ const Td = ({
   return (
     <>
       <td
+        align={align}
         className={`${positionStyles[position]} border-accent-1-dark ${className}`}>
         {children}
       </td>

@@ -1,6 +1,6 @@
 import { Button, H2, Spinner, Td } from "@/components";
 import { Table } from ".";
-import { deleteIcon, editIcon } from "@/assets";
+import { deleteIcon, editIcon, ellipsisIcon } from "@/assets";
 import Image from "next/image";
 
 const CurrenciesSectionDesktop = ({
@@ -21,9 +21,14 @@ const CurrenciesSectionDesktop = ({
                   <Td isLastRow={i === cities.length - 1} position="beginning">
                     {city}
                   </Td>
-                  <Td isLastRow={i === cities.length - 1} position="end">
-                    <div className="flex items-center justify-center gap-3">
-                      <button
+                  <Td
+                    isLastRow={i === cities.length - 1}
+                    position="end"
+                    align="center">
+                    <button>
+                      <Image src={ellipsisIcon} alt="ellipsis" />
+                    </button>
+                    {/* <button
                         onClick={editCityHandler}
                         // data-city-id={city} TODO: Add ID of the city here
                         className="hover:bg-accent-1-base p-1.5 rounded-full">
@@ -35,8 +40,7 @@ const CurrenciesSectionDesktop = ({
                         // data-project-id={project_id}
                       >
                         <Image src={deleteIcon} alt="delete" className="w-4" />
-                      </button>
-                    </div>
+                      </button> */}
                   </Td>
                 </tr>
               ))}
