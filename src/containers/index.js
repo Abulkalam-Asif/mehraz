@@ -19,3 +19,4 @@ export { default as StylesSectionDesktop } from "./StylesSectionDesktop";
 export { default as CityModal } from "./CityModal";
 export { default as CurrencyModal } from "./CurrencyModal";
 export { default as OfficeModal } from "./OfficeModal";
+export { default as PlotModal } from "./PlotModal";

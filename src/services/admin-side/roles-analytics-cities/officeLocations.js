@@ -32,14 +32,6 @@ const addNewOfficeLocationService = (
   } else if (!formattedOfficeLocation.image) {
     showAlert({ type: "warning", message: "Please attach an image" });
     return;
-  } else if (
-    officeLocations.some((obj) => obj.city === formattedOfficeLocation.city)
-  ) {
-    showAlert({
-      type: "error",
-      message: "An office location with this city already exists",
-    });
-    return;
   } else {
     setShowModalSpinner(true);
     addOfficeToDB(formattedOfficeLocation)

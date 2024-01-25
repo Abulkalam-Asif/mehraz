@@ -8,6 +8,7 @@ import {
   CurrencyModal,
   OfficeLocSectionDesktop,
   OfficeModal,
+  PlotModal,
   PlotsSectionDesktop,
   RolesAnalyticsCitiesContainer,
   RolesSectionDesktop,
@@ -25,6 +26,7 @@ import { addNewCityService } from "@/services/admin-side/roles-analytics-cities/
 import { addNewCurrencyService } from "@/services/admin-side/roles-analytics-cities/currencies";
 import { convertRolesToRows } from "@/utilities/admin-panel/roles-analytics-cities/roles";
 import { addNewOfficeLocationService } from "@/services/admin-side/roles-analytics-cities/officeLocations";
+import { addNewPlotService } from "@/services/admin-side/roles-analytics-cities/plots";
 
 const roles = {
   admins: [
@@ -56,21 +58,6 @@ const roles = {
   architects: ["abulkalam", "jafar"],
   receptionists: ["hamza"],
 };
-
-const plots = [
-  {
-    area: 10,
-    unit: "sq. feet",
-  },
-  {
-    area: 5,
-    unit: "marla",
-  },
-  {
-    area: 1,
-    unit: "kanal",
-  },
-];
 
 const styles = [
   {
@@ -155,7 +142,7 @@ const RolesAnalyticsCities = () => {
   };
 
   // Office locations states and functions
-  const [officeLocations, setOfficeLocations] = useState([]);
+  const [officeLocations, setOfficeLocations] = useState(null);
   // Fetching office locations from DB
   useOfficesFromDB(officeLocations, setOfficeLocations);
 
@@ -183,6 +170,27 @@ const RolesAnalyticsCities = () => {
       setNewOfficeLocation,
       hideModal
     );
+  };
+
+  // Plots states and functions
+  const [plots, setPlots] = useState(null);
+  // TODO: Fetch plots from DB
+
+  const [newPlot, setNewPlot] = useState({
+    area: 0,
+    unit: "",
+  });
+  const newPlotInputHandler = (e) => {
+    setNewPlot((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const addNewPlotHandler = (e) => {
+    e.preventDefault();
+    // Calling the service
+    addNewPlotService(newPlot, showAlert, plots, setShowModalSpinner);
   };
 
   // Modal states and functions
@@ -237,7 +245,11 @@ const RolesAnalyticsCities = () => {
               setModalContent={setModalContent}
               toggleModal={toggleModal}
             />
-            <PlotsSectionDesktop plots={plots} />
+            <PlotsSectionDesktop
+              plots={plots}
+              setModalContent={setModalContent}
+              toggleModal={toggleModal}
+            />
             <StylesSectionDesktop styles={styles} />
           </RolesAnalyticsCitiesContainer>
           <RolesAnalyticsCitiesContainer className="w-full">
@@ -262,13 +274,20 @@ const RolesAnalyticsCities = () => {
               showModalSpinner={showModalSpinner}
               cities={cities}
             />
+          ) : modalContent === "office" ? (
+            <OfficeModal
+              addNewOfficeLocationHandler={addNewOfficeLocationHandler}
+              newOfficeLocation={newOfficeLocation}
+              newOfficeLocationInputHandler={newOfficeLocationInputHandler}
+              setNewOfficeLocation={setNewOfficeLocation}
+              showModalSpinner={showModalSpinner}
+            />
           ) : (
-            modalContent === "office" && (
-              <OfficeModal
-                addNewOfficeLocationHandler={addNewOfficeLocationHandler}
-                newOfficeLocation={newOfficeLocation}
-                newOfficeLocationInputHandler={newOfficeLocationInputHandler}
-                setNewOfficeLocation={setNewOfficeLocation}
+            modalContent === "plot" && (
+              <PlotModal
+                addNewPlotHandler={addNewPlotHandler}
+                newPlot={newPlot}
+                newPlotInputHandler={newPlotInputHandler}
                 showModalSpinner={showModalSpinner}
               />
             )
