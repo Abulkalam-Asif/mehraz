@@ -1,31 +1,45 @@
-import {useEffect } from "react";
+import { useEffect } from "react";
 import { collection, onSnapshot } from "firebase/firestore";
-import { db } from "../firebase";
+import { db, storage } from "../firebase";
+import { getDownloadURL, ref } from "firebase/storage";
 
 const useOfficesFromDB = (offices, setOffices) => {
-	const ref = collection(db, "Office");
-
 	useEffect(() => {
-		const fetchData = () => {
+		const fetchData = async () => {
 			const arr = [];
-			const unsubscribe = onSnapshot(ref, (dataQuery) => {
+			const unsubscribe = onSnapshot(collection(db, "Office"), (dataQuery) => {
+				const promises = [];
+
 				dataQuery.forEach((doc) => {
-					const DocData = {
+					const officeData = {
 						id: doc.id,
 						address: doc.data().address,
 						city: doc.data().city,
 						mapsLink: doc.data().mapsLink,
 					};
-					arr.push(DocData);
+					arr.push(officeData);
+
+					const imageName = `${doc.data().city}`;
+
+					const imageRef = ref(storage, `Office/${imageName}`);
+
+					promises.push(
+						getDownloadURL(imageRef).then((url) => {
+							officeData.imageUrl = url;
+						})
+					);
 				});
 
-				setOffices(arr);
+				Promise.all(promises).then(() => {
+					setOffices(arr);
+				});
 			});
 
 			return () => unsubscribe();
 		};
+
 		fetchData();
-	}, [ref, offices]);
+	}, [setOffices]);
 };
 
 export default useOfficesFromDB;
