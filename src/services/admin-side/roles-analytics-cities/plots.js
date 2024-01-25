@@ -1,4 +1,13 @@
-const addNewPlotService = (newPlot, showAlert, plots, setShowModalSpinner) => {
+import addPlotToDB from "@/Firebase/Plots/addPlotToFirebase";
+
+const addNewPlotService = (
+  newPlot,
+  setNewPlot,
+  showAlert,
+  plots,
+  setShowModalSpinner,
+  toggleModal
+) => {
   const formattedUnit = newPlot.unit.trim().toUpperCase();
   if (newPlot.area <= 0) {
     showAlert({ type: "warning", message: "Please enter valid area value" });
@@ -18,7 +27,23 @@ const addNewPlotService = (newPlot, showAlert, plots, setShowModalSpinner) => {
     return;
   } else {
     setShowModalSpinner(true);
-    // TODO: Add new plot to DB
+    addPlotToDB(newPlot.area, formattedUnit)
+      .then(() => {
+        showAlert({
+          type: "success",
+          message: "Plot added successfully",
+        });
+        setShowModalSpinner(false);
+        setNewPlot({ area: 0, unit: "" });
+        toggleModal();
+      })
+      .catch((err) => {
+        showAlert({
+          type: "error",
+          message: "Something went wrong! Please try again later",
+        });
+        // TODO: Conside a proper error to display to the user
+      });
   }
 };
 

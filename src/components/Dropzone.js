@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { AlertContext } from "@/app/context/AlertContext";
 import React, { useContext, useState } from "react";
 
@@ -19,13 +19,12 @@ const Dropzone = ({
       if (file.type.startsWith("image/")) {
         const reader = new FileReader();
         reader.readAsDataURL(file);
-        console.log(file, file.name);
         setUploadedFileName(file.name);
         fileUploadHandler(file);
       } else {
         showAlert({
           type: "warning",
-          message: "Please upload an image file",
+          message: "Please attach an image file",
         });
       }
     }

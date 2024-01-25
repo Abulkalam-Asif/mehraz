@@ -1,6 +1,7 @@
 import addCityToDB from "@/Firebase/City Functions/addCityToFirebase";
 
 const addNewCityService = (
+  cities,
   newCity,
   setNewCity,
   setShowModalSpinner,

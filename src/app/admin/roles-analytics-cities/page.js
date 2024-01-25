@@ -12,12 +12,12 @@ import {
   PlotsSectionDesktop,
   RolesAnalyticsCitiesContainer,
   RolesSectionDesktop,
+  StyleModal,
   StylesSectionDesktop,
 } from "@/containers";
 import useCurrenciesFromDB from "@/Firebase/Currency Functions/GetCurrenciesFromFirebase";
 import useCitiesFromDB from "@/Firebase/City Functions/getCitiesFromFirebase";
 import useOfficesFromDB from "@/Firebase/Office Functions/getOfficesFromDB";
-
 import Image from "next/image";
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
@@ -27,6 +27,8 @@ import { addNewCurrencyService } from "@/services/admin-side/roles-analytics-cit
 import { convertRolesToRows } from "@/utilities/admin-panel/roles-analytics-cities/roles";
 import { addNewOfficeLocationService } from "@/services/admin-side/roles-analytics-cities/officeLocations";
 import { addNewPlotService } from "@/services/admin-side/roles-analytics-cities/plots";
+import usePlotsFromDB from "@/Firebase/Plots/getPlotsFromFirestore";
+import { addNewStyleService } from "@/services/admin-side/roles-analytics-cities/styles";
 
 const roles = {
   admins: [
@@ -58,21 +60,6 @@ const roles = {
   architects: ["abulkalam", "jafar"],
   receptionists: ["hamza"],
 };
-
-const styles = [
-  {
-    name: "modern",
-    image: "https://picsum.photos/200/300",
-  },
-  {
-    name: "classic",
-    image: "https://picsum.photos/200/300",
-  },
-  {
-    name: "spanish",
-    image: "https://picsum.photos/200/300",
-  },
-];
 
 const RolesAnalyticsCities = () => {
   const { showAlert } = useContext(AlertContext);
@@ -128,6 +115,7 @@ const RolesAnalyticsCities = () => {
     e.preventDefault();
     // Calling the service
     addNewCityService(
+      cities,
       newCity,
       setNewCity,
       setShowModalSpinner,
@@ -152,6 +140,7 @@ const RolesAnalyticsCities = () => {
     mapsLink: "",
     image: null,
   });
+
   const newOfficeLocationInputHandler = (e) => {
     setNewOfficeLocation((prevState) => ({
       ...prevState,
@@ -167,14 +156,14 @@ const RolesAnalyticsCities = () => {
       officeLocations,
       showAlert,
       setShowModalSpinner,
-      setNewOfficeLocation,
       hideModal
     );
   };
 
   // Plots states and functions
   const [plots, setPlots] = useState(null);
-  // TODO: Fetch plots from DB
+  // Fetching plots from DB
+  usePlotsFromDB(setPlots);
 
   const [newPlot, setNewPlot] = useState({
     area: 0,
@@ -190,7 +179,42 @@ const RolesAnalyticsCities = () => {
   const addNewPlotHandler = (e) => {
     e.preventDefault();
     // Calling the service
-    addNewPlotService(newPlot, showAlert, plots, setShowModalSpinner);
+    addNewPlotService(
+      newPlot,
+      setNewPlot,
+      showAlert,
+      plots,
+      setShowModalSpinner,
+      toggleModal
+    );
+  };
+
+  // Office locations states and functions
+  const [styles, setStyles] = useState(null);
+  // TODO (Backend): Fetch styles from DB
+
+  const [newStyle, setNewStyle] = useState({
+    name: "",
+    image: null,
+  });
+
+  const newStyleInputHandler = (e) => {
+    setNewStyle((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const addNewStyleHandler = (e) => {
+    e.preventDefault();
+    // Calling the service
+    addNewStyleService(
+      newStyle,
+      styles,
+      showAlert,
+      setShowModalSpinner,
+      hideModal
+    );
   };
 
   // Modal states and functions
@@ -232,7 +256,6 @@ const RolesAnalyticsCities = () => {
               toggleModal={toggleModal}
             />
           </div>
-
           <RolesAnalyticsCitiesContainer className="w-full grid grid-rows-4">
             <CitiesSectionDesktop
               cities={cities}
@@ -250,7 +273,11 @@ const RolesAnalyticsCities = () => {
               setModalContent={setModalContent}
               toggleModal={toggleModal}
             />
-            <StylesSectionDesktop styles={styles} />
+            <StylesSectionDesktop
+              styles={styles}
+              setModalContent={setModalContent}
+              toggleModal={toggleModal}
+            />
           </RolesAnalyticsCitiesContainer>
           <RolesAnalyticsCitiesContainer className="w-full">
             user behaivour and product analytics
@@ -282,12 +309,20 @@ const RolesAnalyticsCities = () => {
               setNewOfficeLocation={setNewOfficeLocation}
               showModalSpinner={showModalSpinner}
             />
+          ) : modalContent === "plot" ? (
+            <PlotModal
+              addNewPlotHandler={addNewPlotHandler}
+              newPlot={newPlot}
+              newPlotInputHandler={newPlotInputHandler}
+              showModalSpinner={showModalSpinner}
+            />
           ) : (
-            modalContent === "plot" && (
-              <PlotModal
-                addNewPlotHandler={addNewPlotHandler}
-                newPlot={newPlot}
-                newPlotInputHandler={newPlotInputHandler}
+            modalContent === "style" && (
+              <StyleModal
+                addNewStyleHandler={addNewStyleHandler}
+                newStyle={newStyle}
+                newStyleInputHandler={newStyleInputHandler}
+                setNewStyle={setNewStyle}
                 showModalSpinner={showModalSpinner}
               />
             )

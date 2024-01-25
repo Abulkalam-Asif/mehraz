@@ -2,7 +2,6 @@ import addOfficeToDB from "@/Firebase/Office Functions/addOfficeToDB";
 
 const addNewOfficeLocationService = (
   newOfficeLocation,
-  officeLocations,
   showAlert,
   setShowModalSpinner,
   setNewOfficeLocation,
@@ -54,6 +53,7 @@ const addNewOfficeLocationService = (
           type: "error",
           message: `An error occurred! ${error}`,
         });
+        // TODO (Backend): Consider this error, check if user friendly or not
         setShowModalSpinner(false);
       });
   }
