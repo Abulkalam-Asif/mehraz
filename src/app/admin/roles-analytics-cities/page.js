@@ -1,30 +1,30 @@
 "use client";
-import { chevronLeftIcon, deleteIcon, editIcon, linkIcon } from "@/assets";
+import { chevronLeftIcon } from "@/assets";
+import { H1, Modal } from "@/components";
 import {
-  Button,
-  H1,
-  H2,
-  InputBox,
-  Modal,
-  MultiCheckbox,
-  RolesAnalyticsCitiesModal,
-  Spinner,
-  Td,
-  Th,
-  Dropzone,
-} from "@/components";
-import { RolesAnalyticsCitiesContainer, Table } from "@/containers";
-import addCurrencyToDB from "@/Firebase/Currency Functions/addCurrencyToFirebase";
+  CitiesSectionDesktop,
+  CityModal,
+  CurrenciesSectionDesktop,
+  CurrencyModal,
+  OfficeLocSectionDesktop,
+  OfficeModal,
+  PlotsSectionDesktop,
+  RolesAnalyticsCitiesContainer,
+  RolesSectionDesktop,
+  StylesSectionDesktop,
+} from "@/containers";
 import useCurrenciesFromDB from "@/Firebase/Currency Functions/GetCurrenciesFromFirebase";
-import addCityToDB from "@/Firebase/City Functions/addCityToFirebase";
 import useCitiesFromDB from "@/Firebase/City Functions/getCitiesFromFirebase";
-import addOfficeToDB from "@/Firebase/Office Functions/addOfficeToDB";
 import useOfficesFromDB from "@/Firebase/Office Functions/getOfficesFromDB";
 
 import Image from "next/image";
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import { AlertContext } from "@/app/context/AlertContext";
+import { addNewCityService } from "@/services/admin-side/roles-analytics-cities/cities";
+import { addNewCurrencyService } from "@/services/admin-side/roles-analytics-cities/currencies";
+import { convertRolesToRows } from "@/utilities/admin-panel/roles-analytics-cities/roles";
+import { addNewOfficeLocationService } from "@/services/admin-side/roles-analytics-cities/officeLocations";
 
 const roles = {
   admins: [
@@ -94,25 +94,15 @@ const RolesAnalyticsCities = () => {
   // Roles states and functions
   const [rolesRows, setRolesRows] = useState(null);
   useEffect(() => {
-    // Converting array of roles into array of rows
-    const maxLength = Math.max(
-      ...Object.values(roles).map((user) => user.length)
-    );
-    const rows = [];
-    for (let i = 0; i < maxLength; i++) {
-      rows.push([]);
-    }
-    for (const [key, value] of Object.entries(roles)) {
-      for (let i = 0; i < maxLength; i++) {
-        rows[i].push(value[i] || "");
-      }
-    }
-    setRolesRows(rows);
+    // Converting array of roles into array of rows to be displayed in the table
+    convertRolesToRows(roles, setRolesRows);
   }, []);
 
-  // Currency states and functions
+  // Currencies states and functions
   const [currencies, setCurrencies] = useState(null);
+  // Fetching currencies from DB
   useCurrenciesFromDB(currencies, setCurrencies);
+
   const defaultCurrency = {
     name: "",
     cities: [],
@@ -129,102 +119,52 @@ const RolesAnalyticsCities = () => {
 
   const addNewCurrencyHandler = (e) => {
     e.preventDefault();
-    // Trim and convert currency name to uppercase
-    const formattedCurrencyName = newCurrency.name.trim().toUpperCase();
-
-    if (formattedCurrencyName === "") {
-      showAlert({ type: "warning", message: "Please enter a currency name" });
-      return;
-    } else if (
-      currencies.find((currency) => currency.name === formattedCurrencyName)
-    ) {
-      showAlert({ type: "error", message: "This currency already exists" });
-      return;
-    } else if (newCurrency.inPkr <= 0 || newCurrency.inPkr === "") {
-      showAlert({ type: "warning", message: "Please enter a valid PKR value" });
-    } else if (newCurrency.cities.length === 0) {
-      showAlert({
-        type: "warning",
-        message: "Please select at least one city",
-      });
-    } else {
-      setShowModalSpinner(true);
-      addCurrencyToDB(
-        formattedCurrencyName,
-        newCurrency.inPkr,
-        newCurrency.cities
-      )
-        .then(() => {
-          showAlert({
-            type: "success",
-            message: "Currency added successfully",
-          });
-          setShowModalSpinner(false);
-          setNewCurrency(defaultCurrency);
-          hideModal();
-        })
-        .catch(() => {
-          showAlert({
-            type: "error",
-            message: "An error occured! Please try again.",
-          });
-          setShowModalSpinner(false);
-        });
-    }
+    // Calling the service
+    addNewCurrencyService(
+      newCurrency,
+      currencies,
+      showAlert,
+      setShowModalSpinner,
+      setNewCurrency,
+      hideModal,
+      defaultCurrency
+    );
   };
 
   // Cities states and functions
   const [cities, setCities] = useState(null);
+  // Fetching cities from DB
   useCitiesFromDB(setCities);
-  const [newCity, setNewCity] = useState("");
 
+  const [newCity, setNewCity] = useState("");
   const addNewCityHandler = (e) => {
     e.preventDefault();
-    // Trim and convert city name to uppercase
-    const formattedCity = newCity.trim().toUpperCase();
-
-    if (formattedCity === "") {
-      showAlert({ type: "warning", message: "Please enter a city name" });
-      return;
-    } else if (cities.includes(formattedCity)) {
-      showAlert({ type: "error", message: "This city already exists" });
-      return;
-    } else {
-      setShowModalSpinner(true);
-      addCityToDB(formattedCity)
-        .then(() => {
-          showAlert({ type: "success", message: "City added successfully" });
-          setShowModalSpinner(false);
-          setNewCity("");
-          hideModal();
-        })
-        .catch(() => {
-          showAlert({
-            type: "error",
-            message: "An error occured! Please try again.",
-          });
-          setShowModalSpinner(false);
-        });
-    }
+    // Calling the service
+    addNewCityService(
+      newCity,
+      setNewCity,
+      setShowModalSpinner,
+      showAlert,
+      hideModal
+    );
   };
   const editCityHandler = (e) => {
     e.preventDefault();
-    setModalContent("city");
-    toggleModal();
-    // Fetch the data from the local array on the basis of city id and display on the modal for the user to edit it.
+    // Calling the service
+    editCityService(setModalContent, toggleModal);
   };
 
   // Office locations states and functions
-  const [officeLocations, setOfficeLocations] = useState([]); 
-  // TODO: Fetch office locations from DB
+  const [officeLocations, setOfficeLocations] = useState([]);
+  // Fetching office locations from DB
+  useOfficesFromDB(officeLocations, setOfficeLocations);
+
   const [newOfficeLocation, setNewOfficeLocation] = useState({
     city: "",
     address: "",
     mapsLink: "",
     image: null,
   });
-  useOfficesFromDB(officeLocations, setOfficeLocations);
-
   const newOfficeLocationInputHandler = (e) => {
     setNewOfficeLocation((prevState) => ({
       ...prevState,
@@ -234,62 +174,15 @@ const RolesAnalyticsCities = () => {
 
   const addNewOfficeLocationHandler = (e) => {
     e.preventDefault();
-    // Trim and convert city name to uppercase
-    const formattedOfficeLocation = {
-      ...newOfficeLocation,
-      city: newOfficeLocation.city.trim().toUpperCase(),
-      address: newOfficeLocation.address.trim(),
-      mapsLink: newOfficeLocation.mapsLink.trim(),
-    };
-
-    if (formattedOfficeLocation.city === "") {
-      showAlert({ type: "warning", message: "Please enter a city name" });
-      return;
-    } else if (formattedOfficeLocation.address === "") {
-      showAlert({ type: "warning", message: "Please enter an address" });
-      return;
-    } else if (formattedOfficeLocation.mapsLink === "") {
-      showAlert({ type: "warning", message: "Please enter a maps link" });
-      return;
-      
-    } else if (
-      !formattedOfficeLocation.mapsLink.match(/^https?:\/\/[^\s/$.?#].[^\s]*$/)
-    ) {
-      showAlert({ type: "warning", message: "Please enter a valid maps link" });
-      return;
-    } else if (!formattedOfficeLocation.image) {
-      showAlert({ type: "warning", message: "Please attach an image" });
-      return;
-    } 
-    else if (officeLocations.some((obj) => obj.city === formattedOfficeLocation.city)) {
-			showAlert({ type: "error", message: "An office location with this city already exists" });
-			return;
-		} else {
-			setShowModalSpinner(true);
-			addOfficeToDB(formattedOfficeLocation)
-				.then((response) => {
-					showAlert({
-						type: "success",
-						message: "Office added successfully",
-					});
-					setShowModalSpinner(false);
-					setNewOfficeLocation({
-						city: "",
-						address: "",
-						mapsLink: "",
-						image: null,
-					});
-					hideModal();
-				})
-				.catch((error) => {
-					showAlert({
-						type: "error",
-						message: `An error occurred! ${error}`,
-					});
-					setShowModalSpinner(false);
-				});
-
-		}
+    // Calling the service
+    addNewOfficeLocationService(
+      newOfficeLocation,
+      officeLocations,
+      showAlert,
+      setShowModalSpinner,
+      setNewOfficeLocation,
+      hideModal
+    );
   };
 
   // Modal states and functions
@@ -324,296 +217,28 @@ const RolesAnalyticsCities = () => {
         </div>
         <div className="max-w-8xl w-full mx-auto flex flex-row gap-x-4 h-[calc(100vh-6rem-6rem)] xl:h-[calc(100vh-6rem-5rem)]">
           <div className="w-full h-full grid grid-rows-3 gap-2">
-            <RolesAnalyticsCitiesContainer
-              title={"Roles"}
-              className="row-span-2 flex flex-col">
-              <H2 text="roles" className="mb-2" />
-              {rolesRows ? (
-                <Table border={false} className="h-full overflow-y-auto">
-                  <thead className="bg-accent-1-base text-sm">
-                    <tr>
-                      <Th position="beginning" className="w-1/3">
-                        admin
-                      </Th>
-                      <Th className="w-1/3">architect</Th>
-                      <Th position="end" className="w-1/3">
-                        receptionist
-                      </Th>
-                    </tr>
-                  </thead>
-                  <tbody className="text-xs font-semibold">
-                    {rolesRows?.map((row, i) => (
-                      <tr key={i}>
-                        {row.map((user, j) => (
-                          <Td
-                            key={j}
-                            position={
-                              j === 0
-                                ? "beginning"
-                                : j === row.length - 1
-                                ? "end"
-                                : "middle"
-                            }
-                            isLastRow={i === rolesRows?.length - 1}>
-                            {user}
-                          </Td>
-                        ))}
-                      </tr>
-                    ))}
-                  </tbody>
-                </Table>
-              ) : (
-                <div className="flex-1 flex items-center justify-center">
-                  <Spinner size={"sm"} text="Loading roles..." />
-                </div>
-              )}
-            </RolesAnalyticsCitiesContainer>
-            <RolesAnalyticsCitiesContainer className="row-span-1 flex flex-col gap-y-2">
-              <H2 text="currencies" />
-              {currencies ? (
-                <>
-                  <Table border={false} className="h-full overflow-y-auto">
-                    <thead className="bg-accent-1-base text-sm">
-                      <tr>
-                        <Th position="beginning" className="w-1/4 xl:w-1/3">
-                          name
-                        </Th>
-                        <Th className="w-1/2 xl:w-1/3">cities</Th>
-                        <Th position="end" className="w-1/4 xl:w-1/3">
-                          in pkr
-                        </Th>
-                      </tr>
-                    </thead>
-                    <tbody className="text-xs font-semibold">
-                      {currencies.map((currency, i) => (
-                        <tr key={i}>
-                          <Td
-                            position="beginning"
-                            isLastRow={i === currencies.length - 1}>
-                            {currency.name}
-                          </Td>
-                          <Td
-                            isLastRow={i === currencies.length - 1}
-                            className="flex gap-x-2 flex-wrap border-x-0">
-                            {currency.cities.map((city, i) => (
-                              <span key={i}>{city}</span>
-                            ))}
-                          </Td>
-                          <Td
-                            position="end"
-                            isLastRow={i === currencies.length - 1}>
-                            {currency.valueInPkr}
-                          </Td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </Table>
-                </>
-              ) : (
-                <div className="flex-1 flex items-center justify-center">
-                  <Spinner size={"sm"} text="Loading currencies..." />
-                </div>
-              )}
-              <Button
-                text="add currency"
-                className="text-xs mr-auto"
-                onClick={() => {
-                  setModalContent("currency");
-                  toggleModal();
-                }}
-              />
-            </RolesAnalyticsCitiesContainer>
+            <RolesSectionDesktop rolesRows={rolesRows} />
+            <CurrenciesSectionDesktop
+              currencies={currencies}
+              setModalContent={setModalContent}
+              toggleModal={toggleModal}
+            />
           </div>
 
           <RolesAnalyticsCitiesContainer className="w-full grid grid-rows-4">
-            <div className="flex flex-col gap-y-2">
-              <H2 text="cities" />
-              {cities ? (
-                <Table
-                  border={false}
-                  className="h-full overflow-y-auto px-3 py-2">
-                  <tbody className="text-sm">
-                    {cities.map((city, i) => (
-                      <tr key={i}>
-                        <Td
-                          isLastRow={i === cities.length - 1}
-                          position="beginning">
-                          {city}
-                        </Td>
-                        <Td isLastRow={i === cities.length - 1} position="end">
-                          <div className="flex items-center justify-center gap-3">
-                            <button
-                              onClick={editCityHandler}
-                              // data-city-id={city} TODO: Add ID of the city here
-                              className="hover:bg-accent-1-base p-1.5 rounded-full">
-                              <Image
-                                src={editIcon}
-                                alt="edit"
-                                className="w-4"
-                              />
-                            </button>
-                            <button
-                              className="hover:bg-accent-1-base p-1.5 rounded-full"
-                              // onClick={deleteProjectHandler}
-                              // data-project-id={project_id}
-                            >
-                              <Image
-                                src={deleteIcon}
-                                alt="delete"
-                                className="w-4"
-                              />
-                            </button>
-                          </div>
-                        </Td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </Table>
-              ) : (
-                <div className="flex-1 flex items-center justify-center">
-                  <Spinner size={"sm"} text="Loading cities..." />
-                </div>
-              )}
-              <Button
-                text="add city"
-                className="text-xs mr-auto"
-                onClick={() => {
-                  setModalContent("city");
-                  toggleModal();
-                }}
-              />
-            </div>
-            <div className="flex flex-col gap-y-2">
-              <H2 text="office locations" />
-              <Table
-                border={false}
-                className="h-full overflow-y-auto px-3 py-2">
-                <thead className="text-sm">
-                  <tr>
-                    <Th position="beginning" className="w-1/4">
-                      city
-                    </Th>
-                    <Th className="w-1/4">address</Th>
-                    <Th className="w-1/4">link</Th>
-                    <Th position="end" className="w-1/4">
-                      image
-                    </Th>
-                  </tr>
-                </thead>
-                <tbody className="text-xs font-semibold">
-                  {officeLocations.map((location, i) => (
-                    <tr key={i}>
-                      <Td
-                        position="beginning"
-                        isLastRow={i === officeLocations.length - 1}>
-                        {location.city}
-                      </Td>
-                      <Td isLastRow={i === officeLocations.length - 1}>
-                        {location.address}
-                      </Td>
-                      <Td isLastRow={i === officeLocations.length - 1}>
-                        <a
-                          target="_blank"
-                          href={location.mapsLink}
-                          className="underline flex items-center gap-2">
-                          <span>link to maps</span>
-                          <Image src={linkIcon} alt="link" />
-                        </a>
-                      </Td>
-                      <Td
-                        position="end"
-                        isLastRow={i === officeLocations.length - 1}>
-                        <a
-                          target="_blank"
-                          href={location.image}
-                          className="underline flex items-center gap-2">
-                          <span>image</span>
-                          <Image src={linkIcon} alt="link" />
-                        </a>
-                      </Td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
-              <Button
-                text="add office"
-                onClick={() => {
-                  setModalContent("office");
-                  toggleModal();
-                }}
-                className="text-xs mr-auto"
-              />
-            </div>
-            <div className="flex flex-col gap-y-2">
-              <H2 text="plots" />
-              <Table
-                border={false}
-                className="h-full overflow-y-auto px-3 py-2">
-                <thead className="text-sm">
-                  <tr>
-                    <Th position="beginning" className="w-1/2">
-                      area
-                    </Th>
-                    <Th position="end" className="w-1/2">
-                      unit
-                    </Th>
-                  </tr>
-                </thead>
-                <tbody className="text-xs font-semibold">
-                  {plots.map((plot, i) => (
-                    <tr key={i}>
-                      <Td
-                        position="beginning"
-                        isLastRow={i === plots.length - 1}>
-                        {plot.area}
-                      </Td>
-                      <Td position="end" isLastRow={i === plots.length - 1}>
-                        {plot.unit}
-                      </Td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
-              <Button text="add plot" className="text-xs mr-auto" />
-            </div>
-            <div className="flex flex-col gap-y-2">
-              <H2 text="styles" />
-              <Table
-                border={false}
-                className="h-full overflow-y-auto px-3 py-2">
-                <thead className="text-sm">
-                  <tr>
-                    <Th position="beginning" className="w-1/2">
-                      name
-                    </Th>
-                    <Th position="end" className="w-1/2">
-                      image
-                    </Th>
-                  </tr>
-                </thead>
-                <tbody className="text-xs font-semibold">
-                  {styles.map((style, i) => (
-                    <tr key={i}>
-                      <Td
-                        position="beginning"
-                        isLastRow={i === styles.length - 1}>
-                        {style.name}
-                      </Td>
-                      <Td position="end" isLastRow={i === styles.length - 1}>
-                        <a
-                          target="_blank"
-                          href={style.image}
-                          className="underline flex items-center gap-2">
-                          <span>image</span>
-                          <Image src={linkIcon} alt="link" />
-                        </a>
-                      </Td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
-              <Button text="add style" className="text-xs mr-auto" />
-            </div>
+            <CitiesSectionDesktop
+              cities={cities}
+              editCityHandler={editCityHandler}
+              setModalContent={setModalContent}
+              toggleModal={toggleModal}
+            />
+            <OfficeLocSectionDesktop
+              officeLocations={officeLocations}
+              setModalContent={setModalContent}
+              toggleModal={toggleModal}
+            />
+            <PlotsSectionDesktop plots={plots} />
+            <StylesSectionDesktop styles={styles} />
           </RolesAnalyticsCitiesContainer>
           <RolesAnalyticsCitiesContainer className="w-full">
             user behaivour and product analytics
@@ -623,98 +248,29 @@ const RolesAnalyticsCities = () => {
       {isModalOpen && (
         <Modal toggleModal={toggleModal} isModalOpen={isModalOpen}>
           {modalContent === "city" ? (
-            <RolesAnalyticsCitiesModal
-              heading="add city"
-              buttonText="add city"
-              onButtonClick={addNewCityHandler}
-              showModalSpinner={showModalSpinner}>
-              <InputBox
-                label="Enter city name"
-                value={newCity}
-                setInput={setNewCity}
-                idHtmlFor="city"
-              />
-            </RolesAnalyticsCitiesModal>
+            <CityModal
+              addNewCityHandler={addNewCityHandler}
+              newCity={newCity}
+              setNewCity={setNewCity}
+              showModalSpinner={showModalSpinner}
+            />
           ) : modalContent === "currency" ? (
-            <RolesAnalyticsCitiesModal
-              heading="add currency"
-              buttonText="add currency"
-              onButtonClick={addNewCurrencyHandler}
-              className={"flex items-center gap-8"}
-              showModalSpinner={showModalSpinner}>
-              <div className="w-1/2 space-y-3">
-                <InputBox
-                  label="Enter currency name"
-                  value={newCurrency.name}
-                  inputHandler={newCurrencyInputHandler}
-                  idHtmlFor="name"
-                  name="name"
-                />
-                <InputBox
-                  type="number"
-                  label="Enter value in PKR"
-                  value={newCurrency.inPkr}
-                  inputHandler={newCurrencyInputHandler}
-                  idHtmlFor="inPkr"
-                  name="inPkr"
-                />
-              </div>
-              <div className="w-1/2 space-y-1">
-                <span className="text-accent-1-dark">Select cities</span>
-                <MultiCheckbox
-                  className={"max-h-24 pl-2 overflow-y-auto"}
-                  options={cities}
-                  name="cities"
-                  checked={newCurrency.cities}
-                  onChange={newCurrencyInputHandler}
-                />
-              </div>
-            </RolesAnalyticsCitiesModal>
+            <CurrencyModal
+              addNewCurrencyHandler={addNewCurrencyHandler}
+              newCurrency={newCurrency}
+              newCurrencyInputHandler={newCurrencyInputHandler}
+              showModalSpinner={showModalSpinner}
+              cities={cities}
+            />
           ) : (
             modalContent === "office" && (
-              <RolesAnalyticsCitiesModal
-                heading="add office"
-                buttonText="add office"
-                onButtonClick={addNewOfficeLocationHandler}
-                className={"flex items-stretch gap-8"}
-                showModalSpinner={showModalSpinner}>
-                <div className="w-1/2 space-y-2">
-                  <InputBox
-                    label="Enter city name"
-                    value={newOfficeLocation.city}
-                    inputHandler={newOfficeLocationInputHandler}
-                    idHtmlFor="city"
-                    name="city"
-                  />
-                  <InputBox
-                    label="Enter office address"
-                    value={newOfficeLocation.address}
-                    inputHandler={newOfficeLocationInputHandler}
-                    idHtmlFor="address"
-                    name="address"
-                  />
-                  <InputBox
-                    label="Enter maps link"
-                    value={newOfficeLocation.mapsLink}
-                    inputHandler={newOfficeLocationInputHandler}
-                    idHtmlFor="mapsLink"
-                    name="mapsLink"
-                  />
-                </div>
-                <Dropzone
-                  message={"Attach an image (.jpg, .png, .gif etc)"}
-                  title={"Attach an image here"}
-                  accept="image/*"
-                  className={"w-1/2"}
-                  file={newOfficeLocation?.image}
-                  fileUploadHandler={(file) =>
-                    setNewOfficeLocation((prevState) => ({
-                      ...prevState,
-                      image: file,
-                    }))
-                  }
-                />
-              </RolesAnalyticsCitiesModal>
+              <OfficeModal
+                addNewOfficeLocationHandler={addNewOfficeLocationHandler}
+                newOfficeLocation={newOfficeLocation}
+                newOfficeLocationInputHandler={newOfficeLocationInputHandler}
+                setNewOfficeLocation={setNewOfficeLocation}
+                showModalSpinner={showModalSpinner}
+              />
             )
           )}
         </Modal>
