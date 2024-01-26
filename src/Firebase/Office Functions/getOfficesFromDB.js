@@ -15,7 +15,7 @@ const useOfficesFromDB = (offices, setOffices) => {
             id: doc.id,
             address: doc.data().address,
             city: doc.data().city,
-            mapsLink: doc.data().mapsLink,
+            mapsLink: doc.data()?.mapsLink,
           };
           arr.push(officeData);
 

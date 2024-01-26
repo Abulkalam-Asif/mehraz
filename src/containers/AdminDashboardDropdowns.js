@@ -7,7 +7,7 @@ const AdminDashboardDropdowns = ({ linksCategories, linksData }) => {
 
   return (
     <>
-      {linksCategories.map(({ title, name }, index) => (
+      {linksCategories?.map(({ title, name }, index) => (
         <AdminDashboardDropdown
           key={index}
           title={title}

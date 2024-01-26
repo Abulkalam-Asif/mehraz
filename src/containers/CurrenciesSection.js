@@ -20,7 +20,7 @@ const CurrenciesSection = ({ currencies, setModalContent, toggleModal }) => {
                   </tr>
                 </thead>
                 <tbody className="text-xs font-semibold">
-                  {currencies.map((currency, i) => (
+                  {currencies?.map((currency, i) => (
                     <tr key={i}>
                       <Td
                         position="beginning"
@@ -28,7 +28,7 @@ const CurrenciesSection = ({ currencies, setModalContent, toggleModal }) => {
                         {currency.name}
                       </Td>
                       <Td isLastRow={i === currencies.length - 1}>
-                        {currency.cities.map((city, i) => (
+                        {currency.cities?.map((city, i) => (
                           <span key={i}>
                             <span>{city}</span>
                             {i !== currency.cities.length - 1 && (

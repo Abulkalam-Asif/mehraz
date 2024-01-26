@@ -13,7 +13,7 @@ const addNewCityService = (
   if (formattedCity === "") {
     showAlert({ type: "warning", message: "Please enter a city name" });
     return;
-  } else if (cities.includes(formattedCity)) {
+  } else if (cities?.includes(formattedCity)) {
     showAlert({ type: "error", message: "This city already exists" });
     return;
   } else {

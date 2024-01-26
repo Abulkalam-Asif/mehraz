@@ -24,7 +24,7 @@ const CurrenciesSection = ({
                 </tr>
               </thead>
               <tbody className="text-xs font-semibold">
-                {officeLocations.map((location, i) => (
+                {officeLocations?.map((location, i) => (
                   <tr key={i}>
                     <Td
                       position="beginning"
@@ -37,7 +37,7 @@ const CurrenciesSection = ({
                     <Td isLastRow={i === officeLocations.length - 1}>
                       <a
                         target="_blank"
-                        href={location.mapsLink}
+                        href={location?.mapsLink}
                         className="underline flex items-center gap-2">
                         <span>link</span>
                         <Image src={linkIcon} alt="link" />

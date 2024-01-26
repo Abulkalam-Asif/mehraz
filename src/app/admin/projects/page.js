@@ -87,7 +87,7 @@ const Projects = () => {
 
   // useEffect(() => {
   //   fetchAllProjects().then((projects) => {
-  //     const newProjects = projects.map((project) => {
+  //     const newProjects = projects?.map((project) => {
   //       return { ...project.data, project_id: project.id };
   //     });
   //     setProjects(newProjects);
@@ -237,7 +237,7 @@ const Projects = () => {
                   {projectsArray?.map((projects, arrIndex) => (
                     <div key={arrIndex}>
                       <div className="flex flex-col gap-3">
-                        {projects.map(
+                        {projects?.map(
                           ({
                             project_id,
                             project_title,

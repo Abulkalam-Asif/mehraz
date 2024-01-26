@@ -17,7 +17,7 @@ const CurrenciesSection = ({
           cities.length > 0 ? (
             <Table border={false} className="h-full overflow-y-auto py-2">
               <tbody className="text-sm">
-                {cities.map((city, i) => (
+                {cities?.map((city, i) => (
                   <tr key={i}>
                     <Td
                       isLastRow={i === cities.length - 1}

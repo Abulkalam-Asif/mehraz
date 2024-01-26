@@ -52,7 +52,7 @@ const Admin = () => {
         <div className="flex flex-col mx-auto gap-3 max-w-2xl lg:hidden">
           <div className="flex items-end gap-3">
             <AdminDashboardGroup title={"uploads"} className="flex-col">
-              {linksData.uploads.map(({ text, href }, index) => (
+              {linksData.uploads?.map(({ text, href }, index) => (
                 <LinkButton
                   key={index}
                   type="admin-dashboard"
@@ -62,7 +62,7 @@ const Admin = () => {
               ))}
             </AdminDashboardGroup>
             <AdminDashboardGroup title={"group chats"} className="flex-col">
-              {linksData.groupChats.map(({ text, href }, index) => (
+              {linksData.groupChats?.map(({ text, href }, index) => (
                 <LinkButton
                   key={index}
                   type="admin-dashboard"
@@ -73,7 +73,7 @@ const Admin = () => {
             </AdminDashboardGroup>
           </div>
           <AdminDashboardGroup title={"members"} className="flex-row">
-            {linksData.members.map(({ text, href }, index) => (
+            {linksData.members?.map(({ text, href }, index) => (
               <LinkButton
                 key={index}
                 type="admin-dashboard"
@@ -83,7 +83,7 @@ const Admin = () => {
             ))}
           </AdminDashboardGroup>
           <AdminDashboardGroup title={"teams & others"} className="flex-col">
-            {linksData.teamsAndOthers.map(({ text, href }, index) => (
+            {linksData.teamsAndOthers?.map(({ text, href }, index) => (
               <LinkButton
                 key={index}
                 type="admin-dashboard"

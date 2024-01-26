@@ -25,7 +25,7 @@ const RolesSection = ({ rolesRows }) => {
               <tbody className="text-xs font-semibold">
                 {rolesRows?.map((row, i) => (
                   <tr key={i}>
-                    {row.map((user, j) => (
+                    {row?.map((user, j) => (
                       <Td
                         key={j}
                         position={

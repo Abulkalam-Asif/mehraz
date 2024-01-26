@@ -1,6 +1,6 @@
 const convertRolesToRows = (roles, setRolesRows) => {
   const maxLength = Math.max(
-    ...Object.values(roles).map((user) => user.length)
+    ...Object.values(roles)?.map((user) => user.length)
   );
   const rows = [];
   for (let i = 0; i < maxLength; i++) {

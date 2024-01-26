@@ -11,7 +11,7 @@ const addNewOfficeLocationService = (
     ...newOfficeLocation,
     city: newOfficeLocation.city.trim().toUpperCase(),
     address: newOfficeLocation.address.trim(),
-    mapsLink: newOfficeLocation.mapsLink.trim(),
+    mapsLink: newOfficeLocation?.mapsLink.trim(),
   };
 
   if (formattedOfficeLocation.city === "") {
@@ -20,11 +20,11 @@ const addNewOfficeLocationService = (
   } else if (formattedOfficeLocation.address === "") {
     showAlert({ type: "warning", message: "Please enter an address" });
     return;
-  } else if (formattedOfficeLocation.mapsLink === "") {
+  } else if (formattedOfficeLocation?.mapsLink === "") {
     showAlert({ type: "warning", message: "Please enter a maps link" });
     return;
   } else if (
-    !formattedOfficeLocation.mapsLink.match(/^https?:\/\/[^\s/$.?#].[^\s]*$/)
+    !formattedOfficeLocation?.mapsLink.match(/^https?:\/\/[^\s/$.?#].[^\s]*$/)
   ) {
     showAlert({ type: "warning", message: "Please enter a valid maps link" });
     return;
