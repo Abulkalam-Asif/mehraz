@@ -36,12 +36,12 @@ const addNewPlotService = (
         setNewPlot({ area: 0, unit: "" });
         toggleModal();
       })
-      .catch(() => {
+      .catch((error) => {
         showAlert({
           type: "error",
-          message: "Something went wrong! Please try again later",
+          message: "Oops! DB Error, Check console",
         });
-        // TODO: Decide whether to show custom error or the one from firebase
+        console.log(error);
       })
       .finally(() => {
         setShowModalSpinner(false);

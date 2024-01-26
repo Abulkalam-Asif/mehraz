@@ -51,9 +51,9 @@ const addNewOfficeLocationService = (
         console.log(error);
         showAlert({
           type: "error",
-          message: `An error occurred! ${error}`,
+          message: `Oops! DB Error, Check console`,
         });
-        // TODO: Decide whether to show custom error or the one from firebase
+        console.log(error);
       })
       .finally(() => {
         setShowModalSpinner(false);

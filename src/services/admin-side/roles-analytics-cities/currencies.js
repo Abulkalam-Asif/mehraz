@@ -41,12 +41,12 @@ const addNewCurrencyService = (
         setNewCurrency(defaultCurrency);
         hideModal();
       })
-      .catch(() => {
+      .catch((error) => {
         showAlert({
           type: "error",
-          message: "An error occured! Please try again.",
+          message: "Oops! DB Error, Check Console",
         });
-        // TODO: Decide whether to show custom error or the one from firebase
+        console.error(error);
       })
       .finally(() => {
         setShowModalSpinner(false);

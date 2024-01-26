@@ -1,7 +1,10 @@
+import addStyleToDB from "@/Firebase/Styles Functions/addStyletoFirebase";
+
 const addNewStyleService = (
   newStyle,
   styles,
   showAlert,
+  setNewStyle,
   setShowModalSpinner,
   hideModal
 ) => {
@@ -18,7 +21,29 @@ const addNewStyleService = (
     return;
   } else {
     setShowModalSpinner(true);
-    // TODO (backend): Add style to DB
+    addStyleToDB(newStyle)
+			.then(() => {
+				showAlert({
+					type: "success",
+					message: "Style added successfully!",
+				});
+				setNewStyle({
+					name: "",
+					image: null,
+				});
+				hideModal();
+			})
+			.catch((error) => {
+				console.log(error);
+				showAlert({
+					type: "error",
+					message: `Oops! DB Error, Check Console`,
+				});
+        console.log(error);
+			})
+			.finally(() => {
+				setShowModalSpinner(false);
+			});
   }
 };
 

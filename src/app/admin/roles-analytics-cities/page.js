@@ -32,6 +32,7 @@ import { addNewOfficeLocationService } from "@/services/admin-side/roles-analyti
 import { addNewPlotService } from "@/services/admin-side/roles-analytics-cities/plots";
 import usePlotsFromDB from "@/Firebase/Plots/getPlotsFromFirestore";
 import { addNewStyleService } from "@/services/admin-side/roles-analytics-cities/styles";
+import useStylesFromDB from "@/Firebase/Styles Functions/getStylesFromFirebase";
 
 const roles = {
   admins: [
@@ -204,8 +205,12 @@ const RolesAnalyticsCities = () => {
 
   // Styles states and functions
   const [styles, setStyles] = useState(null);
-  // TODO (backend): Fetch styles from DB
+  useStylesFromDB(setStyles);
 
+  useEffect(()=>{
+   console.log("Styles: ");
+    console.log(styles);
+  },[styles])
   const [newStyle, setNewStyle] = useState({
     name: "",
     image: null,
@@ -225,6 +230,7 @@ const RolesAnalyticsCities = () => {
       newStyle,
       styles,
       showAlert,
+      setNewStyle,
       setShowModalSpinner,
       hideModal
     );
