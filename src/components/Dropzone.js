@@ -5,7 +5,7 @@ import React, { useContext, useState } from "react";
 const Dropzone = ({
   message,
   title,
-  className,
+  className = "",
   fileUploadHandler,
   accept,
   file = null,

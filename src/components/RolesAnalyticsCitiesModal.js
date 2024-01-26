@@ -5,7 +5,7 @@ const RolesAnalyticsCitiesModal = ({
   heading = "",
   buttonText = "",
   onButtonClick = () => {},
-  className,
+  className = "",
   showModalSpinner = false,
 }) => {
   return (

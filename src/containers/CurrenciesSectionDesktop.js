@@ -1,5 +1,7 @@
-import { Button, H2, Spinner, Td, Th } from "@/components";
+import { Button, Dropdown, H2, Spinner, Td, Th } from "@/components";
 import { Table, RolesAnalyticsCitiesContainer } from "./";
+import Image from "next/image";
+import { deleteIcon, editIcon, ellipsisIcon } from "@/assets";
 
 const CurrenciesSectionDesktop = ({
   currencies,
@@ -15,13 +17,9 @@ const CurrenciesSectionDesktop = ({
             <Table border={false} className="h-full overflow-y-auto">
               <thead className="bg-accent-1-base text-sm">
                 <tr>
-                  <Th position="beginning" className="w-1/4 xl:w-1/3">
-                    name
-                  </Th>
-                  <Th className="w-1/2 xl:w-1/3">cities</Th>
-                  <Th position="end" className="w-1/4 xl:w-1/3">
-                    in pkr
-                  </Th>
+                  <Th position="beginning">name</Th>
+                  <Th>cities</Th>
+                  <Th position="end">in pkr</Th>
                 </tr>
               </thead>
               <tbody className="text-xs font-semibold">
@@ -32,15 +30,48 @@ const CurrenciesSectionDesktop = ({
                       isLastRow={i === currencies.length - 1}>
                       {currency.name}
                     </Td>
-                    <Td
-                      isLastRow={i === currencies.length - 1}
-                      className="flex gap-x-2 flex-wrap border-x-0">
+                    <Td isLastRow={i === currencies.length - 1}>
                       {currency.cities.map((city, i) => (
-                        <span key={i}>{city}</span>
+                        <span key={i}>
+                          <span>{city}</span>
+                          {i !== currency.cities.length - 1 && <span>, </span>}
+                        </span>
                       ))}
                     </Td>
-                    <Td position="end" isLastRow={i === currencies.length - 1}>
+                    <Td isLastRow={i === currencies.length - 1}>
                       {currency.valueInPkr}
+                    </Td>
+                    <Td position="end" isLastRow={i === currencies.length - 1}>
+                      <Dropdown
+                        className="w-fit"
+                        contentClassName={
+                          "w-max flex items-center bg-white border-2 border-accent-1-base px-1 rounded-lg shadow-dropdown absolute top-1/2 -translate-y-1/2 -left-1 -translate-x-full"
+                        }
+                        buttonClassName="hover:bg-accent-1-extra-light p-1.5 rounded-full"
+                        triggerContent={
+                          <>
+                            <Image
+                              src={ellipsisIcon}
+                              alt="ellipsis"
+                              className="min-w-3 w-3"
+                            />
+                          </>
+                        }>
+                        <button
+                          title="Edit currency"
+                          className="hover:bg-accent-1-extra-light p-2 rounded-full">
+                          <Image src={editIcon} alt="edit" className="w-4" />
+                        </button>
+                        <button
+                          title="Delete currency"
+                          className="hover:bg-accent-1-extra-light p-2 rounded-full">
+                          <Image
+                            src={deleteIcon}
+                            alt="delete"
+                            className="w-4"
+                          />
+                        </button>
+                      </Dropdown>
                     </Td>
                   </tr>
                 ))}

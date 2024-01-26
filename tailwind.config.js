@@ -16,8 +16,12 @@ module.exports = {
     },
     extend: {
       colors: {
+        "accent-1-extra-light": "#eeeeee",
         "accent-1-base": "#D9D9D9",
         "accent-1-dark": "#666666",
+      },
+      boxShadow: {
+        dropdown: "0px 1px 8px 2px rgba(0, 0, 0, 0.3)",
       },
       maxWidth: {
         "8xl": "90rem",

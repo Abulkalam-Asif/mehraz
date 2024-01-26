@@ -8,7 +8,7 @@ const Th = ({ children, className = "", position = "middle" }) => {
   return (
     <>
       <th
-        className={`uppercase text-center ${positionStyles[position]} border-accent-1-dark ${className}`}>
+        className={`uppercase px-1 text-center ${positionStyles[position]} border-accent-1-dark ${className}`}>
         {children}
       </th>
     </>

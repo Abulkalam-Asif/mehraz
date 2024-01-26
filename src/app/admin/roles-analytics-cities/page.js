@@ -153,9 +153,9 @@ const RolesAnalyticsCities = () => {
     // Calling the service
     addNewOfficeLocationService(
       newOfficeLocation,
-      officeLocations,
       showAlert,
       setShowModalSpinner,
+      setNewOfficeLocation,
       hideModal
     );
   };
@@ -189,8 +189,17 @@ const RolesAnalyticsCities = () => {
     );
   };
 
-  // Office locations states and functions
-  const [styles, setStyles] = useState(null);
+  // Styles states and functions
+  const [styles, setStyles] = useState([
+    {
+      name: "general",
+      image: null,
+    },
+    {
+      name: "modern",
+      image: null,
+    }
+  ]);
   // TODO (Backend): Fetch styles from DB
 
   const [newStyle, setNewStyle] = useState({

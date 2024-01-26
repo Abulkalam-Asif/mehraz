@@ -17,7 +17,7 @@ const Td = ({
     <>
       <td
         align={align}
-        className={`${positionStyles[position]} border-accent-1-dark ${className}`}>
+        className={`${positionStyles[position]} px-1 border-accent-1-dark ${className}`}>
         {children}
       </td>
     </>

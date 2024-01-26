@@ -1,7 +1,7 @@
-import { Button, H2, Th, Td, Spinner } from "@/components";
+import { Button, H2, Th, Td, Spinner, Dropdown } from "@/components";
 import { Table } from ".";
 import Image from "next/image";
-import { linkIcon } from "@/assets";
+import { deleteIcon, editIcon, ellipsisIcon, linkIcon } from "@/assets";
 
 const CurrenciesSectionDesktop = ({
   officeLocations,
@@ -16,14 +16,10 @@ const CurrenciesSectionDesktop = ({
           <Table border={false} className="h-full overflow-y-auto px-3 py-2">
             <thead className="text-sm">
               <tr>
-                <Th position="beginning" className="w-1/4">
-                  city
-                </Th>
-                <Th className="w-1/4">address</Th>
-                <Th className="w-1/4">link</Th>
-                <Th position="end" className="w-1/4">
-                  image
-                </Th>
+                <Th position="beginning">city</Th>
+                <Th>address</Th>
+                <Th>link</Th>
+                <Th position="end">image</Th>
               </tr>
             </thead>
             <tbody className="text-xs font-semibold">
@@ -46,9 +42,7 @@ const CurrenciesSectionDesktop = ({
                       <Image src={linkIcon} alt="link" />
                     </a>
                   </Td>
-                  <Td
-                    position="end"
-                    isLastRow={i === officeLocations.length - 1}>
+                  <Td isLastRow={i === officeLocations.length - 1}>
                     <a
                       target="_blank"
                       href={location.image}
@@ -56,6 +50,37 @@ const CurrenciesSectionDesktop = ({
                       <span>image</span>
                       <Image src={linkIcon} alt="link" />
                     </a>
+                  </Td>
+                  <Td
+                    position="end"
+                    align="center"
+                    isLastRow={i === officeLocations.length - 1}>
+                    <Dropdown
+                      className="w-fit"
+                      contentClassName={
+                        "w-max flex items-center bg-white border-2 border-accent-1-base px-1 rounded-lg shadow-dropdown absolute top-1/2 -translate-y-1/2 -left-1 -translate-x-full"
+                      }
+                      buttonClassName="hover:bg-accent-1-extra-light p-1.5 rounded-full"
+                      triggerContent={
+                        <>
+                          <Image
+                            src={ellipsisIcon}
+                            alt="ellipsis"
+                            className="min-w-3 w-3"
+                          />
+                        </>
+                      }>
+                      <button
+                        title="Edit office"
+                        className="hover:bg-accent-1-extra-light p-2 rounded-full">
+                        <Image src={editIcon} alt="edit" className="w-4" />
+                      </button>
+                      <button
+                        title="Delete office"
+                        className="hover:bg-accent-1-extra-light p-2 rounded-full">
+                        <Image src={deleteIcon} alt="delete" className="w-4" />
+                      </button>
+                    </Dropdown>
                   </Td>
                 </tr>
               ))}

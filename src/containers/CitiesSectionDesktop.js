@@ -1,4 +1,4 @@
-import { Button, H2, Spinner, Td } from "@/components";
+import { Button, Dropdown, H2, Spinner, Td } from "@/components";
 import { Table } from ".";
 import { deleteIcon, editIcon, ellipsisIcon } from "@/assets";
 import Image from "next/image";
@@ -25,22 +25,32 @@ const CurrenciesSectionDesktop = ({
                     isLastRow={i === cities.length - 1}
                     position="end"
                     align="center">
-                    <button>
-                      <Image src={ellipsisIcon} alt="ellipsis" />
-                    </button>
-                    {/* <button
-                        onClick={editCityHandler}
-                        // data-city-id={city} TODO: Add ID of the city here
-                        className="hover:bg-accent-1-base p-1.5 rounded-full">
+                    <Dropdown
+                      className="w-fit"
+                      contentClassName={
+                        "w-max flex items-center bg-white border-2 border-accent-1-base px-1 rounded-lg shadow-dropdown absolute top-1/2 -translate-y-1/2 -left-1 -translate-x-full"
+                      }
+                      buttonClassName="hover:bg-accent-1-extra-light p-1.5 rounded-full"
+                      triggerContent={
+                        <>
+                          <Image
+                            src={ellipsisIcon}
+                            alt="ellipsis"
+                            className="min-w-3 w-3"
+                          />
+                        </>
+                      }>
+                      <button
+                        title="Edit city"
+                        className="hover:bg-accent-1-extra-light p-2 rounded-full">
                         <Image src={editIcon} alt="edit" className="w-4" />
                       </button>
                       <button
-                        className="hover:bg-accent-1-base p-1.5 rounded-full"
-                        // onClick={deleteProjectHandler}
-                        // data-project-id={project_id}
-                      >
+                        title="Delete city"
+                        className="hover:bg-accent-1-extra-light p-2 rounded-full">
                         <Image src={deleteIcon} alt="delete" className="w-4" />
-                      </button> */}
+                      </button>
+                    </Dropdown>
                   </Td>
                 </tr>
               ))}
