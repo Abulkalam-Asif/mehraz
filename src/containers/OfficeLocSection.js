@@ -19,7 +19,7 @@ const CurrenciesSection = ({
                 <tr>
                   <Th position="beginning">city</Th>
                   <Th>address</Th>
-                  <Th>link</Th>
+                  <Th>maps</Th>
                   <Th position="end">image</Th>
                 </tr>
               </thead>
@@ -39,7 +39,7 @@ const CurrenciesSection = ({
                         target="_blank"
                         href={location.mapsLink}
                         className="underline flex items-center gap-2">
-                        <span>link to maps</span>
+                        <span>link</span>
                         <Image src={linkIcon} alt="link" />
                       </a>
                     </Td>
@@ -48,7 +48,7 @@ const CurrenciesSection = ({
                         target="_blank"
                         href={location.image}
                         className="underline flex items-center gap-2">
-                        <span>image</span>
+                        <span>link</span>
                         <Image src={linkIcon} alt="link" />
                       </a>
                     </Td>

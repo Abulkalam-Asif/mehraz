@@ -4,7 +4,6 @@ import Image from "next/image";
 import { deleteIcon, editIcon, ellipsisIcon } from "@/assets";
 
 const CurrenciesSection = ({ currencies, setModalContent, toggleModal }) => {
-  console.log(currencies);
   return (
     <>
       <RolesAnalyticsCitiesContainer className="row-span-1 flex flex-col gap-y-2 lg:w-full lg:overflow-y-hidden lg:row-span-full">
