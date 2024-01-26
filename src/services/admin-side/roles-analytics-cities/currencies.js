@@ -36,9 +36,8 @@ const addNewCurrencyService = (
       .then(() => {
         showAlert({
           type: "success",
-          message: "Currency added successfully",
+          message: "Currency added successfully!",
         });
-        setShowModalSpinner(false);
         setNewCurrency(defaultCurrency);
         hideModal();
       })
@@ -47,6 +46,9 @@ const addNewCurrencyService = (
           type: "error",
           message: "An error occured! Please try again.",
         });
+        // TODO: Decide whether to show custom error or the one from firebase
+      })
+      .finally(() => {
         setShowModalSpinner(false);
       });
   }

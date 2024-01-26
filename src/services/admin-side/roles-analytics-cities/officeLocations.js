@@ -11,7 +11,7 @@ const addNewOfficeLocationService = (
     ...newOfficeLocation,
     city: newOfficeLocation.city.trim().toUpperCase(),
     address: newOfficeLocation.address.trim(),
-    mapsLink: newOfficeLocation.mapsLink.trim(),
+    mapsLink: newOfficeLocation?.mapsLink.trim(),
   };
 
   if (formattedOfficeLocation.city === "") {
@@ -20,11 +20,11 @@ const addNewOfficeLocationService = (
   } else if (formattedOfficeLocation.address === "") {
     showAlert({ type: "warning", message: "Please enter an address" });
     return;
-  } else if (formattedOfficeLocation.mapsLink === "") {
+  } else if (formattedOfficeLocation?.mapsLink === "") {
     showAlert({ type: "warning", message: "Please enter a maps link" });
     return;
   } else if (
-    !formattedOfficeLocation.mapsLink.match(/^https?:\/\/[^\s/$.?#].[^\s]*$/)
+    !formattedOfficeLocation?.mapsLink.match(/^https?:\/\/[^\s/$.?#].[^\s]*$/)
   ) {
     showAlert({ type: "warning", message: "Please enter a valid maps link" });
     return;
@@ -34,12 +34,11 @@ const addNewOfficeLocationService = (
   } else {
     setShowModalSpinner(true);
     addOfficeToDB(formattedOfficeLocation)
-      .then((response) => {
+      .then(() => {
         showAlert({
           type: "success",
-          message: "Office added successfully",
+          message: "Office added successfully!",
         });
-        setShowModalSpinner(false);
         setNewOfficeLocation({
           city: "",
           address: "",
@@ -54,7 +53,9 @@ const addNewOfficeLocationService = (
           type: "error",
           message: `An error occurred! ${error}`,
         });
-        // TODO (Backend): Consider this error, check if user friendly or not
+        // TODO: Decide whether to show custom error or the one from firebase
+      })
+      .finally(() => {
         setShowModalSpinner(false);
       });
   }

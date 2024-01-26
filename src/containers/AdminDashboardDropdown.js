@@ -46,7 +46,7 @@ const AdminDashboardDropdown = ({
             className={`flex flex-col gap-4 overflow-hidden bg-accent-1-base ${
               isExpanded ? "px-6 py-4" : "p-0"
             } transition-padding rounded-lg`}>
-            {items.map(({ text, href }, index) => {
+            {items?.map(({ text, href }, index) => {
               return (
                 <li key={index} className="text-lg uppercase text-center">
                   <Link href={href}>{text}</Link>

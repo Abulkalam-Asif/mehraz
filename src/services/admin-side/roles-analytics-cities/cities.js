@@ -13,15 +13,14 @@ const addNewCityService = (
   if (formattedCity === "") {
     showAlert({ type: "warning", message: "Please enter a city name" });
     return;
-  } else if (cities.includes(formattedCity)) {
+  } else if (cities?.includes(formattedCity)) {
     showAlert({ type: "error", message: "This city already exists" });
     return;
   } else {
     setShowModalSpinner(true);
     addCityToDB(formattedCity)
       .then(() => {
-        showAlert({ type: "success", message: "City added successfully" });
-        setShowModalSpinner(false);
+        showAlert({ type: "success", message: "City added successfully!" });
         setNewCity("");
         hideModal();
       })
@@ -30,6 +29,9 @@ const addNewCityService = (
           type: "error",
           message: "An error occured! Please try again.",
         });
+        // TODO: Decide whether to show custom error or the one from firebase
+      })
+      .finally(() => {
         setShowModalSpinner(false);
       });
   }

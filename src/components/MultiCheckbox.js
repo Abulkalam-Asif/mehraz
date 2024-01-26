@@ -9,11 +9,11 @@ const MultiCheckbox = ({ className, options, name, checked, onChange }) => {
                 type="checkbox"
                 id={option}
                 name={name}
-                checked={checked.includes(option)}
+                checked={checked?.includes(option)}
                 onChange={(e) =>
                   onChange(
                     e,
-                    checked.includes(option)
+                    checked?.includes(option)
                       ? checked.filter((item) => item !== option)
                       : [...checked, option]
                   )

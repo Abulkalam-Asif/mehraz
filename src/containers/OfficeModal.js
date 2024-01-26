@@ -32,7 +32,7 @@ const OfficeModal = ({
           />
           <InputBox
             label="Enter maps link"
-            value={newOfficeLocation.mapsLink}
+            value={newOfficeLocation?.mapsLink}
             inputHandler={newOfficeLocationInputHandler}
             idHtmlFor="mapsLink"
             name="mapsLink"
