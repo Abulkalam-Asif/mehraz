@@ -19,7 +19,7 @@ const useOfficesFromDB = (offices, setOffices) => {
           };
           arr.push(officeData);
 
-          const imageName = `${doc.data().city}`;
+          const imageName = `${doc.id}`;
 
           const imageRef = ref(storage, `Office/${imageName}`);
 

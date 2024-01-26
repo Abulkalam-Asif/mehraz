@@ -49,6 +49,7 @@ const addNewOfficeLocationService = (
         hideModal();
       })
       .catch((error) => {
+        console.log(error);
         showAlert({
           type: "error",
           message: `An error occurred! ${error}`,
