@@ -1,19 +1,22 @@
 "use client";
 import { chevronLeftIcon } from "@/assets";
-import { H1, Modal } from "@/components";
+import { H1, Modal, RolesAnalyticsCitiesButtonMobile } from "@/components";
 import {
-  CitiesSectionDesktop,
+  CitiesSection,
   CityModal,
-  CurrenciesSectionDesktop,
+  CurrenciesSection,
+  CurrenciesSectionMobile,
   CurrencyModal,
-  OfficeLocSectionDesktop,
+  OfficeLocSection,
   OfficeModal,
   PlotModal,
-  PlotsSectionDesktop,
+  PlotsSection,
   RolesAnalyticsCitiesContainer,
-  RolesSectionDesktop,
+  RolesSection,
+  RolesSectionMobile,
   StyleModal,
-  StylesSectionDesktop,
+  StylesSection,
+  UserProductAnalyticsSection,
 } from "@/containers";
 import useCurrenciesFromDB from "@/Firebase/Currency Functions/GetCurrenciesFromFirebase";
 import useCitiesFromDB from "@/Firebase/City Functions/getCitiesFromFirebase";
@@ -60,6 +63,16 @@ const roles = {
   architects: ["abulkalam", "jafar"],
   receptionists: ["hamza"],
 };
+
+const mobileButtonsData = [
+  { text: "roles", name: "roles" },
+  { text: "currencies", name: "currencies" },
+  { text: "cities", name: "cities" },
+  { text: "offices", name: "officeLocations" },
+  { text: "plots", name: "plots" },
+  { text: "styles", name: "styles" },
+  { text: "analytics", name: "analytics" },
+];
 
 const RolesAnalyticsCities = () => {
   const { showAlert } = useContext(AlertContext);
@@ -198,7 +211,7 @@ const RolesAnalyticsCities = () => {
     {
       name: "modern",
       image: null,
-    }
+    },
   ]);
   // TODO (Backend): Fetch styles from DB
 
@@ -236,10 +249,15 @@ const RolesAnalyticsCities = () => {
     setIsModalOpen(false);
   };
 
+  // Expandable Section Button (for mobile) states and functions
+  const [expandedSection, setExpandedSection] = useState(null);
+
   return (
     <>
-      <section className="px-8 flex flex-col h-[calc(100vh-6rem)] lg:h-[calc(100vh-4rem)]">
-        <div className="max-w-8xl mx-auto w-full flex items-center h-24 xl:h-20">
+      {/* for 1024+, calc(100vh - (AdminHeader height + 1rem)) */}
+      {/* for 0-1024, calc(100vh - (AdminHeader height + 3rem)) */}
+      <section className="px-8 flex flex-col h-[calc(100vh-6rem)] lg:h-[calc(100vh-7rem)] sm:px-4">
+        <div className="max-w-8xl mx-auto w-full flex items-center h-24 xl:h-20 lg:h-12">
           <div className="w-full flex justify-between items-center xs:items-start">
             <Link
               href={"/admin"}
@@ -256,41 +274,100 @@ const RolesAnalyticsCities = () => {
             />
           </div>
         </div>
-        <div className="max-w-8xl w-full mx-auto flex flex-row gap-x-4 h-[calc(100vh-6rem-6rem)] xl:h-[calc(100vh-6rem-5rem)]">
+        {/* This div will be displayed for over 1024px width */}
+        {/* for 1024+, calc(100vh - (AdminHeader height + 1rem) - page header) */}
+        {/* for 0-1024, calc(100vh - (AdminHeader height + 3rem) - page header) */}
+        <div className="max-w-8xl w-full mx-auto flex flex-row gap-x-4 h-[calc(100vh-6rem-6rem)] xl:h-[calc(100vh-6rem-5rem)] lg:hidden">
           <div className="w-full h-full grid grid-rows-3 gap-2">
-            <RolesSectionDesktop rolesRows={rolesRows} />
-            <CurrenciesSectionDesktop
+            <RolesSection rolesRows={rolesRows} />
+            <CurrenciesSection
               currencies={currencies}
               setModalContent={setModalContent}
               toggleModal={toggleModal}
             />
           </div>
           <RolesAnalyticsCitiesContainer className="w-full grid grid-rows-4">
-            <CitiesSectionDesktop
+            <CitiesSection
               cities={cities}
               editCityHandler={editCityHandler}
               setModalContent={setModalContent}
               toggleModal={toggleModal}
             />
-            <OfficeLocSectionDesktop
+            <OfficeLocSection
               officeLocations={officeLocations}
               setModalContent={setModalContent}
               toggleModal={toggleModal}
             />
-            <PlotsSectionDesktop
+            <PlotsSection
               plots={plots}
               setModalContent={setModalContent}
               toggleModal={toggleModal}
             />
-            <StylesSectionDesktop
+            <StylesSection
               styles={styles}
               setModalContent={setModalContent}
               toggleModal={toggleModal}
             />
           </RolesAnalyticsCitiesContainer>
-          <RolesAnalyticsCitiesContainer className="w-full">
-            user behaivour and product analytics
-          </RolesAnalyticsCitiesContainer>
+          <UserProductAnalyticsSection />
+        </div>
+        {/* This div will be displayed for up to 1024px width */}
+        <div className="hidden lg:h-[calc(100vh-7rem-3rem)] lg:flex flex-col items-center justify-start gap-y-3 w-full mx-auto">
+          <div className="flex flex-wrap justify-center gap-2">
+            {mobileButtonsData?.map((buttonData, index) => (
+              <RolesAnalyticsCitiesButtonMobile
+                key={index}
+                text={buttonData.text}
+                name={buttonData.name}
+                expandedSection={expandedSection}
+                setExpandedSection={setExpandedSection}
+              />
+            ))}
+          </div>
+          {expandedSection === "roles" ? (
+            <RolesSection rolesRows={rolesRows} />
+          ) : expandedSection === "currencies" ? (
+            <CurrenciesSection
+              currencies={currencies}
+              setModalContent={setModalContent}
+              toggleModal={toggleModal}
+            />
+          ) : expandedSection === "cities" ? (
+            <RolesAnalyticsCitiesContainer className="w-full overflow-hidden">
+              <CitiesSection
+                cities={cities}
+                editCityHandler={editCityHandler}
+                setModalContent={setModalContent}
+                toggleModal={toggleModal}
+              />
+            </RolesAnalyticsCitiesContainer>
+          ) : expandedSection === "officeLocations" ? (
+            <RolesAnalyticsCitiesContainer className="w-full overflow-hidden">
+              <OfficeLocSection
+                officeLocations={officeLocations}
+                setModalContent={setModalContent}
+                toggleModal={toggleModal}
+              />
+            </RolesAnalyticsCitiesContainer>
+          ) : expandedSection === "plots" ? (
+            <RolesAnalyticsCitiesContainer className="w-full overflow-hidden">
+              <PlotsSection
+                plots={plots}
+                setModalContent={setModalContent}
+                toggleModal={toggleModal}
+              />
+            </RolesAnalyticsCitiesContainer>
+          ) : expandedSection === "styles" ? (
+            <RolesAnalyticsCitiesContainer className="w-full overflow-hidden">
+              <StylesSection
+                styles={styles}
+                setModalContent={setModalContent}
+                toggleModal={toggleModal}
+              />
+            </RolesAnalyticsCitiesContainer>
+          ) : (
+            expandedSection === "analytics" && <UserProductAnalyticsSection />
+          )}
         </div>
       </section>
       {isModalOpen && (

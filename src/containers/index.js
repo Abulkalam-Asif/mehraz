@@ -7,13 +7,14 @@ export { default as Carousel } from "./Carousel";
 export { default as RolesAnalyticsCitiesContainer } from "./RolesAnalyticsCitiesContainer";
 export { default as AlertContainer } from "./AlertContainer";
 
-// roles-analytics-cities containers
-export { default as RolesSectionDesktop } from "./RolesSectionDesktop";
-export { default as CurrenciesSectionDesktop } from "./CurrenciesSectionDesktop";
-export { default as CitiesSectionDesktop } from "./CitiesSectionDesktop";
-export { default as OfficeLocSectionDesktop } from "./OfficeLocSectionDesktop";
-export { default as PlotsSectionDesktop } from "./PlotsSectionDesktop";
-export { default as StylesSectionDesktop } from "./StylesSectionDesktop";
+// roles-analytics-cities sections
+export { default as RolesSection } from "./RolesSection";
+export { default as CurrenciesSection } from "./CurrenciesSection";
+export { default as CitiesSection } from "./CitiesSection";
+export { default as OfficeLocSection } from "./OfficeLocSection";
+export { default as PlotsSection } from "./PlotsSection";
+export { default as StylesSection } from "./StylesSection";
+export { default as UserProductAnalyticsSection } from "./UserProductAnalyticsSection";
 
 // roles-analytics-cities modals
 export { default as CityModal } from "./CityModal";

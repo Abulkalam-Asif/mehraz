@@ -8,3 +8,5 @@ export { default as editIcon } from "./icons/edit.svg";
 export { default as linkIcon } from "./icons/link.svg";
 export { default as closeIcon } from "./icons/close.svg";
 export { default as ellipsisIcon } from "./icons/ellipsis.svg";
+export { default as plusIcon } from "./icons/plus.svg";
+export { default as minusIcon } from "./icons/minus.svg";

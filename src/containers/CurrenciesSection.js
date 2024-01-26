@@ -3,14 +3,14 @@ import { Table, RolesAnalyticsCitiesContainer } from "./";
 import Image from "next/image";
 import { deleteIcon, editIcon, ellipsisIcon } from "@/assets";
 
-const CurrenciesSectionDesktop = ({
+const CurrenciesSection = ({
   currencies,
   setModalContent,
   toggleModal,
 }) => {
   return (
     <>
-      <RolesAnalyticsCitiesContainer className="row-span-1 flex flex-col gap-y-2">
+      <RolesAnalyticsCitiesContainer className="row-span-1 flex flex-col gap-y-2 lg:w-full lg:overflow-y-hidden lg:row-span-full">
         <H2 text="currencies" />
         {currencies ? (
           <>
@@ -47,20 +47,20 @@ const CurrenciesSectionDesktop = ({
                         contentClassName={
                           "w-max flex items-center bg-white border-2 border-accent-1-base px-1 rounded-lg shadow-dropdown absolute top-1/2 -translate-y-1/2 -left-1 -translate-x-full"
                         }
-                        buttonClassName="hover:bg-accent-1-extra-light p-1.5 rounded-full"
+                        buttonClassName="hover:bg-accent-1-extra-light p-1.5 rounded-full lg:p-2"
                         triggerContent={
                           <>
                             <Image
                               src={ellipsisIcon}
                               alt="ellipsis"
-                              className="min-w-3 w-3"
+                              className="min-w-4 w-4 lg:min-w-5 lg:w-5"
                             />
                           </>
                         }>
                         <button
                           title="Edit currency"
                           className="hover:bg-accent-1-extra-light p-2 rounded-full">
-                          <Image src={editIcon} alt="edit" className="w-4" />
+                          <Image src={editIcon} alt="edit" className="w-4 lg:w-5" />
                         </button>
                         <button
                           title="Delete currency"
@@ -68,7 +68,7 @@ const CurrenciesSectionDesktop = ({
                           <Image
                             src={deleteIcon}
                             alt="delete"
-                            className="w-4"
+                            className="w-4 lg:w-5"
                           />
                         </button>
                       </Dropdown>
@@ -85,7 +85,7 @@ const CurrenciesSectionDesktop = ({
         )}
         <Button
           text="add currency"
-          className="text-xs mr-auto"
+          className="text-xs mr-auto ml-4"
           onClick={() => {
             setModalContent("currency");
             toggleModal();
@@ -96,4 +96,4 @@ const CurrenciesSectionDesktop = ({
   );
 };
 
-export default CurrenciesSectionDesktop;
+export default CurrenciesSection;

@@ -1,12 +1,12 @@
 import { H2, Spinner, Td, Th } from "@/components";
 import { Table, RolesAnalyticsCitiesContainer } from "./";
 
-const RolesSectionDesktop = ({ rolesRows }) => {
+const RolesSection = ({ rolesRows }) => {
   return (
     <>
       <RolesAnalyticsCitiesContainer
         title={"Roles"}
-        className="row-span-2 flex flex-col">
+        className="row-span-2 flex flex-col lg:w-full lg:overflow-y-hidden lg:row-span-full">
         <H2 text="roles" className="mb-2" />
         {rolesRows ? (
           <Table border={false} className="h-full overflow-y-auto">
@@ -52,4 +52,4 @@ const RolesSectionDesktop = ({ rolesRows }) => {
   );
 };
 
-export default RolesSectionDesktop;
+export default RolesSection;

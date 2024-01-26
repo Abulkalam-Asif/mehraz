@@ -14,3 +14,4 @@ export { default as Alert } from "./Alert";
 export { default as Dropzone } from "./Dropzone";
 export { default as Dropdown } from "./Dropdown";
 export { default as DropdownContent } from "./DropdownContent";
+export { default as RolesAnalyticsCitiesButtonMobile } from "./RolesAnalyticsCitiesButtonMobile";

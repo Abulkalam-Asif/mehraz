@@ -17,7 +17,7 @@ const CurrencyModal = ({
         heading="add currency"
         buttonText="add currency"
         onButtonClick={addNewCurrencyHandler}
-        className={"flex items-center gap-8"}
+        className={"flex items-center gap-6 sm:gap-3"}
         showModalSpinner={showModalSpinner}>
         <div className="w-1/2 space-y-3">
           <InputBox
