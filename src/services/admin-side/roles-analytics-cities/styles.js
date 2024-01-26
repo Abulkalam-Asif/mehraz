@@ -18,7 +18,7 @@ const addNewStyleService = (
     return;
   } else {
     setShowModalSpinner(true);
-    // TODO (Backend): Add style to DB
+    // TODO (backend): Add style to DB
   }
 };
 

@@ -203,17 +203,8 @@ const RolesAnalyticsCities = () => {
   };
 
   // Styles states and functions
-  const [styles, setStyles] = useState([
-    {
-      name: "general",
-      image: null,
-    },
-    {
-      name: "modern",
-      image: null,
-    },
-  ]);
-  // TODO (Backend): Fetch styles from DB
+  const [styles, setStyles] = useState(null);
+  // TODO (backend): Fetch styles from DB
 
   const [newStyle, setNewStyle] = useState({
     name: "",
@@ -275,8 +266,8 @@ const RolesAnalyticsCities = () => {
           </div>
         </div>
         {/* This div will be displayed for over 1024px width */}
-        {/* for 1024+, calc(100vh - (AdminHeader height + 1rem) - page header) */}
-        {/* for 0-1024, calc(100vh - (AdminHeader height + 3rem) - page header) */}
+        {/* for >1024 width, calc(100vh - (AdminHeader height + 1rem) - page header height) */}
+        {/* for 0-1024 width, calc(100vh - (AdminHeader height + 3rem) - page header height) */}
         <div className="max-w-8xl w-full mx-auto flex flex-row gap-x-4 h-[calc(100vh-6rem-6rem)] xl:h-[calc(100vh-6rem-5rem)] lg:hidden">
           <div className="w-full h-full grid grid-rows-3 gap-2">
             <RolesSection rolesRows={rolesRows} />

@@ -34,12 +34,11 @@ const addNewOfficeLocationService = (
   } else {
     setShowModalSpinner(true);
     addOfficeToDB(formattedOfficeLocation)
-      .then((response) => {
+      .then(() => {
         showAlert({
           type: "success",
-          message: "Office added successfully",
+          message: "Office added successfully!",
         });
-        setShowModalSpinner(false);
         setNewOfficeLocation({
           city: "",
           address: "",
@@ -53,7 +52,9 @@ const addNewOfficeLocationService = (
           type: "error",
           message: `An error occurred! ${error}`,
         });
-        // TODO (Backend): Consider this error, check if user friendly or not
+        // TODO: Decide whether to show custom error or the one from firebase
+      })
+      .finally(() => {
         setShowModalSpinner(false);
       });
   }

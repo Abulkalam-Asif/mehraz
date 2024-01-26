@@ -20,8 +20,7 @@ const addNewCityService = (
     setShowModalSpinner(true);
     addCityToDB(formattedCity)
       .then(() => {
-        showAlert({ type: "success", message: "City added successfully" });
-        setShowModalSpinner(false);
+        showAlert({ type: "success", message: "City added successfully!" });
         setNewCity("");
         hideModal();
       })
@@ -30,6 +29,9 @@ const addNewCityService = (
           type: "error",
           message: "An error occured! Please try again.",
         });
+        // TODO: Decide whether to show custom error or the one from firebase
+      })
+      .finally(() => {
         setShowModalSpinner(false);
       });
   }

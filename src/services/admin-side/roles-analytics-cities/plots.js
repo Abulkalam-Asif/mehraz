@@ -33,16 +33,18 @@ const addNewPlotService = (
           type: "success",
           message: "Plot added successfully",
         });
-        setShowModalSpinner(false);
         setNewPlot({ area: 0, unit: "" });
         toggleModal();
       })
-      .catch((err) => {
+      .catch(() => {
         showAlert({
           type: "error",
           message: "Something went wrong! Please try again later",
         });
-        // TODO: Conside a proper error to display to the user
+        // TODO: Decide whether to show custom error or the one from firebase
+      })
+      .finally(() => {
+        setShowModalSpinner(false);
       });
   }
 };
