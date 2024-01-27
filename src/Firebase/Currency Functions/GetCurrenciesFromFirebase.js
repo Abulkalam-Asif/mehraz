@@ -25,7 +25,7 @@ const useCurrenciesFromDB = (currencies,setCurrencies) => {
 			return () => unsubscribe();
 		};
 		fetchData();
-	}, [ref, currencies]);
+	}, [currencies]);
 
 };
 

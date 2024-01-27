@@ -25,7 +25,7 @@ const usePlotsFromDB = (setPlots) => {
     };
 
     fetchData();
-  }, [ref, setPlots]);
+  }, [setPlots]);
 };
 
 export default usePlotsFromDB;

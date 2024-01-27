@@ -5,7 +5,6 @@ import {
   CitiesSection,
   CityModal,
   CurrenciesSection,
-  CurrenciesSectionMobile,
   CurrencyModal,
   OfficeLocSection,
   OfficeModal,
@@ -13,12 +12,11 @@ import {
   PlotsSection,
   RolesAnalyticsCitiesContainer,
   RolesSection,
-  RolesSectionMobile,
   StyleModal,
   StylesSection,
   UserProductAnalyticsSection,
 } from "@/containers";
-import useCurrenciesFromDB from "@/Firebase/Currency Functions/GetCurrenciesFromFirebase";
+import useCurrenciesFromDB from "@/Firebase/Currency Functions/getCurrenciesFromFirebase"
 import useCitiesFromDB from "@/Firebase/City Functions/getCitiesFromFirebase";
 import useOfficesFromDB from "@/Firebase/Office Functions/getOfficesFromDB";
 import Image from "next/image";
@@ -207,10 +205,6 @@ const RolesAnalyticsCities = () => {
   const [styles, setStyles] = useState(null);
   useStylesFromDB(setStyles);
 
-  useEffect(()=>{
-   console.log("Styles: ");
-    console.log(styles);
-  },[styles])
   const [newStyle, setNewStyle] = useState({
     name: "",
     image: null,

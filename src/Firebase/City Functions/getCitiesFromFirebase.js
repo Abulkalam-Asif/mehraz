@@ -21,7 +21,7 @@ const useCitiesFromDB = (setCities) => {
     };
 
     fetchData();
-  }, [ref, setCities]);
+  }, [setCities]);
 };
 
 export default useCitiesFromDB;
