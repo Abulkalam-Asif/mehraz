@@ -4,15 +4,18 @@ const PlotModal = ({
   currentPlot,
   currentPlotInputHandler,
   addNewPlotHandler,
+  editPlotHandler,
   showModalSpinner,
-  modalMetadata
+  modalMetadata,
 }) => {
   return (
     <>
       <RolesAnalyticsCitiesModal
         heading={modalMetadata.action === "add" ? "Add plot" : "Edit plot"}
         buttonText={modalMetadata.action === "add" ? "Add plot" : "Update plot"}
-        onButtonClick={addNewPlotHandler}
+        onButtonClick={
+          modalMetadata.action === "add" ? addNewPlotHandler : editPlotHandler
+        }
         className={"flex items-center gap-8"}
         showModalSpinner={showModalSpinner}>
         <InputBox

@@ -3,7 +3,12 @@ import { Table } from ".";
 import { deleteIcon, editIcon, ellipsisIcon, linkIcon } from "@/assets";
 import Image from "next/image";
 
-const StylesSection = ({ styles, setModalMetadata, toggleModal }) => {
+const StylesSection = ({
+  styles,
+  setCurrentStyle,
+  setModalMetadata,
+  toggleModal,
+}) => {
   const addStyleClickHandler = () => {
     setModalMetadata({
       type: "style",
@@ -11,15 +16,21 @@ const StylesSection = ({ styles, setModalMetadata, toggleModal }) => {
     });
     toggleModal();
   };
-  const editStyleClickHandler = () => {
+  const editStyleClickHandler = (e) => {
     setModalMetadata({
       type: "style",
       action: "edit",
     });
     toggleModal();
-    // const styleId = e.target.dataset.styleId;
-    // const style = styles.find((style) => style.id === styleId);
-    // setCurrentStyle(style);
+    const styleId = e.currentTarget.dataset.styleId;
+    const currentStyle = styles.find((style) => style.id === styleId);
+    setCurrentStyle(currentStyle);
+  };
+
+  const deleteStyleClickHandler = (e) => {
+    const styleId = e.currentTarget.dataset.styleId;
+    const currentStyle = styles.find((style) => style.id === styleId);
+    // TODO (frontend): add delete style functionality
   };
   return (
     <>
@@ -35,14 +46,14 @@ const StylesSection = ({ styles, setModalMetadata, toggleModal }) => {
                 </tr>
               </thead>
               <tbody className="text-xs font-semibold">
-                {styles?.map((style, i) => (
-                  <tr key={i}>
+                {styles?.map((style, index) => (
+                  <tr key={index}>
                     <Td
                       position="beginning"
-                      isLastRow={i === styles.length - 1}>
+                      isLastRow={index === styles.length - 1}>
                       {style.name}
                     </Td>
-                    <Td position="end" isLastRow={i === styles.length - 1}>
+                    <Td position="end" isLastRow={index === styles.length - 1}>
                       <a
                         target="_blank"
                         href={style.image}
@@ -54,7 +65,7 @@ const StylesSection = ({ styles, setModalMetadata, toggleModal }) => {
                     <Td
                       position="end"
                       align="center"
-                      isLastRow={i === styles.length - 1}>
+                      isLastRow={index === styles.length - 1}>
                       <Dropdown
                         className="w-fit"
                         contentClassName={
@@ -72,6 +83,8 @@ const StylesSection = ({ styles, setModalMetadata, toggleModal }) => {
                         }>
                         <button
                           title="Edit style"
+                          data-style-id={style.id}
+                          onClick={editStyleClickHandler}
                           className="hover:bg-accent-1-extra-light p-2 rounded-full">
                           <Image
                             src={editIcon}
@@ -81,6 +94,8 @@ const StylesSection = ({ styles, setModalMetadata, toggleModal }) => {
                         </button>
                         <button
                           title="Delete style"
+                          data-style-id={style.id}
+                          onClick={deleteStyleClickHandler}
                           className="hover:bg-accent-1-extra-light p-2 rounded-full">
                           <Image
                             src={deleteIcon}

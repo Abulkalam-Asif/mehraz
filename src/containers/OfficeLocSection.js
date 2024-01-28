@@ -5,6 +5,7 @@ import { deleteIcon, editIcon, ellipsisIcon, linkIcon } from "@/assets";
 
 const OfficeLocSection = ({
   officeLocations,
+  setCurrentOfficeLocation,
   setModalMetadata,
   toggleModal,
 }) => {
@@ -15,15 +16,21 @@ const OfficeLocSection = ({
     });
     toggleModal();
   };
-  const editOfficeClickHandler = () => {
+  const editOfficeClickHandler = (e) => {
     setModalMetadata({
       type: "office",
       action: "edit",
     });
     toggleModal();
-    // const officeId = e.target.dataset.officeId;
-    // const office = officeLocations.find((office) => office.id === officeId);
-    // setNewOffice(office);
+    const officeId = e.currentTarget.dataset.officeId;
+    const office = officeLocations.find((office) => office.id === officeId);
+    setCurrentOfficeLocation(office);
+  };
+
+  const deleteOfficeClickHandler = (e) => {
+    const officeId = e.currentTarget.dataset.officeId;
+    const office = officeLocations.find((office) => office.id === officeId);
+    // TODO (frontend): add delete office functionality
   };
   return (
     <>
@@ -41,17 +48,17 @@ const OfficeLocSection = ({
                 </tr>
               </thead>
               <tbody className="text-xs font-semibold">
-                {officeLocations?.map((location, i) => (
-                  <tr key={i}>
+                {officeLocations?.map((location, index) => (
+                  <tr key={index}>
                     <Td
                       position="beginning"
-                      isLastRow={i === officeLocations.length - 1}>
+                      isLastRow={index === officeLocations.length - 1}>
                       {location.city}
                     </Td>
-                    <Td isLastRow={i === officeLocations.length - 1}>
+                    <Td isLastRow={index === officeLocations.length - 1}>
                       {location.address}
                     </Td>
-                    <Td isLastRow={i === officeLocations.length - 1}>
+                    <Td isLastRow={index === officeLocations.length - 1}>
                       <a
                         target="_blank"
                         href={location?.mapsLink}
@@ -60,7 +67,7 @@ const OfficeLocSection = ({
                         <Image src={linkIcon} alt="link" />
                       </a>
                     </Td>
-                    <Td isLastRow={i === officeLocations.length - 1}>
+                    <Td isLastRow={index === officeLocations.length - 1}>
                       <a
                         target="_blank"
                         href={location.image}
@@ -72,7 +79,7 @@ const OfficeLocSection = ({
                     <Td
                       position="end"
                       align="center"
-                      isLastRow={i === officeLocations.length - 1}>
+                      isLastRow={index === officeLocations.length - 1}>
                       <Dropdown
                         className="w-fit"
                         contentClassName={
@@ -90,6 +97,8 @@ const OfficeLocSection = ({
                         }>
                         <button
                           title="Edit office"
+                          onClick={editOfficeClickHandler}
+                          data-office-id={location.id}
                           className="hover:bg-accent-1-extra-light p-2 rounded-full">
                           <Image
                             src={editIcon}
@@ -99,6 +108,8 @@ const OfficeLocSection = ({
                         </button>
                         <button
                           title="Delete office"
+                          onClick={deleteOfficeClickHandler}
+                          data-office-id={location.id}
                           className="hover:bg-accent-1-extra-light p-2 rounded-full">
                           <Image
                             src={deleteIcon}

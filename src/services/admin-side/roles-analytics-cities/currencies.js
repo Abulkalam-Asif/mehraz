@@ -5,9 +5,7 @@ const addNewCurrencyService = (
   currencies,
   showAlert,
   setShowModalSpinner,
-  setCurrentCurrency,
-  hideModal,
-  defaultCurrency
+  hideModal
 ) => {
   const formattedCurrencyName = currentCurrency.name.trim().toUpperCase();
 
@@ -38,7 +36,6 @@ const addNewCurrencyService = (
           type: "success",
           message: "Currency added successfully!",
         });
-        setCurrentCurrency(defaultCurrency);
         hideModal();
       })
       .catch(() => {
@@ -53,4 +50,54 @@ const addNewCurrencyService = (
   }
 };
 
-export { addNewCurrencyService };
+const editCurrencyService = (
+  currentCurrency,
+  currencies,
+  showAlert,
+  setShowModalSpinner,
+  hideModal
+) => {
+  const formattedCurrencyName = currentCurrency.name.trim().toUpperCase();
+
+  if (formattedCurrencyName === "") {
+    showAlert({ type: "warning", message: "Please enter a currency name" });
+    return;
+  } else if (
+    currencies.find(
+      (currency) =>
+        currency.name === formattedCurrencyName &&
+        currency.id !== currentCurrency.id
+    )
+  ) {
+    showAlert({ type: "error", message: "This currency already exists" });
+    return;
+  } else if (currentCurrency.inPkr <= 0 || currentCurrency.inPkr === "") {
+    showAlert({ type: "warning", message: "Please enter a valid PKR value" });
+  } else if (currentCurrency.cities.length === 0) {
+    showAlert({
+      type: "warning",
+      message: "Please select at least one city",
+    });
+  } else {
+    setShowModalSpinner(true);
+    // TODO (backend): call the update function. use currentCurrency.id to determine which currency to update. Follow the add function above
+    // .then(() => {
+    //   showAlert({
+    //     type: "success",
+    //     message: "Currency updated successfully!",
+    //   });
+    //   hideModal();
+    // })
+    // .catch(() => {
+    //   showAlert({
+    //     type: "error",
+    //     message: "Something went wrong, please try again later",
+    //   });
+    // })
+    // .finally(() => {
+    //   setShowModalSpinner(false);
+    // });
+  }
+};
+
+export { addNewCurrencyService, editCurrencyService };

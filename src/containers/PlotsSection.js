@@ -3,7 +3,12 @@ import { Table } from ".";
 import Image from "next/image";
 import { deleteIcon, editIcon, ellipsisIcon } from "@/assets";
 
-const PlotsSection = ({ plots, setModalMetadata, toggleModal }) => {
+const PlotsSection = ({
+  plots,
+  setCurrentPlot,
+  setModalMetadata,
+  toggleModal,
+}) => {
   const addPlotClickHandler = () => {
     setModalMetadata({
       type: "plot",
@@ -11,16 +16,23 @@ const PlotsSection = ({ plots, setModalMetadata, toggleModal }) => {
     });
     toggleModal();
   };
-  const editPlotClickHandler = () => {
+  const editPlotClickHandler = (e) => {
     setModalMetadata({
       type: "plot",
       action: "edit",
     });
     toggleModal();
-    // const plotId = e.target.dataset.plotId;
-    // const plot = plots.find((plot) => plot.id === plotId);
-    // setCurrentPlot(plot);
+    const plotId = e.currentTarget.dataset.plotId;
+    const plot = plots.find((plot) => plot.id === plotId);
+    setCurrentPlot(plot);
   };
+
+  const deletePlotClickHandler = (e) => {
+    const plotId = e.currentTarget.dataset.plotId;
+    const plot = plots.find((plot) => plot.id === plotId);
+    // TODO (frontend): add delete plot functionality
+  };
+
   return (
     <>
       <div className="flex flex-col gap-y-2 lg:h-full lg:overflow-y-hidden">
@@ -35,16 +47,18 @@ const PlotsSection = ({ plots, setModalMetadata, toggleModal }) => {
                 </tr>
               </thead>
               <tbody className="text-xs font-semibold">
-                {plots?.map((plot, i) => (
-                  <tr key={i}>
-                    <Td position="beginning" isLastRow={i === plots.length - 1}>
+                {plots?.map((plot, index) => (
+                  <tr key={index}>
+                    <Td
+                      position="beginning"
+                      isLastRow={index === plots.length - 1}>
                       {plot.area}
                     </Td>
-                    <Td isLastRow={i === plots.length - 1}>{plot.unit}</Td>
+                    <Td isLastRow={index === plots.length - 1}>{plot.unit}</Td>
                     <Td
                       align="center"
                       position="end"
-                      isLastRow={i === plots.length - 1}>
+                      isLastRow={index === plots.length - 1}>
                       <Dropdown
                         className="w-fit"
                         contentClassName={
@@ -62,6 +76,8 @@ const PlotsSection = ({ plots, setModalMetadata, toggleModal }) => {
                         }>
                         <button
                           title="Edit plot"
+                          data-plot-id={plot.id}
+                          onClick={editPlotClickHandler}
                           className="hover:bg-accent-1-extra-light p-2 rounded-full">
                           <Image
                             src={editIcon}
@@ -71,6 +87,8 @@ const PlotsSection = ({ plots, setModalMetadata, toggleModal }) => {
                         </button>
                         <button
                           title="Delete plot"
+                          data-plot-id={plot.id}
+                          onClick={deletePlotClickHandler}
                           className="hover:bg-accent-1-extra-light p-2 rounded-full">
                           <Image
                             src={deleteIcon}

@@ -1,6 +1,6 @@
 "use client";
 import { AlertContext } from "@/app/context/AlertContext";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 
 const Dropzone = ({
   message,
@@ -8,40 +8,51 @@ const Dropzone = ({
   className = "",
   fileUploadHandler,
   accept,
-  file = null,
+  previewSrc,
+  setPreviewSrc,
 }) => {
   const { showAlert } = useContext(AlertContext);
-  const [uploadedFileName, setUploadedFileName] = useState(file?.name || null);
+  const [file, setFile] = useState(null);
 
   const handleFileChange = (event) => {
-    const file = event.target.files[0];
+    if (event.target.files && event.target.files[0]) {
+      setFile(event.target.files[0]);
+    }
+  };
+
+  useEffect(() => {
     if (file) {
       if (file.type.startsWith("image/")) {
         const reader = new FileReader();
+        reader.onloadend = () => {
+          setPreviewSrc(reader.result);
+        };
+
         reader.readAsDataURL(file);
-        setUploadedFileName(file.name);
         fileUploadHandler(file);
       } else {
+        setFile(null);
+        setPreviewSrc(null);
+        fileUploadHandler(null);
         showAlert({
           type: "warning",
-          message: "Please attach an image file",
+          message: "Please select a file to upload.",
         });
       }
     }
-  };
+  }, [file]);
 
   return (
     <>
       <label
         title={title}
         htmlFor="dropzone-file"
-        className={`${className} flex flex-col items-center justify-center border-2 rounded-xl cursor-pointer bg-white shadow-3xl text-center`}>
-        {(uploadedFileName && (
-          <p className="text-sm text-green-500 text-wrap">
-            <span className="font-medium">{uploadedFileName}</span> attached
-          </p>
-        )) ||
-          message}
+        className={`${className} block p-2 w-full border-2 border-accent-1-base rounded-xl cursor-pointer bg-white text-center text-accent-1-dark hover:shadow-lg`}>
+        {previewSrc ? (
+          <span className="text-green-500">Image attached successfully</span>
+        ) : (
+          message
+        )}
         <input
           id="dropzone-file"
           type="file"

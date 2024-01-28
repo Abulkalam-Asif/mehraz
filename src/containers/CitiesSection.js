@@ -22,10 +22,17 @@ const CitiesSection = ({
       action: "edit",
     });
     toggleModal();
-    const cityId = e.target.dataset.cityId;
+    const cityId = e.currentTarget.dataset.cityId;
     const city = cities.find((city) => city.id === cityId);
     setCurrentCity(city);
   };
+
+  const deleteCityClickHandler = (e) => {
+    const cityId = e.currentTarget.dataset.cityId;
+    const city = cities.find((city) => city.id === cityId);
+    // TODO (frontend): implement delete city functionality
+  };
+
   return (
     <>
       <div className="flex flex-col gap-y-2 lg:h-full lg:overflow-y-hidden">
@@ -34,15 +41,15 @@ const CitiesSection = ({
           cities.length > 0 ? (
             <Table border={false} className="h-full overflow-y-auto py-2">
               <tbody className="text-sm">
-                {cities?.map(({ id, name }) => (
-                  <tr key={id}>
+                {cities?.map(({ id, name }, index) => (
+                  <tr key={index}>
                     <Td
-                      isLastRow={id === cities.length - 1}
+                      isLastRow={index === cities.length - 1}
                       position="beginning">
                       {name}
                     </Td>
                     <Td
-                      isLastRow={id === cities.length - 1}
+                      isLastRow={index === cities.length - 1}
                       position="end"
                       align="center">
                       <Dropdown
@@ -74,6 +81,7 @@ const CitiesSection = ({
                         <button
                           title="Delete city"
                           data-city-id={id}
+                          onClick={deleteCityClickHandler}
                           className="hover:bg-accent-1-extra-light p-2 rounded-full">
                           <Image
                             src={deleteIcon}

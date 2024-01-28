@@ -3,7 +3,12 @@ import { Table, RolesAnalyticsCitiesContainer } from "./";
 import Image from "next/image";
 import { deleteIcon, editIcon, ellipsisIcon } from "@/assets";
 
-const CurrenciesSection = ({ currencies, setModalMetadata, toggleModal }) => {
+const CurrenciesSection = ({
+  currencies,
+  setCurrentCurrency,
+  setModalMetadata,
+  toggleModal,
+}) => {
   const addCurrencyClickHandler = () => {
     setModalMetadata({
       type: "currency",
@@ -11,15 +16,22 @@ const CurrenciesSection = ({ currencies, setModalMetadata, toggleModal }) => {
     });
     toggleModal();
   };
-  const editCurrencyClickHandler = () => {
+
+  const editCurrencyClickHandler = (e) => {
     setModalMetadata({
       type: "currency",
       action: "edit",
     });
     toggleModal();
-    // const currencyId = e.target.dataset.currencyId;
-    // const currency = currencies.find((currency) => currency.id === currencyId);
-    // setCurrentCurrency(currency);
+    const currencyId = e.currentTarget.dataset.currencyId;
+    const currency = currencies.find((currency) => currency.id === currencyId);
+    setCurrentCurrency(currency);
+  };
+
+  const deleteCurrencyClickHandler = (e) => {
+    const currencyId = e.currentTarget.dataset.currencyId;
+    const currency = currencies.find((currency) => currency.id === currencyId);
+    // TODO (frontend): implement delete currency functionality
   };
 
   return (
@@ -38,29 +50,29 @@ const CurrenciesSection = ({ currencies, setModalMetadata, toggleModal }) => {
                   </tr>
                 </thead>
                 <tbody className="text-xs font-semibold">
-                  {currencies?.map((currency, i) => (
-                    <tr key={i}>
+                  {currencies?.map((currency, index) => (
+                    <tr key={index}>
                       <Td
                         position="beginning"
-                        isLastRow={i === currencies.length - 1}>
+                        isLastRow={index === currencies.length - 1}>
                         {currency.name}
                       </Td>
-                      <Td isLastRow={i === currencies.length - 1}>
+                      <Td isLastRow={index === currencies.length - 1}>
                         {currency.cities?.map(({ id, name }) => (
                           <span key={id}>
                             <span>{name}</span>
-                            {i !== currency.cities.length - 1 && (
+                            {index !== currency.cities.length - 1 && (
                               <span>, </span>
                             )}
                           </span>
                         ))}
                       </Td>
-                      <Td isLastRow={i === currencies.length - 1}>
+                      <Td isLastRow={index === currencies.length - 1}>
                         {currency.valueInPkr}
                       </Td>
                       <Td
                         position="end"
-                        isLastRow={i === currencies.length - 1}>
+                        isLastRow={index === currencies.length - 1}>
                         <Dropdown
                           className="w-fit"
                           contentClassName={
@@ -78,6 +90,8 @@ const CurrenciesSection = ({ currencies, setModalMetadata, toggleModal }) => {
                           }>
                           <button
                             title="Edit currency"
+                            data-currency-id={currency.id}
+                            onClick={editCurrencyClickHandler}
                             className="hover:bg-accent-1-extra-light p-2 rounded-full">
                             <Image
                               src={editIcon}
@@ -87,6 +101,8 @@ const CurrenciesSection = ({ currencies, setModalMetadata, toggleModal }) => {
                           </button>
                           <button
                             title="Delete currency"
+                            data-currency-id={currency.id}
+                            onClick={deleteCurrencyClickHandler}
                             className="hover:bg-accent-1-extra-light p-2 rounded-full">
                             <Image
                               src={deleteIcon}

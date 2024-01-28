@@ -16,7 +16,7 @@ const InputBox = ({
         {(type === "text" || type === "number") && (
           <input
             type={type}
-            className="border text-sm border-accent-1-dark rounded-md px-4 py-1"
+            className="border-2 text-sm border-accent-1-base rounded-md px-4 py-1"
             id={idHtmlFor}
             name={name}
             value={value}

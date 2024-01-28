@@ -6,6 +6,7 @@ import {
 
 const CurrencyModal = ({
   addNewCurrencyHandler,
+  editCurrencyHandler,
   currentCurrency,
   currentCurrencyInputHandler,
   showModalSpinner,
@@ -21,7 +22,11 @@ const CurrencyModal = ({
         buttonText={
           modalMetadata.action === "add" ? "Add currency" : "Update currency"
         }
-        onButtonClick={addNewCurrencyHandler}
+        onButtonClick={
+          modalMetadata.action === "add"
+            ? addNewCurrencyHandler
+            : editCurrencyHandler
+        }
         className={"flex items-center gap-6 sm:gap-3"}
         showModalSpinner={showModalSpinner}>
         <div className="w-1/2 space-y-3">
