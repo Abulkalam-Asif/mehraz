@@ -90,7 +90,7 @@ const RolesAnalyticsCities = () => {
   // Currencies states and functions
   const [currencies, setCurrencies] = useState(null);
   // Fetching currencies from DB
-  useCurrenciesFromDB(currencies, setCurrencies);
+  useCurrenciesFromDB(setCurrencies);
 
   const defaultCurrency = {
     name: "",
