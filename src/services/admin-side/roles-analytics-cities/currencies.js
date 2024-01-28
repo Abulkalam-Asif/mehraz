@@ -1,15 +1,15 @@
 import addCurrencyToDB from "@/Firebase/Currency Functions/addCurrencyToFirebase";
 
 const addNewCurrencyService = (
-  newCurrency,
+  currentCurrency,
   currencies,
   showAlert,
   setShowModalSpinner,
-  setNewCurrency,
+  setCurrentCurrency,
   hideModal,
   defaultCurrency
 ) => {
-  const formattedCurrencyName = newCurrency.name.trim().toUpperCase();
+  const formattedCurrencyName = currentCurrency.name.trim().toUpperCase();
 
   if (formattedCurrencyName === "") {
     showAlert({ type: "warning", message: "Please enter a currency name" });
@@ -19,9 +19,9 @@ const addNewCurrencyService = (
   ) {
     showAlert({ type: "error", message: "This currency already exists" });
     return;
-  } else if (newCurrency.inPkr <= 0 || newCurrency.inPkr === "") {
+  } else if (currentCurrency.inPkr <= 0 || currentCurrency.inPkr === "") {
     showAlert({ type: "warning", message: "Please enter a valid PKR value" });
-  } else if (newCurrency.cities.length === 0) {
+  } else if (currentCurrency.cities.length === 0) {
     showAlert({
       type: "warning",
       message: "Please select at least one city",
@@ -30,23 +30,22 @@ const addNewCurrencyService = (
     setShowModalSpinner(true);
     addCurrencyToDB(
       formattedCurrencyName,
-      newCurrency.inPkr,
-      newCurrency.cities
+      currentCurrency.inPkr,
+      currentCurrency.cities
     )
       .then(() => {
         showAlert({
           type: "success",
           message: "Currency added successfully!",
         });
-        setNewCurrency(defaultCurrency);
+        setCurrentCurrency(defaultCurrency);
         hideModal();
       })
-      .catch((error) => {
+      .catch(() => {
         showAlert({
           type: "error",
-          message: "Oops! DB Error, Check Console",
+          message: "Something went wrong, please try again later",
         });
-        console.error(error);
       })
       .finally(() => {
         setShowModalSpinner(false);

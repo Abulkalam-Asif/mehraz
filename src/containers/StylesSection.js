@@ -3,7 +3,24 @@ import { Table } from ".";
 import { deleteIcon, editIcon, ellipsisIcon, linkIcon } from "@/assets";
 import Image from "next/image";
 
-const CurrenciesSection = ({ styles, setModalContent, toggleModal }) => {
+const StylesSection = ({ styles, setModalMetadata, toggleModal }) => {
+  const addStyleClickHandler = () => {
+    setModalMetadata({
+      type: "style",
+      action: "add",
+    });
+    toggleModal();
+  };
+  const editStyleClickHandler = () => {
+    setModalMetadata({
+      type: "style",
+      action: "edit",
+    });
+    toggleModal();
+    // const styleId = e.target.dataset.styleId;
+    // const style = styles.find((style) => style.id === styleId);
+    // setCurrentStyle(style);
+  };
   return (
     <>
       <div className="flex flex-col gap-y-2 lg:h-full lg:overflow-y-hidden">
@@ -90,14 +107,11 @@ const CurrenciesSection = ({ styles, setModalContent, toggleModal }) => {
         <Button
           text="add style"
           className="text-xs mr-auto ml-4"
-          onClick={() => {
-            setModalContent("style");
-            toggleModal();
-          }}
+          onClick={addStyleClickHandler}
         />
       </div>
     </>
   );
 };
 
-export default CurrenciesSection;
+export default StylesSection;

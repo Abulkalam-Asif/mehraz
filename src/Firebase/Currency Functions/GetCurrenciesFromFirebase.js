@@ -1,32 +1,31 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase";
 
-const useCurrenciesFromDB = (currencies,setCurrencies) => {
-	const ref = collection(db, "Currency");
-	
-	useEffect(() => {
-		const fetchData = () => {
-			const arr = [];
-			const unsubscribe = onSnapshot(ref, (dataQuery) => {
-				dataQuery.forEach((doc) => {
-					const DocData = {
-						id: doc.id,
-						name: doc.data().name,
-						cities: doc.data().cities,
-						valueInPkr: doc.data().valueInPkr,
-					};
-					arr.push(DocData);
-				});
+const useCurrenciesFromDB = (setCurrencies) => {
+  const ref = collection(db, "Currency");
 
-				setCurrencies(arr);
-			});
+  useEffect(() => {
+    const fetchData = () => {
+      const arr = [];
+      const unsubscribe = onSnapshot(ref, (dataQuery) => {
+        dataQuery.forEach((doc) => {
+          const DocData = {
+            id: doc.id,
+            name: doc.data().name,
+            cities: doc.data().cities,
+            valueInPkr: doc.data().valueInPkr,
+          };
+          arr.push(DocData);
+        });
 
-			return () => unsubscribe();
-		};
-		fetchData();
-	}, [currencies]);
+        setCurrencies(arr);
+      });
 
+      return () => unsubscribe();
+    };
+    fetchData();
+  }, [setCurrencies]);
 };
 
 export default useCurrenciesFromDB;

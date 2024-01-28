@@ -1,17 +1,17 @@
 import addOfficeToDB from "@/Firebase/Office Functions/addOfficeToDB";
 
 const addNewOfficeLocationService = (
-  newOfficeLocation,
+  currentOfficeLocation,
   showAlert,
   setShowModalSpinner,
-  setNewOfficeLocation,
+  setCurrentOfficeLocation,
   hideModal
 ) => {
   const formattedOfficeLocation = {
-    ...newOfficeLocation,
-    city: newOfficeLocation.city.trim().toUpperCase(),
-    address: newOfficeLocation.address.trim(),
-    mapsLink: newOfficeLocation?.mapsLink.trim(),
+    ...currentOfficeLocation,
+    city: currentOfficeLocation.city.trim().toUpperCase(),
+    address: currentOfficeLocation.address.trim(),
+    mapsLink: currentOfficeLocation?.mapsLink.trim(),
   };
 
   if (formattedOfficeLocation.city === "") {
@@ -39,7 +39,7 @@ const addNewOfficeLocationService = (
           type: "success",
           message: "Office added successfully!",
         });
-        setNewOfficeLocation({
+        setCurrentOfficeLocation({
           city: "",
           address: "",
           mapsLink: "",
@@ -47,13 +47,11 @@ const addNewOfficeLocationService = (
         });
         hideModal();
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
         showAlert({
           type: "error",
-          message: `Oops! DB Error, Check console`,
+          message: "Something went wrong, please try again later",
         });
-        console.log(error);
       })
       .finally(() => {
         setShowModalSpinner(false);

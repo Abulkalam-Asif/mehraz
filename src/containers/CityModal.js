@@ -3,20 +3,21 @@ import { InputBox, RolesAnalyticsCitiesModal } from "@/components";
 const CityModal = ({
   addNewCityHandler,
   showModalSpinner,
-  newCity,
-  setNewCity,
+  currentCity,
+  setCurrentCity,
+  modalMetadata,
 }) => {
   return (
     <>
       <RolesAnalyticsCitiesModal
-        heading="add city"
-        buttonText="add city"
+        heading={modalMetadata.action === "add" ? "Add city" : "Edit city"}
+        buttonText={modalMetadata.action === "add" ? "Add city" : "Update city"}
         onButtonClick={addNewCityHandler}
         showModalSpinner={showModalSpinner}>
         <InputBox
           label="Enter city name"
-          value={newCity}
-          setInput={setNewCity}
+          value={currentCity}
+          setInput={setCurrentCity}
           idHtmlFor="city"
         />
       </RolesAnalyticsCitiesModal>

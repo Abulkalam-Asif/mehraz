@@ -3,7 +3,25 @@ import { Table, RolesAnalyticsCitiesContainer } from "./";
 import Image from "next/image";
 import { deleteIcon, editIcon, ellipsisIcon } from "@/assets";
 
-const CurrenciesSection = ({ currencies, setModalContent, toggleModal }) => {
+const CurrenciesSection = ({ currencies, setModalMetadata, toggleModal }) => {
+  const addCurrencyClickHandler = () => {
+    setModalMetadata({
+      type: "currency",
+      action: "add",
+    });
+    toggleModal();
+  };
+  const editCurrencyClickHandler = () => {
+    setModalMetadata({
+      type: "currency",
+      action: "edit",
+    });
+    toggleModal();
+    // const currencyId = e.target.dataset.currencyId;
+    // const currency = currencies.find((currency) => currency.id === currencyId);
+    // setCurrentCurrency(currency);
+  };
+
   return (
     <>
       <RolesAnalyticsCitiesContainer className="row-span-1 flex flex-col gap-y-2 lg:w-full lg:overflow-y-hidden lg:row-span-full">
@@ -28,14 +46,14 @@ const CurrenciesSection = ({ currencies, setModalContent, toggleModal }) => {
                         {currency.name}
                       </Td>
                       <Td isLastRow={i === currencies.length - 1}>
-                        {currency.cities?.map((city, i) => (
-                          <span key={i}>
-                            <span>{city}</span>
+                        {/* {currency.cities?.map(({ id, name }) => (
+                          <span key={id}>
+                            <span>{name}</span>
                             {i !== currency.cities.length - 1 && (
                               <span>, </span>
                             )}
                           </span>
-                        ))}
+                        ))} */}
                       </Td>
                       <Td isLastRow={i === currencies.length - 1}>
                         {currency.valueInPkr}
@@ -96,10 +114,7 @@ const CurrenciesSection = ({ currencies, setModalContent, toggleModal }) => {
         <Button
           text="add currency"
           className="text-xs mr-auto ml-4"
-          onClick={() => {
-            setModalContent("currency");
-            toggleModal();
-          }}
+          onClick={addCurrencyClickHandler}
         />
       </RolesAnalyticsCitiesContainer>
     </>

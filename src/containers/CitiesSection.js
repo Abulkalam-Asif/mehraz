@@ -3,12 +3,29 @@ import { Table } from ".";
 import { deleteIcon, editIcon, ellipsisIcon } from "@/assets";
 import Image from "next/image";
 
-const CurrenciesSection = ({
+const CitiesSection = ({
+  setCurrentCity,
   cities,
-  setModalContent,
+  setModalMetadata,
   toggleModal,
-  editCityHandler,
 }) => {
+  const addCityClickHandler = () => {
+    setModalMetadata({
+      type: "city",
+      action: "add",
+    });
+    toggleModal();
+  };
+  const editCityClickHandler = (e) => {
+    setModalMetadata({
+      type: "city",
+      action: "edit",
+    });
+    toggleModal();
+    const cityId = e.target.dataset.cityId;
+    const city = cities.find((city) => city.id === cityId);
+    setCurrentCity(city);
+  };
   return (
     <>
       <div className="flex flex-col gap-y-2 lg:h-full lg:overflow-y-hidden">
@@ -17,15 +34,15 @@ const CurrenciesSection = ({
           cities.length > 0 ? (
             <Table border={false} className="h-full overflow-y-auto py-2">
               <tbody className="text-sm">
-                {cities?.map((city, i) => (
-                  <tr key={i}>
+                {cities?.map(({ id, name }) => (
+                  <tr key={id}>
                     <Td
-                      isLastRow={i === cities.length - 1}
+                      isLastRow={id === cities.length - 1}
                       position="beginning">
-                      {city}
+                      {name}
                     </Td>
                     <Td
-                      isLastRow={i === cities.length - 1}
+                      isLastRow={id === cities.length - 1}
                       position="end"
                       align="center">
                       <Dropdown
@@ -45,6 +62,8 @@ const CurrenciesSection = ({
                         }>
                         <button
                           title="Edit city"
+                          data-city-id={id}
+                          onClick={editCityClickHandler}
                           className="hover:bg-accent-1-extra-light p-2 rounded-full">
                           <Image
                             src={editIcon}
@@ -54,6 +73,7 @@ const CurrenciesSection = ({
                         </button>
                         <button
                           title="Delete city"
+                          data-city-id={id}
                           className="hover:bg-accent-1-extra-light p-2 rounded-full">
                           <Image
                             src={deleteIcon}
@@ -80,14 +100,11 @@ const CurrenciesSection = ({
         <Button
           text="add city"
           className="text-xs mr-auto ml-4"
-          onClick={() => {
-            setModalContent("city");
-            toggleModal();
-          }}
+          onClick={addCityClickHandler}
         />
       </div>
     </>
   );
 };
 
-export default CurrenciesSection;
+export default CitiesSection;

@@ -2,24 +2,27 @@ import { InputBox, RolesAnalyticsCitiesModal, Dropzone } from "@/components";
 
 const StyleModal = ({
   addNewStyleHandler,
-  newStyle,
-  newStyleInputHandler,
-  setNewStyle,
+  currentStyle,
+  currentStyleInputHandler,
+  setCurrentStyle,
   showModalSpinner,
+  modalMetadata,
 }) => {
   return (
     <>
       <RolesAnalyticsCitiesModal
-        heading="add office"
-        buttonText="add office"
+        heading={modalMetadata.action === "add" ? "Add style" : "Edit style"}
+        buttonText={
+          modalMetadata.action === "add" ? "Add style" : "Update style"
+        }
         onButtonClick={addNewStyleHandler}
         className={"flex items-stretch gap-8"}
         showModalSpinner={showModalSpinner}>
         <div className="w-1/2 space-y-2">
           <InputBox
             label="Enter style name"
-            value={newStyle.name}
-            inputHandler={newStyleInputHandler}
+            value={currentStyle.name}
+            inputHandler={currentStyleInputHandler}
             idHtmlFor="name"
             name="name"
           />
@@ -29,9 +32,9 @@ const StyleModal = ({
           title={"Attach an image here"}
           accept="image/*"
           className={"w-1/2"}
-          file={newStyle?.image}
+          file={currentStyle?.image}
           fileUploadHandler={(file) =>
-            setNewStyle((prevState) => ({
+            setCurrentStyle((prevState) => ({
               ...prevState,
               image: file,
             }))

@@ -1,25 +1,31 @@
-const MultiCheckbox = ({ className, options, name, checked, onChange }) => {
+const MultiCheckbox = ({
+  className,
+  options,
+  inputName,
+  checked,
+  onChange,
+}) => {
   return (
     <>
       <div className={`${className}`}>
-        {options?.map((option, index) => {
+        {options?.map(({ id, name }) => {
           return (
-            <div key={index} className="flex items-center space-x-2">
+            <div key={id} className="flex items-center space-x-2">
               <input
                 type="checkbox"
-                id={option}
-                name={name}
-                checked={checked?.includes(option)}
+                id={id}
+                name={inputName}
+                checked={checked?.includes(id)}
                 onChange={(e) =>
                   onChange(
                     e,
-                    checked?.includes(option)
-                      ? checked.filter((item) => item !== option)
-                      : [...checked, option]
+                    checked?.includes(id)
+                      ? checked.filter((item) => item !== id)
+                      : [...checked, id]
                   )
                 }
               />
-              <label htmlFor={option}>{option}</label>
+              <label htmlFor={id}>{name}</label>
             </div>
           );
         })}

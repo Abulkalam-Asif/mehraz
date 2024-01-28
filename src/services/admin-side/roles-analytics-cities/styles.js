@@ -33,17 +33,15 @@ const addNewStyleService = (
 				});
 				hideModal();
 			})
-			.catch((error) => {
-				console.log(error);
-				showAlert({
-					type: "error",
-					message: `Oops! DB Error, Check Console`,
-				});
-        console.log(error);
-			})
-			.finally(() => {
-				setShowModalSpinner(false);
-			});
+			.catch(() => {
+        showAlert({
+          type: "error",
+          message: "Something went wrong, please try again later",
+        });
+      })
+      .finally(() => {
+        setShowModalSpinner(false);
+      });
   }
 };
 

@@ -2,13 +2,13 @@ import addCityToDB from "@/Firebase/City Functions/addCityToFirebase";
 
 const addNewCityService = (
   cities,
-  newCity,
-  setNewCity,
+  currentCity,
+  setCurrentCity,
   setShowModalSpinner,
   showAlert,
   hideModal
 ) => {
-  const formattedCity = newCity.trim().toUpperCase();
+  const formattedCity = currentCity.trim().toUpperCase();
 
   if (formattedCity === "") {
     showAlert({ type: "warning", message: "Please enter a city name" });
@@ -21,15 +21,14 @@ const addNewCityService = (
     addCityToDB(formattedCity)
       .then(() => {
         showAlert({ type: "success", message: "City added successfully!" });
-        setNewCity("");
+        setCurrentCity("");
         hideModal();
       })
-      .catch((error) => {
+      .catch(() => {
         showAlert({
           type: "error",
-          message: "Oops! DB Error, Check Console.",
+          message: "Something went wrong, please try again later",
         });
-        console.error(error);
       })
       .finally(() => {
         setShowModalSpinner(false);
@@ -37,9 +36,7 @@ const addNewCityService = (
   }
 };
 
-const editCityService = (setModalContent, toggleModal) => {
-  setModalContent("city");
-  toggleModal();
+const editCityService = () => {
 };
 
 export { addNewCityService, editCityService };

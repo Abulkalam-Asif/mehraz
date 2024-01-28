@@ -10,8 +10,11 @@ const useCitiesFromDB = (setCities) => {
       const arr = [];
       const unsubscribe = onSnapshot(ref, (dataQuery) => {
         dataQuery.forEach((doc) => {
-          const cityName = doc.data().city;
-          arr.push(cityName);
+          const city = {
+            id: doc.id,
+            name: doc.data().city,
+          };
+          arr.push(city);
         });
 
         setCities(arr);

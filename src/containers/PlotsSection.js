@@ -3,7 +3,24 @@ import { Table } from ".";
 import Image from "next/image";
 import { deleteIcon, editIcon, ellipsisIcon } from "@/assets";
 
-const CurrenciesSection = ({ plots, setModalContent, toggleModal }) => {
+const PlotsSection = ({ plots, setModalMetadata, toggleModal }) => {
+  const addPlotClickHandler = () => {
+    setModalMetadata({
+      type: "plot",
+      action: "add",
+    });
+    toggleModal();
+  };
+  const editPlotClickHandler = () => {
+    setModalMetadata({
+      type: "plot",
+      action: "edit",
+    });
+    toggleModal();
+    // const plotId = e.target.dataset.plotId;
+    // const plot = plots.find((plot) => plot.id === plotId);
+    // setCurrentPlot(plot);
+  };
   return (
     <>
       <div className="flex flex-col gap-y-2 lg:h-full lg:overflow-y-hidden">
@@ -80,10 +97,7 @@ const CurrenciesSection = ({ plots, setModalContent, toggleModal }) => {
 
         <Button
           text="add plot"
-          onClick={() => {
-            setModalContent("plot");
-            toggleModal();
-          }}
+          onClick={addPlotClickHandler}
           className="text-xs mr-auto ml-4"
         />
       </div>
@@ -91,4 +105,4 @@ const CurrenciesSection = ({ plots, setModalContent, toggleModal }) => {
   );
 };
 
-export default CurrenciesSection;
+export default PlotsSection;

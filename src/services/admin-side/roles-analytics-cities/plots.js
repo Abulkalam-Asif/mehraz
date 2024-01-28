@@ -36,12 +36,11 @@ const addNewPlotService = (
         setNewPlot({ area: 0, unit: "" });
         toggleModal();
       })
-      .catch((error) => {
+      .catch(() => {
         showAlert({
           type: "error",
-          message: "Oops! DB Error, Check console",
+          message: "Something went wrong, please try again later",
         });
-        console.log(error);
       })
       .finally(() => {
         setShowModalSpinner(false);

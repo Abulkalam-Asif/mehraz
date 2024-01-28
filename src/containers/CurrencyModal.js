@@ -6,32 +6,37 @@ import {
 
 const CurrencyModal = ({
   addNewCurrencyHandler,
-  newCurrency,
-  newCurrencyInputHandler,
+  currentCurrency,
+  currentCurrencyInputHandler,
   showModalSpinner,
   cities,
+  modalMetadata,
 }) => {
   return (
     <>
       <RolesAnalyticsCitiesModal
-        heading="add currency"
-        buttonText="add currency"
+        heading={
+          modalMetadata.action === "add" ? "Add currency" : "Edit currency"
+        }
+        buttonText={
+          modalMetadata.action === "add" ? "Add currency" : "Update currency"
+        }
         onButtonClick={addNewCurrencyHandler}
         className={"flex items-center gap-6 sm:gap-3"}
         showModalSpinner={showModalSpinner}>
         <div className="w-1/2 space-y-3">
           <InputBox
             label="Enter currency name"
-            value={newCurrency.name}
-            inputHandler={newCurrencyInputHandler}
+            value={currentCurrency.name}
+            inputHandler={currentCurrencyInputHandler}
             idHtmlFor="name"
             name="name"
           />
           <InputBox
             type="number"
             label="Enter value in PKR"
-            value={newCurrency.inPkr}
-            inputHandler={newCurrencyInputHandler}
+            value={currentCurrency.inPkr}
+            inputHandler={currentCurrencyInputHandler}
             idHtmlFor="inPkr"
             name="inPkr"
           />
@@ -41,9 +46,9 @@ const CurrencyModal = ({
           <MultiCheckbox
             className={"max-h-24 pl-2 overflow-y-auto"}
             options={cities}
-            name="cities"
-            checked={newCurrency.cities}
-            onChange={newCurrencyInputHandler}
+            inputName="cities"
+            checked={currentCurrency.cities}
+            onChange={currentCurrencyInputHandler}
           />
         </div>
       </RolesAnalyticsCitiesModal>

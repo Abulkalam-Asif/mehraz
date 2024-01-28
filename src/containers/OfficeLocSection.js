@@ -3,11 +3,28 @@ import { Table } from ".";
 import Image from "next/image";
 import { deleteIcon, editIcon, ellipsisIcon, linkIcon } from "@/assets";
 
-const CurrenciesSection = ({
+const OfficeLocSection = ({
   officeLocations,
-  setModalContent,
+  setModalMetadata,
   toggleModal,
 }) => {
+  const addOfficeClickHandler = () => {
+    setModalMetadata({
+      type: "office",
+      action: "add",
+    });
+    toggleModal();
+  };
+  const editOfficeClickHandler = () => {
+    setModalMetadata({
+      type: "office",
+      action: "edit",
+    });
+    toggleModal();
+    // const officeId = e.target.dataset.officeId;
+    // const office = officeLocations.find((office) => office.id === officeId);
+    // setNewOffice(office);
+  };
   return (
     <>
       <div className="flex flex-col gap-y-2 lg:h-full lg:overflow-y-hidden">
@@ -107,10 +124,7 @@ const CurrenciesSection = ({
         )}
         <Button
           text="add office"
-          onClick={() => {
-            setModalContent("office");
-            toggleModal();
-          }}
+          onClick={addOfficeClickHandler}
           className="text-xs mr-auto ml-4"
         />
       </div>
@@ -118,4 +132,4 @@ const CurrenciesSection = ({
   );
 };
 
-export default CurrenciesSection;
+export default OfficeLocSection;

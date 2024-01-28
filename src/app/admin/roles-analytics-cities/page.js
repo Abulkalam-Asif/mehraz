@@ -16,14 +16,17 @@ import {
   StylesSection,
   UserProductAnalyticsSection,
 } from "@/containers";
-import useCurrenciesFromDB from "@/Firebase/Currency Functions/getCurrenciesFromFirebase"
+import useCurrenciesFromDB from "@/Firebase/Currency Functions/getCurrenciesFromFirebase";
 import useCitiesFromDB from "@/Firebase/City Functions/getCitiesFromFirebase";
 import useOfficesFromDB from "@/Firebase/Office Functions/getOfficesFromDB";
 import Image from "next/image";
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import { AlertContext } from "@/app/context/AlertContext";
-import { addNewCityService } from "@/services/admin-side/roles-analytics-cities/cities";
+import {
+  addNewCityService,
+  editCityService,
+} from "@/services/admin-side/roles-analytics-cities/cities";
 import { addNewCurrencyService } from "@/services/admin-side/roles-analytics-cities/currencies";
 import { convertRolesToRows } from "@/utilities/admin-panel/roles-analytics-cities/roles";
 import { addNewOfficeLocationService } from "@/services/admin-side/roles-analytics-cities/officeLocations";
@@ -94,10 +97,10 @@ const RolesAnalyticsCities = () => {
     cities: [],
     inPkr: 0,
   };
-  const [newCurrency, setNewCurrency] = useState(defaultCurrency);
+  const [currentCurrency, setCurrentCurrency] = useState(defaultCurrency);
 
-  const newCurrencyInputHandler = (e, value = null) => {
-    setNewCurrency((prevState) => ({
+  const currentCurrencyInputHandler = (e, value = null) => {
+    setCurrentCurrency((prevState) => ({
       ...prevState,
       [e.target.name]: value || e.target.value,
     }));
@@ -107,11 +110,11 @@ const RolesAnalyticsCities = () => {
     e.preventDefault();
     // Calling the service
     addNewCurrencyService(
-      newCurrency,
+      currentCurrency,
       currencies,
       showAlert,
       setShowModalSpinner,
-      setNewCurrency,
+      setCurrentCurrency,
       hideModal,
       defaultCurrency
     );
@@ -122,14 +125,14 @@ const RolesAnalyticsCities = () => {
   // Fetching cities from DB
   useCitiesFromDB(setCities);
 
-  const [newCity, setNewCity] = useState("");
+  const [currentCity, setCurrentCity] = useState("");
   const addNewCityHandler = (e) => {
     e.preventDefault();
     // Calling the service
     addNewCityService(
       cities,
-      newCity,
-      setNewCity,
+      currentCity,
+      setCurrentCity,
       setShowModalSpinner,
       showAlert,
       hideModal
@@ -138,7 +141,7 @@ const RolesAnalyticsCities = () => {
   const editCityHandler = (e) => {
     e.preventDefault();
     // Calling the service
-    editCityService(setModalContent, toggleModal);
+    editCityService(setModalMetadata, toggleModal);
   };
 
   // Office locations states and functions
@@ -146,15 +149,15 @@ const RolesAnalyticsCities = () => {
   // Fetching office locations from DB
   useOfficesFromDB(officeLocations, setOfficeLocations);
 
-  const [newOfficeLocation, setNewOfficeLocation] = useState({
+  const [currentOfficeLocation, setCurrentOfficeLocation] = useState({
     city: "",
     address: "",
     mapsLink: "",
     image: null,
   });
 
-  const newOfficeLocationInputHandler = (e) => {
-    setNewOfficeLocation((prevState) => ({
+  const currentOfficeLocationInputHandler = (e) => {
+    setCurrentOfficeLocation((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }));
@@ -164,10 +167,10 @@ const RolesAnalyticsCities = () => {
     e.preventDefault();
     // Calling the service
     addNewOfficeLocationService(
-      newOfficeLocation,
+      currentOfficeLocation,
       showAlert,
       setShowModalSpinner,
-      setNewOfficeLocation,
+      setCurrentOfficeLocation,
       hideModal
     );
   };
@@ -177,12 +180,12 @@ const RolesAnalyticsCities = () => {
   // Fetching plots from DB
   usePlotsFromDB(setPlots);
 
-  const [newPlot, setNewPlot] = useState({
+  const [currentPlot, setCurrentPlot] = useState({
     area: 0,
     unit: "",
   });
-  const newPlotInputHandler = (e) => {
-    setNewPlot((prevState) => ({
+  const currentPlotInputHandler = (e) => {
+    setCurrentPlot((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }));
@@ -192,8 +195,8 @@ const RolesAnalyticsCities = () => {
     e.preventDefault();
     // Calling the service
     addNewPlotService(
-      newPlot,
-      setNewPlot,
+      currentPlot,
+      setCurrentPlot,
       showAlert,
       plots,
       setShowModalSpinner,
@@ -205,13 +208,13 @@ const RolesAnalyticsCities = () => {
   const [styles, setStyles] = useState(null);
   useStylesFromDB(setStyles);
 
-  const [newStyle, setNewStyle] = useState({
+  const [currentStyle, setCurrentStyle] = useState({
     name: "",
     image: null,
   });
 
-  const newStyleInputHandler = (e) => {
-    setNewStyle((prevState) => ({
+  const currentStyleInputHandler = (e) => {
+    setCurrentStyle((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }));
@@ -221,10 +224,10 @@ const RolesAnalyticsCities = () => {
     e.preventDefault();
     // Calling the service
     addNewStyleService(
-      newStyle,
+      currentStyle,
       styles,
       showAlert,
-      setNewStyle,
+      setCurrentStyle,
       setShowModalSpinner,
       hideModal
     );
@@ -232,7 +235,10 @@ const RolesAnalyticsCities = () => {
 
   // Modal states and functions
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalContent, setModalContent] = useState(null);
+  const [modalMetadata, setModalMetadata] = useState({
+    type: null,
+    action: null,
+  });
   const toggleModal = () => {
     setIsModalOpen((prevState) => !prevState);
   };
@@ -273,30 +279,30 @@ const RolesAnalyticsCities = () => {
             <RolesSection rolesRows={rolesRows} />
             <CurrenciesSection
               currencies={currencies}
-              setModalContent={setModalContent}
+              setModalMetadata={setModalMetadata}
               toggleModal={toggleModal}
             />
           </div>
           <RolesAnalyticsCitiesContainer className="w-full grid grid-rows-4">
             <CitiesSection
               cities={cities}
-              editCityHandler={editCityHandler}
-              setModalContent={setModalContent}
+              setCurrentCity={setCurrentCity}
+              setModalMetadata={setModalMetadata}
               toggleModal={toggleModal}
             />
             <OfficeLocSection
               officeLocations={officeLocations}
-              setModalContent={setModalContent}
+              setModalMetadata={setModalMetadata}
               toggleModal={toggleModal}
             />
             <PlotsSection
               plots={plots}
-              setModalContent={setModalContent}
+              setModalMetadata={setModalMetadata}
               toggleModal={toggleModal}
             />
             <StylesSection
               styles={styles}
-              setModalContent={setModalContent}
+              setModalMetadata={setModalMetadata}
               toggleModal={toggleModal}
             />
           </RolesAnalyticsCitiesContainer>
@@ -320,7 +326,7 @@ const RolesAnalyticsCities = () => {
           ) : expandedSection === "currencies" ? (
             <CurrenciesSection
               currencies={currencies}
-              setModalContent={setModalContent}
+              setModalMetadata={setModalMetadata}
               toggleModal={toggleModal}
             />
           ) : expandedSection === "cities" ? (
@@ -328,7 +334,7 @@ const RolesAnalyticsCities = () => {
               <CitiesSection
                 cities={cities}
                 editCityHandler={editCityHandler}
-                setModalContent={setModalContent}
+                setModalMetadata={setModalMetadata}
                 toggleModal={toggleModal}
               />
             </RolesAnalyticsCitiesContainer>
@@ -336,7 +342,7 @@ const RolesAnalyticsCities = () => {
             <RolesAnalyticsCitiesContainer className="w-full overflow-hidden">
               <OfficeLocSection
                 officeLocations={officeLocations}
-                setModalContent={setModalContent}
+                setModalMetadata={setModalMetadata}
                 toggleModal={toggleModal}
               />
             </RolesAnalyticsCitiesContainer>
@@ -344,7 +350,7 @@ const RolesAnalyticsCities = () => {
             <RolesAnalyticsCitiesContainer className="w-full overflow-hidden">
               <PlotsSection
                 plots={plots}
-                setModalContent={setModalContent}
+                setModalMetadata={setModalMetadata}
                 toggleModal={toggleModal}
               />
             </RolesAnalyticsCitiesContainer>
@@ -352,7 +358,7 @@ const RolesAnalyticsCities = () => {
             <RolesAnalyticsCitiesContainer className="w-full overflow-hidden">
               <StylesSection
                 styles={styles}
-                setModalContent={setModalContent}
+                setModalMetadata={setModalMetadata}
                 toggleModal={toggleModal}
               />
             </RolesAnalyticsCitiesContainer>
@@ -363,44 +369,49 @@ const RolesAnalyticsCities = () => {
       </section>
       {isModalOpen && (
         <Modal toggleModal={toggleModal} isModalOpen={isModalOpen}>
-          {modalContent === "city" ? (
+          {modalMetadata.type === "city" ? (
             <CityModal
               addNewCityHandler={addNewCityHandler}
-              newCity={newCity}
-              setNewCity={setNewCity}
+              currentCity={currentCity}
+              setCurrentCity={setCurrentCity}
               showModalSpinner={showModalSpinner}
+              modalMetadata={modalMetadata}
             />
-          ) : modalContent === "currency" ? (
+          ) : modalMetadata.type === "currency" ? (
             <CurrencyModal
               addNewCurrencyHandler={addNewCurrencyHandler}
-              newCurrency={newCurrency}
-              newCurrencyInputHandler={newCurrencyInputHandler}
+              currentCurrency={currentCurrency}
+              currentCurrencyInputHandler={currentCurrencyInputHandler}
               showModalSpinner={showModalSpinner}
+              modalMetadata={modalMetadata}
               cities={cities}
             />
-          ) : modalContent === "office" ? (
+          ) : modalMetadata.type === "office" ? (
             <OfficeModal
               addNewOfficeLocationHandler={addNewOfficeLocationHandler}
-              newOfficeLocation={newOfficeLocation}
-              newOfficeLocationInputHandler={newOfficeLocationInputHandler}
-              setNewOfficeLocation={setNewOfficeLocation}
+              currentOfficeLocation={currentOfficeLocation}
+              currentOfficeLocationInputHandler={currentOfficeLocationInputHandler}
+              setCurrentOfficeLocation={setCurrentOfficeLocation}
               showModalSpinner={showModalSpinner}
+              modalMetadata={modalMetadata}
             />
-          ) : modalContent === "plot" ? (
+          ) : modalMetadata.type === "plot" ? (
             <PlotModal
               addNewPlotHandler={addNewPlotHandler}
-              newPlot={newPlot}
-              newPlotInputHandler={newPlotInputHandler}
+              currentPlot={currentPlot}
+              currentPlotInputHandler={currentPlotInputHandler}
               showModalSpinner={showModalSpinner}
+              modalMetadata={modalMetadata}
             />
           ) : (
-            modalContent === "style" && (
+            modalMetadata.type === "style" && (
               <StyleModal
                 addNewStyleHandler={addNewStyleHandler}
-                newStyle={newStyle}
-                newStyleInputHandler={newStyleInputHandler}
-                setNewStyle={setNewStyle}
+                currentStyle={currentStyle}
+                currentStyleInputHandler={currentStyleInputHandler}
+                setCurrentStyle={setCurrentStyle}
                 showModalSpinner={showModalSpinner}
+                modalMetadata={modalMetadata}
               />
             )
           )}

@@ -1,39 +1,40 @@
 import { InputBox, RolesAnalyticsCitiesModal, Dropzone } from "@/components";
 
 const OfficeModal = ({
-  newOfficeLocation,
-  newOfficeLocationInputHandler,
+  currentOfficeLocation,
+  currentOfficeLocationInputHandler,
   addNewOfficeLocationHandler,
-  setNewOfficeLocation,
+  setCurrentOfficeLocation,
   showModalSpinner,
+  modalMetadata
 }) => {
   return (
     <>
       <RolesAnalyticsCitiesModal
-        heading="add office"
-        buttonText="add office"
+        heading={modalMetadata.action === "add" ? "Add office" : "Edit office"}
+        buttonText={modalMetadata.action === "add" ? "Add office" : "Update office"}
         onButtonClick={addNewOfficeLocationHandler}
         className={"flex items-stretch gap-8"}
         showModalSpinner={showModalSpinner}>
         <div className="w-1/2 space-y-2">
           <InputBox
             label="Enter city name"
-            value={newOfficeLocation.city}
-            inputHandler={newOfficeLocationInputHandler}
+            value={currentOfficeLocation.city}
+            inputHandler={currentOfficeLocationInputHandler}
             idHtmlFor="city"
             name="city"
           />
           <InputBox
             label="Enter office address"
-            value={newOfficeLocation.address}
-            inputHandler={newOfficeLocationInputHandler}
+            value={currentOfficeLocation.address}
+            inputHandler={currentOfficeLocationInputHandler}
             idHtmlFor="address"
             name="address"
           />
           <InputBox
             label="Enter maps link"
-            value={newOfficeLocation?.mapsLink}
-            inputHandler={newOfficeLocationInputHandler}
+            value={currentOfficeLocation?.mapsLink}
+            inputHandler={currentOfficeLocationInputHandler}
             idHtmlFor="mapsLink"
             name="mapsLink"
           />
@@ -43,9 +44,9 @@ const OfficeModal = ({
           title={"Attach an image here"}
           accept="image/*"
           className={"w-1/2"}
-          file={newOfficeLocation?.image}
+          file={currentOfficeLocation?.image}
           fileUploadHandler={(file) =>
-            setNewOfficeLocation((prevState) => ({
+            setCurrentOfficeLocation((prevState) => ({
               ...prevState,
               image: file,
             }))
