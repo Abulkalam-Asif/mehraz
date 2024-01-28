@@ -36,7 +36,6 @@ const addNewCityService = (
   }
 };
 
-const editCityService = () => {
-};
+const editCityService = () => {};
 
 export { addNewCityService, editCityService };

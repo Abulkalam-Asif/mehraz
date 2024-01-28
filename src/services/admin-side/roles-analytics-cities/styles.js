@@ -1,14 +1,14 @@
 import addStyleToDB from "@/Firebase/Styles Functions/addStyletoFirebase";
 
 const addNewStyleService = (
-  newStyle,
+  currentStyle,
   styles,
   showAlert,
-  setNewStyle,
+  setCurrentStyle,
   setShowModalSpinner,
   hideModal
 ) => {
-  const formattedName = newStyle.name.trim().toUpperCase();
+  const formattedName = currentStyle.name.trim().toUpperCase();
 
   if (formattedName === "") {
     showAlert({ type: "warning", message: "Please enter a style name" });
@@ -16,24 +16,24 @@ const addNewStyleService = (
   } else if (styles && styles.some((style) => style.name === formattedName)) {
     showAlert({ type: "warning", message: "This style already exists" });
     return;
-  } else if (!newStyle.image) {
+  } else if (!currentStyle.image) {
     showAlert({ type: "warning", message: "Please attach an image" });
     return;
   } else {
     setShowModalSpinner(true);
-    addStyleToDB(newStyle)
-			.then(() => {
-				showAlert({
-					type: "success",
-					message: "Style added successfully!",
-				});
-				setNewStyle({
-					name: "",
-					image: null,
-				});
-				hideModal();
-			})
-			.catch(() => {
+    addStyleToDB(currentStyle)
+      .then(() => {
+        showAlert({
+          type: "success",
+          message: "Style added successfully!",
+        });
+        setCurrentStyle({
+          name: "",
+          image: null,
+        });
+        hideModal();
+      })
+      .catch(() => {
         showAlert({
           type: "error",
           message: "Something went wrong, please try again later",
