@@ -46,14 +46,14 @@ const CurrenciesSection = ({ currencies, setModalMetadata, toggleModal }) => {
                         {currency.name}
                       </Td>
                       <Td isLastRow={i === currencies.length - 1}>
-                        {/* {currency.cities?.map(({ id, name }) => (
+                        {currency.cities?.map(({ id, name }) => (
                           <span key={id}>
                             <span>{name}</span>
                             {i !== currency.cities.length - 1 && (
                               <span>, </span>
                             )}
                           </span>
-                        ))} */}
+                        ))}
                       </Td>
                       <Td isLastRow={i === currencies.length - 1}>
                         {currency.valueInPkr}
