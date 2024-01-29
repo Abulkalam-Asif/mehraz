@@ -5,28 +5,30 @@ const MultiCheckbox = ({
   checkedBoxes = [],
   onChange,
 }) => {
-  console.log(options);
   return (
     <>
       <div className={`${className}`}>
         {options?.map(({ id, name }) => {
+          const isChecked = checkedBoxes.includes(id);
           return (
             <div key={id} className="flex items-center space-x-2">
               <input
                 type="checkbox"
                 id={id}
                 name={inputName}
-                checked={checkedBoxes?.find(
-                  (checkedItem) => checkedItem === id
-                )}
-                onChange={(e) =>
-                  onChange(
-                    e,
-                    checkedBoxes?.find((checkedItem) => checkedItem === id)
-                      ? checkedBoxes.filter((checkedItem) => checkedItem !== id)
-                      : [...checkedBoxes, id]
-                  )
-                }
+                checked={isChecked}
+                onChange={(e) => {
+                  const { checked } = e.target;
+                  let updatedCheckedBoxes;
+                  if (checked) {
+                    updatedCheckedBoxes = [...checkedBoxes, id];
+                  } else {
+                    updatedCheckedBoxes = checkedBoxes.filter(
+                      (checkedItem) => checkedItem !== id
+                    );
+                  }
+                  onChange(e, updatedCheckedBoxes);
+                }}
               />
               <label htmlFor={id}>{name}</label>
             </div>

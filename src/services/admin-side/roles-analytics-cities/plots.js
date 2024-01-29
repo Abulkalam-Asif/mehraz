@@ -7,11 +7,16 @@ const addNewPlotService = (
   setShowModalSpinner,
   toggleModal
 ) => {
-  const formattedUnit = currentPlot.unit.trim().toUpperCase();
-  if (currentPlot.area <= 0) {
+  const formattedData = {
+    area: Number(currentPlot.area),
+    unit: currentPlot.unit.trim().toUpperCase(),
+    usage: currentPlot.usage,
+  };
+
+  if (formattedData.area <= 0) {
     showAlert({ type: "warning", message: "Please enter valid area value" });
     return;
-  } else if (formattedUnit === "") {
+  } else if (formattedData.unit === "") {
     showAlert({ type: "warning", message: "Please enter a unit" });
     return;
   } else if (
@@ -26,7 +31,7 @@ const addNewPlotService = (
     return;
   } else {
     setShowModalSpinner(true);
-    addPlotToDB(currentPlot.area, formattedUnit)
+    addPlotToDB(formattedData)
       .then(() => {
         showAlert({
           type: "success",

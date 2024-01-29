@@ -7,17 +7,22 @@ const addNewCurrencyService = (
   setShowModalSpinner,
   hideModal
 ) => {
-  const formattedCurrencyName = currentCurrency.name.trim().toUpperCase();
+  const formattedData = {
+    name: currentCurrency.name.trim().toUpperCase(),
+    valueInPkr: Number(currentCurrency.valueInPkr),
+    cities: currentCurrency.cities,
+    usage: currentCurrency.usage,
+  };
 
-  if (formattedCurrencyName === "") {
+  if (formattedData.name === "") {
     showAlert({ type: "warning", message: "Please enter a currency name" });
     return;
   } else if (
-    currencies.find((currency) => currency.name === formattedCurrencyName)
+    currencies?.find((currency) => currency.name === formattedData.name)
   ) {
     showAlert({ type: "error", message: "This currency already exists" });
     return;
-  } else if (currentCurrency.inPkr <= 0 || currentCurrency.inPkr === "") {
+  } else if (currentCurrency.valueInPkr <= 0) {
     showAlert({ type: "warning", message: "Please enter a valid PKR value" });
   } else if (currentCurrency.cities.length === 0) {
     showAlert({
@@ -26,11 +31,7 @@ const addNewCurrencyService = (
     });
   } else {
     setShowModalSpinner(true);
-    addCurrencyToDB(
-      formattedCurrencyName,
-      currentCurrency.inPkr,
-      currentCurrency.cities
-    )
+    addCurrencyToDB(formattedData)
       .then(() => {
         showAlert({
           type: "success",
@@ -71,7 +72,10 @@ const editCurrencyService = (
   ) {
     showAlert({ type: "error", message: "This currency already exists" });
     return;
-  } else if (currentCurrency.inPkr <= 0 || currentCurrency.inPkr === "") {
+  } else if (
+    currentCurrency.valueInPkr <= 0 ||
+    currentCurrency.valueInPkr === ""
+  ) {
     showAlert({ type: "warning", message: "Please enter a valid PKR value" });
   } else if (currentCurrency.cities.length === 0) {
     showAlert({

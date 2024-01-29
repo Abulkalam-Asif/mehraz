@@ -151,7 +151,7 @@ const RolesAnalyticsCities = () => {
     id: null,
     name: "",
     cities: [],
-    inPkr: 0,
+    valueInPkr: 0,
     usage: {
       projects: 0,
     },
@@ -360,10 +360,6 @@ const RolesAnalyticsCities = () => {
 
   // Expandable Section Button (for mobile) states and functions
   const [expandedSection, setExpandedSection] = useState(null);
-
-  useEffect(() => {
-    console.log("Cities: ", cities);
-  }, [cities]);
 
   return (
     <>

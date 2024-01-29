@@ -12,8 +12,6 @@ const addNewCityService = (
     usage: currentCity.usage,
   };
 
-  console.log(formattedData); // this whole object is to be added
-
   if (formattedData.name === "") {
     showAlert({ type: "warning", message: "Please enter a city name" });
     return;
@@ -22,7 +20,7 @@ const addNewCityService = (
     return;
   } else {
     setShowModalSpinner(true);
-    addCityToDB(formattedData) // change here
+    addCityToDB(formattedData)
       .then(() => {
         showAlert({ type: "success", message: "City added successfully!" });
         hideModal();

@@ -7,20 +7,24 @@ const addNewStyleService = (
   setShowModalSpinner,
   hideModal
 ) => {
-  const formattedName = currentStyle.name.trim().toUpperCase();
+  const formattedData = {
+    name: currentStyle.name.trim().toUpperCase(),
+    image: currentStyle.image,
+    usage: currentStyle.usage,
+  };
 
-  if (formattedName === "") {
+  if (formattedData.name === "") {
     showAlert({ type: "warning", message: "Please enter a style name" });
     return;
-  } else if (styles && styles.some((style) => style.name === formattedName)) {
+  } else if (styles?.some((style) => style.name === formattedData.name)) {
     showAlert({ type: "warning", message: "This style already exists" });
     return;
-  } else if (!currentStyle.image) {
+  } else if (!formattedData.image) {
     showAlert({ type: "warning", message: "Please attach an image" });
     return;
   } else {
     setShowModalSpinner(true);
-    addStyleToDB({ name: formattedName, image: currentStyle.image })
+    addStyleToDB(formattedData)
       .then(() => {
         showAlert({
           type: "success",

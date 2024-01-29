@@ -12,7 +12,8 @@ const useCitiesFromDB = (setCities) => {
         dataQuery.forEach((doc) => {
           const city = {
             id: doc.id,
-            name: doc.data().city,
+            name: doc.data().name,
+            usage: doc.data().usage,
           };
           arr.push(city);
         });

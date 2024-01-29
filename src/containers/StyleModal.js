@@ -40,6 +40,7 @@ const StyleModal = ({
             title={"Attach an image here"}
             accept="image/*"
             setPreviewSrc={setPreviewSrc}
+            previewSrc={previewSrc}
             file={currentStyle?.image}
             fileUploadHandler={(file) =>
               setCurrentStyle((prevState) => ({

@@ -40,10 +40,10 @@ const CurrencyModal = ({
           <InputBox
             type="number"
             label="Enter value in PKR"
-            value={currentCurrency.inPkr}
+            value={currentCurrency.valueInPkr}
             inputHandler={currentCurrencyInputHandler}
-            idHtmlFor="inPkr"
-            name="inPkr"
+            idHtmlFor="valueInPkr"
+            name="valueInPkr"
           />
         </div>
         <div className="w-1/2 space-y-1">
@@ -52,7 +52,7 @@ const CurrencyModal = ({
             className={"max-h-24 pl-2 overflow-y-auto"}
             options={cities}
             inputName="cities"
-            checkedBoxes={currentCurrency.cities}
+            checkedBoxes={currentCurrency?.cities}
             onChange={currentCurrencyInputHandler}
           />
         </div>

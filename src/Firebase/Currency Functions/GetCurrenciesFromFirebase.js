@@ -16,6 +16,7 @@ const useCurrenciesFromDB = (setCurrencies, cities) => {
             name: doc.data().name,
             cities: mapCitiesWithNames(doc.data().cities, cities),
             valueInPkr: doc.data().valueInPkr,
+            usage: doc.data().usage,
           };
           arr.push(docData);
         });

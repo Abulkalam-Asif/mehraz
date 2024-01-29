@@ -14,6 +14,7 @@ const usePlotsFromDB = (setPlots) => {
             id: doc.id,
             area: doc.data().area,
             unit: doc.data().unit,
+            usage: doc.data().usage,
           };
           arr.push(docData);
         });
