@@ -44,21 +44,20 @@ const editCityService = (
   showAlert,
   hideModal
 ) => {
-  const formattedCityName = currentCity.name.trim().toUpperCase();
+  const formattedData = {
+    id: currentCity.id,
+    name: currentCity.name.trim().toUpperCase(),
+  };
 
-  if (formattedCityName === "") {
+  if (formattedData.name === "") {
     showAlert({ type: "warning", message: "Please enter a city name" });
     return;
-  } else if (
-    cities.some(
-      (city) => city.name === formattedCityName && city.id !== currentCity.id
-    )
-  ) {
+  } else if (cities.some((city) => city.name === formattedData.name)) {
     showAlert({ type: "error", message: "This city already exists" });
     return;
   } else {
     // setShowModalSpinner(true);
-    // TODO (backend): call the update function. use currentCity.id to determine which city to update. Follow the add function above
+    // TODO (backend): call the update function. Follow the add function
     //   .then(() => {
     //     showAlert({ type: "success", message: "City updated successfully!" });
     //     hideModal();

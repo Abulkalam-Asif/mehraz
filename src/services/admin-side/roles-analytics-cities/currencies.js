@@ -22,9 +22,9 @@ const addNewCurrencyService = (
   ) {
     showAlert({ type: "error", message: "This currency already exists" });
     return;
-  } else if (currentCurrency.valueInPkr <= 0) {
+  } else if (formattedData.valueInPkr <= 0) {
     showAlert({ type: "warning", message: "Please enter a valid PKR value" });
-  } else if (currentCurrency.cities.length === 0) {
+  } else if (formattedData.cities.length === 0) {
     showAlert({
       type: "warning",
       message: "Please select at least one city",
@@ -58,33 +58,34 @@ const editCurrencyService = (
   setShowModalSpinner,
   hideModal
 ) => {
-  const formattedCurrencyName = currentCurrency.name.trim().toUpperCase();
+  const formattedData = {
+    id: currentCurrency.id,
+    name: currentCurrency.name.trim().toUpperCase(),
+    valueInPkr: Number(currentCurrency.valueInPkr),
+    cities: currentCurrency.cities,
+  };
 
-  if (formattedCurrencyName === "") {
+  if (formattedData.name === "") {
     showAlert({ type: "warning", message: "Please enter a currency name" });
     return;
   } else if (
     currencies.find(
       (currency) =>
-        currency.name === formattedCurrencyName &&
-        currency.id !== currentCurrency.id
+        currency.name === formattedData.name && currency.id !== formattedData.id
     )
   ) {
     showAlert({ type: "error", message: "This currency already exists" });
     return;
-  } else if (
-    currentCurrency.valueInPkr <= 0 ||
-    currentCurrency.valueInPkr === ""
-  ) {
+  } else if (formattedData.valueInPkr <= 0) {
     showAlert({ type: "warning", message: "Please enter a valid PKR value" });
-  } else if (currentCurrency.cities.length === 0) {
+  } else if (formattedData.cities.length === 0) {
     showAlert({
       type: "warning",
       message: "Please select at least one city",
     });
   } else {
     setShowModalSpinner(true);
-    // TODO (backend): call the update function. use currentCurrency.id to determine which currency to update. Follow the add function above
+    // TODO (backend): call the update function. Follow the add function
     // .then(() => {
     //   showAlert({
     //     type: "success",

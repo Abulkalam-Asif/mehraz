@@ -13,7 +13,6 @@ const useCitiesFromDB = (setCities) => {
           const city = {
             id: doc.id,
             name: doc.data().name,
-            usage: doc.data().usage,
           };
           arr.push(city);
         });

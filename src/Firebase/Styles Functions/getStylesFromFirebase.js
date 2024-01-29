@@ -14,7 +14,6 @@ const useStylesFromDB = (setStyles) => {
           const stylesData = {
             id: doc.id,
             name: doc.data().name,
-            usage: doc.data().usage,
           };
           arr.push(stylesData);
 

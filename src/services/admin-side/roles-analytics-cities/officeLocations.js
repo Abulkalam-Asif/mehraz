@@ -6,33 +6,31 @@ const addNewOfficeLocationService = (
   setShowModalSpinner,
   hideModal
 ) => {
-  const formattedOfficeLocation = {
+  const formattedData = {
     city: currentOfficeLocation.city.trim().toUpperCase(),
     address: currentOfficeLocation.address.trim(),
     mapsLink: currentOfficeLocation?.mapsLink.trim(),
     image: currentOfficeLocation.image,
   };
 
-  if (formattedOfficeLocation.city === "") {
+  if (formattedData.city === "") {
     showAlert({ type: "warning", message: "Please enter a city name" });
     return;
-  } else if (formattedOfficeLocation.address === "") {
+  } else if (formattedData.address === "") {
     showAlert({ type: "warning", message: "Please enter an address" });
     return;
-  } else if (formattedOfficeLocation?.mapsLink === "") {
+  } else if (formattedData?.mapsLink === "") {
     showAlert({ type: "warning", message: "Please enter a maps link" });
     return;
-  } else if (
-    !formattedOfficeLocation?.mapsLink.match(/^https?:\/\/[^\s/$.?#].[^\s]*$/)
-  ) {
+  } else if (!formattedData?.mapsLink.match(/^https?:\/\/[^\s/$.?#].[^\s]*$/)) {
     showAlert({ type: "warning", message: "Please enter a valid maps link" });
     return;
-  } else if (!formattedOfficeLocation.image) {
+  } else if (!formattedData.image) {
     showAlert({ type: "warning", message: "Please attach an image" });
     return;
   } else {
     setShowModalSpinner(true);
-    addOfficeToDB(formattedOfficeLocation)
+    addOfficeToDB(formattedData)
       .then(() => {
         showAlert({
           type: "success",
@@ -58,35 +56,34 @@ const editOfficeLocationService = (
   setShowModalSpinner,
   hideModal
 ) => {
-  const formattedOfficeLocation = {
+  const formattedData = {
+    id: currentOfficeLocation.id,
     city: currentOfficeLocation.city.trim().toUpperCase(),
     address: currentOfficeLocation.address.trim(),
     mapsLink: currentOfficeLocation?.mapsLink.trim(),
     image: currentOfficeLocation.image,
   };
 
-  if (formattedOfficeLocation.city === "") {
+  if (formattedData.city === "") {
     showAlert({ type: "warning", message: "Please enter a city name" });
     return;
-  } else if (formattedOfficeLocation.address === "") {
+  } else if (formattedData.address === "") {
     showAlert({ type: "warning", message: "Please enter an address" });
     return;
-  } else if (formattedOfficeLocation?.mapsLink === "") {
+  } else if (formattedData?.mapsLink === "") {
     showAlert({ type: "warning", message: "Please enter a maps link" });
     return;
-  } else if (
-    !formattedOfficeLocation?.mapsLink.match(/^https?:\/\/[^\s/$.?#].[^\s]*$/)
-  ) {
+  } else if (!formattedData?.mapsLink.match(/^https?:\/\/[^\s/$.?#].[^\s]*$/)) {
     showAlert({ type: "warning", message: "Please enter a valid maps link" });
     return;
-  } else if (!formattedOfficeLocation.image) {
+  } else if (!formattedData.image) {
     showAlert({ type: "warning", message: "Please attach an image" });
     return;
   } else {
     setShowModalSpinner(true);
-    // TODO (backend): call the update function. use currentOfficeLocation.id to determine which office to update. Follow the add function above
-    // Note: formattedOfficeLocation.image will be a file if the user changed the image, as in the add function, otherwise it will be the link of the image which was retrieved from the firebase
-    
+    // TODO (backend): call the update function. Follow the add function
+    // Note: formattedData.image will be a file if the user changed the image, as in the add function, otherwise it will be the link of the image which was retrieved from the firebase
+
     // .then(() => {
     //   showAlert({
     //     type: "success",

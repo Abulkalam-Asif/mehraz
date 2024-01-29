@@ -21,7 +21,8 @@ const addNewPlotService = (
     return;
   } else if (
     plots?.find(
-      (plot) => plot.area === currentPlot.area && plot.unit === formattedUnit
+      (plot) =>
+        plot.area === formattedData.area && plot.unit === formattedData.unit
     )
   ) {
     showAlert({
@@ -58,16 +59,22 @@ const editPlotService = (
   setShowModalSpinner,
   toggleModal
 ) => {
-  const formattedUnit = currentPlot.unit.trim().toUpperCase();
-  if (currentPlot.area <= 0) {
+  const formattedData = {
+    id: currentPlot.id,
+    area: Number(currentPlot.area),
+    unit: currentPlot.unit.trim().toUpperCase(),
+  };
+
+  if (formattedData.area <= 0) {
     showAlert({ type: "warning", message: "Please enter valid area value" });
     return;
-  } else if (formattedUnit === "") {
+  } else if (formattedData.unit === "") {
     showAlert({ type: "warning", message: "Please enter a unit" });
     return;
   } else if (
     plots?.find(
-      (plot) => plot.area === currentPlot.area && plot.unit === formattedUnit
+      (plot) =>
+        plot.area === formattedData.area && plot.unit === formattedData.unit
     )
   ) {
     showAlert({
@@ -77,7 +84,7 @@ const editPlotService = (
     return;
   } else {
     setShowModalSpinner(true);
-    // TODO (backend): call the update function. use currentPlot.id to determine which plot to update. Follow the add function above
+    // TODO (backend): call the update function. Follow the add function
     // .then(() => {
     //   showAlert({
     //     type: "success",

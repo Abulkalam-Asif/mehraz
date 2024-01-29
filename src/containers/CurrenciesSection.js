@@ -25,7 +25,12 @@ const CurrenciesSection = ({
     toggleModal();
     const currencyId = e.currentTarget.dataset.currencyId;
     const currency = currencies.find((currency) => currency.id === currencyId);
-    setCurrentCurrency(currency);
+    // Just using the ids of the cities
+    const cities = currency.cities.map(({ id }) => id);
+    setCurrentCurrency({
+      ...currency,
+      cities,
+    });
   };
 
   const deleteCurrencyClickHandler = (e) => {
@@ -58,10 +63,10 @@ const CurrenciesSection = ({
                         {currency.name}
                       </Td>
                       <Td isLastRow={index === currencies.length - 1}>
-                        {currency.cities?.map(({ id, name }) => (
+                        {currency.cities?.map(({ id, name }, cityIndex) => (
                           <span key={id}>
                             <span>{name}</span>
-                            {index !== currency.cities.length - 1 && (
+                            {cityIndex !== currency.cities.length - 1 && (
                               <span>, </span>
                             )}
                           </span>
