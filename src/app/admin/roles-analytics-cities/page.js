@@ -336,6 +336,10 @@ const RolesAnalyticsCities = () => {
   // Expandable Section Button (for mobile) states and functions
   const [expandedSection, setExpandedSection] = useState(null);
 
+  useEffect(() => {
+    console.log("Cities: ", cities);
+  }, [cities]);
+
   return (
     <>
       {/* for 1024+, calc(100vh - (AdminHeader height + 1rem)) */}

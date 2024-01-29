@@ -3,42 +3,44 @@ import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase";
 
 const useCurrenciesFromDB = (setCurrencies, cities) => {
-	const ref = collection(db, "Currency");
+  const ref = collection(db, "Currency");
 
-	useEffect(() => {
-		const fetchData = () => {
-			const unsubscribe = onSnapshot(ref, (dataQuery) => {
-				const arr = [];
+  useEffect(() => {
+    const fetchData = () => {
+      const unsubscribe = onSnapshot(ref, (dataQuery) => {
+        const arr = [];
 
-				dataQuery.forEach((doc) => {
-					const docData = {
-						id: doc.id,
-						name: doc.data().name,
-						cities: mapCitiesWithNames(doc.data().cities, cities),
-						valueInPkr: doc.data().valueInPkr,
-					};
-					arr.push(docData);
-				});
-				setCurrencies(arr);
-			});
+        dataQuery.forEach((doc) => {
+          const docData = {
+            id: doc.id,
+            name: doc.data().name,
+            cities: mapCitiesWithNames(doc.data().cities, cities),
+            valueInPkr: doc.data().valueInPkr,
+          };
+          arr.push(docData);
+        });
+        setCurrencies(arr);
+      });
 
-			return () => unsubscribe();
-		};
+      return () => unsubscribe();
+    };
 
-		fetchData();
-	}, [setCurrencies, cities]);
+    fetchData();
+  }, [setCurrencies, cities]);
 
-	const mapCitiesWithNames = (cityIds, citiesData) => {
-		return cityIds.map((cityId) => {
-			const city = citiesData
-				? citiesData.find((city) => city.id === cityId)
-				: null;
-			return {
-				id: cityId,
-				name: city ? city.name : "Unknown City",
-			};
-		});
-	};
+  const mapCitiesWithNames = (cityIds, citiesData) => {
+    console.log("city ids", cityIds);
+    return cityIds.map((cityId) => {
+      const city = citiesData
+        ? citiesData.find((city) => city.id === cityId)
+        : null;
+      // console.log(citiesData[0].id, cityId);
+      return {
+        id: cityId,
+        name: city ? city.name : "Unnamed",
+      };
+    });
+  };
 };
 
 export default useCurrenciesFromDB;

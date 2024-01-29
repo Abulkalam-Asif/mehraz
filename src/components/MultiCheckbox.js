@@ -2,10 +2,10 @@ const MultiCheckbox = ({
   className,
   options,
   inputName,
-  checked = [],
+  checkedBoxes = [],
   onChange,
 }) => {
-  console.log(checked);
+  console.log(options);
   return (
     <>
       <div className={`${className}`}>
@@ -16,13 +16,15 @@ const MultiCheckbox = ({
                 type="checkbox"
                 id={id}
                 name={inputName}
-                checked={checked?.find((item) => item.id === id)}
+                checked={checkedBoxes?.find(
+                  (checkedItem) => checkedItem === id
+                )}
                 onChange={(e) =>
                   onChange(
                     e,
-                    checked?.find((item) => item.id === id)
-                      ? checked.filter((item) => item.id !== id)
-                      : [...checked, { id, name }]
+                    checkedBoxes?.find((checkedItem) => checkedItem === id)
+                      ? checkedBoxes.filter((checkedItem) => checkedItem !== id)
+                      : [...checkedBoxes, id]
                   )
                 }
               />

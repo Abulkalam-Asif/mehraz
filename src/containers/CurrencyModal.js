@@ -52,7 +52,7 @@ const CurrencyModal = ({
             className={"max-h-24 pl-2 overflow-y-auto"}
             options={cities}
             inputName="cities"
-            checked={currentCurrency.cities}
+            checkedBoxes={currentCurrency.cities}
             onChange={currentCurrencyInputHandler}
           />
         </div>
