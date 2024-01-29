@@ -29,12 +29,10 @@ const useCurrenciesFromDB = (setCurrencies, cities) => {
   }, [setCurrencies, cities]);
 
   const mapCitiesWithNames = (cityIds, citiesData) => {
-    console.log("city ids", cityIds);
     return cityIds.map((cityId) => {
       const city = citiesData
         ? citiesData.find((city) => city.id === cityId)
         : null;
-      // console.log(citiesData[0].id, cityId);
       return {
         id: cityId,
         name: city ? city.name : "Unnamed",

@@ -7,17 +7,22 @@ const addNewCityService = (
   showAlert,
   hideModal
 ) => {
-  const formattedCityName = currentCity.name.trim().toUpperCase();
+  const formattedData = {
+    name: currentCity.name.trim().toUpperCase(),
+    usage: currentCity.usage,
+  };
 
-  if (formattedCityName === "") {
+  console.log(formattedData); // this whole object is to be added
+
+  if (formattedData.name === "") {
     showAlert({ type: "warning", message: "Please enter a city name" });
     return;
-  } else if (cities.some((city) => city.name === formattedCityName)) {
+  } else if (cities.some((city) => city.name === formattedData.name)) {
     showAlert({ type: "error", message: "This city already exists" });
     return;
   } else {
     setShowModalSpinner(true);
-    addCityToDB(formattedCityName)
+    addCityToDB(formattedData) // change here
       .then(() => {
         showAlert({ type: "success", message: "City added successfully!" });
         hideModal();

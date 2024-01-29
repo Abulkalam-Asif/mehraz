@@ -107,6 +107,10 @@ const RolesAnalyticsCities = () => {
   const defaultCity = {
     id: null,
     name: "",
+    usage: {
+      currencies: 0,
+      projects: 0,
+    },
   };
   const [currentCity, setCurrentCity] = useState(defaultCity);
   const currentCityInputHandler = (e) => {
@@ -148,6 +152,9 @@ const RolesAnalyticsCities = () => {
     name: "",
     cities: [],
     inPkr: 0,
+    usage: {
+      projects: 0,
+    },
   };
   const [currentCurrency, setCurrentCurrency] = useState(defaultCurrency);
 
@@ -235,6 +242,9 @@ const RolesAnalyticsCities = () => {
     id: null,
     area: 0,
     unit: "",
+    usage: {
+      projects: 0,
+    },
   };
   const [currentPlot, setCurrentPlot] = useState(deafultPlot);
   const currentPlotInputHandler = (e) => {
@@ -276,6 +286,9 @@ const RolesAnalyticsCities = () => {
     id: null,
     name: "",
     image: null,
+    usage: {
+      projects: 0,
+    },
   };
   const [currentStyle, setCurrentStyle] = useState(deafultStyle);
 
@@ -317,9 +330,21 @@ const RolesAnalyticsCities = () => {
     action: null,
   });
   const toggleModal = () => {
+    if (isModalOpen) {
+      setModalMetadata({
+        type: null,
+        action: null,
+      });
+    }
     setIsModalOpen((prevState) => !prevState);
   };
   const hideModal = () => {
+    if (isModalOpen) {
+      setModalMetadata({
+        type: null,
+        action: null,
+      });
+    }
     setIsModalOpen(false);
   };
 
