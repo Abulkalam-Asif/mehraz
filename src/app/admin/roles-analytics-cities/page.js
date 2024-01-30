@@ -179,9 +179,14 @@ const RolesAnalyticsCities = () => {
 
   const editCurrencyHandler = (e) => {
     e.preventDefault();
+    // returns array of the ids of the cities that were previously selected
+    const prevCities = currencies
+      .find((currency) => currency.id === currentCurrency.id)
+      .cities.map((city) => city.id);
     // Calling the service
     editCurrencyService(
       currentCurrency,
+      prevCities,
       currencies,
       showAlert,
       setShowModalSpinner,

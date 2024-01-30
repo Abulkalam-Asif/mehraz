@@ -5,7 +5,6 @@ const MultiCheckbox = ({
   checkedBoxes = [],
   onChange,
 }) => {
-  console.log(checkedBoxes);
   return (
     <>
       <div className={`${className}`}>

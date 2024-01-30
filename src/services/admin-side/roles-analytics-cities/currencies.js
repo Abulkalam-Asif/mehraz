@@ -53,6 +53,7 @@ const addNewCurrencyService = (
 
 const editCurrencyService = (
   currentCurrency,
+  prevCities,
   currencies,
   showAlert,
   setShowModalSpinner,
@@ -86,6 +87,8 @@ const editCurrencyService = (
   } else {
     setShowModalSpinner(true);
     // TODO (backend): call the update function. Follow the add function
+    // Note: compare the formattedData.cities with prevCities to check which cities have been added or removed, and update the usage for those cities accordingly
+
     // .then(() => {
     //   showAlert({
     //     type: "success",
