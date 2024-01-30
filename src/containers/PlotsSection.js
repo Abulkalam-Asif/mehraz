@@ -8,6 +8,7 @@ const PlotsSection = ({
   setCurrentPlot,
   setModalMetadata,
   toggleModal,
+  setItemToDelete,
 }) => {
   const addPlotClickHandler = () => {
     setModalMetadata({
@@ -28,9 +29,17 @@ const PlotsSection = ({
   };
 
   const deletePlotClickHandler = (e) => {
+    setModalMetadata({
+      type: "plot",
+      action: "delete",
+    });
+    toggleModal();
     const plotId = e.currentTarget.dataset.plotId;
     const plot = plots.find((plot) => plot.id === plotId);
-    // TODO (frontend): add delete plot functionality
+    setItemToDelete({
+      id: plot.id,
+      type: "plot",
+    });
   };
 
   return (
@@ -116,7 +125,8 @@ const PlotsSection = ({
         <Button
           text="add plot"
           onClick={addPlotClickHandler}
-          className="text-xs mr-auto ml-4"
+          className="mr-auto ml-4"
+          size="xs"
         />
       </div>
     </>

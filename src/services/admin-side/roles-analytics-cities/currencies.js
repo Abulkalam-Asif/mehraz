@@ -108,4 +108,29 @@ const editCurrencyService = (
   }
 };
 
-export { addNewCurrencyService, editCurrencyService };
+const deleteCurrencyService = (
+  itemToDelete,
+  setShowModalSpinner,
+  showAlert,
+  hideModal
+) => {
+  setShowModalSpinner(true);
+  // TODO (backend): call the delete function. use itemToDelete.id
+  // Note: update the usage object for the cities
+
+  //   .then(() => {
+  //     showAlert({ type: "success", message: "Currency deleted successfully!" });
+  //     hideModal();
+  //   })
+  //   .catch(() => {
+  //     showAlert({
+  //       type: "error",
+  //       message: "Something went wrong, please try again later",
+  //     });
+  //   })
+  //   .finally(() => {
+  //     setShowModalSpinner(false);
+  //   });
+};
+
+export { addNewCurrencyService, editCurrencyService, deleteCurrencyService };

@@ -8,7 +8,7 @@ const Spinner = ({ text = null, size, className }) => {
 
   const spinnerSizeStyles = {
     xs: "w-4 h-4 border-2",
-    sm: "w-8 h-8 border-4",
+    sm: "w-6 h-6 border-4",
     md: "w-20 h-20",
     lg: "w-20 h-20 border-8",
   };

@@ -8,6 +8,7 @@ const CitiesSection = ({
   cities,
   setModalMetadata,
   toggleModal,
+  setItemToDelete,
 }) => {
   const addCityClickHandler = () => {
     setModalMetadata({
@@ -28,9 +29,17 @@ const CitiesSection = ({
   };
 
   const deleteCityClickHandler = (e) => {
+    setModalMetadata({
+      type: "city",
+      action: "delete",
+    });
+    toggleModal();
     const cityId = e.currentTarget.dataset.cityId;
     const city = cities.find((city) => city.id === cityId);
-    // TODO (frontend): implement delete city functionality
+    setItemToDelete({
+      id: city.id,
+      type: "city",
+    });
   };
 
   return (
@@ -107,7 +116,8 @@ const CitiesSection = ({
         )}
         <Button
           text="add city"
-          className="text-xs mr-auto ml-4"
+          className="mr-auto ml-4"
+          size="xs"
           onClick={addCityClickHandler}
         />
       </div>

@@ -74,4 +74,29 @@ const editCityService = (
   }
 };
 
-export { addNewCityService, editCityService };
+const deleteCityService = (
+  itemToDelete,
+  setShowModalSpinner,
+  showAlert,
+  hideModal
+) => {
+  setShowModalSpinner(true);
+  // TODO (backend): call the delete function. use itemToDelete.id
+  // Note: check if the usage is 0
+
+  //   .then(() => {
+  //     showAlert({ type: "success", message: "City deleted successfully!" });
+  //     hideModal();
+  //   })
+  //   .catch(() => {
+  //     showAlert({
+  //       type: "error",
+  //       message: "Something went wrong, please try again later",
+  //     });
+  //   })
+  //   .finally(() => {
+  //     setShowModalSpinner(false);
+  //   });
+};
+
+export { addNewCityService, editCityService, deleteCityService };

@@ -1,6 +1,11 @@
 "use client";
 import { chevronLeftIcon } from "@/assets";
-import { H1, Modal, RolesAnalyticsCitiesButtonMobile } from "@/components";
+import {
+  DeleteModal,
+  H1,
+  Modal,
+  RolesAnalyticsCitiesButtonMobile,
+} from "@/components";
 import {
   CitiesSection,
   CityModal,
@@ -25,24 +30,29 @@ import { useContext, useEffect, useState } from "react";
 import { AlertContext } from "@/app/context/AlertContext";
 import {
   addNewCityService,
+  deleteCityService,
   editCityService,
 } from "@/services/admin-side/roles-analytics-cities/cities";
 import {
   addNewCurrencyService,
+  deleteCurrencyService,
   editCurrencyService,
 } from "@/services/admin-side/roles-analytics-cities/currencies";
 import { convertRolesToRows } from "@/utilities/admin-panel/roles-analytics-cities/roles";
 import {
   addNewOfficeLocationService,
+  deleteOfficeLocationService,
   editOfficeLocationService,
 } from "@/services/admin-side/roles-analytics-cities/officeLocations";
 import {
   addNewPlotService,
+  deletePlotService,
   editPlotService,
 } from "@/services/admin-side/roles-analytics-cities/plots";
 import usePlotsFromDB from "@/Firebase/Plots/getPlotsFromFirestore";
 import {
   addNewStyleService,
+  deleteStyleService,
   editStyleService,
 } from "@/services/admin-side/roles-analytics-cities/styles";
 import useStylesFromDB from "@/Firebase/Styles Functions/getStylesFromFirebase";
@@ -141,6 +151,11 @@ const RolesAnalyticsCities = () => {
       hideModal
     );
   };
+  const deleteCityHandler = (e) => {
+    e.preventDefault();
+    // Calling the service
+    deleteCityService(itemToDelete, setShowModalSpinner, showAlert, hideModal);
+  };
 
   // Currencies states and functions
   const [currencies, setCurrencies] = useState(null);
@@ -193,6 +208,16 @@ const RolesAnalyticsCities = () => {
       hideModal
     );
   };
+  const deleteCurrencyHandler = (e) => {
+    e.preventDefault();
+    // Calling the service
+    deleteCurrencyService(
+      itemToDelete,
+      setShowModalSpinner,
+      showAlert,
+      hideModal
+    );
+  };
 
   // Office locations states and functions
   const [officeLocations, setOfficeLocations] = useState(null);
@@ -234,6 +259,17 @@ const RolesAnalyticsCities = () => {
       currentOfficeLocation,
       showAlert,
       setShowModalSpinner,
+      hideModal
+    );
+  };
+
+  const deleteOfficeLocationHandler = (e) => {
+    e.preventDefault();
+    // Calling the service
+    deleteOfficeLocationService(
+      itemToDelete,
+      setShowModalSpinner,
+      showAlert,
       hideModal
     );
   };
@@ -283,6 +319,12 @@ const RolesAnalyticsCities = () => {
     );
   };
 
+  const deletePlotHandler = (e) => {
+    e.preventDefault();
+    // Calling the service
+    deletePlotService(itemToDelete, setShowModalSpinner, showAlert, hideModal);
+  };
+
   // Styles states and functions
   const [styles, setStyles] = useState(null);
   useStylesFromDB(setStyles);
@@ -328,6 +370,19 @@ const RolesAnalyticsCities = () => {
     );
   };
 
+  const deleteStyleHandler = (e) => {
+    e.preventDefault();
+    // Calling the service
+    deleteStyleService(itemToDelete, setShowModalSpinner, showAlert, hideModal);
+  };
+
+  // General state for deleting items
+  const defaultItemToDelete = {
+    type: null,
+    id: null,
+  };
+  const [itemToDelete, setItemToDelete] = useState(defaultItemToDelete);
+
   // Modal states and functions
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMetadata, setModalMetadata] = useState({
@@ -335,31 +390,24 @@ const RolesAnalyticsCities = () => {
     action: null,
   });
   const toggleModal = () => {
-    if (isModalOpen) {
-      setModalMetadata({
-        type: null,
-        action: null,
-      });
-    }
     setIsModalOpen((prevState) => !prevState);
   };
   const hideModal = () => {
-    if (isModalOpen) {
-      setModalMetadata({
-        type: null,
-        action: null,
-      });
-    }
     setIsModalOpen(false);
   };
 
   useEffect(() => {
     if (!isModalOpen) {
       setCurrentCity(defaultCity);
+      setModalMetadata({
+        type: null,
+        action: null,
+      });
       setCurrentCurrency(defaultCurrency);
       setCurrentOfficeLocation(defaultOfficeLocation);
       setCurrentPlot(deafultPlot);
       setCurrentStyle(deafultStyle);
+      setItemToDelete(defaultItemToDelete);
     }
   }, [isModalOpen]);
 
@@ -399,6 +447,7 @@ const RolesAnalyticsCities = () => {
               setCurrentCurrency={setCurrentCurrency}
               setModalMetadata={setModalMetadata}
               toggleModal={toggleModal}
+              setItemToDelete={setItemToDelete}
             />
           </div>
           <RolesAnalyticsCitiesContainer className="w-full grid grid-rows-4">
@@ -407,24 +456,28 @@ const RolesAnalyticsCities = () => {
               setCurrentCity={setCurrentCity}
               setModalMetadata={setModalMetadata}
               toggleModal={toggleModal}
+              setItemToDelete={setItemToDelete}
             />
             <OfficeLocSection
               officeLocations={officeLocations}
               setCurrentOfficeLocation={setCurrentOfficeLocation}
               setModalMetadata={setModalMetadata}
               toggleModal={toggleModal}
+              setItemToDelete={setItemToDelete}
             />
             <PlotsSection
               plots={plots}
               setCurrentPlot={setCurrentPlot}
               setModalMetadata={setModalMetadata}
               toggleModal={toggleModal}
+              setItemToDelete={setItemToDelete}
             />
             <StylesSection
               styles={styles}
               setCurrentStyle={setCurrentStyle}
               setModalMetadata={setModalMetadata}
               toggleModal={toggleModal}
+              setItemToDelete={setItemToDelete}
             />
           </RolesAnalyticsCitiesContainer>
           <UserProductAnalyticsSection />
@@ -450,6 +503,7 @@ const RolesAnalyticsCities = () => {
               setCurrentCurrency={setCurrentCurrency}
               setModalMetadata={setModalMetadata}
               toggleModal={toggleModal}
+              setItemToDelete={setItemToDelete}
             />
           ) : expandedSection === "cities" ? (
             <RolesAnalyticsCitiesContainer className="w-full overflow-hidden">
@@ -458,6 +512,7 @@ const RolesAnalyticsCities = () => {
                 setCurrentCity={setCurrentCity}
                 setModalMetadata={setModalMetadata}
                 toggleModal={toggleModal}
+                setItemToDelete={setItemToDelete}
               />
             </RolesAnalyticsCitiesContainer>
           ) : expandedSection === "officeLocations" ? (
@@ -467,6 +522,7 @@ const RolesAnalyticsCities = () => {
                 setCurrentOfficeLocation={setCurrentOfficeLocation}
                 setModalMetadata={setModalMetadata}
                 toggleModal={toggleModal}
+                setItemToDelete={setItemToDelete}
               />
             </RolesAnalyticsCitiesContainer>
           ) : expandedSection === "plots" ? (
@@ -476,6 +532,7 @@ const RolesAnalyticsCities = () => {
                 setCurrentPlot={setCurrentPlot}
                 setModalMetadata={setModalMetadata}
                 toggleModal={toggleModal}
+                setItemToDelete={setItemToDelete}
               />
             </RolesAnalyticsCitiesContainer>
           ) : expandedSection === "styles" ? (
@@ -485,6 +542,7 @@ const RolesAnalyticsCities = () => {
                 setCurrentStyle={setCurrentStyle}
                 setModalMetadata={setModalMetadata}
                 toggleModal={toggleModal}
+                setItemToDelete={setItemToDelete}
               />
             </RolesAnalyticsCitiesContainer>
           ) : (
@@ -494,7 +552,24 @@ const RolesAnalyticsCities = () => {
       </section>
       {isModalOpen && (
         <Modal toggleModal={toggleModal} isModalOpen={isModalOpen}>
-          {modalMetadata.type === "city" ? (
+          {modalMetadata.action === "delete" ? (
+            <DeleteModal
+              showModalSpinner={showModalSpinner}
+              toggleModal={toggleModal}
+              itemToDelete={itemToDelete}
+              deleteHandler={
+                itemToDelete.type === "city"
+                  ? deleteCityHandler
+                  : itemToDelete.type === "currency"
+                  ? deleteCurrencyHandler
+                  : itemToDelete.type === "office"
+                  ? deleteOfficeLocationHandler
+                  : itemToDelete.type === "plot"
+                  ? deletePlotHandler
+                  : itemToDelete.type === "style" && deleteStyleHandler
+              }
+            />
+          ) : modalMetadata.type === "city" ? (
             <CityModal
               addNewCityHandler={addNewCityHandler}
               editCityHandler={editCityHandler}

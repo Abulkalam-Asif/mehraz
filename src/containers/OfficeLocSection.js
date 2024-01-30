@@ -8,6 +8,7 @@ const OfficeLocSection = ({
   setCurrentOfficeLocation,
   setModalMetadata,
   toggleModal,
+  setItemToDelete,
 }) => {
   const addOfficeClickHandler = () => {
     setModalMetadata({
@@ -28,9 +29,17 @@ const OfficeLocSection = ({
   };
 
   const deleteOfficeClickHandler = (e) => {
+    setModalMetadata({
+      type: "office",
+      action: "delete",
+    });
+    toggleModal();
     const officeId = e.currentTarget.dataset.officeId;
     const office = officeLocations.find((office) => office.id === officeId);
-    // TODO (frontend): add delete office functionality
+    setItemToDelete({
+      id: office.id,
+      type: "office",
+    });
   };
   return (
     <>
@@ -136,7 +145,8 @@ const OfficeLocSection = ({
         <Button
           text="add office"
           onClick={addOfficeClickHandler}
-          className="text-xs mr-auto ml-4"
+          className="mr-auto ml-4"
+          size="xs"
         />
       </div>
     </>

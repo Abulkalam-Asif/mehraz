@@ -104,4 +104,28 @@ const editPlotService = (
   }
 };
 
-export { addNewPlotService, editPlotService };
+const deletePlotService = (
+  itemToDelete,
+  setShowModalSpinner,
+  showAlert,
+  hideModal
+) => {
+  setShowModalSpinner(true);
+  // TODO (backend): call the delete function. use itemToDelete.id
+
+  //   .then(() => {
+  //     showAlert({ type: "success", message: "Plot deleted successfully!" });
+  //     hideModal();
+  //   })
+  //   .catch(() => {
+  //     showAlert({
+  //       type: "error",
+  //       message: "Something went wrong, please try again later",
+  //     });
+  //   })
+  //   .finally(() => {
+  //     setShowModalSpinner(false);
+  //   });
+};
+
+export { addNewPlotService, editPlotService, deletePlotService };

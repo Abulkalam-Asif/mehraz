@@ -8,6 +8,7 @@ const StylesSection = ({
   setCurrentStyle,
   setModalMetadata,
   toggleModal,
+  setItemToDelete,
 }) => {
   const addStyleClickHandler = () => {
     setModalMetadata({
@@ -28,9 +29,17 @@ const StylesSection = ({
   };
 
   const deleteStyleClickHandler = (e) => {
+    setModalMetadata({
+      type: "style",
+      action: "delete",
+    });
+    toggleModal();
     const styleId = e.currentTarget.dataset.styleId;
     const currentStyle = styles.find((style) => style.id === styleId);
-    // TODO (frontend): add delete style functionality
+    setItemToDelete({
+      id: currentStyle.id,
+      type: "style",
+    });
   };
   return (
     <>
@@ -121,7 +130,8 @@ const StylesSection = ({
         )}
         <Button
           text="add style"
-          className="text-xs mr-auto ml-4"
+          className="mr-auto ml-4"
+          size="xs"
           onClick={addStyleClickHandler}
         />
       </div>

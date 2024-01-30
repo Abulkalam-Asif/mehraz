@@ -103,4 +103,32 @@ const editOfficeLocationService = (
   }
 };
 
-export { addNewOfficeLocationService, editOfficeLocationService };
+const deleteOfficeLocationService = (
+  itemToDelete,
+  setShowModalSpinner,
+  showAlert,
+  hideModal
+) => {
+  setShowModalSpinner(true);
+  // TODO (backend): call the delete function. use itemToDelete.id
+
+  //   .then(() => {
+  //     showAlert({ type: "success", message: "Office deleted successfully!" });
+  //     hideModal();
+  //   })
+  //   .catch(() => {
+  //     showAlert({
+  //       type: "error",
+  //       message: "Something went wrong, please try again later",
+  //     });
+  //   })
+  //   .finally(() => {
+  //     setShowModalSpinner(false);
+  //   });
+};
+
+export {
+  addNewOfficeLocationService,
+  editOfficeLocationService,
+  deleteOfficeLocationService,
+};

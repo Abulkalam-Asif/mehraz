@@ -22,7 +22,8 @@ const RolesAnalyticsCitiesModal = ({
             ) : (
               <Button
                 text={buttonText}
-                className={`text-xs ml-auto`}
+                className={`ml-auto`}
+                size="xs"
                 onClick={onButtonClick}
                 disabled={showModalSpinner}
               />

@@ -95,4 +95,28 @@ const editStyleService = (
   }
 };
 
-export { addNewStyleService, editStyleService };
+const deleteStyleService = (
+  itemToDelete,
+  setShowModalSpinner,
+  showAlert,
+  hideModal
+) => {
+  setShowModalSpinner(true);
+  // TODO (backend): call the delete function. use itemToDelete.id
+
+  //   .then(() => {
+  //     showAlert({ type: "success", message: "Style deleted successfully!" });
+  //     hideModal();
+  //   })
+  //   .catch(() => {
+  //     showAlert({
+  //       type: "error",
+  //       message: "Something went wrong, please try again later",
+  //     });
+  //   })
+  //   .finally(() => {
+  //     setShowModalSpinner(false);
+  //   });
+};
+
+export { addNewStyleService, editStyleService, deleteStyleService };

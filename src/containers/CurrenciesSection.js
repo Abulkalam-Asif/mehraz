@@ -8,6 +8,7 @@ const CurrenciesSection = ({
   setCurrentCurrency,
   setModalMetadata,
   toggleModal,
+  setItemToDelete,
 }) => {
   const addCurrencyClickHandler = () => {
     setModalMetadata({
@@ -34,9 +35,17 @@ const CurrenciesSection = ({
   };
 
   const deleteCurrencyClickHandler = (e) => {
+    setModalMetadata({
+      type: "currency",
+      action: "delete",
+    });
+    toggleModal();
     const currencyId = e.currentTarget.dataset.currencyId;
     const currency = currencies.find((currency) => currency.id === currencyId);
-    // TODO (frontend): implement delete currency functionality
+    setItemToDelete({
+      id: currency.id,
+      type: "currency",
+    });
   };
 
   return (
@@ -134,7 +143,8 @@ const CurrenciesSection = ({
         )}
         <Button
           text="add currency"
-          className="text-xs mr-auto ml-4"
+          className="mr-auto ml-4"
+          size="xs"
           onClick={addCurrencyClickHandler}
         />
       </RolesAnalyticsCitiesContainer>
