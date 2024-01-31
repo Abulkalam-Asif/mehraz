@@ -1,5 +1,5 @@
 import { Button, H2, Th, Td, Spinner, Dropdown } from "@/components";
-import { Table } from ".";
+import { Table } from "../..";
 import { deleteIcon, editIcon, ellipsisIcon, linkIcon } from "@/assets";
 import Image from "next/image";
 

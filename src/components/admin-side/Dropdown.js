@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useState } from "react";
-import DropdownContent from "./DropdownContent";
 
 const Dropdown = ({
   triggerContent,
@@ -28,11 +27,7 @@ const Dropdown = ({
         <button className={buttonClassName} onClick={toggleDropdown}>
           {triggerContent}
         </button>
-        {showDropdown && (
-          <DropdownContent className={contentClassName}>
-            {children}
-          </DropdownContent>
-        )}
+        {showDropdown && <div className={contentClassName}>{children}</div>}
       </div>
     </>
   );

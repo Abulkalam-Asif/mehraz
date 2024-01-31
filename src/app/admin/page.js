@@ -43,7 +43,7 @@ const linksData = {
   ],
 };
 
-const Admin = () => {
+const AdminDashboard = () => {
   return (
     <>
       <section className="px-8 h-[calc(100vh-6rem)] lg:h-[calc(100vh-4rem)] lg:mt-12">
@@ -105,4 +105,4 @@ const Admin = () => {
   );
 };
 
-export default Admin;
+export default AdminDashboard;

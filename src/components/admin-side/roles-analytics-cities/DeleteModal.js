@@ -1,4 +1,4 @@
-import { Spinner, Button } from "./";
+import { Spinner, Button } from "../..";
 
 const DeleteModal = ({
   showModalSpinner,
