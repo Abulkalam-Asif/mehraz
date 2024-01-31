@@ -43,13 +43,15 @@ const AdminDashboardDropdown = ({
             isExpanded ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
           } transition-grid-rows duration-300`}>
           <ul
-            className={`flex flex-col gap-4 overflow-hidden bg-accent-1-base ${
-              isExpanded ? "px-6 py-4" : "p-0"
+            className={`flex flex-col overflow-hidden bg-accent-2-light ${
+              isExpanded ? "py-4" : "p-0"
             } transition-padding rounded-lg`}>
             {items?.map(({ text, href }, index) => {
               return (
                 <li key={index} className="text-lg uppercase text-center">
-                  <Link href={href}>{text}</Link>
+                  <Link href={href} className="block w-full px-6 py-2">
+                    {text}
+                  </Link>
                 </li>
               );
             })}

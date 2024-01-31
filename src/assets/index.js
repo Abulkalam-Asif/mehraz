@@ -10,3 +10,6 @@ export { default as closeIcon } from "./icons/close.svg";
 export { default as ellipsisIcon } from "./icons/ellipsis.svg";
 export { default as plusIcon } from "./icons/plus.svg";
 export { default as minusIcon } from "./icons/minus.svg";
+
+// Images
+export { default as logo1Img } from "./images/logo1.svg";

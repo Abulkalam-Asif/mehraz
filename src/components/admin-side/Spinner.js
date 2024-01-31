@@ -24,7 +24,7 @@ const Spinner = ({ text = null, size, className }) => {
       <div
         className={`${className} flex flex-col items-center justify-center ${containerSizeStyles[size]}`}>
         <div
-          className={`${spinnerSizeStyles[size]} border-accent-1-dark border-b-transparent rounded-full animate-spin`}></div>
+          className={`${spinnerSizeStyles[size]} border-accent-2-base border-b-transparent rounded-full animate-spin`}></div>
         {text && (
           <p
             className={`"text-accent-1-dark ${textSizeStyles[size]} font-medium`}>
