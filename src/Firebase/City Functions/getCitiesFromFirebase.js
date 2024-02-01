@@ -7,8 +7,8 @@ const useCitiesFromDB = (setCities) => {
 
   useEffect(() => {
     const fetchData = () => {
-      const arr = [];
       const unsubscribe = onSnapshot(ref, (dataQuery) => {
+              const arr = [];
         dataQuery.forEach((doc) => {
           const city = {
             id: doc.id,

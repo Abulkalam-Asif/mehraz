@@ -1,17 +1,31 @@
 import { db } from "../firebase";
-import { addDoc, collection } from "firebase/firestore";
+import {
+	addDoc,
+	collection,
+	doc,
+	getDoc,
+	updateDoc,
+	increment,
+} from "firebase/firestore";
 
 const addCurrencyToDB = async ({ name, valueInPkr, cities, usage }) => {
-  const ref = collection(db, "Currency");
-  // TODO (backend): update usage.currencies in the cities collection
-  return addDoc(ref, {
-    name,
-    valueInPkr,
-    cities,
-    usage,
-  }).catch((err) => {
-    console.error("Firebase Error: " + err);
-  });
+	const ref = collection(db, "Currency");
+
+	cities.map(async (id) => {
+		const cityRef = doc(db, "City", id);
+		await updateDoc(cityRef, {
+			[`usage.currencies`]: increment(1),
+		});
+	});
+
+	return addDoc(ref, {
+		name,
+		valueInPkr,
+		cities,
+		usage,
+	}).catch((err) => {
+		console.error("Firebase Error: " + err);
+	});
 };
 
 export default addCurrencyToDB;

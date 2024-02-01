@@ -1,4 +1,5 @@
 import addCurrencyToDB from "@/Firebase/Currency Functions/addCurrencyToFirebase";
+import updateCurrencyInDB from "@/Firebase/Currency Functions/updateCurrencyFromFirebase";
 
 const addNewCurrencyService = (
   currentCurrency,
@@ -39,11 +40,12 @@ const addNewCurrencyService = (
         });
         hideModal();
       })
-      .catch(() => {
+      .catch((error) => {
         showAlert({
           type: "error",
           message: "Something went wrong, please try again later",
         });
+        console.error(error);
       })
       .finally(() => {
         setShowModalSpinner(false);
@@ -86,25 +88,23 @@ const editCurrencyService = (
     });
   } else {
     setShowModalSpinner(true);
-    // TODO (backend): call the update function. Follow the add function
-    // Note: compare the formattedData.cities with prevCities to check which cities have been added or removed, and update the usage for those cities accordingly
-
-    // .then(() => {
-    //   showAlert({
-    //     type: "success",
-    //     message: "Currency updated successfully!",
-    //   });
-    //   hideModal();
-    // })
-    // .catch(() => {
-    //   showAlert({
-    //     type: "error",
-    //     message: "Something went wrong, please try again later",
-    //   });
-    // })
-    // .finally(() => {
-    //   setShowModalSpinner(false);
-    // });
+    console.log(currentCurrency,prevCities);
+    updateCurrencyInDB(currentCurrency,prevCities).then(() => {
+      showAlert({
+        type: "success",
+        message: "Currency updated successfully!",
+      });
+      hideModal();
+    })
+    .catch(() => {
+      showAlert({
+        type: "error",
+        message: "Something went wrong, please try again later",
+      });
+    })
+    .finally(() => {
+      setShowModalSpinner(false);
+    });
   }
 };
 

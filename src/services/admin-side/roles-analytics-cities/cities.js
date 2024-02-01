@@ -1,4 +1,6 @@
 import addCityToDB from "@/Firebase/City Functions/addCityToFirebase";
+import deleteCityFromDB from "@/Firebase/City Functions/deleteCityFromFirebase";
+import updateCityInDB from "@/Firebase/City Functions/updateCityFromFirebase";
 
 const addNewCityService = (
   cities,
@@ -56,21 +58,21 @@ const editCityService = (
     showAlert({ type: "error", message: "This city already exists" });
     return;
   } else {
-    // setShowModalSpinner(true);
-    // TODO (backend): call the update function. Follow the add function
-    //   .then(() => {
-    //     showAlert({ type: "success", message: "City updated successfully!" });
-    //     hideModal();
-    //   })
-    //   .catch(() => {
-    //     showAlert({
-    //       type: "error",
-    //       message: "Something went wrong, please try again later",
-    //     });
-    //   })
-    //   .finally(() => {
-    //     setShowModalSpinner(false);
-    //   });
+    setShowModalSpinner(true);
+    updateCityInDB(currentCity)
+      .then(() => {
+        showAlert({ type: "success", message: "City updated successfully!" });
+        hideModal();
+      })
+      .catch(() => {
+        showAlert({
+          type: "error",
+          message: "Something went wrong, please try again later",
+        });
+      })
+      .finally(() => {
+        setShowModalSpinner(false);
+      });
   }
 };
 
@@ -81,22 +83,21 @@ const deleteCityService = (
   hideModal
 ) => {
   setShowModalSpinner(true);
-  // TODO (backend): call the delete function. use itemToDelete.id
-  // Note: check if the usage is 0
-
-  //   .then(() => {
-  //     showAlert({ type: "success", message: "City deleted successfully!" });
-  //     hideModal();
-  //   })
-  //   .catch(() => {
-  //     showAlert({
-  //       type: "error",
-  //       message: "Something went wrong, please try again later",
-  //     });
-  //   })
-  //   .finally(() => {
-  //     setShowModalSpinner(false);
-  //   });
+  console.log(itemToDelete.id);
+  deleteCityFromDB(itemToDelete.id)
+    .then(() => {
+      showAlert({ type: "success", message: "City deleted successfully!" });
+      hideModal();
+    })
+    .catch(() => {
+      showAlert({
+        type: "error",
+        message: "Something went wrong, please try again later",
+      });
+    })
+    .finally(() => {
+      setShowModalSpinner(false);
+    });
 };
 
 export { addNewCityService, editCityService, deleteCityService };
