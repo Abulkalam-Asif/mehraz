@@ -6,8 +6,9 @@ import { getDownloadURL, ref } from "firebase/storage";
 const useOfficesFromDB = (offices, setOffices) => {
   useEffect(() => {
     const fetchData = async () => {
-      const arr = [];
+      
       const unsubscribe = onSnapshot(collection(db, "Office"), (dataQuery) => {
+        const arr = [];
         const promises = [];
 
         dataQuery.forEach((doc) => {

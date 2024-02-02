@@ -6,8 +6,9 @@ import { getDownloadURL, ref } from "firebase/storage";
 const useStylesFromDB = (setStyles) => {
   useEffect(() => {
     const fetchData = async () => {
-      const arr = [];
+      
       const unsubscribe = onSnapshot(collection(db, "Style"), (dataQuery) => {
+        const arr = [];
         const promises = [];
 
         dataQuery.forEach((doc) => {

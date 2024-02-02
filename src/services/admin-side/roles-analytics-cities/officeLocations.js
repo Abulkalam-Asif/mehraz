@@ -1,4 +1,6 @@
+import deleteOfficeFromDB from "@/Firebase/Office Functions/deleteOfficeFromFirebase";
 import addOfficeToDB from "@/Firebase/Office Functions/addOfficeToDB";
+import updateOfficeInDB from "@/Firebase/Office Functions/updateOfficeFromFirebase";
 
 const addNewOfficeLocationService = (
   currentOfficeLocation,
@@ -81,25 +83,23 @@ const editOfficeLocationService = (
     return;
   } else {
     setShowModalSpinner(true);
-    // TODO (backend): call the update function. Follow the add function
-    // Note: formattedData.image will be a file if the user changed the image, as in the add function, otherwise it will be the link of the image which was retrieved from the firebase
-
-    // .then(() => {
-    //   showAlert({
-    //     type: "success",
-    //     message: "Office updated successfully!",
-    //   });
-    //   hideModal();
-    // })
-    // .catch(() => {
-    //   showAlert({
-    //     type: "error",
-    //     message: "Something went wrong, please try again later",
-    //   });
-    // })
-    // .finally(() => {
-    //   setShowModalSpinner(false);
-    // });
+     updateOfficeInDB(formattedData)
+    .then(() => {
+      showAlert({
+        type: "success",
+        message: "Office updated successfully!",
+      });
+      hideModal();
+    })
+    .catch(() => {
+      showAlert({
+        type: "error",
+        message: "Something went wrong, please try again later",
+      });
+    })
+    .finally(() => {
+      setShowModalSpinner(false);
+    });
   }
 };
 
@@ -110,21 +110,20 @@ const deleteOfficeLocationService = (
   hideModal
 ) => {
   setShowModalSpinner(true);
-  // TODO (backend): call the delete function. use itemToDelete.id
-
-  //   .then(() => {
-  //     showAlert({ type: "success", message: "Office deleted successfully!" });
-  //     hideModal();
-  //   })
-  //   .catch(() => {
-  //     showAlert({
-  //       type: "error",
-  //       message: "Something went wrong, please try again later",
-  //     });
-  //   })
-  //   .finally(() => {
-  //     setShowModalSpinner(false);
-  //   });
+  deleteOfficeFromDB(itemToDelete.id)
+    .then(() => {
+      showAlert({ type: "success", message: "Office deleted successfully!" });
+      hideModal();
+    })
+    .catch(() => {
+      showAlert({
+        type: "error",
+        message: "Something went wrong, please try again later",
+      });
+    })
+    .finally(() => {
+      setShowModalSpinner(false);
+    });
 };
 
 export {

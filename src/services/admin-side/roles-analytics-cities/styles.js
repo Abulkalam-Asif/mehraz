@@ -1,4 +1,6 @@
 import addStyleToDB from "@/Firebase/Styles Functions/addStyletoFirebase";
+import deleteStyleFromDB from "@/Firebase/Styles Functions/deleteStyleFromFirebase";
+import updateStyleInDB from "@/Firebase/Styles Functions/updateStyleFromFirebase";
 
 const addNewStyleService = (
   currentStyle,
@@ -73,25 +75,23 @@ const editStyleService = (
     return;
   } else {
     setShowModalSpinner(true);
-    // TODO (backend): call the update function. Follow the add function above
-    // Note: formattedData.image will be a file if the user changed the image, as in the add function, otherwise it will be the link of the image which was retrieved from the firebase
-
-    // .then(() => {
-    //   showAlert({
-    //     type: "success",
-    //     message: "Style updated successfully!",
-    //   });
-    //   hideModal();
-    // })
-    // .catch(() => {
-    //   showAlert({
-    //     type: "error",
-    //     message: "Something went wrong, please try again later",
-    //   });
-    // })
-    // .finally(() => {
-    //   setShowModalSpinner(false);
-    // });
+    updateStyleInDB(formattedData)
+    .then(() => {
+      showAlert({
+        type: "success",
+        message: "Style updated successfully!",
+      });
+      hideModal();
+    })
+    .catch(() => {
+      showAlert({
+        type: "error",
+        message: "Something went wrong, please try again later",
+      });
+    })
+    .finally(() => {
+      setShowModalSpinner(false);
+    });
   }
 };
 
@@ -103,20 +103,20 @@ const deleteStyleService = (
 ) => {
   setShowModalSpinner(true);
   // TODO (backend): call the delete function. use itemToDelete.id
-
-  //   .then(() => {
-  //     showAlert({ type: "success", message: "Style deleted successfully!" });
-  //     hideModal();
-  //   })
-  //   .catch(() => {
-  //     showAlert({
-  //       type: "error",
-  //       message: "Something went wrong, please try again later",
-  //     });
-  //   })
-  //   .finally(() => {
-  //     setShowModalSpinner(false);
-  //   });
+  deleteStyleFromDB(itemToDelete.id)
+    .then(() => {
+      showAlert({ type: "success", message: "Style deleted successfully!" });
+      hideModal();
+    })
+    .catch(() => {
+      showAlert({
+        type: "error",
+        message: "Something went wrong, please try again later",
+      });
+    })
+    .finally(() => {
+      setShowModalSpinner(false);
+    });
 };
 
 export { addNewStyleService, editStyleService, deleteStyleService };
