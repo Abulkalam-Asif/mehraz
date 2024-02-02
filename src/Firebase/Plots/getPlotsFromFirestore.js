@@ -7,8 +7,9 @@ const usePlotsFromDB = (setPlots) => {
 
   useEffect(() => {
     const fetchData = () => {
-      const arr = [];
+      
       const unsubscribe = onSnapshot(ref, (dataQuery) => {
+        const arr = [];
         dataQuery.forEach((doc) => {
           const docData = {
             id: doc.id,

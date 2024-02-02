@@ -1,4 +1,7 @@
 import addPlotToDB from "@/Firebase/Plots/addPlotToFirebase";
+import updatePlotInDB from "@/Firebase/Plots/updatePlotFromFiresbase";
+import deletePlotFromDB from "@/Firebase/Plots/deletePlotFromFirebase";
+
 
 const addNewPlotService = (
   currentPlot,
@@ -84,23 +87,23 @@ const editPlotService = (
     return;
   } else {
     setShowModalSpinner(true);
-    // TODO (backend): call the update function. Follow the add function
-    // .then(() => {
-    //   showAlert({
-    //     type: "success",
-    //     message: "Plot updated successfully",
-    //   });
-    //   toggleModal();
-    // })
-    // .catch(() => {
-    //   showAlert({
-    //     type: "error",
-    //     message: "Something went wrong, please try again later",
-    //   });
-    // })
-    // .finally(() => {
-    //   setShowModalSpinner(false);
-    // });
+    updatePlotInDB(formattedData)
+    .then(() => {
+      showAlert({
+        type: "success",
+        message: "Plot updated successfully",
+      });
+      toggleModal();
+    })
+    .catch(() => {
+      showAlert({
+        type: "error",
+        message: "Something went wrong, please try again later",
+      });
+    })
+    .finally(() => {
+      setShowModalSpinner(false);
+    });
   }
 };
 
@@ -111,21 +114,20 @@ const deletePlotService = (
   hideModal
 ) => {
   setShowModalSpinner(true);
-  // TODO (backend): call the delete function. use itemToDelete.id
-
-  //   .then(() => {
-  //     showAlert({ type: "success", message: "Plot deleted successfully!" });
-  //     hideModal();
-  //   })
-  //   .catch(() => {
-  //     showAlert({
-  //       type: "error",
-  //       message: "Something went wrong, please try again later",
-  //     });
-  //   })
-  //   .finally(() => {
-  //     setShowModalSpinner(false);
-  //   });
+  deletePlotFromDB(itemToDelete.id)
+    .then(() => {
+      showAlert({ type: "success", message: "Plot deleted successfully!" });
+      hideModal();
+    })
+    .catch(() => {
+      showAlert({
+        type: "error",
+        message: "Something went wrong, please try again later",
+      });
+    })
+    .finally(() => {
+      setShowModalSpinner(false);
+    });
 };
 
 export { addNewPlotService, editPlotService, deletePlotService };
