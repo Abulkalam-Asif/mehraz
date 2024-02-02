@@ -1,4 +1,5 @@
 import addCurrencyToDB from "@/Firebase/Currency Functions/addCurrencyToFirebase";
+import deleteCurrencyFromDB from "@/Firebase/Currency Functions/deleteCurrencyFromFirebase";
 import updateCurrencyInDB from "@/Firebase/Currency Functions/updateCurrencyFromFirebase";
 
 const addNewCurrencyService = (
@@ -115,22 +116,20 @@ const deleteCurrencyService = (
   hideModal
 ) => {
   setShowModalSpinner(true);
-  // TODO (backend): call the delete function. use itemToDelete.id
-  // Note: update the usage object for the cities
-
-  //   .then(() => {
-  //     showAlert({ type: "success", message: "Currency deleted successfully!" });
-  //     hideModal();
-  //   })
-  //   .catch(() => {
-  //     showAlert({
-  //       type: "error",
-  //       message: "Something went wrong, please try again later",
-  //     });
-  //   })
-  //   .finally(() => {
-  //     setShowModalSpinner(false);
-  //   });
+  deleteCurrencyFromDB(itemToDelete.id)
+    .then(() => {
+      showAlert({ type: "success", message: "Currency deleted successfully!" });
+      hideModal();
+    })
+    .catch(() => {
+      showAlert({
+        type: "error",
+        message: "Something went wrong, please try again later",
+      });
+    })
+    .finally(() => {
+      setShowModalSpinner(false);
+    });
 };
 
 export { addNewCurrencyService, editCurrencyService, deleteCurrencyService };
