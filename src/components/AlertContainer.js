@@ -1,7 +1,7 @@
 "use client";
 import { AlertContext } from "@/app/context/AlertContext";
 import { Alert } from "@/components";
-import React, { useContext } from "react";
+import { useContext } from "react";
 
 const AlertContainer = () => {
   const { alerts } = useContext(AlertContext);

@@ -1,6 +1,6 @@
 "use client";
 import { AlertContext } from "@/app/context/AlertContext";
-import React, { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 
 const Dropzone = ({
   message,
