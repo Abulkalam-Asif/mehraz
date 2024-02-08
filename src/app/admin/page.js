@@ -1,5 +1,9 @@
-import { H1, LinkButton } from "@/components";
-import { AdminDashboardDropdowns, AdminDashboardGroup } from "@/containers";
+import {
+  H1,
+  LinkButton,
+  AdminDashboardDropdowns,
+  AdminDashboardGroup,
+} from "@/components";
 const linksCategories = [
   {
     title: "uploads",

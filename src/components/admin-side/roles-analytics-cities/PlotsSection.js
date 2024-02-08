@@ -1,66 +1,72 @@
-import { Button, Dropdown, H2, Spinner, Td } from "@/components";
-import { Table } from "../..";
-import { deleteIcon, editIcon, ellipsisIcon } from "@/assets";
+import { Button, H2, Th, Td, Spinner, Dropdown, Table } from "@/components";
 import Image from "next/image";
+import { deleteIcon, editIcon, ellipsisIcon } from "@/assets";
 
-const CitiesSection = ({
-  setCurrentCity,
-  cities,
+const PlotsSection = ({
+  plots,
+  setCurrentPlot,
   setModalMetadata,
   toggleModal,
   setItemToDelete,
 }) => {
-  const addCityClickHandler = () => {
+  const addPlotClickHandler = () => {
     setModalMetadata({
-      type: "city",
+      type: "plot",
       action: "add",
     });
     toggleModal();
   };
-  const editCityClickHandler = (e) => {
+  const editPlotClickHandler = (e) => {
     setModalMetadata({
-      type: "city",
+      type: "plot",
       action: "edit",
     });
     toggleModal();
-    const cityId = e.currentTarget.dataset.cityId;
-    const city = cities.find((city) => city.id === cityId);
-    setCurrentCity(city);
+    const plotId = e.currentTarget.dataset.plotId;
+    const plot = plots.find((plot) => plot.id === plotId);
+    setCurrentPlot(plot);
   };
 
-  const deleteCityClickHandler = (e) => {
+  const deletePlotClickHandler = (e) => {
     setModalMetadata({
-      type: "city",
+      type: "plot",
       action: "delete",
     });
     toggleModal();
-    const cityId = e.currentTarget.dataset.cityId;
-    const city = cities.find((city) => city.id === cityId);
+    const plotId = e.currentTarget.dataset.plotId;
+    const plot = plots.find((plot) => plot.id === plotId);
     setItemToDelete({
-      id: city.id,
-      type: "city",
+      id: plot.id,
+      type: "plot",
     });
   };
 
   return (
     <>
       <div className="flex flex-col gap-y-2 lg:h-full lg:overflow-y-hidden">
-        <H2 text="cities" />
-        {cities ? (
-          cities.length > 0 ? (
+        <H2 text="plots" />
+        {plots ? (
+          plots.length > 0 ? (
             <Table border={false} className="h-full overflow-y-auto py-2">
-              <tbody className="text-sm">
-                {cities?.map(({ id, name }, index) => (
+              <thead className="text-sm">
+                <tr>
+                  <Th position="beginning">area</Th>
+                  <Th position="end">unit</Th>
+                </tr>
+              </thead>
+              <tbody className="text-xs font-semibold">
+                {plots?.map((plot, index) => (
                   <tr key={index}>
                     <Td
-                      isLastRow={index === cities.length - 1}
-                      position="beginning">
-                      {name}
+                      position="beginning"
+                      isLastRow={index === plots.length - 1}>
+                      {plot.area}
                     </Td>
+                    <Td isLastRow={index === plots.length - 1}>{plot.unit}</Td>
                     <Td
-                      isLastRow={index === cities.length - 1}
+                      align="center"
                       position="end"
-                      align="center">
+                      isLastRow={index === plots.length - 1}>
                       <Dropdown
                         className="w-fit"
                         contentClassName={
@@ -77,9 +83,9 @@ const CitiesSection = ({
                           </>
                         }>
                         <button
-                          title="Edit city"
-                          data-city-id={id}
-                          onClick={editCityClickHandler}
+                          title="Edit plot"
+                          data-plot-id={plot.id}
+                          onClick={editPlotClickHandler}
                           className="hover:bg-accent-1-extra-light p-2 rounded-full">
                           <Image
                             src={editIcon}
@@ -88,9 +94,9 @@ const CitiesSection = ({
                           />
                         </button>
                         <button
-                          title="Delete city"
-                          data-city-id={id}
-                          onClick={deleteCityClickHandler}
+                          title="Delete plot"
+                          data-plot-id={plot.id}
+                          onClick={deletePlotClickHandler}
                           className="hover:bg-accent-1-extra-light p-2 rounded-full">
                           <Image
                             src={deleteIcon}
@@ -106,23 +112,24 @@ const CitiesSection = ({
             </Table>
           ) : (
             <div className="flex-1 font-medium flex items-center justify-center">
-              <p>No cities added yet.</p>
+              <p>No plots added yet.</p>
             </div>
           )
         ) : (
           <div className="flex-1 flex items-center justify-center">
-            <Spinner size={"sm"} text="Loading cities..." />
+            <Spinner size={"sm"} text="Loading plots..." />
           </div>
         )}
+
         <Button
-          text="add city"
+          text="add plot"
+          onClick={addPlotClickHandler}
           className="mr-auto ml-4"
           size="xs"
-          onClick={addCityClickHandler}
         />
       </div>
     </>
   );
 };
 
-export default CitiesSection;
+export default PlotsSection;

@@ -1,5 +1,11 @@
-import { H2, Spinner, Td, Th } from "@/components";
-import { Table, RolesAnalyticsCitiesContainer } from "../..";
+import {
+  H2,
+  Spinner,
+  Td,
+  Th,
+  Table,
+  RolesAnalyticsCitiesContainer,
+} from "@/components";
 
 const RolesSection = ({ rolesRows }) => {
   return (

@@ -1,80 +1,65 @@
-import { Button, H2, Th, Td, Spinner, Dropdown } from "@/components";
-import { Table } from "../..";
-import { deleteIcon, editIcon, ellipsisIcon, linkIcon } from "@/assets";
+import { Button, Dropdown, H2, Spinner, Td, Table } from "@/components";
+import { deleteIcon, editIcon, ellipsisIcon } from "@/assets";
 import Image from "next/image";
 
-const StylesSection = ({
-  styles,
-  setCurrentStyle,
+const CitiesSection = ({
+  setCurrentCity,
+  cities,
   setModalMetadata,
   toggleModal,
   setItemToDelete,
 }) => {
-  const addStyleClickHandler = () => {
+  const addCityClickHandler = () => {
     setModalMetadata({
-      type: "style",
+      type: "city",
       action: "add",
     });
     toggleModal();
   };
-  const editStyleClickHandler = (e) => {
+  const editCityClickHandler = (e) => {
     setModalMetadata({
-      type: "style",
+      type: "city",
       action: "edit",
     });
     toggleModal();
-    const styleId = e.currentTarget.dataset.styleId;
-    const currentStyle = styles.find((style) => style.id === styleId);
-    setCurrentStyle(currentStyle);
+    const cityId = e.currentTarget.dataset.cityId;
+    const city = cities.find((city) => city.id === cityId);
+    setCurrentCity(city);
   };
 
-  const deleteStyleClickHandler = (e) => {
+  const deleteCityClickHandler = (e) => {
     setModalMetadata({
-      type: "style",
+      type: "city",
       action: "delete",
     });
     toggleModal();
-    const styleId = e.currentTarget.dataset.styleId;
-    const currentStyle = styles.find((style) => style.id === styleId);
+    const cityId = e.currentTarget.dataset.cityId;
+    const city = cities.find((city) => city.id === cityId);
     setItemToDelete({
-      id: currentStyle.id,
-      type: "style",
+      id: city.id,
+      type: "city",
     });
   };
+
   return (
     <>
       <div className="flex flex-col gap-y-2 lg:h-full lg:overflow-y-hidden">
-        <H2 text="styles" />
-        {styles ? (
-          styles.length > 0 ? (
+        <H2 text="cities" />
+        {cities ? (
+          cities.length > 0 ? (
             <Table border={false} className="h-full overflow-y-auto py-2">
-              <thead className="text-sm">
-                <tr>
-                  <Th position="beginning">name</Th>
-                  <Th position="end">image</Th>
-                </tr>
-              </thead>
-              <tbody className="text-xs font-semibold">
-                {styles?.map((style, index) => (
+              <tbody className="text-sm">
+                {cities?.map(({ id, name }, index) => (
                   <tr key={index}>
                     <Td
-                      position="beginning"
-                      isLastRow={index === styles.length - 1}>
-                      {style.name}
-                    </Td>
-                    <Td position="end" isLastRow={index === styles.length - 1}>
-                      <a
-                        target="_blank"
-                        href={style.image}
-                        className="underline flex items-center gap-2">
-                        <span>image</span>
-                        <Image src={linkIcon} alt="link" />
-                      </a>
+                      isLastRow={index === cities.length - 1}
+                      position="beginning">
+                      {name}
                     </Td>
                     <Td
+                      isLastRow={index === cities.length - 1}
                       position="end"
-                      align="center"
-                      isLastRow={index === styles.length - 1}>
+                      align="center">
                       <Dropdown
                         className="w-fit"
                         contentClassName={
@@ -91,9 +76,9 @@ const StylesSection = ({
                           </>
                         }>
                         <button
-                          title="Edit style"
-                          data-style-id={style.id}
-                          onClick={editStyleClickHandler}
+                          title="Edit city"
+                          data-city-id={id}
+                          onClick={editCityClickHandler}
                           className="hover:bg-accent-1-extra-light p-2 rounded-full">
                           <Image
                             src={editIcon}
@@ -102,9 +87,9 @@ const StylesSection = ({
                           />
                         </button>
                         <button
-                          title="Delete style"
-                          data-style-id={style.id}
-                          onClick={deleteStyleClickHandler}
+                          title="Delete city"
+                          data-city-id={id}
+                          onClick={deleteCityClickHandler}
                           className="hover:bg-accent-1-extra-light p-2 rounded-full">
                           <Image
                             src={deleteIcon}
@@ -120,23 +105,23 @@ const StylesSection = ({
             </Table>
           ) : (
             <div className="flex-1 font-medium flex items-center justify-center">
-              <p>No styles added yet.</p>
+              <p>No cities added yet.</p>
             </div>
           )
         ) : (
           <div className="flex-1 flex items-center justify-center">
-            <Spinner size={"sm"} text="Loading styles..." />
+            <Spinner size={"sm"} text="Loading cities..." />
           </div>
         )}
         <Button
-          text="add style"
+          text="add city"
           className="mr-auto ml-4"
           size="xs"
-          onClick={addStyleClickHandler}
+          onClick={addCityClickHandler}
         />
       </div>
     </>
   );
 };
 
-export default StylesSection;
+export default CitiesSection;

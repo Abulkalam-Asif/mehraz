@@ -7,7 +7,7 @@ const fetchAllProjects = async () => {
       const allProjects = [];
       querySnapshot.forEach((doc) => {
         const documentData = doc.data();
-        allProjects.push({ id: doc.id, data: documentData });
+        allProjects.push({ id: doc.id, ...documentData });
       });
       return allProjects;
     } else {

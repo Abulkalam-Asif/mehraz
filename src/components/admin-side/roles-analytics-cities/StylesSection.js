@@ -1,73 +1,79 @@
-import { Button, H2, Th, Td, Spinner, Dropdown } from "@/components";
-import { Table } from "../..";
+import { Button, H2, Th, Td, Spinner, Dropdown, Table } from "@/components";
+import { deleteIcon, editIcon, ellipsisIcon, linkIcon } from "@/assets";
 import Image from "next/image";
-import { deleteIcon, editIcon, ellipsisIcon } from "@/assets";
 
-const PlotsSection = ({
-  plots,
-  setCurrentPlot,
+const StylesSection = ({
+  styles,
+  setCurrentStyle,
   setModalMetadata,
   toggleModal,
   setItemToDelete,
 }) => {
-  const addPlotClickHandler = () => {
+  const addStyleClickHandler = () => {
     setModalMetadata({
-      type: "plot",
+      type: "style",
       action: "add",
     });
     toggleModal();
   };
-  const editPlotClickHandler = (e) => {
+  const editStyleClickHandler = (e) => {
     setModalMetadata({
-      type: "plot",
+      type: "style",
       action: "edit",
     });
     toggleModal();
-    const plotId = e.currentTarget.dataset.plotId;
-    const plot = plots.find((plot) => plot.id === plotId);
-    setCurrentPlot(plot);
+    const styleId = e.currentTarget.dataset.styleId;
+    const currentStyle = styles.find((style) => style.id === styleId);
+    setCurrentStyle(currentStyle);
   };
 
-  const deletePlotClickHandler = (e) => {
+  const deleteStyleClickHandler = (e) => {
     setModalMetadata({
-      type: "plot",
+      type: "style",
       action: "delete",
     });
     toggleModal();
-    const plotId = e.currentTarget.dataset.plotId;
-    const plot = plots.find((plot) => plot.id === plotId);
+    const styleId = e.currentTarget.dataset.styleId;
+    const currentStyle = styles.find((style) => style.id === styleId);
     setItemToDelete({
-      id: plot.id,
-      type: "plot",
+      id: currentStyle.id,
+      type: "style",
     });
   };
-
   return (
     <>
       <div className="flex flex-col gap-y-2 lg:h-full lg:overflow-y-hidden">
-        <H2 text="plots" />
-        {plots ? (
-          plots.length > 0 ? (
+        <H2 text="styles" />
+        {styles ? (
+          styles.length > 0 ? (
             <Table border={false} className="h-full overflow-y-auto py-2">
               <thead className="text-sm">
                 <tr>
-                  <Th position="beginning">area</Th>
-                  <Th position="end">unit</Th>
+                  <Th position="beginning">name</Th>
+                  <Th position="end">image</Th>
                 </tr>
               </thead>
               <tbody className="text-xs font-semibold">
-                {plots?.map((plot, index) => (
+                {styles?.map((style, index) => (
                   <tr key={index}>
                     <Td
                       position="beginning"
-                      isLastRow={index === plots.length - 1}>
-                      {plot.area}
+                      isLastRow={index === styles.length - 1}>
+                      {style.name}
                     </Td>
-                    <Td isLastRow={index === plots.length - 1}>{plot.unit}</Td>
+                    <Td position="end" isLastRow={index === styles.length - 1}>
+                      <a
+                        target="_blank"
+                        href={style.image}
+                        className="underline flex items-center gap-2">
+                        <span>image</span>
+                        <Image src={linkIcon} alt="link" />
+                      </a>
+                    </Td>
                     <Td
-                      align="center"
                       position="end"
-                      isLastRow={index === plots.length - 1}>
+                      align="center"
+                      isLastRow={index === styles.length - 1}>
                       <Dropdown
                         className="w-fit"
                         contentClassName={
@@ -84,9 +90,9 @@ const PlotsSection = ({
                           </>
                         }>
                         <button
-                          title="Edit plot"
-                          data-plot-id={plot.id}
-                          onClick={editPlotClickHandler}
+                          title="Edit style"
+                          data-style-id={style.id}
+                          onClick={editStyleClickHandler}
                           className="hover:bg-accent-1-extra-light p-2 rounded-full">
                           <Image
                             src={editIcon}
@@ -95,9 +101,9 @@ const PlotsSection = ({
                           />
                         </button>
                         <button
-                          title="Delete plot"
-                          data-plot-id={plot.id}
-                          onClick={deletePlotClickHandler}
+                          title="Delete style"
+                          data-style-id={style.id}
+                          onClick={deleteStyleClickHandler}
                           className="hover:bg-accent-1-extra-light p-2 rounded-full">
                           <Image
                             src={deleteIcon}
@@ -113,24 +119,23 @@ const PlotsSection = ({
             </Table>
           ) : (
             <div className="flex-1 font-medium flex items-center justify-center">
-              <p>No plots added yet.</p>
+              <p>No styles added yet.</p>
             </div>
           )
         ) : (
           <div className="flex-1 flex items-center justify-center">
-            <Spinner size={"sm"} text="Loading plots..." />
+            <Spinner size={"sm"} text="Loading styles..." />
           </div>
         )}
-
         <Button
-          text="add plot"
-          onClick={addPlotClickHandler}
+          text="add style"
           className="mr-auto ml-4"
           size="xs"
+          onClick={addStyleClickHandler}
         />
       </div>
     </>
   );
 };
 
-export default PlotsSection;
+export default StylesSection;

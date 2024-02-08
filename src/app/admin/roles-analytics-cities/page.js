@@ -5,8 +5,6 @@ import {
   H1,
   Modal,
   RolesAnalyticsCitiesButtonMobile,
-} from "@/components";
-import {
   CitiesSection,
   CityModal,
   CurrenciesSection,
@@ -20,7 +18,7 @@ import {
   StyleModal,
   StylesSection,
   UserProductAnalyticsSection,
-} from "@/containers";
+} from "@/components";
 import useCurrenciesFromDB from "@/Firebase/Currency Functions/getCurrenciesFromFirebase";
 import useCitiesFromDB from "@/Firebase/City Functions/getCitiesFromFirebase";
 import useOfficesFromDB from "@/Firebase/Office Functions/getOfficesFromDB";

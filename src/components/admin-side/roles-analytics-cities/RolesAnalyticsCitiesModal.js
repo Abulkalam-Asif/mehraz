@@ -1,4 +1,4 @@
-import { Button, H2, Spinner } from "../..";
+import { Button, H2, Spinner } from "@/components";
 
 const RolesAnalyticsCitiesModal = ({
   children,
