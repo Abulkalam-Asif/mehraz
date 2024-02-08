@@ -1,13 +1,12 @@
-import { useEffect } from "react";
 import { collection, onSnapshot } from "firebase/firestore";
 import { db, storage } from "../firebase";
 import { getDownloadURL, ref } from "firebase/storage";
 
-const useStylesFromDB = (setStyles) => {
-  useEffect(() => {
-    const fetchData = async () => {
-      
-      const unsubscribe = onSnapshot(collection(db, "Style"), (dataQuery) => {
+const useStylesFromDB = async () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = onSnapshot(
+      collection(db, "Style"),
+      (dataQuery) => {
         const arr = [];
         const promises = [];
 
@@ -19,26 +18,24 @@ const useStylesFromDB = (setStyles) => {
           arr.push(stylesData);
 
           const imageName = `${doc.id}`;
-
           const imageRef = ref(storage, `Style/${imageName}`);
-
           promises.push(
             getDownloadURL(imageRef).then((url) => {
               stylesData.image = url;
             })
           );
         });
-
+        unsubscribe();
         Promise.all(promises).then(() => {
-          setStyles(arr);
+          resolve(arr);
         });
-      });
-
-      return () => unsubscribe();
-    };
-
-    fetchData();
-  }, [setStyles]);
+      },
+      (error) => {
+        unsubscribe();
+        reject(error);
+      }
+    );
+  });
 };
 
 export default useStylesFromDB;

@@ -1,15 +1,16 @@
-import { useEffect } from "react";
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase";
+import useCitiesFromDB from "../City Functions/getCitiesFromFirebase";
 
-const useCurrenciesFromDB = (setCurrencies, cities) => {
+const useCurrenciesFromDB = async () => {
+  const cities = await useCitiesFromDB();
   const ref = collection(db, "Currency");
 
-  useEffect(() => {
-    const fetchData = () => {
-      const unsubscribe = onSnapshot(ref, (dataQuery) => {
+  const promise = new Promise((resolve, reject) => {
+    const unsubscribe = onSnapshot(
+      ref,
+      (dataQuery) => {
         const arr = [];
-
         dataQuery.forEach((doc) => {
           const docData = {
             id: doc.id,
@@ -19,14 +20,15 @@ const useCurrenciesFromDB = (setCurrencies, cities) => {
           };
           arr.push(docData);
         });
-        setCurrencies(arr);
-      });
-
-      return () => unsubscribe();
-    };
-
-    fetchData();
-  }, [setCurrencies, cities]);
+        unsubscribe();
+        resolve(arr);
+      },
+      (error) => {
+        unsubscribe();
+        reject(error);
+      }
+    );
+  });
 
   const mapCitiesWithNames = (cityIds, citiesData) => {
     return cityIds.map((cityId) => {
@@ -39,6 +41,8 @@ const useCurrenciesFromDB = (setCurrencies, cities) => {
       };
     });
   };
+
+  return promise;
 };
 
 export default useCurrenciesFromDB;

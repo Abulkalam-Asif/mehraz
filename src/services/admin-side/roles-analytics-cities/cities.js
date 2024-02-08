@@ -83,7 +83,6 @@ const deleteCityService = (
   hideModal
 ) => {
   setShowModalSpinner(true);
-  console.log(itemToDelete.id);
   deleteCityFromDB(itemToDelete.id)
     .then(() => {
       showAlert({ type: "success", message: "City deleted successfully!" });
