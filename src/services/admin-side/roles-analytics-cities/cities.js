@@ -23,15 +23,12 @@ const addNewCityService = (
   } else {
     setShowModalSpinner(true);
     addCityToDB(formattedData)
-      .then(() => {
-        showAlert({ type: "success", message: "City added successfully!" });
+      .then(({ type, message }) => {
+        showAlert({ type, message });
         hideModal();
       })
-      .catch(() => {
-        showAlert({
-          type: "error",
-          message: "Something went wrong, please try again later",
-        });
+      .catch(({ type, message }) => {
+        showAlert({ type, message });
       })
       .finally(() => {
         setShowModalSpinner(false);
@@ -60,9 +57,8 @@ const editCityService = (
   } else {
     setShowModalSpinner(true);
     updateCityInDB(currentCity)
-      .then(() => {
-        showAlert({ type: "success", message: "City updated successfully!" });
-        hideModal();
+      .then(({ type, message }) => {
+        showAlert({ type, message });
       })
       .catch(() => {
         showAlert({
@@ -71,6 +67,7 @@ const editCityService = (
         });
       })
       .finally(() => {
+        hideModal();
         setShowModalSpinner(false);
       });
   }
@@ -84,17 +81,14 @@ const deleteCityService = (
 ) => {
   setShowModalSpinner(true);
   deleteCityFromDB(itemToDelete.id)
-    .then(() => {
-      showAlert({ type: "success", message: "City deleted successfully!" });
-      hideModal();
+    .then(({ type, message }) => {
+      showAlert({ type, message });
     })
-    .catch(() => {
-      showAlert({
-        type: "error",
-        message: "Something went wrong, please try again later",
-      });
+    .catch(({ type, message }) => {
+      showAlert({ type, message });
     })
     .finally(() => {
+      hideModal();
       setShowModalSpinner(false);
     });
 };

@@ -17,13 +17,20 @@ const updateCityInDB = async ({ id, name }) => {
         name: name,
         usage: docSnapshot.data().usage,
       });
-
-      console.log("Document updated successfully");
+      revalidatePath("/admin/roles-analytics-cities", "page");
+      return { type: "success", message: "City updated successfully!" };
     } else {
-      console.log("No such document!");
+      return {
+        type: "error",
+        message: "City updation failed. Please try again later.",
+      };
     }
   } catch (error) {
-    console.error("Error getting/updating document:", error);
+    console.error("Error updating the city:", error);
+    return {
+      type: "error",
+      message: "City updation failed. Please try again later.",
+    };
   }
 };
 
