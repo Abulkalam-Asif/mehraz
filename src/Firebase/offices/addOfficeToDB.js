@@ -4,28 +4,29 @@ import { collection, doc, setDoc } from "firebase/firestore";
 import { ref, uploadBytes } from "firebase/storage";
 import { revalidatePath } from "next/cache";
 
-const addStyleToDB = async ({ name, image, usage }) => {
+const addOfficeToDB = async ({ name, address, mapsLink, image }) => {
   try {
     const currentTimeInMilliseconds = new Date().getTime().toString();
 
-    const imageRef = ref(storage, `Styles/${currentTimeInMilliseconds}`);
+    const imageRef = ref(storage, `Offices/${currentTimeInMilliseconds}`);
     await uploadBytes(imageRef, image.get("image"));
 
-    const collectionRef = collection(db, "Style");
+    const collectionRef = collection(db, "OFFICES");
     const newDocRef = doc(collectionRef, currentTimeInMilliseconds);
 
     await setDoc(newDocRef, {
-      name,
-      usage,
+      name: name,
+      address: address,
+      mapsLink: mapsLink,
     });
 
     revalidatePath("/admin/roles-analytics-cities", "page");
     return {
       type: "success",
-      message: "Style added successfully!",
+      message: "Office added successfully!",
     };
-  } catch (error) {
-    console.error("Error adding the style: " + error);
+  } catch (err) {
+    console.error("Error adding the office: " + err);
     return {
       type: "error",
       message: "Something went wrong, please try again later.",
@@ -33,4 +34,4 @@ const addStyleToDB = async ({ name, image, usage }) => {
   }
 };
 
-export default addStyleToDB;
+export default addOfficeToDB;

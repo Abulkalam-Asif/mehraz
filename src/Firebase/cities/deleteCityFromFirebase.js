@@ -1,13 +1,12 @@
 "use server";
-import { db, storage } from "../firebase";
-import { getDoc, doc, deleteDoc } from "firebase/firestore";
-import { ref, deleteObject } from "firebase/storage";
 import { revalidatePath } from "next/cache";
+import { db } from "../firebase";
+import { deleteDoc, doc, getDoc } from "firebase/firestore";
 
-const deleteStyleFromDB = async (styleId) => {
+const deleteCityFromDB = async (id) => {
   try {
-    const docRef = doc(db, "Style", styleId);
-    const docSnapshot = await getDoc(docRef);
+    const cityRef = doc(db, "CITIES", id);
+    const docSnapshot = await getDoc(cityRef);
 
     if (docSnapshot.exists()) {
       let usage = docSnapshot.data().usage;
@@ -20,22 +19,17 @@ const deleteStyleFromDB = async (styleId) => {
       if (usageCases !== "") {
         return {
           type: "error",
-          message: `Style cannot be deleted. It is being used in ${usageCases.slice(
+          message: `This city cannot be deleted. This is being used in ${usageCases.slice(
             0,
             -2
           )}.`,
         };
       } else {
-        const data = docSnapshot.data();
-        if (data) {
-          const imageRef = ref(storage, `Styles/${styleId}`);
-          await deleteObject(imageRef);
-        }
-        await deleteDoc(docRef);
+        await deleteDoc(cityRef);
         revalidatePath("/admin/roles-analytics-cities", "page");
         return {
           type: "success",
-          message: "Style deleted successfully.",
+          message: "City deleted successfully.",
         };
       }
     } else {
@@ -45,7 +39,7 @@ const deleteStyleFromDB = async (styleId) => {
       };
     }
   } catch (error) {
-    console.error("Error deleting the style: ", error);
+    console.error("Error deleting the city: ", error);
     return {
       type: "error",
       message: "Something went wrong, please try again later.",
@@ -53,4 +47,4 @@ const deleteStyleFromDB = async (styleId) => {
   }
 };
 
-export default deleteStyleFromDB;
+export default deleteCityFromDB;

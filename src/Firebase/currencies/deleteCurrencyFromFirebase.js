@@ -11,7 +11,7 @@ import {
 
 const deleteCurrencyFromDB = async (id) => {
   try {
-    const currencyRef = doc(db, "Currency", id);
+    const currencyRef = doc(db, "CURRENCIES", id);
     const docSnapshot = await getDoc(currencyRef);
 
     if (docSnapshot.exists()) {
@@ -25,7 +25,7 @@ const deleteCurrencyFromDB = async (id) => {
       if (usageCases !== "") {
         return {
           type: "error",
-          message: `Currency cannot be deleted. It is being used in ${usageCases.slice(
+          message: `This currency cannot be deleted. This is being used in ${usageCases.slice(
             0,
             -2
           )}.`,
@@ -34,7 +34,7 @@ const deleteCurrencyFromDB = async (id) => {
         let cities = docSnapshot.data().cities;
 
         cities.forEach(async (cityId) => {
-          const cityRef = doc(db, "City", cityId);
+          const cityRef = doc(db, "CITIES", cityId);
           await updateDoc(cityRef, {
             [`usage.currencies`]: increment(-1),
           });

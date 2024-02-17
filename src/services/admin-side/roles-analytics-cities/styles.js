@@ -1,6 +1,6 @@
-import addStyleToDB from "@/Firebase/Styles Functions/addStyletoFirebase";
-import deleteStyleFromDB from "@/Firebase/Styles Functions/deleteStyleFromFirebase";
-import updateStyleInDB from "@/Firebase/Styles Functions/updateStyleFromFirebase";
+import addStyleToDB from "@/Firebase/styles/addStyletoFirebase";
+import deleteStyleFromDB from "@/Firebase/styles/deleteStyleFromFirebase";
+import updateStyleInDB from "@/Firebase/styles/updateStyleFromFirebase";
 import fileToFormData from "@/utils/fileToFormData";
 
 const addNewStyleService = (

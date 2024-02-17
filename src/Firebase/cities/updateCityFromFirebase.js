@@ -5,7 +5,7 @@ import { doc, getDoc, updateDoc } from "firebase/firestore";
 
 const updateCityInDB = async ({ id, name }) => {
   try {
-    const cityRef = doc(db, "City", id);
+    const cityRef = doc(db, "CITIES", id);
     const docSnapshot = await getDoc(cityRef);
 
     if (docSnapshot.exists()) {

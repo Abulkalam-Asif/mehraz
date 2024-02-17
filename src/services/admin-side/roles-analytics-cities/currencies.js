@@ -1,6 +1,6 @@
-import addCurrencyToDB from "@/Firebase/Currency Functions/addCurrencyToFirebase";
-import deleteCurrencyFromDB from "@/Firebase/Currency Functions/deleteCurrencyFromFirebase";
-import updateCurrencyInDB from "@/Firebase/Currency Functions/updateCurrencyFromFirebase";
+import addCurrencyToDB from "@/Firebase/currencies/addCurrencyToFirebase";
+import deleteCurrencyFromDB from "@/Firebase/currencies/deleteCurrencyFromFirebase";
+import updateCurrencyInDB from "@/Firebase/currencies/updateCurrencyFromFirebase";
 
 const addNewCurrencyService = (
   currentCurrency,

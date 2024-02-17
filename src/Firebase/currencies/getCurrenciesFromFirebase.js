@@ -1,10 +1,10 @@
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase";
-import useCitiesFromDB from "../City Functions/getCitiesFromFirebase";
+import useCitiesFromDB from "../cities/getCitiesFromFirebase";
 
 const useCurrenciesFromDB = async () => {
   const cities = await useCitiesFromDB();
-  const ref = collection(db, "Currency");
+  const ref = collection(db, "CURRENCIES");
 
   const promise = new Promise((resolve, reject) => {
     const unsubscribe = onSnapshot(

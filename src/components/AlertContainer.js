@@ -1,5 +1,5 @@
 "use client";
-import { AlertContext } from "@/app/context/AlertContext";
+import { AlertContext } from "@/context/AlertContext";
 import { Alert } from "@/components";
 import { useContext } from "react";
 

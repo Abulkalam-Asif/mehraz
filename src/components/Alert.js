@@ -1,5 +1,5 @@
 "use client";
-import { AlertContext } from "@/app/context/AlertContext";
+import { AlertContext } from "@/context/AlertContext";
 import { closeIcon } from "@/assets";
 import Image from "next/image";
 import { useContext, useEffect } from "react";

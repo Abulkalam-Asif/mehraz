@@ -10,6 +10,8 @@ import {
 } from "@/components";
 import Image from "next/image";
 import { deleteIcon, editIcon, ellipsisIcon } from "@/assets";
+import { useContext } from "react";
+import { AlertContext } from "@/context/AlertContext";
 
 const CurrenciesSection = ({
   currencies,
@@ -17,8 +19,17 @@ const CurrenciesSection = ({
   setModalMetadata,
   toggleModal,
   setItemToDelete,
+  citiesCount,
 }) => {
+  const { showAlert } = useContext(AlertContext);
   const addCurrencyClickHandler = () => {
+    if (citiesCount == 0) {
+      showAlert({
+        type: "warning",
+        message: "Please add at least one city to add a currency.",
+      });
+      return;
+    }
     setModalMetadata({
       type: "currency",
       action: "add",

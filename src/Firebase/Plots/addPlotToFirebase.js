@@ -4,7 +4,7 @@ import { db } from "../firebase";
 import { addDoc, collection } from "firebase/firestore";
 
 const addPlotToDB = async ({ area, unit, usage }) => {
-  const ref = collection(db, "Plot");
+  const ref = collection(db, "PLOTS");
   try {
     await addDoc(ref, {
       area,

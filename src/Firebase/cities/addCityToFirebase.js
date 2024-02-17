@@ -4,7 +4,7 @@ import { db } from "../firebase";
 import { addDoc, collection } from "firebase/firestore";
 
 const addCityToDB = async ({ name, usage }) => {
-  const ref = collection(db, "City");
+  const ref = collection(db, "CITIES");
   // TODO: Add a check to see if the city already exists
   try {
     await addDoc(ref, {

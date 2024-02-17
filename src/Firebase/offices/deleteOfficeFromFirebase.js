@@ -6,7 +6,7 @@ import { revalidatePath } from "next/cache";
 
 const deleteOfficeFromDB = async (officeId) => {
   try {
-    const docRef = doc(db, "Office", officeId);
+    const docRef = doc(db, "OFFICES", officeId);
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {

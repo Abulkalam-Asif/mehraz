@@ -2,11 +2,11 @@ import { chevronLeftIcon } from "@/assets";
 import { H1, ClientPage } from "@/components";
 import Image from "next/image";
 import Link from "next/link";
-import useCurrenciesFromDB from "@/Firebase/Currency Functions/getCurrenciesFromFirebase";
-import useCitiesFromDB from "@/Firebase/City Functions/getCitiesFromFirebase";
-import useOfficesFromDB from "@/Firebase/Office Functions/getOfficesFromDB";
-import usePlotsFromDB from "@/Firebase/Plots/getPlotsFromFirestore";
-import useStylesFromDB from "@/Firebase/Styles Functions/getStylesFromFirebase";
+import useCurrenciesFromDB from "@/Firebase/currencies/getCurrenciesFromFirebase";
+import useCitiesFromDB from "@/Firebase/cities/getCitiesFromFirebase";
+import useOfficesFromDB from "@/Firebase/offices/getOfficesFromDB";
+import usePlotsFromDB from "@/Firebase/plots/getPlotsFromFirestore";
+import useStylesFromDB from "@/Firebase/styles/getStylesFromFirebase";
 
 const RolesAnalyticsCities = async () => {
   const cities = await useCitiesFromDB();

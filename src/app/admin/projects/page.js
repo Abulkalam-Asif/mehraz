@@ -2,10 +2,12 @@ import { chevronLeftIcon } from "@/assets";
 import { H1, LinkButton, ProjectsDisplay } from "@/components";
 import Image from "next/image";
 import Link from "next/link";
-import fetchAllProjects from "@/Firebase/Project Functions/fetchAllProjects";
+import fetchReadyProjects from "@/Firebase/projects/fetchReadyProjects";
+import fetchFreeProjects from "@/Firebase/projects/fetchFreeProjects";
 
 const Projects = async () => {
-  const projects = await fetchAllProjects();
+  const readyProjects = await fetchReadyProjects();
+  const freeProjects = await fetchFreeProjects();
 
   return (
     <>
@@ -47,7 +49,10 @@ const Projects = async () => {
               />
             </div>
           </div>
-          <ProjectsDisplay projects={projects} />
+          <ProjectsDisplay
+            freeProjects={freeProjects}
+            readyProjects={readyProjects}
+          />
         </div>
       </section>
     </>

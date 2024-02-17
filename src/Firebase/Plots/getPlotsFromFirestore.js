@@ -2,7 +2,7 @@ import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase";
 
 const usePlotsFromDB = async () => {
-  const ref = collection(db, "Plot");
+  const ref = collection(db, "PLOTS");
   return new Promise((resolve, reject) => {
     const unsubscribe = onSnapshot(
       ref,

@@ -2,31 +2,26 @@ import { collection, onSnapshot } from "firebase/firestore";
 import { db, storage } from "../firebase";
 import { getDownloadURL, ref } from "firebase/storage";
 
-const useOfficesFromDB = async () => {
-  const officeRef = collection(db, "Office");
+const useStylesFromDB = async () => {
   return new Promise((resolve, reject) => {
     const unsubscribe = onSnapshot(
-      officeRef,
+      collection(db, "STYLES"),
       (dataQuery) => {
         const arr = [];
         const promises = [];
 
         dataQuery.forEach((doc) => {
-          const officeData = {
+          const stylesData = {
             id: doc.id,
             name: doc.data().name,
-            address: doc.data().address,
-            mapsLink: doc.data()?.mapsLink,
           };
-          arr.push(officeData);
+          arr.push(stylesData);
 
           const imageName = `${doc.id}`;
-
-          const imageRef = ref(storage, `Offices/${imageName}`);
-
+          const imageRef = ref(storage, `Styles/${imageName}`);
           promises.push(
             getDownloadURL(imageRef).then((url) => {
-              officeData.image = url;
+              stylesData.image = url;
             })
           );
         });
@@ -43,4 +38,4 @@ const useOfficesFromDB = async () => {
   });
 };
 
-export default useOfficesFromDB;
+export default useStylesFromDB;

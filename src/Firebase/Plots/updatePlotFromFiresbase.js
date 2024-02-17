@@ -5,7 +5,7 @@ import { doc, updateDoc } from "firebase/firestore";
 
 const updatePlotInDB = async ({ id, area, unit }) => {
   try {
-    const cityRef = doc(db, "Plot", id);
+    const cityRef = doc(db, "PLOTS", id);
 
     await updateDoc(cityRef, {
       area: area,

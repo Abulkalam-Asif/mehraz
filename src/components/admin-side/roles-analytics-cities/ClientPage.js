@@ -18,7 +18,7 @@ import {
   DeleteModal,
   UserProductAnalyticsSection,
 } from "@/components";
-import { AlertContext } from "@/app/context/AlertContext";
+import { AlertContext } from "@/context/AlertContext";
 import { convertRolesToRows } from "@/utilities/admin-panel/roles-analytics-cities/roles";
 import {
   addNewCityService,
@@ -373,6 +373,7 @@ const ClientPage = ({ currencies, cities, officeLocations, plots, styles }) => {
             setModalMetadata={setModalMetadata}
             toggleModal={toggleModal}
             setItemToDelete={setItemToDelete}
+            citiesCount={cities?.length}
           />
         </div>
         <RolesAnalyticsCitiesContainer className="w-full grid grid-rows-4">

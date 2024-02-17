@@ -5,7 +5,7 @@ import { deleteDoc, doc, getDoc } from "firebase/firestore";
 
 const deletePlotFromDB = async (id) => {
   try {
-    const PlotRef = doc(db, "Plot", id);
+    const PlotRef = doc(db, "PLOTS", id);
     const docSnapshot = await getDoc(PlotRef);
 
     if (docSnapshot.exists()) {
@@ -19,7 +19,7 @@ const deletePlotFromDB = async (id) => {
       if (usageCases !== "") {
         return {
           type: "error",
-          message: `Plot cannot be deleted. It is being used in ${usageCases.slice(
+          message: `This plot cannot be deleted. This is being used in ${usageCases.slice(
             0,
             -2
           )}.`,

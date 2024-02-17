@@ -1,6 +1,6 @@
-import addPlotToDB from "@/Firebase/Plots/addPlotToFirebase";
-import updatePlotInDB from "@/Firebase/Plots/updatePlotFromFiresbase";
-import deletePlotFromDB from "@/Firebase/Plots/deletePlotFromFirebase";
+import addPlotToDB from "@/Firebase/plots/addPlotToFirebase";
+import updatePlotInDB from "@/Firebase/plots/updatePlotFromFiresbase";
+import deletePlotFromDB from "@/Firebase/plots/deletePlotFromFirebase";
 
 const addNewPlotService = (
   currentPlot,

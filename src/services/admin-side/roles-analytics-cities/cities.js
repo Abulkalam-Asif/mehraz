@@ -1,6 +1,6 @@
-import addCityToDB from "@/Firebase/City Functions/addCityToFirebase";
-import deleteCityFromDB from "@/Firebase/City Functions/deleteCityFromFirebase";
-import updateCityInDB from "@/Firebase/City Functions/updateCityFromFirebase";
+import addCityToDB from "@/Firebase/cities/addCityToFirebase";
+import deleteCityFromDB from "@/Firebase/cities/deleteCityFromFirebase";
+import updateCityInDB from "@/Firebase/cities/updateCityFromFirebase";
 
 const addNewCityService = (
   cities,

@@ -10,12 +10,12 @@ import {
 } from "firebase/firestore";
 
 const addCurrencyToDB = async ({ name, valueInPkr, cities, usage }) => {
-  const ref = collection(db, "Currency");
+  const ref = collection(db, "CURRENCIES");
 
   try {
     await Promise.all(
       cities.map(async (id) => {
-        const cityRef = doc(db, "City", id);
+        const cityRef = doc(db, "CITIES", id);
         await updateDoc(cityRef, {
           [`usage.currencies`]: increment(1),
         });

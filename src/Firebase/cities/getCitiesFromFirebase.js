@@ -2,7 +2,7 @@ import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase";
 
 const useCitiesFromDB = async () => {
-  const ref = collection(db, "City");
+  const ref = collection(db, "CITIES");
   return new Promise((resolve, reject) => {
     const unsubscribe = onSnapshot(
       ref,
