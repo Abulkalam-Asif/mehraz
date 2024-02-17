@@ -475,10 +475,12 @@ const ClientPage = ({ currencies, cities, officeLocations, plots, styles }) => {
         )}
       </div>
       {isModalOpen && (
-        <Modal toggleModal={toggleModal} isModalOpen={isModalOpen}>
+        <Modal
+          toggleModal={toggleModal}
+          isModalOpen={isModalOpen}
+          showModalSpinner={showModalSpinner}>
           {modalMetadata.action === "delete" ? (
             <DeleteModal
-              showModalSpinner={showModalSpinner}
               toggleModal={toggleModal}
               itemToDelete={itemToDelete}
               deleteHandler={
@@ -499,7 +501,6 @@ const ClientPage = ({ currencies, cities, officeLocations, plots, styles }) => {
               editCityHandler={editCityHandler}
               currentCity={currentCity}
               currentCityInputHandler={currentCityInputHandler}
-              showModalSpinner={showModalSpinner}
               modalMetadata={modalMetadata}
             />
           ) : modalMetadata.type === "currency" ? (
@@ -508,7 +509,6 @@ const ClientPage = ({ currencies, cities, officeLocations, plots, styles }) => {
               editCurrencyHandler={editCurrencyHandler}
               currentCurrency={currentCurrency}
               currentCurrencyInputHandler={currentCurrencyInputHandler}
-              showModalSpinner={showModalSpinner}
               modalMetadata={modalMetadata}
               cities={cities}
             />
@@ -521,7 +521,6 @@ const ClientPage = ({ currencies, cities, officeLocations, plots, styles }) => {
                 currentOfficeLocationInputHandler
               }
               setCurrentOfficeLocation={setCurrentOfficeLocation}
-              showModalSpinner={showModalSpinner}
               modalMetadata={modalMetadata}
             />
           ) : modalMetadata.type === "plot" ? (
@@ -530,7 +529,6 @@ const ClientPage = ({ currencies, cities, officeLocations, plots, styles }) => {
               editPlotHandler={editPlotHandler}
               currentPlot={currentPlot}
               currentPlotInputHandler={currentPlotInputHandler}
-              showModalSpinner={showModalSpinner}
               modalMetadata={modalMetadata}
             />
           ) : (
@@ -541,7 +539,6 @@ const ClientPage = ({ currencies, cities, officeLocations, plots, styles }) => {
                 currentStyle={currentStyle}
                 currentStyleInputHandler={currentStyleInputHandler}
                 setCurrentStyle={setCurrentStyle}
-                showModalSpinner={showModalSpinner}
                 modalMetadata={modalMetadata}
               />
             )

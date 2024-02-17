@@ -10,7 +10,6 @@ const OfficeModal = ({
   addNewOfficeLocationHandler,
   editOfficeLocationHandler,
   setCurrentOfficeLocation,
-  showModalSpinner,
   modalMetadata,
 }) => {
   const [previewSrc, setPreviewSrc] = useState(null);
@@ -27,8 +26,7 @@ const OfficeModal = ({
             ? addNewOfficeLocationHandler
             : editOfficeLocationHandler
         }
-        className={"flex items-stretch gap-8"}
-        showModalSpinner={showModalSpinner}>
+        className={"flex items-stretch gap-8"}>
         <div className="w-1/2 space-y-2">
           <InputBox
             label="Enter office name"

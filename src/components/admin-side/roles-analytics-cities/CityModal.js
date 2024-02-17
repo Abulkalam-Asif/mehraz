@@ -3,7 +3,6 @@ import { InputBox, RolesAnalyticsCitiesModal } from "@/components";
 const CityModal = ({
   addNewCityHandler,
   editCityHandler,
-  showModalSpinner,
   currentCity,
   currentCityInputHandler,
   modalMetadata,
@@ -15,8 +14,7 @@ const CityModal = ({
         buttonText={modalMetadata.action === "add" ? "Add city" : "Update city"}
         onButtonClick={
           modalMetadata.action === "add" ? addNewCityHandler : editCityHandler
-        }
-        showModalSpinner={showModalSpinner}>
+        }>
         <InputBox
           label="Enter city name"
           value={currentCity.name}

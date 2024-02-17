@@ -22,7 +22,7 @@ const useOfficesFromDB = async () => {
 
           const imageName = `${doc.id}`;
 
-          const imageRef = ref(storage, `Office/${imageName}`);
+          const imageRef = ref(storage, `Offices/${imageName}`);
 
           promises.push(
             getDownloadURL(imageRef).then((url) => {

@@ -11,10 +11,10 @@ const updateOfficeInDB = async ({ id, name, address, mapsLink, image }) => {
 
     if (docSnap.exists()) {
       if (image !== null && image instanceof FormData) {
-        const previousImageRef = ref(storage, `Office/${id}`);
+        const previousImageRef = ref(storage, `Offices/${id}`);
         await deleteObject(previousImageRef);
 
-        const imageRef = ref(storage, `Office/${id}`);
+        const imageRef = ref(storage, `Offices/${id}`);
         await uploadBytes(imageRef, image.get("image"));
       }
 

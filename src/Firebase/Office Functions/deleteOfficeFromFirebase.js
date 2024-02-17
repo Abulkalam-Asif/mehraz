@@ -12,7 +12,7 @@ const deleteOfficeFromDB = async (officeId) => {
     if (docSnap.exists()) {
       await deleteDoc(docRef);
 
-      const imageRef = ref(storage, `Office/${officeId}`);
+      const imageRef = ref(storage, `Offices/${officeId}`);
       await deleteObject(imageRef);
 
       revalidatePath("/admin/roles-analytics-cities", "page");

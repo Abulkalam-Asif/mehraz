@@ -8,7 +8,7 @@ const addOfficeToDB = async ({ name, address, mapsLink, image }) => {
   try {
     const currentTimeInMilliseconds = new Date().getTime().toString();
 
-    const imageRef = ref(storage, `Office/${currentTimeInMilliseconds}`);
+    const imageRef = ref(storage, `Offices/${currentTimeInMilliseconds}`);
     await uploadBytes(imageRef, image.get("image"));
 
     const collectionRef = collection(db, "Office");

@@ -8,7 +8,7 @@ const addStyleToDB = async ({ name, image, usage }) => {
   try {
     const currentTimeInMilliseconds = new Date().getTime().toString();
 
-    const imageRef = ref(storage, `Style/${currentTimeInMilliseconds}`);
+    const imageRef = ref(storage, `Styles/${currentTimeInMilliseconds}`);
     await uploadBytes(imageRef, image.get("image"));
 
     const collectionRef = collection(db, "Style");

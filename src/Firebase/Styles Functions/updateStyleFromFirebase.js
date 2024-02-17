@@ -11,10 +11,10 @@ const updateStyleInDB = async ({ id, name, image }) => {
 
     if (docSnap.exists()) {
       if (image !== null && image instanceof FormData) {
-        const previousImageRef = ref(storage, `Style/${id}`);
+        const previousImageRef = ref(storage, `Styles/${id}`);
         await deleteObject(previousImageRef);
 
-        const imageRef = ref(storage, `Style/${id}`);
+        const imageRef = ref(storage, `Styles/${id}`);
         await uploadBytes(imageRef, image.get("image"));
       }
 

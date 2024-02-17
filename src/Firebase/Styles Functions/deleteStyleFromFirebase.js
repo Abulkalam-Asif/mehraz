@@ -28,7 +28,7 @@ const deleteStyleFromDB = async (styleId) => {
       } else {
         const data = docSnapshot.data();
         if (data) {
-          const imageRef = ref(storage, `Style/${styleId}`);
+          const imageRef = ref(storage, `Styles/${styleId}`);
           await deleteObject(imageRef);
         }
         await deleteDoc(docRef);

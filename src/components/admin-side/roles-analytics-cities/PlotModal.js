@@ -5,7 +5,6 @@ const PlotModal = ({
   currentPlotInputHandler,
   addNewPlotHandler,
   editPlotHandler,
-  showModalSpinner,
   modalMetadata,
 }) => {
   return (
@@ -16,8 +15,7 @@ const PlotModal = ({
         onButtonClick={
           modalMetadata.action === "add" ? addNewPlotHandler : editPlotHandler
         }
-        className={"flex items-center gap-8"}
-        showModalSpinner={showModalSpinner}>
+        className={"flex items-center gap-8"}>
         <InputBox
           label="Enter area value"
           value={currentPlot.area}

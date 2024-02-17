@@ -9,7 +9,6 @@ const CurrencyModal = ({
   editCurrencyHandler,
   currentCurrency,
   currentCurrencyInputHandler,
-  showModalSpinner,
   cities,
   modalMetadata,
 }) => {
@@ -27,8 +26,7 @@ const CurrencyModal = ({
             ? addNewCurrencyHandler
             : editCurrencyHandler
         }
-        className={"flex items-center gap-6 sm:gap-3"}
-        showModalSpinner={showModalSpinner}>
+        className={"flex items-center gap-6 sm:gap-3"}>
         <div className="w-1/2 space-y-3">
           <InputBox
             label="Enter currency name"

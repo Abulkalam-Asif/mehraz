@@ -10,7 +10,6 @@ const StyleModal = ({
   currentStyle,
   currentStyleInputHandler,
   setCurrentStyle,
-  showModalSpinner,
   modalMetadata,
 }) => {
   const [previewSrc, setPreviewSrc] = useState(null);
@@ -25,8 +24,7 @@ const StyleModal = ({
         onButtonClick={
           modalMetadata.action === "add" ? addNewStyleHandler : editStyleHandler
         }
-        className={"flex items-stretch gap-8"}
-        showModalSpinner={showModalSpinner}>
+        className={"flex items-stretch gap-8"}>
         <div className="w-1/2 space-y-4">
           <InputBox
             label="Enter style name"

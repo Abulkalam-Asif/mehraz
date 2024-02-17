@@ -1,10 +1,13 @@
 import { closeIcon } from "@/assets";
 import Image from "next/image";
+import Spinner from "./admin-side/Spinner";
+
 const Modal = ({
   isModalOpen = false,
   toggleModal = () => {},
   children,
   className = "",
+  showModalSpinner = false,
 }) => {
   return (
     <>
@@ -25,6 +28,11 @@ const Modal = ({
         </button>
         {children}
       </div>
+      {showModalSpinner && (
+        <div className="z-[4] bg-black bg-opacity-20 fixed top-0 left-0 bottom-0 right-0 flex items-center justify-center">
+          <Spinner size={"lg"} />
+        </div>
+      )}
     </>
   );
 };

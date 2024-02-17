@@ -1,4 +1,4 @@
-import { Button, H2, Spinner } from "@/components";
+import { Button, H2 } from "@/components";
 
 const RolesAnalyticsCitiesModal = ({
   children,
@@ -6,7 +6,6 @@ const RolesAnalyticsCitiesModal = ({
   buttonText = "",
   onButtonClick = () => {},
   className = "",
-  showModalSpinner = false,
 }) => {
   return (
     <>
@@ -17,17 +16,12 @@ const RolesAnalyticsCitiesModal = ({
             {children}
           </div>
           <div className="p-3 flex justify-end">
-            {showModalSpinner ? (
-              <Spinner size={"xs"} />
-            ) : (
-              <Button
-                text={buttonText}
-                className={`ml-auto`}
-                size="xs"
-                onClick={onButtonClick}
-                disabled={showModalSpinner}
-              />
-            )}
+            <Button
+              text={buttonText}
+              className={`ml-auto`}
+              size="xs"
+              onClick={onButtonClick}
+            />
           </div>
         </form>
       </div>
