@@ -1,14 +1,13 @@
-import { useState, useEffect } from "react";
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase";
 
-const useCitiesFromDB = (setCities) => {
+const useCitiesFromDB = async () => {
   const ref = collection(db, "City");
-
-  useEffect(() => {
-    const fetchData = () => {
-      const unsubscribe = onSnapshot(ref, (dataQuery) => {
-              const arr = [];
+  return new Promise((resolve, reject) => {
+    const unsubscribe = onSnapshot(
+      ref,
+      (dataQuery) => {
+        const arr = [];
         dataQuery.forEach((doc) => {
           const city = {
             id: doc.id,
@@ -16,15 +15,15 @@ const useCitiesFromDB = (setCities) => {
           };
           arr.push(city);
         });
-
-        setCities(arr);
-      });
-
-      return () => unsubscribe();
-    };
-
-    fetchData();
-  }, [setCities]);
+        unsubscribe();
+        resolve(arr);
+      },
+      (error) => {
+        unsubscribe();
+        reject(error);
+      }
+    );
+  });
 };
 
 export default useCitiesFromDB;

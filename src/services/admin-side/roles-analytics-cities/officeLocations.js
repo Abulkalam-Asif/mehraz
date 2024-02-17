@@ -1,22 +1,29 @@
 import deleteOfficeFromDB from "@/Firebase/Office Functions/deleteOfficeFromFirebase";
 import addOfficeToDB from "@/Firebase/Office Functions/addOfficeToDB";
 import updateOfficeInDB from "@/Firebase/Office Functions/updateOfficeFromFirebase";
+import fileToFormData from "@/utils/fileToFormData";
 
 const addNewOfficeLocationService = (
   currentOfficeLocation,
   showAlert,
   setShowModalSpinner,
-  hideModal
+  hideModal,
+  officeLocations
 ) => {
   const formattedData = {
-    city: currentOfficeLocation.city.trim().toUpperCase(),
+    name: currentOfficeLocation.name.trim().toUpperCase(),
     address: currentOfficeLocation.address.trim(),
     mapsLink: currentOfficeLocation?.mapsLink.trim(),
     image: currentOfficeLocation.image,
   };
 
-  if (formattedData.city === "") {
-    showAlert({ type: "warning", message: "Please enter a city name" });
+  if (formattedData.name === "") {
+    showAlert({ type: "warning", message: "Please enter office name" });
+    return;
+  } else if (
+    officeLocations.some((office) => office.name === formattedData.name)
+  ) {
+    showAlert({ type: "warning", message: "This office name already exists" });
     return;
   } else if (formattedData.address === "") {
     showAlert({ type: "warning", message: "Please enter an address" });
@@ -32,23 +39,14 @@ const addNewOfficeLocationService = (
     return;
   } else {
     setShowModalSpinner(true);
-    addOfficeToDB(formattedData)
-      .then(() => {
-        showAlert({
-          type: "success",
-          message: "Office added successfully!",
-        });
-        hideModal();
-      })
-      .catch(() => {
-        showAlert({
-          type: "error",
-          message: "Something went wrong, please try again later",
-        });
-      })
-      .finally(() => {
-        setShowModalSpinner(false);
-      });
+    // Converting image to FormData to pass to Server Action
+    formattedData.image = fileToFormData("image", formattedData.image);
+
+    addOfficeToDB(formattedData).then(({ type, message }) => {
+      showAlert({ type, message });
+      hideModal();
+      setShowModalSpinner(false);
+    });
   }
 };
 
@@ -60,14 +58,14 @@ const editOfficeLocationService = (
 ) => {
   const formattedData = {
     id: currentOfficeLocation.id,
-    city: currentOfficeLocation.city.trim().toUpperCase(),
+    name: currentOfficeLocation.name.trim().toUpperCase(),
     address: currentOfficeLocation.address.trim(),
     mapsLink: currentOfficeLocation?.mapsLink.trim(),
     image: currentOfficeLocation.image,
   };
 
-  if (formattedData.city === "") {
-    showAlert({ type: "warning", message: "Please enter a city name" });
+  if (formattedData.name === "") {
+    showAlert({ type: "warning", message: "Please enter office name" });
     return;
   } else if (formattedData.address === "") {
     showAlert({ type: "warning", message: "Please enter an address" });
@@ -83,21 +81,14 @@ const editOfficeLocationService = (
     return;
   } else {
     setShowModalSpinner(true);
-     updateOfficeInDB(formattedData)
-    .then(() => {
-      showAlert({
-        type: "success",
-        message: "Office updated successfully!",
-      });
+    // Converting image to FormData if it is a File to pass to Server Action
+    if (formattedData.image instanceof File) {
+      formattedData.image = fileToFormData("image", formattedData.image);
+    }
+
+    updateOfficeInDB(formattedData).then(({ type, message }) => {
+      showAlert({ type, message });
       hideModal();
-    })
-    .catch(() => {
-      showAlert({
-        type: "error",
-        message: "Something went wrong, please try again later",
-      });
-    })
-    .finally(() => {
       setShowModalSpinner(false);
     });
   }
@@ -110,20 +101,11 @@ const deleteOfficeLocationService = (
   hideModal
 ) => {
   setShowModalSpinner(true);
-  deleteOfficeFromDB(itemToDelete.id)
-    .then(() => {
-      showAlert({ type: "success", message: "Office deleted successfully!" });
-      hideModal();
-    })
-    .catch(() => {
-      showAlert({
-        type: "error",
-        message: "Something went wrong, please try again later",
-      });
-    })
-    .finally(() => {
-      setShowModalSpinner(false);
-    });
+  deleteOfficeFromDB(itemToDelete.id).then(({ type, message }) => {
+    showAlert({ type, message });
+    hideModal();
+    setShowModalSpinner(false);
+  });
 };
 
 export {

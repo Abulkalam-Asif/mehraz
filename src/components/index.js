@@ -22,6 +22,7 @@ export { default as AdminDashboardDropdowns } from "./admin-side/dashboard/Admin
 export { default as ProjectDisplayBoxMob } from "./admin-side/projects/ProjectDisplayBoxMob";
 export { default as ProjectsDisplay } from "./admin-side/projects/ProjectsDisplay";
 // Admin Side - Roles Analytics & Cities
+export { default as ClientPage } from "./admin-side/roles-analytics-cities/ClientPage";
 export { default as MultiCheckbox } from "./admin-side/roles-analytics-cities/MultiCheckbox";
 export { default as Dropzone } from "./admin-side/roles-analytics-cities/Dropzone";
 export { default as DeleteModal } from "./admin-side/roles-analytics-cities/DeleteModal";

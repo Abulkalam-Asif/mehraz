@@ -31,11 +31,11 @@ const OfficeModal = ({
         showModalSpinner={showModalSpinner}>
         <div className="w-1/2 space-y-2">
           <InputBox
-            label="Enter city name"
-            value={currentOfficeLocation.city}
+            label="Enter office name"
+            value={currentOfficeLocation.name}
             inputHandler={currentOfficeLocationInputHandler}
-            idHtmlFor="city"
-            name="city"
+            idHtmlFor="name"
+            name="name"
           />
           <InputBox
             label="Enter office address"

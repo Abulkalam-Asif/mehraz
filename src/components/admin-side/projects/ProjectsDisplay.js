@@ -29,7 +29,6 @@ const ProjectsDisplay = ({ projects }) => {
 
   const deleteProjectHandler = (e) => {
     const projectId = e.currentTarget.dataset.projectId;
-    console.log("ProjectId: ", projectId);
     // TODO (Will be done later) (backend): delete project from database
   };
   return (

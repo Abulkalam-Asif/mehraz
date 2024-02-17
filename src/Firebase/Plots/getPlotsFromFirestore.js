@@ -1,14 +1,12 @@
-import { useState, useEffect } from "react";
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase";
 
-const usePlotsFromDB = (setPlots) => {
+const usePlotsFromDB = async () => {
   const ref = collection(db, "Plot");
-
-  useEffect(() => {
-    const fetchData = () => {
-      
-      const unsubscribe = onSnapshot(ref, (dataQuery) => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = onSnapshot(
+      ref,
+      (dataQuery) => {
         const arr = [];
         dataQuery.forEach((doc) => {
           const docData = {
@@ -18,15 +16,15 @@ const usePlotsFromDB = (setPlots) => {
           };
           arr.push(docData);
         });
-
-        setPlots(arr);
-      });
-
-      return () => unsubscribe();
-    };
-
-    fetchData();
-  }, [setPlots]);
+        unsubscribe();
+        resolve(arr);
+      },
+      (error) => {
+        unsubscribe();
+        reject(error);
+      }
+    );
+  });
 };
 
 export default usePlotsFromDB;

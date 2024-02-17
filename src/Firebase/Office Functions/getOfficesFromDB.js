@@ -1,21 +1,21 @@
-import { useEffect } from "react";
 import { collection, onSnapshot } from "firebase/firestore";
 import { db, storage } from "../firebase";
 import { getDownloadURL, ref } from "firebase/storage";
 
-const useOfficesFromDB = (offices, setOffices) => {
-  useEffect(() => {
-    const fetchData = async () => {
-      
-      const unsubscribe = onSnapshot(collection(db, "Office"), (dataQuery) => {
+const useOfficesFromDB = async () => {
+  const officeRef = collection(db, "Office");
+  return new Promise((resolve, reject) => {
+    const unsubscribe = onSnapshot(
+      officeRef,
+      (dataQuery) => {
         const arr = [];
         const promises = [];
 
         dataQuery.forEach((doc) => {
           const officeData = {
             id: doc.id,
+            name: doc.data().name,
             address: doc.data().address,
-            city: doc.data().city,
             mapsLink: doc.data()?.mapsLink,
           };
           arr.push(officeData);
@@ -30,17 +30,17 @@ const useOfficesFromDB = (offices, setOffices) => {
             })
           );
         });
-
+        unsubscribe();
         Promise.all(promises).then(() => {
-          setOffices(arr);
+          resolve(arr);
         });
-      });
-
-      return () => unsubscribe();
-    };
-
-    fetchData();
-  }, [setOffices]);
+      },
+      (error) => {
+        unsubscribe();
+        reject(error);
+      }
+    );
+  });
 };
 
 export default useOfficesFromDB;

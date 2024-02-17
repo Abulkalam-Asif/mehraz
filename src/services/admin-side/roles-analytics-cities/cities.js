@@ -22,20 +22,11 @@ const addNewCityService = (
     return;
   } else {
     setShowModalSpinner(true);
-    addCityToDB(formattedData)
-      .then(() => {
-        showAlert({ type: "success", message: "City added successfully!" });
-        hideModal();
-      })
-      .catch(() => {
-        showAlert({
-          type: "error",
-          message: "Something went wrong, please try again later",
-        });
-      })
-      .finally(() => {
-        setShowModalSpinner(false);
-      });
+    addCityToDB(formattedData).then(({ type, message }) => {
+      showAlert({ type, message });
+      hideModal();
+      setShowModalSpinner(false);
+    });
   }
 };
 
@@ -59,45 +50,26 @@ const editCityService = (
     return;
   } else {
     setShowModalSpinner(true);
-    updateCityInDB(currentCity)
-      .then(() => {
-        showAlert({ type: "success", message: "City updated successfully!" });
-        hideModal();
-      })
-      .catch(() => {
-        showAlert({
-          type: "error",
-          message: "Something went wrong, please try again later",
-        });
-      })
-      .finally(() => {
-        setShowModalSpinner(false);
-      });
+    updateCityInDB(formattedData).then(({ type, message }) => {
+      showAlert({ type, message });
+      hideModal();
+      setShowModalSpinner(false);
+    });
   }
 };
 
-const deleteCityService = (
+const deleteCityService = async (
   itemToDelete,
   setShowModalSpinner,
   showAlert,
   hideModal
 ) => {
   setShowModalSpinner(true);
-  console.log(itemToDelete.id);
-  deleteCityFromDB(itemToDelete.id)
-    .then(() => {
-      showAlert({ type: "success", message: "City deleted successfully!" });
-      hideModal();
-    })
-    .catch(() => {
-      showAlert({
-        type: "error",
-        message: "Something went wrong, please try again later",
-      });
-    })
-    .finally(() => {
-      setShowModalSpinner(false);
-    });
+  deleteCityFromDB(itemToDelete.id).then(({ type, message }) => {
+    showAlert({ type, message });
+    hideModal();
+    setShowModalSpinner(false);
+  });
 };
 
 export { addNewCityService, editCityService, deleteCityService };

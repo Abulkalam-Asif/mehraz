@@ -36,7 +36,7 @@ const Dropzone = ({
         fileUploadHandler(null);
         showAlert({
           type: "warning",
-          message: "Please select a file to upload.",
+          message: "Please select an image to upload.",
         });
       }
     }
