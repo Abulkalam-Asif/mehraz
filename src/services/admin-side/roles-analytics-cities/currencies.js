@@ -33,24 +33,11 @@ const addNewCurrencyService = (
     });
   } else {
     setShowModalSpinner(true);
-    addCurrencyToDB(formattedData)
-      .then(() => {
-        showAlert({
-          type: "success",
-          message: "Currency added successfully!",
-        });
-        hideModal();
-      })
-      .catch((error) => {
-        showAlert({
-          type: "error",
-          message: "Something went wrong, please try again later",
-        });
-        console.error(error);
-      })
-      .finally(() => {
-        setShowModalSpinner(false);
-      });
+    addCurrencyToDB(formattedData).then(({ type, message }) => {
+      showAlert({ type, message });
+      hideModal();
+      setShowModalSpinner(false);
+    });
   }
 };
 
@@ -89,21 +76,9 @@ const editCurrencyService = (
     });
   } else {
     setShowModalSpinner(true);
-    console.log(currentCurrency,prevCities);
-    updateCurrencyInDB(currentCurrency,prevCities).then(() => {
-      showAlert({
-        type: "success",
-        message: "Currency updated successfully!",
-      });
+    updateCurrencyInDB(formattedData, prevCities).then(({ type, message }) => {
+      showAlert({ type, message });
       hideModal();
-    })
-    .catch(() => {
-      showAlert({
-        type: "error",
-        message: "Something went wrong, please try again later",
-      });
-    })
-    .finally(() => {
       setShowModalSpinner(false);
     });
   }
@@ -116,20 +91,11 @@ const deleteCurrencyService = (
   hideModal
 ) => {
   setShowModalSpinner(true);
-  deleteCurrencyFromDB(itemToDelete.id)
-    .then(() => {
-      showAlert({ type: "success", message: "Currency deleted successfully!" });
-      hideModal();
-    })
-    .catch(() => {
-      showAlert({
-        type: "error",
-        message: "Something went wrong, please try again later",
-      });
-    })
-    .finally(() => {
-      setShowModalSpinner(false);
-    });
+  deleteCurrencyFromDB(itemToDelete.id).then(({ type, message }) => {
+    showAlert({ type, message });
+    hideModal();
+    setShowModalSpinner(false);
+  });
 };
 
 export { addNewCurrencyService, editCurrencyService, deleteCurrencyService };

@@ -24,21 +24,25 @@ const deleteCityFromDB = async (id) => {
             -2
           )}.`,
         };
+      } else {
+        await deleteDoc(cityRef);
+        revalidatePath("/admin/roles-analytics-cities", "page");
+        return {
+          type: "success",
+          message: "City deleted successfully.",
+        };
       }
-      await deleteDoc(cityRef);
-      revalidatePath("/admin/roles-analytics-cities", "page");
-      return { type: "success", message: "Document deleted successfully!" };
     } else {
       return {
         type: "error",
-        message: "Document deletion failed. Please try again later.",
+        message: "Something went wrong, please try again later.",
       };
     }
   } catch (error) {
-    console.log("Error deleting the city: ", error);
+    console.error("Error deleting the city: ", error);
     return {
       type: "error",
-      message: "Document deletion failed. Please try again later.",
+      message: "Something went wrong, please try again later.",
     };
   }
 };

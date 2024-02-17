@@ -22,17 +22,11 @@ const addNewCityService = (
     return;
   } else {
     setShowModalSpinner(true);
-    addCityToDB(formattedData)
-      .then(({ type, message }) => {
-        showAlert({ type, message });
-        hideModal();
-      })
-      .catch(({ type, message }) => {
-        showAlert({ type, message });
-      })
-      .finally(() => {
-        setShowModalSpinner(false);
-      });
+    addCityToDB(formattedData).then(({ type, message }) => {
+      showAlert({ type, message });
+      hideModal();
+      setShowModalSpinner(false);
+    });
   }
 };
 
@@ -56,41 +50,26 @@ const editCityService = (
     return;
   } else {
     setShowModalSpinner(true);
-    updateCityInDB(currentCity)
-      .then(({ type, message }) => {
-        showAlert({ type, message });
-      })
-      .catch(() => {
-        showAlert({
-          type: "error",
-          message: "Something went wrong, please try again later",
-        });
-      })
-      .finally(() => {
-        hideModal();
-        setShowModalSpinner(false);
-      });
+    updateCityInDB(formattedData).then(({ type, message }) => {
+      showAlert({ type, message });
+      hideModal();
+      setShowModalSpinner(false);
+    });
   }
 };
 
-const deleteCityService = (
+const deleteCityService = async (
   itemToDelete,
   setShowModalSpinner,
   showAlert,
   hideModal
 ) => {
   setShowModalSpinner(true);
-  deleteCityFromDB(itemToDelete.id)
-    .then(({ type, message }) => {
-      showAlert({ type, message });
-    })
-    .catch(({ type, message }) => {
-      showAlert({ type, message });
-    })
-    .finally(() => {
-      hideModal();
-      setShowModalSpinner(false);
-    });
+  deleteCityFromDB(itemToDelete.id).then(({ type, message }) => {
+    showAlert({ type, message });
+    hideModal();
+    setShowModalSpinner(false);
+  });
 };
 
 export { addNewCityService, editCityService, deleteCityService };

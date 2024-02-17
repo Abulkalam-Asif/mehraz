@@ -1,4 +1,5 @@
 "use server";
+import { revalidatePath } from "next/cache";
 import { db } from "../firebase";
 import { deleteDoc, doc, getDoc } from "firebase/firestore";
 
@@ -9,18 +10,40 @@ const deletePlotFromDB = async (id) => {
 
     if (docSnapshot.exists()) {
       let usage = docSnapshot.data().usage;
-      if (usage.projects !== 0) {
-        return "Usage is not zero. Deletion failed.";
+      let usageCases = "";
+      for (const key in usage) {
+        if (usage[key] !== 0) {
+          usageCases += key.toUpperCase() + ", ";
+        }
       }
-
-      await deleteDoc(PlotRef);
-
-      return "Document deleted successfully.";
+      if (usageCases !== "") {
+        return {
+          type: "error",
+          message: `Plot cannot be deleted. It is being used in ${usageCases.slice(
+            0,
+            -2
+          )}.`,
+        };
+      } else {
+        await deleteDoc(PlotRef);
+        revalidatePath("/admin/roles-analytics-cities", "page");
+        return {
+          type: "success",
+          message: "Plot deleted successfully.",
+        };
+      }
     } else {
-      return "Document does not exist. Deletion failed.";
+      return {
+        type: "error",
+        message: "Something went wrong, please try again later.",
+      };
     }
   } catch (error) {
-    return "Error deleting document: " + error.message;
+    console.error("Error deleting the plot: ", error);
+    return {
+      type: "error",
+      message: "Something went wrong, please try again later.",
+    };
   }
 };
 

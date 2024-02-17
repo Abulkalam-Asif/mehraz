@@ -1,4 +1,5 @@
 "use server";
+import { revalidatePath } from "next/cache";
 import { db } from "../firebase";
 import { doc, getDoc, updateDoc, increment } from "firebase/firestore";
 
@@ -36,12 +37,20 @@ const updateCurrencyInDB = async (currentCurrency, prevCities) => {
         usage: docSnapshot.data().usage,
       });
 
-      console.log("Document updated successfully");
+      revalidatePath("/admin/roles-analytics-cities", "page");
+      return { type: "success", message: "Currency updated successfully!" };
     } else {
-      console.log("No such document!");
+      return {
+        type: "error",
+        message: "Something went wrong, please try again later.",
+      };
     }
   } catch (error) {
-    console.error("Error getting/updating document:", error);
+    console.error("Error updating the currency:", error);
+    return {
+      type: "error",
+      message: "Something went wrong, please try again later.",
+    };
   }
 };
 

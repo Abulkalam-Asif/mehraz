@@ -178,7 +178,7 @@ const ClientPage = ({ currencies, cities, officeLocations, plots, styles }) => {
   // Office locations states and functions
   const defaultOfficeLocation = {
     id: null,
-    city: "",
+    name: "",
     address: "",
     mapsLink: "",
     image: null,
@@ -200,7 +200,8 @@ const ClientPage = ({ currencies, cities, officeLocations, plots, styles }) => {
       currentOfficeLocation,
       showAlert,
       setShowModalSpinner,
-      hideModal
+      hideModal,
+      officeLocations
     );
   };
 
@@ -251,7 +252,7 @@ const ClientPage = ({ currencies, cities, officeLocations, plots, styles }) => {
       showAlert,
       plots,
       setShowModalSpinner,
-      toggleModal
+      hideModal
     );
   };
 
@@ -263,7 +264,7 @@ const ClientPage = ({ currencies, cities, officeLocations, plots, styles }) => {
       showAlert,
       plots,
       setShowModalSpinner,
-      toggleModal
+      hideModal
     );
   };
 

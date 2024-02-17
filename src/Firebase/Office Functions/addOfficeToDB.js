@@ -2,30 +2,35 @@
 import { db, storage } from "../firebase";
 import { collection, doc, setDoc } from "firebase/firestore";
 import { ref, uploadBytes } from "firebase/storage";
+import { revalidatePath } from "next/cache";
 
-const addOfficeToDB = async ({ city, address, mapsLink, image }) => {
+const addOfficeToDB = async ({ name, address, mapsLink, image }) => {
   try {
     const currentTimeInMilliseconds = new Date().getTime().toString();
-    if (image === null) {
-      throw new Error("Please select an image to upload");
-    }
 
     const imageRef = ref(storage, `Office/${currentTimeInMilliseconds}`);
-    await uploadBytes(imageRef, image);
+    await uploadBytes(imageRef, image.get("image"));
 
     const collectionRef = collection(db, "Office");
     const newDocRef = doc(collectionRef, currentTimeInMilliseconds);
 
     await setDoc(newDocRef, {
-      city: city,
+      name: name,
       address: address,
       mapsLink: mapsLink,
     });
 
-    return Promise.resolve("Data writing and image upload successful");
-  } catch (error) {
-    console.error("Firebase Error: " + error.message);
-    return Promise.reject("Firebase Error: " + error.message);
+    revalidatePath("/admin/roles-analytics-cities", "page");
+    return {
+      type: "success",
+      message: "Office added successfully!",
+    };
+  } catch (err) {
+    console.error("Error adding the office: " + err);
+    return {
+      type: "error",
+      message: "Something went wrong, please try again later.",
+    };
   }
 };
 

@@ -2,6 +2,7 @@
 import { db, storage } from "../firebase";
 import { getDoc, doc, deleteDoc } from "firebase/firestore";
 import { ref, deleteObject } from "firebase/storage";
+import { revalidatePath } from "next/cache";
 
 const deleteStyleFromDB = async (styleId) => {
   try {
@@ -9,24 +10,46 @@ const deleteStyleFromDB = async (styleId) => {
     const docSnapshot = await getDoc(docRef);
 
     if (docSnapshot.exists()) {
-      const data = docSnapshot.data();
-
-      if (data) {
-        const imageRef = ref(storage, `Style/${styleId}`);
-        await deleteObject(imageRef);
+      let usage = docSnapshot.data().usage;
+      let usageCases = "";
+      for (const key in usage) {
+        if (usage[key] !== 0) {
+          usageCases += key.toUpperCase() + ", ";
+        }
       }
-
-      await deleteDoc(docRef);
-
-      return Promise.resolve(
-        "Style data and associated image deleted successfully"
-      );
+      if (usageCases !== "") {
+        return {
+          type: "error",
+          message: `Style cannot be deleted. It is being used in ${usageCases.slice(
+            0,
+            -2
+          )}.`,
+        };
+      } else {
+        const data = docSnapshot.data();
+        if (data) {
+          const imageRef = ref(storage, `Style/${styleId}`);
+          await deleteObject(imageRef);
+        }
+        await deleteDoc(docRef);
+        revalidatePath("/admin/roles-analytics-cities", "page");
+        return {
+          type: "success",
+          message: "Style deleted successfully.",
+        };
+      }
     } else {
-      return Promise.reject(`Style with ID ${styleId} does not exist`);
+      return {
+        type: "error",
+        message: "Something went wrong, please try again later.",
+      };
     }
   } catch (error) {
-    console.error("Firebase Error: " + error.message);
-    return Promise.reject("Firebase Error: " + error.message);
+    console.error("Error deleting the style: ", error);
+    return {
+      type: "error",
+      message: "Something went wrong, please try again later.",
+    };
   }
 };
 

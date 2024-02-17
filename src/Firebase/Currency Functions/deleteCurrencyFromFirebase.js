@@ -1,4 +1,5 @@
 "use server";
+import { revalidatePath } from "next/cache";
 import { db } from "../firebase";
 import {
   deleteDoc,
@@ -10,26 +11,50 @@ import {
 
 const deleteCurrencyFromDB = async (id) => {
   try {
-    const cityRef = doc(db, "Currency", id);
-    const docSnapshot = await getDoc(cityRef);
+    const currencyRef = doc(db, "Currency", id);
+    const docSnapshot = await getDoc(currencyRef);
 
     if (docSnapshot.exists()) {
-      let cities = docSnapshot.data().cities;
+      let usage = docSnapshot.data().usage;
+      let usageCases = "";
+      for (const key in usage) {
+        if (usage[key] !== 0) {
+          usageCases += key.toUpperCase() + ", ";
+        }
+      }
+      if (usageCases !== "") {
+        return {
+          type: "error",
+          message: `Currency cannot be deleted. It is being used in ${usageCases.slice(
+            0,
+            -2
+          )}.`,
+        };
+      } else {
+        let cities = docSnapshot.data().cities;
 
-      cities.forEach(async (cityId) => {
-        const cityRef = doc(db, "City", cityId);
-        await updateDoc(cityRef, {
-          [`usage.currencies`]: increment(-1),
+        cities.forEach(async (cityId) => {
+          const cityRef = doc(db, "City", cityId);
+          await updateDoc(cityRef, {
+            [`usage.currencies`]: increment(-1),
+          });
         });
-      });
-      await deleteDoc(cityRef);
-
-      return "Document deleted successfully.";
+        await deleteDoc(currencyRef);
+        revalidatePath("/admin/roles-analytics-cities", "page");
+        return { type: "success", message: "Currency deleted successfully!" };
+      }
     } else {
-      return "Document does not exist. Deletion failed.";
+      return {
+        type: "error",
+        message: "Something went wrong, please try again later.",
+      };
     }
   } catch (error) {
-    return "Error deleting document: " + error.message;
+    console.error("Error deleting the currency: ", error);
+    return {
+      type: "error",
+      message: "Something went wrong, please try again later.",
+    };
   }
 };
 

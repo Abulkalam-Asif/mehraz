@@ -2,6 +2,7 @@
 import { db, storage } from "../firebase";
 import { doc, updateDoc, getDoc } from "firebase/firestore";
 import { ref, uploadBytes, deleteObject } from "firebase/storage";
+import { revalidatePath } from "next/cache";
 
 const updateStyleInDB = async ({ id, name, image }) => {
   try {
@@ -9,25 +10,31 @@ const updateStyleInDB = async ({ id, name, image }) => {
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      if (image !== null && image instanceof File) {
+      if (image !== null && image instanceof FormData) {
         const previousImageRef = ref(storage, `Style/${id}`);
         await deleteObject(previousImageRef);
 
         const imageRef = ref(storage, `Style/${id}`);
-        await uploadBytes(imageRef, image);
+        await uploadBytes(imageRef, image.get("image"));
       }
 
       await updateDoc(docRef, {
         name: name,
       });
-
-      return Promise.resolve("Style data updated successfully");
+      revalidatePath("/admin/roles-analytics-cities", "page");
+      return { type: "success", message: "Style updated successfully!" };
     } else {
-      return Promise.reject(`Document with ID ${id} does not exist`);
+      return {
+        type: "error",
+        message: "Something went wrong, please try again later.",
+      };
     }
   } catch (error) {
-    console.error("Firebase Error: " + error.message);
-    return Promise.reject("Firebase Error: " + error.message);
+    console.error("Error updating the style:", error);
+    return {
+      type: "error",
+      message: "Something went wrong, please try again later.",
+    };
   }
 };
 

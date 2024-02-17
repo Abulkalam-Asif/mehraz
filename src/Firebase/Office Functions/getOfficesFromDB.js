@@ -14,8 +14,8 @@ const useOfficesFromDB = async () => {
         dataQuery.forEach((doc) => {
           const officeData = {
             id: doc.id,
+            name: doc.data().name,
             address: doc.data().address,
-            city: doc.data().city,
             mapsLink: doc.data()?.mapsLink,
           };
           arr.push(officeData);

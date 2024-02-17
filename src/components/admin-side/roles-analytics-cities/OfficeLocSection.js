@@ -49,7 +49,7 @@ const OfficeLocSection = ({
             <Table border={false} className="h-full overflow-y-auto py-2">
               <thead className="text-sm">
                 <tr>
-                  <Th position="beginning">city</Th>
+                  <Th position="beginning">Name</Th>
                   <Th>address</Th>
                   <Th>maps</Th>
                   <Th position="end">image</Th>
@@ -61,7 +61,7 @@ const OfficeLocSection = ({
                     <Td
                       position="beginning"
                       isLastRow={index === officeLocations.length - 1}>
-                      {location.city}
+                      {location.name}
                     </Td>
                     <Td isLastRow={index === officeLocations.length - 1}>
                       {location.address}
