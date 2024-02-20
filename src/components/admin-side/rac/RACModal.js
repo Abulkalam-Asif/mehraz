@@ -1,6 +1,6 @@
 import { Button, H2 } from "@/components";
 
-const RolesAnalyticsCitiesModal = ({
+const RACModal = ({
   children,
   heading = "",
   buttonText = "",
@@ -29,4 +29,4 @@ const RolesAnalyticsCitiesModal = ({
   );
 };
 
-export default RolesAnalyticsCitiesModal;
+export default RACModal;

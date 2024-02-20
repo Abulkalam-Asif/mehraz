@@ -19,7 +19,8 @@ module.exports = {
         "accent-1-extra-light": "#eeeeee",
         "accent-1-base": "#D9D9D9",
         "accent-1-dark": "#666666",
-        "accent-2-base": "#D9BF77",
+        "accent-1-extra-dark": "#444444",
+        "accent-2-base": "#323232",
         "accent-2-light": "#fff3e4",
       },
       boxShadow: {

@@ -1,4 +1,4 @@
-const InputBox = ({
+const RACInputBox = ({
   label = "",
   idHtmlFor = "",
   name = "",
@@ -36,4 +36,4 @@ const InputBox = ({
   );
 };
 
-export default InputBox;
+export default RACInputBox;

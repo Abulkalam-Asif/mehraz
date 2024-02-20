@@ -1,4 +1,4 @@
-const RolesAnalyticsCitiesContainer = ({ children, className = "" }) => {
+const RACContainer = ({ children, className = "" }) => {
   return (
     <>
       <div
@@ -9,4 +9,4 @@ const RolesAnalyticsCitiesContainer = ({ children, className = "" }) => {
   );
 };
 
-export default RolesAnalyticsCitiesContainer;
+export default RACContainer;

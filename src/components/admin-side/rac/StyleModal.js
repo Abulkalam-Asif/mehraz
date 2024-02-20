@@ -1,5 +1,5 @@
 "use client";
-import { InputBox, RolesAnalyticsCitiesModal, Dropzone } from "@/components";
+import { RACInputBox, RACModal, Dropzone } from "@/components";
 import checkIfValidUrl from "@/utilities/admin-panel/roles-analytics-cities/checkIfValidUrl";
 import Image from "next/image";
 import { useState } from "react";
@@ -16,7 +16,7 @@ const StyleModal = ({
 
   return (
     <>
-      <RolesAnalyticsCitiesModal
+      <RACModal
         heading={modalMetadata.action === "add" ? "Add style" : "Edit style"}
         buttonText={
           modalMetadata.action === "add" ? "Add style" : "Update style"
@@ -26,7 +26,7 @@ const StyleModal = ({
         }
         className={"flex items-stretch gap-8"}>
         <div className="w-1/2 space-y-4">
-          <InputBox
+          <RACInputBox
             label="Enter style name"
             value={currentStyle.name}
             inputHandler={currentStyleInputHandler}
@@ -66,7 +66,7 @@ const StyleModal = ({
             </div>
           )}
         </div>
-      </RolesAnalyticsCitiesModal>
+      </RACModal>
     </>
   );
 };

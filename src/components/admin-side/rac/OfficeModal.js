@@ -1,5 +1,5 @@
 "use client";
-import { InputBox, RolesAnalyticsCitiesModal, Dropzone } from "@/components";
+import { RACInputBox, RACModal, Dropzone } from "@/components";
 import checkIfValidUrl from "@/utilities/admin-panel/roles-analytics-cities/checkIfValidUrl";
 import Image from "next/image";
 import { useState } from "react";
@@ -16,7 +16,7 @@ const OfficeModal = ({
 
   return (
     <>
-      <RolesAnalyticsCitiesModal
+      <RACModal
         heading={modalMetadata.action === "add" ? "Add office" : "Edit office"}
         buttonText={
           modalMetadata.action === "add" ? "Add office" : "Update office"
@@ -28,21 +28,21 @@ const OfficeModal = ({
         }
         className={"flex items-stretch gap-8"}>
         <div className="w-1/2 space-y-2">
-          <InputBox
+          <RACInputBox
             label="Enter office name"
             value={currentOfficeLocation.name}
             inputHandler={currentOfficeLocationInputHandler}
             idHtmlFor="name"
             name="name"
           />
-          <InputBox
+          <RACInputBox
             label="Enter office address"
             value={currentOfficeLocation.address}
             inputHandler={currentOfficeLocationInputHandler}
             idHtmlFor="address"
             name="address"
           />
-          <InputBox
+          <RACInputBox
             label="Enter maps link"
             value={currentOfficeLocation?.mapsLink}
             inputHandler={currentOfficeLocationInputHandler}
@@ -82,7 +82,7 @@ const OfficeModal = ({
             </div>
           )}
         </div>
-      </RolesAnalyticsCitiesModal>
+      </RACModal>
     </>
   );
 };

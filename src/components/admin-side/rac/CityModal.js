@@ -1,4 +1,4 @@
-import { InputBox, RolesAnalyticsCitiesModal } from "@/components";
+import { RACInputBox, RACModal } from "@/components";
 
 const CityModal = ({
   addNewCityHandler,
@@ -9,20 +9,20 @@ const CityModal = ({
 }) => {
   return (
     <>
-      <RolesAnalyticsCitiesModal
+      <RACModal
         heading={modalMetadata.action === "add" ? "Add city" : "Edit city"}
         buttonText={modalMetadata.action === "add" ? "Add city" : "Update city"}
         onButtonClick={
           modalMetadata.action === "add" ? addNewCityHandler : editCityHandler
         }>
-        <InputBox
+        <RACInputBox
           label="Enter city name"
           value={currentCity.name}
           inputHandler={currentCityInputHandler}
           name="name"
           idHtmlFor="city"
         />
-      </RolesAnalyticsCitiesModal>
+      </RACModal>
     </>
   );
 };

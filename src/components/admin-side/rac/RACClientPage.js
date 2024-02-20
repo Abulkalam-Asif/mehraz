@@ -2,7 +2,7 @@
 import { useContext, useEffect, useState } from "react";
 import {
   Modal,
-  RolesAnalyticsCitiesButtonMobile,
+  RACButtonMobile,
   CitiesSection,
   CityModal,
   CurrenciesSection,
@@ -11,7 +11,7 @@ import {
   OfficeModal,
   PlotModal,
   PlotsSection,
-  RolesAnalyticsCitiesContainer,
+  RACContainer,
   RolesSection,
   StyleModal,
   StylesSection,
@@ -62,7 +62,13 @@ const mobileButtonsData = [
   { text: "analytics", name: "analytics" },
 ];
 
-const ClientPage = ({ currencies, cities, officeLocations, plots, styles }) => {
+const RACClientPage = ({
+  currencies,
+  cities,
+  officeLocations,
+  plots,
+  styles,
+}) => {
   const { showAlert } = useContext(AlertContext);
   const [showModalSpinner, setShowModalSpinner] = useState(false);
 
@@ -363,7 +369,6 @@ const ClientPage = ({ currencies, cities, officeLocations, plots, styles }) => {
     <>
       {/* This div will be displayed for over 1024px width */}
       {/* for >1024 width, calc(100vh - (AdminHeader height + 1rem) - page header height) */}
-      {/* for 0-1024 width, calc(100vh - (AdminHeader height + 3rem) - page header height) */}
       <div className="max-w-8xl w-full mx-auto flex flex-row gap-x-4 h-[calc(100vh-6rem-6rem)] xl:h-[calc(100vh-6rem-5rem)] lg:hidden">
         <div className="w-full h-full grid grid-rows-3 gap-2">
           <RolesSection rolesRows={rolesRows} />
@@ -376,7 +381,7 @@ const ClientPage = ({ currencies, cities, officeLocations, plots, styles }) => {
             citiesCount={cities?.length}
           />
         </div>
-        <RolesAnalyticsCitiesContainer className="w-full grid grid-rows-4">
+        <RACContainer className="w-full grid grid-rows-4">
           <CitiesSection
             cities={cities}
             setCurrentCity={setCurrentCity}
@@ -405,14 +410,15 @@ const ClientPage = ({ currencies, cities, officeLocations, plots, styles }) => {
             toggleModal={toggleModal}
             setItemToDelete={setItemToDelete}
           />
-        </RolesAnalyticsCitiesContainer>
+        </RACContainer>
         <UserProductAnalyticsSection />
       </div>
+      {/* for 0-1024 width, calc(100vh - (AdminHeader height + 3rem) - page header height) */}
       {/* This div will be displayed for up to 1024px width */}
       <div className="hidden lg:h-[calc(100vh-7rem-3rem)] lg:flex flex-col items-center justify-start gap-y-3 w-full mx-auto">
         <div className="flex flex-wrap justify-center gap-2">
           {mobileButtonsData?.map((buttonData, index) => (
-            <RolesAnalyticsCitiesButtonMobile
+            <RACButtonMobile
               key={index}
               text={buttonData.text}
               name={buttonData.name}
@@ -432,7 +438,7 @@ const ClientPage = ({ currencies, cities, officeLocations, plots, styles }) => {
             setItemToDelete={setItemToDelete}
           />
         ) : expandedSection === "cities" ? (
-          <RolesAnalyticsCitiesContainer className="w-full overflow-hidden">
+          <RACContainer className="w-full overflow-hidden">
             <CitiesSection
               cities={cities}
               setCurrentCity={setCurrentCity}
@@ -440,9 +446,9 @@ const ClientPage = ({ currencies, cities, officeLocations, plots, styles }) => {
               toggleModal={toggleModal}
               setItemToDelete={setItemToDelete}
             />
-          </RolesAnalyticsCitiesContainer>
+          </RACContainer>
         ) : expandedSection === "officeLocations" ? (
-          <RolesAnalyticsCitiesContainer className="w-full overflow-hidden">
+          <RACContainer className="w-full overflow-hidden">
             <OfficeLocSection
               officeLocations={officeLocations}
               setCurrentOfficeLocation={setCurrentOfficeLocation}
@@ -450,9 +456,9 @@ const ClientPage = ({ currencies, cities, officeLocations, plots, styles }) => {
               toggleModal={toggleModal}
               setItemToDelete={setItemToDelete}
             />
-          </RolesAnalyticsCitiesContainer>
+          </RACContainer>
         ) : expandedSection === "plots" ? (
-          <RolesAnalyticsCitiesContainer className="w-full overflow-hidden">
+          <RACContainer className="w-full overflow-hidden">
             <PlotsSection
               plots={plots}
               setCurrentPlot={setCurrentPlot}
@@ -460,9 +466,9 @@ const ClientPage = ({ currencies, cities, officeLocations, plots, styles }) => {
               toggleModal={toggleModal}
               setItemToDelete={setItemToDelete}
             />
-          </RolesAnalyticsCitiesContainer>
+          </RACContainer>
         ) : expandedSection === "styles" ? (
-          <RolesAnalyticsCitiesContainer className="w-full overflow-hidden">
+          <RACContainer className="w-full overflow-hidden">
             <StylesSection
               styles={styles}
               setCurrentStyle={setCurrentStyle}
@@ -470,7 +476,7 @@ const ClientPage = ({ currencies, cities, officeLocations, plots, styles }) => {
               toggleModal={toggleModal}
               setItemToDelete={setItemToDelete}
             />
-          </RolesAnalyticsCitiesContainer>
+          </RACContainer>
         ) : (
           expandedSection === "analytics" && <UserProductAnalyticsSection />
         )}
@@ -550,4 +556,4 @@ const ClientPage = ({ currencies, cities, officeLocations, plots, styles }) => {
   );
 };
 
-export default ClientPage;
+export default RACClientPage;

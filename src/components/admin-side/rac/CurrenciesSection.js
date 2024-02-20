@@ -6,7 +6,7 @@ import {
   Td,
   Th,
   Table,
-  RolesAnalyticsCitiesContainer,
+  RACContainer,
 } from "@/components";
 import Image from "next/image";
 import { deleteIcon, editIcon, ellipsisIcon } from "@/assets";
@@ -69,7 +69,7 @@ const CurrenciesSection = ({
 
   return (
     <>
-      <RolesAnalyticsCitiesContainer className="row-span-1 flex flex-col gap-y-2 lg:w-full lg:overflow-y-hidden lg:row-span-full">
+      <RACContainer className="row-span-1 flex flex-col gap-y-2 lg:w-full lg:overflow-y-hidden lg:row-span-full">
         <H2 text="currencies" />
         {currencies ? (
           currencies.length > 0 ? (
@@ -166,7 +166,7 @@ const CurrenciesSection = ({
           size="xs"
           onClick={addCurrencyClickHandler}
         />
-      </RolesAnalyticsCitiesContainer>
+      </RACContainer>
     </>
   );
 };

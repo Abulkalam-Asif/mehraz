@@ -26,7 +26,7 @@ const Projects = async () => {
             <H1 text="projects" />
             <div className="flex sm:hidden items-center gap-x-6">
               <LinkButton
-                href="/admin/projects/free-design"
+                href="/admin/free-project"
                 text="free design +"
                 className="lg:text-base"
               />

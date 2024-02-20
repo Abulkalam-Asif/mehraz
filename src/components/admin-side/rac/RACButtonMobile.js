@@ -1,7 +1,7 @@
 import { minusIcon, plusIcon } from "@/assets";
 import Image from "next/image";
 
-const RolesAnalyticsCitiesButtonMobile = ({
+const RACButtonMobile = ({
   text,
   name,
   expandedSection,
@@ -30,4 +30,4 @@ const RolesAnalyticsCitiesButtonMobile = ({
   );
 };
 
-export default RolesAnalyticsCitiesButtonMobile;
+export default RACButtonMobile;

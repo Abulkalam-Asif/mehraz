@@ -4,13 +4,13 @@ import {
   Td,
   Th,
   Table,
-  RolesAnalyticsCitiesContainer,
+  RACContainer,
 } from "@/components";
 
 const RolesSection = ({ rolesRows }) => {
   return (
     <>
-      <RolesAnalyticsCitiesContainer
+      <RACContainer
         title={"Roles"}
         className="row-span-2 flex flex-col lg:w-full lg:overflow-y-hidden lg:row-span-full">
         <H2 text="roles" className="mb-2" />
@@ -59,7 +59,7 @@ const RolesSection = ({ rolesRows }) => {
             <Spinner size={"sm"} text="Loading roles..." />
           </div>
         )}
-      </RolesAnalyticsCitiesContainer>
+      </RACContainer>
     </>
   );
 };

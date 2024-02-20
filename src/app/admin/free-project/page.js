@@ -1,19 +1,13 @@
+import useCitiesFromDB from "@/Firebase/cities/getCitiesFromFirebase";
+import usePlotsFromDB from "@/Firebase/plots/getPlotsFromFirestore";
 import { chevronLeftIcon } from "@/assets";
-import { H1, RACClientPage } from "@/components";
+import { FreeProjectClientPage, H1 } from "@/components";
 import Image from "next/image";
 import Link from "next/link";
-import useCurrenciesFromDB from "@/Firebase/currencies/getCurrenciesFromFirebase";
-import useCitiesFromDB from "@/Firebase/cities/getCitiesFromFirebase";
-import useOfficesFromDB from "@/Firebase/offices/getOfficesFromDB";
-import usePlotsFromDB from "@/Firebase/plots/getPlotsFromFirestore";
-import useStylesFromDB from "@/Firebase/styles/getStylesFromFirebase";
 
-const RAC = async () => {
+const FreeProject = async () => {
   const cities = await useCitiesFromDB();
-  const currencies = await useCurrenciesFromDB();
-  const officeLocations = await useOfficesFromDB();
   const plots = await usePlotsFromDB();
-  const styles = await useStylesFromDB();
 
   return (
     <>
@@ -31,22 +25,13 @@ const RAC = async () => {
                 className="w-6 xl:w-4"
               />
             </Link>
-            <H1
-              text="roles, analystics & cities"
-              className="mx-auto xl:text-2xl"
-            />
+            <H1 text="Upload Free Project" className="mx-auto xl:text-2xl" />
           </div>
         </div>
-        <RACClientPage
-          cities={cities}
-          currencies={currencies}
-          officeLocations={officeLocations}
-          plots={plots}
-          styles={styles}
-        />
+        <FreeProjectClientPage cities={cities} plots={plots} />
       </section>
     </>
   );
 };
 
-export default RAC;
+export default FreeProject;

@@ -1,7 +1,7 @@
 import {
-  InputBox,
+  RACInputBox,
   MultiCheckbox,
-  RolesAnalyticsCitiesModal,
+  RACModal,
 } from "@/components";
 
 const CurrencyModal = ({
@@ -14,7 +14,7 @@ const CurrencyModal = ({
 }) => {
   return (
     <>
-      <RolesAnalyticsCitiesModal
+      <RACModal
         heading={
           modalMetadata.action === "add" ? "Add currency" : "Edit currency"
         }
@@ -28,14 +28,14 @@ const CurrencyModal = ({
         }
         className={"flex items-center gap-6 sm:gap-3"}>
         <div className="w-1/2 space-y-3">
-          <InputBox
+          <RACInputBox
             label="Enter currency name"
             value={currentCurrency.name}
             inputHandler={currentCurrencyInputHandler}
             idHtmlFor="name"
             name="name"
           />
-          <InputBox
+          <RACInputBox
             type="number"
             label="Enter value in PKR"
             value={currentCurrency.valueInPkr}
@@ -54,7 +54,7 @@ const CurrencyModal = ({
             onChange={currentCurrencyInputHandler}
           />
         </div>
-      </RolesAnalyticsCitiesModal>
+      </RACModal>
     </>
   );
 };
