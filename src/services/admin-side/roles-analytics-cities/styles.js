@@ -12,12 +12,16 @@ const addNewStyleService = (
 ) => {
   const formattedData = {
     name: currentStyle.name.trim().toUpperCase(),
+    budget: currentStyle.budget,
     image: currentStyle.image,
     usage: currentStyle.usage,
   };
 
   if (formattedData.name === "") {
     showAlert({ type: "warning", message: "Please enter a style name" });
+    return;
+  } else if (!["LOW", "MEDIUM", "HIGH"].includes(formattedData.budget)) {
+    showAlert({ type: "warning", message: "Please select budget" });
     return;
   } else if (styles?.some((style) => style.name === formattedData.name)) {
     showAlert({ type: "warning", message: "This style already exists" });
@@ -48,11 +52,15 @@ const editStyleService = (
   const formattedData = {
     id: currentStyle.id,
     name: currentStyle.name.trim().toUpperCase(),
+    budget: currentStyle.budget,
     image: currentStyle.image,
   };
 
   if (formattedData.name === "") {
     showAlert({ type: "warning", message: "Please enter a style name" });
+    return;
+  } else if (!["LOW", "MEDIUM", "HIGH"].includes(formattedData.budget)) {
+    showAlert({ type: "warning", message: "Please select budget" });
     return;
   } else if (
     styles?.some(

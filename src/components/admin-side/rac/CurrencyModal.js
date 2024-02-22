@@ -45,7 +45,7 @@ const CurrencyModal = ({
           />
         </div>
         <div className="w-1/2 space-y-1">
-          <span className="text-accent-1-dark">Select cities</span>
+          <span className="text-accent-1-dark">FreeProjectSelect cities</span>
           <MultiCheckbox
             className={"max-h-24 pl-2 overflow-y-auto"}
             options={cities}

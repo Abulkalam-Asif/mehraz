@@ -13,3 +13,7 @@
   background-color: #666666;
   border-radius: .5rem;
 }
+
+*:focus {
+  outline: 2px dashed #323232;
+}

@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Button, FreeProjectInputBox, Select, TagsInput } from "../../";
+import { Button, FreeProjectInputBox, FreeProjectSelect, TagsInput } from "../../";
 
 const FreeProjectClientPage = ({ cities, plots }) => {
   const [freeProject, setFreeProject] = useState({
@@ -37,7 +37,7 @@ const FreeProjectClientPage = ({ cities, plots }) => {
               value={freeProject.title}
               inputHandler={freeProjectInputHandler}
             />
-            <Select
+            <FreeProjectSelect
               label="city"
               name="city"
               idHtmlFor="city"
@@ -48,7 +48,7 @@ const FreeProjectClientPage = ({ cities, plots }) => {
               }))}
               inputHandler={freeProjectInputHandler}
             />
-            <Select
+            <FreeProjectSelect
               label="budget"
               name="budget"
               idHtmlFor="budget"
@@ -60,7 +60,7 @@ const FreeProjectClientPage = ({ cities, plots }) => {
               ]}
               inputHandler={freeProjectInputHandler}
             />
-            <Select
+            <FreeProjectSelect
               label="area"
               name="area"
               idHtmlFor="area"

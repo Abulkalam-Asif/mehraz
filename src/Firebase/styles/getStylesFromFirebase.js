@@ -14,6 +14,7 @@ const useStylesFromDB = async () => {
           const stylesData = {
             id: doc.id,
             name: doc.data().name,
+            budget: doc.data().budget,
           };
           arr.push(stylesData);
 

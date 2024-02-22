@@ -1,4 +1,4 @@
-const Select = ({
+const RACSelect = ({
   label = "",
   idHtmlFor = "",
   name = "",
@@ -9,9 +9,7 @@ const Select = ({
   return (
     <>
       <div className="flex flex-col space-y-1">
-        <label
-          htmlFor={idHtmlFor}
-          className="text-lg font-medium uppercase text-accent-1-extra-dark">
+        <label htmlFor={idHtmlFor} className="text-accent-1-dark">
           {label}
         </label>
         <select
@@ -31,4 +29,4 @@ const Select = ({
   );
 };
 
-export default Select;
+export default RACSelect;

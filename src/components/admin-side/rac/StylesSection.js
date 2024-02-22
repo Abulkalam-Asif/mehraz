@@ -50,6 +50,7 @@ const StylesSection = ({
               <thead className="text-sm">
                 <tr>
                   <Th position="beginning">name</Th>
+                  <Th>budget</Th>
                   <Th position="end">image</Th>
                 </tr>
               </thead>
@@ -60,6 +61,9 @@ const StylesSection = ({
                       position="beginning"
                       isLastRow={index === styles.length - 1}>
                       {style.name}
+                    </Td>
+                    <Td isLastRow={index === styles.length - 1}>
+                      {style.budget}
                     </Td>
                     <Td position="end" isLastRow={index === styles.length - 1}>
                       <a
