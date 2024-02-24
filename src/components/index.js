@@ -24,8 +24,10 @@ export { default as ProjectDisplayBoxMob } from "./admin-side/projects/ProjectDi
 export { default as ProjectsDisplay } from "./admin-side/projects/ProjectsDisplay";
 // Admin Side - FreeProject
 export { default as FreeProjectClientPage } from "./admin-side/free-project/FreeProjectClientPage";
+export { default as FreeProjectS1 } from "./admin-side/free-project/FreeProjectS1";
 export { default as FreeProjectInputBox } from "./admin-side/free-project/FreeProjectInputBox";
 export { default as FreeProjectSelect } from "./admin-side/free-project/FreeProjectSelect";
+export { default as FileInput } from "./admin-side/free-project/FileInput";
 // Admin Side - RAC
 export { default as RACInputBox } from "./admin-side/rac/RACInputBox";
 export { default as RACClientPage } from "./admin-side/rac/RACClientPage";

@@ -7,7 +7,7 @@ const H1 = ({ text = "", className = "", type = "general" }) => {
   return (
     <>
       <h1
-        className={`${className} ${typeStyles[type]} font-bold uppercase text-center`}>
+        className={`${className} ${typeStyles[type]} text-accent-2-base font-bold uppercase text-center`}>
         {text}
       </h1>
     </>

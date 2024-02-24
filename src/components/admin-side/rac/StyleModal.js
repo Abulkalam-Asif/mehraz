@@ -52,7 +52,7 @@ const StyleModal = ({
             setPreviewSrc={setPreviewSrc}
             previewSrc={previewSrc}
             file={currentStyle?.image}
-            fileUploadHandler={(file) =>
+            fileStateSetter={(file) =>
               setCurrentStyle((prevState) => ({
                 ...prevState,
                 image: file,

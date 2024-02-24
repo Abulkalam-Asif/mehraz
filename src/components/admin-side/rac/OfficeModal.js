@@ -56,7 +56,7 @@ const OfficeModal = ({
             setPreviewSrc={setPreviewSrc}
             previewSrc={previewSrc}
             file={currentOfficeLocation?.image}
-            fileUploadHandler={(file) =>
+            fileStateSetter={(file) =>
               setCurrentOfficeLocation((prevState) => ({
                 ...prevState,
                 image: file,

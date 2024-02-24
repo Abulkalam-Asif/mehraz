@@ -6,7 +6,7 @@ const Dropzone = ({
   message,
   title,
   className = "",
-  fileUploadHandler,
+  fileStateSetter,
   accept,
   previewSrc,
   setPreviewSrc,
@@ -29,11 +29,11 @@ const Dropzone = ({
         };
 
         reader.readAsDataURL(file);
-        fileUploadHandler(file);
+        fileStateSetter(file);
       } else {
         setFile(null);
         setPreviewSrc(null);
-        fileUploadHandler(null);
+        fileStateSetter(null);
         showAlert({
           type: "warning",
           message: "Please select an image to upload.",
@@ -47,7 +47,7 @@ const Dropzone = ({
       <label
         title={title}
         htmlFor="dropzone-file"
-        className={`${className} block p-2 w-full border-2 border-accent-1-base rounded-xl cursor-pointer bg-white text-center text-accent-1-dark hover:shadow-lg`}>
+        className={`${className} block p-2 w-full border-2 border-accent-1-base rounded-md cursor-pointer bg-white text-center text-accent-1-dark hover:shadow-lg`}>
         {previewSrc ? (
           <span className="text-green-500">Image attached successfully</span>
         ) : (

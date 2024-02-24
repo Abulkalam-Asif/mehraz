@@ -5,8 +5,8 @@ import Link from "next/link";
 import useCurrenciesFromDB from "@/Firebase/currencies/getCurrenciesFromFirebase";
 import useCitiesFromDB from "@/Firebase/cities/getCitiesFromFirebase";
 import useOfficesFromDB from "@/Firebase/offices/getOfficesFromDB";
-import usePlotsFromDB from "@/Firebase/plots/getPlotsFromFirestore";
 import useStylesFromDB from "@/Firebase/styles/getStylesFromFirebase";
+import usePlotsFromDB from "@/Firebase/plots/getPlotsFromFirestore";
 
 const RAC = async () => {
   const cities = await useCitiesFromDB();

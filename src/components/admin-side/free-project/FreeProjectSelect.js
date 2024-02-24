@@ -11,7 +11,7 @@ const FreeProjectSelect = ({
       <div className="flex flex-col space-y-1">
         <label
           htmlFor={idHtmlFor}
-          className="text-lg font-medium uppercase text-accent-1-extra-dark">
+          className="text-lg font-medium uppercase text-accent-1-extra-dark lg:text-base">
           {label}
         </label>
         <select
