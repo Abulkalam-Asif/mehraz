@@ -6,6 +6,7 @@ const Button = ({
   color = "accent-2",
   size = "base",
   isTransitioned = false,
+  type = "submit",
 }) => {
   const colorStyles = {
     "accent-2": "bg-accent-2-base text-white",
@@ -24,6 +25,7 @@ const Button = ({
     <>
       <button
         onClick={onClick}
+        type={type}
         disabled={disabled}
         className={`uppercase rounded ${
           isTransitioned && transitionStyles[color]

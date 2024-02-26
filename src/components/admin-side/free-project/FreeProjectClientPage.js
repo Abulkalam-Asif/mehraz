@@ -1,104 +1,104 @@
 "use client";
-import { useState } from "react";
-import { Button, FreeProjectInputBox, Select, TagsInput } from "../../";
+import { useContext, useEffect, useState } from "react";
+import { FreeProjectS1, FreeProjectS2, Spinner } from "@/components";
+import { useRouter } from "next/navigation";
+import { AlertContext } from "@/context/AlertContext";
+import addFreeProjectS1Service from "@/services/admin-side/free-project/addFreeProject";
 
 const FreeProjectClientPage = ({ cities, plots }) => {
-  const [freeProject, setFreeProject] = useState({
+  const router = useRouter();
+  const { showAlert } = useContext(AlertContext);
+  const [showSpinner, setShowSpinner] = useState(false);
+  const [projectId, setProjectId] = useState(null); // UNDO: to be removed
+  // Screen 1 states and handlers
+  const defaultFreeProjectS1 = {
     title: "",
-    city: cities[0]?.id,
+    city: "GENERAL",
     area: plots[0]?.id,
-    budget: "medium",
+    budget: "MEDIUM",
     description: "",
     construction_cost: "",
     keywords: [],
     image: null,
     video: null,
-    isComplete: false,
-  });
+  };
+  const [freeProjectS1, setFreeProjectS1] = useState(defaultFreeProjectS1);
 
-  const freeProjectInputHandler = (e, name = null, value = null) => {
-    setFreeProject({
-      ...freeProject,
-      [name || e.target.name]: value || e.target.value,
+  const freeProjectS1InputHandler = (e, name = null, value = null) => {
+    setFreeProjectS1({
+      ...freeProjectS1,
+      [name || e?.target.name]: value || e?.target.value,
     });
   };
+
+  useEffect(() => {
+    if (cities?.length == 0 || plots?.length == 0) {
+      router.push("/admin/projects");
+      showAlert({
+        type: "error",
+        message: "No cities or plots found. Please add one first.",
+      });
+    }
+  }, [cities, plots]);
+
+  const addFreeProjectS1Handler = async () => {
+    // Calling the service to add the free project screen 1 to the database
+    const id = await addFreeProjectS1Service(
+      freeProjectS1,
+      showAlert,
+      setShowSpinner
+    );
+    // If the operation is successful, setting the returned projectId
+    if (id) {
+      setFreeProjectS1(defaultFreeProjectS1);
+      setProjectId(id);
+    }
+  };
+
+  // Screen 2 states and handlers
+  const defaultFreeProjectS2 = {
+    id: projectId,
+    designFile: null,
+    images: [],
+    exterior_views: [],
+    interior_views: [],
+    materials: [],
+  };
+  const [freeProjectS2, setFreeProjectS2] = useState(defaultFreeProjectS2);
+  const freeProjectS2InputHandler = (e, name = null, value = null) => {
+    setFreeProjectS2({
+      ...freeProjectS2,
+      [name || e?.target.name]: value || e?.target.value,
+    });
+  };
+  const addFreeProjectS2Handler = () => {};
 
   return (
     <>
       {/* for >1024 width, calc(100vh - (AdminHeader height + 1rem) - page header height) */}
       <div className="max-w-8xl w-full mx-auto flex flex-row gap-x-4 max-h-[calc(100vh-6rem-6rem)] xl:max-h-[calc(100vh-6rem-5rem)]">
-        <form className="w-full max-w-7xl mx-auto">
-          <div className="w-full grid grid-cols-3 gap-6">
-            <FreeProjectInputBox
-              label="title"
-              type="text"
-              name="title"
-              idHtmlFor="title"
-              value={freeProject.title}
-              inputHandler={freeProjectInputHandler}
-            />
-            <Select
-              label="city"
-              name="city"
-              idHtmlFor="city"
-              value={freeProject.city}
-              options={cities?.map(({ id, name }) => ({
-                value: id,
-                label: name,
-              }))}
-              inputHandler={freeProjectInputHandler}
-            />
-            <Select
-              label="budget"
-              name="budget"
-              idHtmlFor="budget"
-              value={freeProject.budget}
-              options={[
-                { value: "LOW", label: "LOW" },
-                { value: "MEDIUM", label: "MEDIUM" },
-                { value: "HIGH", label: "HIGH" },
-              ]}
-              inputHandler={freeProjectInputHandler}
-            />
-            <Select
-              label="area"
-              name="area"
-              idHtmlFor="area"
-              value={freeProject.area}
-              options={plots?.map(({ id, area, unit }) => ({
-                value: id,
-                label: `${area} ${unit}`,
-              }))}
-              inputHandler={freeProjectInputHandler}
-            />
-            <FreeProjectInputBox
-              label="description"
-              type="textarea"
-              name="description"
-              idHtmlFor="description"
-              value={freeProject.description}
-              inputHandler={freeProjectInputHandler}
-              className="row-start-1 col-start-3 row-span-2"
-            />
-            <FreeProjectInputBox
-              label="construction cost"
-              type="text"
-              name="construction_cost"
-              idHtmlFor="construction_cost"
-              value={freeProject.construction_cost}
-              inputHandler={freeProjectInputHandler}
-            />
-            <TagsInput
-              label="keywords"
-              tagsArr={freeProject.keywords}
-              name="keywords"
-              idHtmlFor="keywords"
-              inputHandler={freeProjectInputHandler}
-            />
-          </div>
-          <Button text="Next" isTransitioned={true} className="block ml-auto" />
-        </form>
+        {projectId ? (
+          // <FreeProjectS2
+          //   freeProjectS2={freeProjectS2}
+          //   freeProjectS2InputHandler={freeProjectS2InputHandler}
+          //   addFreeProjectS2Handler={addFreeProjectS2Handler}
+          // />
+          <div>Screen 2</div>
+        ) : (
+          <FreeProjectS1
+            freeProjectS1={freeProjectS1}
+            freeProjectS1InputHandler={freeProjectS1InputHandler}
+            cities={cities}
+            plots={plots}
+            addFreeProjectS1Handler={addFreeProjectS1Handler}
+          />
+        )}
       </div>
+      {showSpinner && (
+        <div className="z-[4] bg-black bg-opacity-20 fixed top-0 left-0 bottom-0 right-0 flex items-center justify-center">
+          <Spinner size={"lg"} />
+        </div>
+      )}
     </>
   );
 };

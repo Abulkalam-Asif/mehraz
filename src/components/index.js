@@ -5,7 +5,6 @@ export { default as AlertContainer } from "./AlertContainer";
 // Admin Side
 export { default as LinkButton } from "./admin-side/LinkButton";
 export { default as Button } from "./admin-side/Button";
-export { default as Select } from "./admin-side/Select";
 export { default as Dropdown } from "./admin-side/Dropdown";
 export { default as Spinner } from "./admin-side/Spinner";
 export { default as H1 } from "./admin-side/H1";
@@ -25,7 +24,12 @@ export { default as ProjectDisplayBoxMob } from "./admin-side/projects/ProjectDi
 export { default as ProjectsDisplay } from "./admin-side/projects/ProjectsDisplay";
 // Admin Side - FreeProject
 export { default as FreeProjectClientPage } from "./admin-side/free-project/FreeProjectClientPage";
+export { default as FreeProjectS1 } from "./admin-side/free-project/FreeProjectS1";
+export { default as FreeProjectS2 } from "./admin-side/free-project/FreeProjectS2";
 export { default as FreeProjectInputBox } from "./admin-side/free-project/FreeProjectInputBox";
+export { default as FreeProjectSelect } from "./admin-side/free-project/FreeProjectSelect";
+export { default as FileInput } from "./admin-side/free-project/FileInput";
+export { default as MultiFileInput } from "./admin-side/free-project/MultiFileInput";
 // Admin Side - RAC
 export { default as RACInputBox } from "./admin-side/rac/RACInputBox";
 export { default as RACClientPage } from "./admin-side/rac/RACClientPage";
@@ -37,6 +41,7 @@ export { default as RACButtonMobile } from "./admin-side/rac/RACButtonMobile";
 export { default as RACContainer } from "./admin-side/rac/RACContainer";
 export { default as RolesSection } from "./admin-side/rac/RolesSection";
 export { default as CurrenciesSection } from "./admin-side/rac/CurrenciesSection";
+export { default as RACSelect } from "./admin-side/rac/RACSelect";
 export { default as CitiesSection } from "./admin-side/rac/CitiesSection";
 export { default as OfficeLocSection } from "./admin-side/rac/OfficeLocSection";
 export { default as PlotsSection } from "./admin-side/rac/PlotsSection";

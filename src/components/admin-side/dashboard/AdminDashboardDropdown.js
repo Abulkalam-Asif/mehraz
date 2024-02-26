@@ -29,7 +29,9 @@ const AdminDashboardDropdown = ({
         <button
           className="flex items-center gap-2"
           onClick={() => setExpandedDropdown(name)}>
-          <span className="uppercase text-1.5xl">{title}</span>
+          <span className="uppercase text-accent-2-base text-1.5xl">
+            {title}
+          </span>
           <Image
             src={chevronDownIcon}
             alt="chevron down"
@@ -43,13 +45,15 @@ const AdminDashboardDropdown = ({
             isExpanded ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
           } transition-grid-rows duration-300`}>
           <ul
-            className={`flex flex-col overflow-hidden bg-accent-2-light ${
+            className={`flex flex-col overflow-hidden bg-accent-2-base ${
               isExpanded ? "py-4" : "p-0"
             } transition-padding rounded-lg`}>
             {items?.map(({ text, href }, index) => {
               return (
                 <li key={index} className="text-lg uppercase text-center">
-                  <Link href={href} className="block w-full px-6 py-2">
+                  <Link
+                    href={href}
+                    className="text-white block w-full px-6 py-2">
                     {text}
                   </Link>
                 </li>

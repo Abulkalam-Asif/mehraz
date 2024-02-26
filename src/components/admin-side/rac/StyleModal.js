@@ -1,5 +1,5 @@
 "use client";
-import { RACInputBox, RACModal, Dropzone } from "@/components";
+import { RACInputBox, RACModal, Dropzone, RACSelect } from "@/components";
 import checkIfValidUrl from "@/utilities/admin-panel/roles-analytics-cities/checkIfValidUrl";
 import Image from "next/image";
 import { useState } from "react";
@@ -25,13 +25,25 @@ const StyleModal = ({
           modalMetadata.action === "add" ? addNewStyleHandler : editStyleHandler
         }
         className={"flex items-stretch gap-8"}>
-        <div className="w-1/2 space-y-4">
+        <div className="w-1/2 space-y-2">
           <RACInputBox
             label="Enter style name"
             value={currentStyle.name}
             inputHandler={currentStyleInputHandler}
             idHtmlFor="name"
             name="name"
+          />
+          <RACSelect
+            label="Select budget"
+            value={currentStyle.budget}
+            name="budget"
+            idHtmlFor="budget"
+            inputHandler={currentStyleInputHandler}
+            options={[
+              { label: "Low", value: "LOW" },
+              { label: "Medium", value: "MEDIUM" },
+              { label: "High", value: "HIGH" },
+            ]}
           />
           <Dropzone
             message={"Attach an image (.jpg, .png, .gif etc)"}
@@ -40,7 +52,7 @@ const StyleModal = ({
             setPreviewSrc={setPreviewSrc}
             previewSrc={previewSrc}
             file={currentStyle?.image}
-            fileUploadHandler={(file) =>
+            fileStateSetter={(file) =>
               setCurrentStyle((prevState) => ({
                 ...prevState,
                 image: file,

@@ -21,7 +21,6 @@ module.exports = {
         "accent-1-dark": "#666666",
         "accent-1-extra-dark": "#444444",
         "accent-2-base": "#323232",
-        "accent-2-light": "#fff3e4",
       },
       boxShadow: {
         dropdown: "0px 1px 8px 2px rgba(0, 0, 0, 0.3)",

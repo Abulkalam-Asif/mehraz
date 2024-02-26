@@ -38,7 +38,7 @@ const Projects = async () => {
             </div>
             <div className="hidden sm:flex gap-x-4 items-center gap-y-2 xs:flex-col">
               <LinkButton
-                href="/admin/projects/free-design"
+                href="/admin/free-project"
                 text="free +"
                 className="text-sm xs:px-3 xs:py-2"
               />

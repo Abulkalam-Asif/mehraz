@@ -26,7 +26,7 @@ const TagsInput = ({
         return;
       }
       const updatedTagsArr = [...tagsArr, e.target.value.trim().toUpperCase()];
-      inputHandler(e, null, updatedTagsArr);
+      inputHandler(null, name, updatedTagsArr);
       e.target.value = "";
     }
   };
@@ -36,7 +36,7 @@ const TagsInput = ({
       <div className="flex flex-col space-y-1">
         <label
           htmlFor={idHtmlFor}
-          className="text-lg font-medium uppercase text-accent-1-extra-dark">
+          className="text-lg font-medium uppercase text-accent-1-extra-dark lg:text-base">
           {label}
         </label>
         <input

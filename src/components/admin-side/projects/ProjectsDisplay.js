@@ -37,25 +37,27 @@ const ProjectsDisplay = ({ freeProjects, readyProjects }) => {
   return (
     <>
       {projects ? (
-        <>
-          <Table className="max-w-8xl p-4 lg:hidden">
-            <thead className="whitespace-nowrap">
-              <tr>
-                <Th position="beginning" className="w-2/12 py-3 px-5">
-                  project title
-                </Th>
-                <Th className="w-2/3 py-3 px-5">description</Th>
-                <Th className="w-1/12 py-3 px-5">date created</Th>
-                <Th position="end" className="w-1/12 py-3 px-5">
-                  action
-                </Th>
-              </tr>
-            </thead>
-            <tbody className="text-base">
-              {projectsCount === 0 ? (
-                <div>No Projects Found</div>
-              ) : (
-                projects?.map(
+        projectsCount == 0 ? (
+          <div className="flex items-center justify-center text-lg font-medium">
+            <p className="mt-2">Not projects found!</p>
+          </div>
+        ) : (
+          <>
+            <Table className="max-w-8xl p-4 lg:hidden">
+              <thead className="whitespace-nowrap">
+                <tr>
+                  <Th position="beginning" className="w-2/12 py-3 px-5">
+                    project title
+                  </Th>
+                  <Th className="w-2/3 py-3 px-5">description</Th>
+                  <Th className="w-1/12 py-3 px-5">date created</Th>
+                  <Th position="end" className="w-1/12 py-3 px-5">
+                    action
+                  </Th>
+                </tr>
+              </thead>
+              <tbody className="text-base">
+                {projects?.map(
                   ({ id, title, description, date_created }, index) => (
                     <tr key={index}>
                       <Td
@@ -99,31 +101,33 @@ const ProjectsDisplay = ({ freeProjects, readyProjects }) => {
                       </Td>
                     </tr>
                   )
-                )
-              )}
-            </tbody>
-          </Table>
-          <div className={"hidden lg:block px-20 md:px-12 sm:px-4 xs:px-0"}>
-            <Carousel childrenCount={projectsGroupsArr?.length}>
-              {projectsGroupsArr?.map((group, arrIndex) => (
-                <div key={arrIndex}>
-                  <div className="flex flex-col gap-3">
-                    {group?.map(({ id, title, description, date_created }) => (
-                      <ProjectDisplayBoxMob
-                        key={id}
-                        id={id}
-                        title={title}
-                        description={description}
-                        date_created={date_created}
-                        deleteProjectHandler={deleteProjectHandler}
-                      />
-                    ))}
+                )}
+              </tbody>
+            </Table>
+            <div className={"hidden lg:block px-20 md:px-12 sm:px-4 xs:px-0"}>
+              <Carousel childrenCount={projectsGroupsArr?.length}>
+                {projectsGroupsArr?.map((group, arrIndex) => (
+                  <div key={arrIndex}>
+                    <div className="flex flex-col gap-3">
+                      {group?.map(
+                        ({ id, title, description, date_created }) => (
+                          <ProjectDisplayBoxMob
+                            key={id}
+                            id={id}
+                            title={title}
+                            description={description}
+                            date_created={date_created}
+                            deleteProjectHandler={deleteProjectHandler}
+                          />
+                        )
+                      )}
+                    </div>
                   </div>
-                </div>
-              ))}
-            </Carousel>
-          </div>
-        </>
+                ))}
+              </Carousel>
+            </div>
+          </>
+        )
       ) : (
         <div className="flex justify-center pt-6">
           <Spinner size={"lg"} text={"Loading projects..."} />

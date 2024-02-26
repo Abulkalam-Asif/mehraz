@@ -4,7 +4,7 @@ import { collection, doc, setDoc } from "firebase/firestore";
 import { ref, uploadBytes } from "firebase/storage";
 import { revalidatePath } from "next/cache";
 
-const addStyleToDB = async ({ name, image, usage }) => {
+const addStyleToDB = async ({ name, budget, image, usage }) => {
   try {
     const currentTimeInMilliseconds = new Date().getTime().toString();
 
@@ -16,6 +16,7 @@ const addStyleToDB = async ({ name, image, usage }) => {
 
     await setDoc(newDocRef, {
       name,
+      budget,
       usage,
     });
 

@@ -281,15 +281,16 @@ const RACClientPage = ({
   };
 
   // Styles states and functions
-  const deafultStyle = {
+  const defaultStyle = {
     id: null,
     name: "",
+    budget: "LOW",
     image: null,
     usage: {
       projects: 0,
     },
   };
-  const [currentStyle, setCurrentStyle] = useState(deafultStyle);
+  const [currentStyle, setCurrentStyle] = useState(defaultStyle);
 
   const currentStyleInputHandler = (e) => {
     setCurrentStyle((prevState) => ({
@@ -358,7 +359,7 @@ const RACClientPage = ({
       setCurrentCurrency(defaultCurrency);
       setCurrentOfficeLocation(defaultOfficeLocation);
       setCurrentPlot(deafultPlot);
-      setCurrentStyle(deafultStyle);
+      setCurrentStyle(defaultStyle);
       setItemToDelete(defaultItemToDelete);
     }
   }, [isModalOpen]);

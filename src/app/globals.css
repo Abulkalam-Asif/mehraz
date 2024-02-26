@@ -13,3 +13,11 @@
   background-color: #666666;
   border-radius: .5rem;
 }
+
+a:focus,
+button:focus,
+textarea:focus,
+select:focus,
+input:focus {
+  outline: 2px dashed #323232;
+}

@@ -12,7 +12,7 @@ const FreeProjectInputBox = ({
       <div className={`flex flex-col space-y-1 ${className}`}>
         <label
           htmlFor={idHtmlFor}
-          className="text-lg font-medium uppercase text-accent-1-extra-dark">
+          className="text-lg font-medium uppercase text-accent-1-extra-dark lg:text-base">
           {label}
         </label>
         {(type === "text" || type === "number") && (
