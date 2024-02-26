@@ -1,3 +1,5 @@
+"use client";
+import { useEffect, useState } from "react";
 import Button from "../Button";
 import TagsInput from "../TagsInput";
 import FileInput from "./FileInput";
@@ -11,6 +13,13 @@ const FreeProjectS1 = ({
   plots,
   addFreeProjectS1Handler,
 }) => {
+  const [citiesOptions, setCitiesOptions] = useState(cities);
+  useEffect(() => {
+    if (!citiesOptions.some((city) => city.id === "GENERAL")) {
+      setCitiesOptions([{ id: "GENERAL", name: "GENERAL" }, ...citiesOptions]);
+    }
+  }, []);
+
   return (
     <>
       <form className="w-full max-w-7xl mx-auto py-4 pr-2 space-y-6 overflow-y-auto">
@@ -28,7 +37,7 @@ const FreeProjectS1 = ({
             name="city"
             idHtmlFor="city"
             value={freeProjectS1.city}
-            options={cities?.map(({ id, name }) => ({
+            options={citiesOptions?.map(({ id, name }) => ({
               value: id,
               label: name,
             }))}

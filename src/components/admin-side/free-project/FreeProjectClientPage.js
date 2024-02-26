@@ -1,6 +1,6 @@
 "use client";
 import { useContext, useEffect, useState } from "react";
-import { FreeProjectS1, Spinner } from "@/components";
+import { FreeProjectS1, FreeProjectS2, Spinner } from "@/components";
 import { useRouter } from "next/navigation";
 import { AlertContext } from "@/context/AlertContext";
 import addFreeProjectS1Service from "@/services/admin-side/free-project/addFreeProject";
@@ -9,10 +9,11 @@ const FreeProjectClientPage = ({ cities, plots }) => {
   const router = useRouter();
   const { showAlert } = useContext(AlertContext);
   const [showSpinner, setShowSpinner] = useState(false);
-  const [projectId, setProjectId] = useState(null);
-  const defaultProjectS1 = {
+  const [projectId, setProjectId] = useState(null); // UNDO: to be removed
+  // Screen 1 states and handlers
+  const defaultFreeProjectS1 = {
     title: "",
-    city: cities[0]?.id,
+    city: "GENERAL",
     area: plots[0]?.id,
     budget: "MEDIUM",
     description: "",
@@ -20,9 +21,8 @@ const FreeProjectClientPage = ({ cities, plots }) => {
     keywords: [],
     image: null,
     video: null,
-    isComplete: false,
   };
-  const [freeProjectS1, setFreeProjectS1] = useState(defaultProjectS1);
+  const [freeProjectS1, setFreeProjectS1] = useState(defaultFreeProjectS1);
 
   const freeProjectS1InputHandler = (e, name = null, value = null) => {
     setFreeProjectS1({
@@ -41,25 +41,49 @@ const FreeProjectClientPage = ({ cities, plots }) => {
     }
   }, [cities, plots]);
 
-  const addFreeProjectS1Handler = () => {
-    // Calling the service
-    const id = addFreeProjectS1Service(
+  const addFreeProjectS1Handler = async () => {
+    // Calling the service to add the free project screen 1 to the database
+    const id = await addFreeProjectS1Service(
       freeProjectS1,
       showAlert,
       setShowSpinner
     );
+    // If the operation is successful, setting the returned projectId
     if (id) {
-      setFreeProjectS1(defaultProjectS1);
+      setFreeProjectS1(defaultFreeProjectS1);
       setProjectId(id);
     }
   };
+
+  // Screen 2 states and handlers
+  const defaultFreeProjectS2 = {
+    id: projectId,
+    designFile: null,
+    images: [],
+    exterior_views: [],
+    interior_views: [],
+    materials: [],
+  };
+  const [freeProjectS2, setFreeProjectS2] = useState(defaultFreeProjectS2);
+  const freeProjectS2InputHandler = (e, name = null, value = null) => {
+    setFreeProjectS2({
+      ...freeProjectS2,
+      [name || e?.target.name]: value || e?.target.value,
+    });
+  };
+  const addFreeProjectS2Handler = () => {};
 
   return (
     <>
       {/* for >1024 width, calc(100vh - (AdminHeader height + 1rem) - page header height) */}
       <div className="max-w-8xl w-full mx-auto flex flex-row gap-x-4 max-h-[calc(100vh-6rem-6rem)] xl:max-h-[calc(100vh-6rem-5rem)]">
         {projectId ? (
-          <div>screen 2</div>
+          // <FreeProjectS2
+          //   freeProjectS2={freeProjectS2}
+          //   freeProjectS2InputHandler={freeProjectS2InputHandler}
+          //   addFreeProjectS2Handler={addFreeProjectS2Handler}
+          // />
+          <div>Screen 2</div>
         ) : (
           <FreeProjectS1
             freeProjectS1={freeProjectS1}

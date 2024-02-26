@@ -3,8 +3,9 @@ import { useState, useEffect, useContext } from "react";
 import { AlertContext } from "@/context/AlertContext";
 import reduceFilename from "@/utilities/admin-panel/reduceFilename";
 
-const FileInput = ({
+const MultiFileInput = ({
   accept,
+  filesArray = [],
   message,
   name = "",
   htmlFor,
@@ -14,40 +15,40 @@ const FileInput = ({
   inputHandler,
 }) => {
   const { showAlert } = useContext(AlertContext);
-  const [file, setFile] = useState(null);
-  const [fileName, setFileName] = useState(null);
-  const [isFocused, setIsFocused] = useState(false);
+  const [files, setFiles] = useState(null);
+  const [isFocused, setIsFocused] = useState(false); // State to track focus
 
   const handleFileChange = (event) => {
-    if (event.target.files && event.target.files[0]) {
-      setFile(event.target.files[0]);
+    if (event.target.files) {
+      setFiles(event.target.files);
     }
   };
 
-  const fileStateSetter = (currentfile) => {
-    inputHandler(null, name, currentfile);
+  const fileStateSetter = (newFiles) => {
+    const resultantFiles = [...filesArray, ...newFiles];
+    inputHandler(null, name, resultantFiles);
   };
 
   useEffect(() => {
-    if (file) {
-      if (file.type.startsWith(typeStartsWith)) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setFileName(reduceFilename(file.name, 13));
-        };
-        reader.readAsDataURL(file);
-        fileStateSetter(file);
-      } else {
-        setFile(null);
-        setFileName(null);
-        fileStateSetter(null);
-        showAlert({
-          type: "warning",
-          message: wrongFileTypeWarning,
-        });
-      }
+    if (files) {
+      files.foreach((file) => {
+        if (!file.type.startsWith(typeStartsWith)) {
+          setFiles((prevState) =>
+            prevState.filter((currFile) => currFile.name !== file.name)
+          );
+        }
+      });
+
+      fileStateSetter(files);
+      // setFiles(null);
+      // setFileName(null);
+      // fileStateSetter(null);
+      // showAlert({
+      //   type: "warning",
+      //   message: wrongFileTypeWarning,
+      // });
     }
-  }, [file]);
+  }, [files]);
 
   return (
     <>
@@ -56,13 +57,7 @@ const FileInput = ({
         className={`${className} flex items-center justify-center p-2 w-full border-2 border-accent-1-base rounded-md cursor-pointer bg-white text-center text-accent-1-dark hover:shadow-lg ${
           isFocused ? "outline-2 outline-accent-1-dark outline-dashed" : ""
         }`}>
-        {fileName ? (
-          <span className="text-green-500">
-            {fileName} attached successfully.
-          </span>
-        ) : (
-          <span>{message}</span>
-        )}
+        {<span>{message}</span>}
         <input
           id={htmlFor}
           onFocus={(e) => setIsFocused(true)}
@@ -77,4 +72,4 @@ const FileInput = ({
   );
 };
 
-export default FileInput;
+export default MultiFileInput;

@@ -24,16 +24,18 @@ const addFreeProjectS1ToDb = async ({
   video,
 }) => {
   try {
-    // Checking if the city exists in the database
-    const cityDocRef = doc(collection(db, "CITIES"), city);
-    const cityDoc = await getDoc(cityDocRef);
-    if (!cityDoc.exists) {
-      console.error("The selected city does not exist in the database.");
-      return {
-        data: null,
-        type: "error",
-        message: "Something went wrong, please try again later.",
-      };
+    if (city !== "GENERAL") {
+      // Checking if the city exists in the database
+      const cityDocRef = doc(collection(db, "CITIES"), city);
+      const cityDoc = await getDoc(cityDocRef);
+      if (!cityDoc.exists) {
+        console.error("The selected city does not exist in the database.");
+        return {
+          data: null,
+          type: "error",
+          message: "Something went wrong, please try again later.",
+        };
+      }
     }
     // Checking if the area exists in the database
     const areaDocRef = doc(collection(db, "PLOTS"), area);
@@ -70,13 +72,14 @@ const addFreeProjectS1ToDb = async ({
       description,
       construction_cost,
       keywords,
+      is_complete: false,
       date_created: Timestamp.now(),
     });
     // Uploading the image and video to the storage
-    const imageRef = ref(storage, `FREE_PROJECTS/${response.id}`);
+    const imageRef = ref(storage, `FREE_PROJECTS/${response.id}/image`);
     await uploadBytes(imageRef, image.get("image"));
 
-    const videoRef = ref(storage, `FREE_PROJECTS/${response.id}`);
+    const videoRef = ref(storage, `FREE_PROJECTS/${response.id}/video`);
     await uploadBytes(videoRef, video.get("video"));
 
     return {

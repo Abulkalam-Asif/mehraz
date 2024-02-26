@@ -12,7 +12,6 @@ const addFreeProjectS1Service = (freeProject, showAlert, setShowSpinner) => {
     keywords: freeProject.keywords,
     image: freeProject.image,
     video: freeProject.video,
-    isComplete: freeProject.isComplete,
   };
   if (formattedData.title === "") {
     showAlert({ type: "warning", message: "Please enter a title" });
@@ -40,10 +39,12 @@ const addFreeProjectS1Service = (freeProject, showAlert, setShowSpinner) => {
     // Converting image to FormData to pass to Server Action
     formattedData.image = fileToFormData("image", formattedData.image);
     formattedData.video = fileToFormData("video", formattedData.video);
-    addFreeProjectS1ToDb(formattedData).then(({ data, type, message }) => {
-      showAlert({ type, message });
-      setShowSpinner(false);
-      return data;
+    return new Promise((resolve) => {
+      addFreeProjectS1ToDb(formattedData).then(({ data, type, message }) => {
+        showAlert({ type, message });
+        setShowSpinner(false);
+        resolve(data);
+      });
     });
   }
 };
