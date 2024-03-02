@@ -16,11 +16,12 @@ const MultiFileInput = ({
 }) => {
   const { showAlert } = useContext(AlertContext);
   const [files, setFiles] = useState(null);
-  const [isFocused, setIsFocused] = useState(false); // State to track focus
+  const [isFocused, setIsFocused] = useState(false);
 
-  const handleFileChange = (event) => {
-    if (event.target.files) {
-      setFiles(event.target.files);
+  const handleFileChange = (e) => {
+    if (e.target.files) {
+      const initialFiles = e.target.files;
+      setFiles(initialFiles.filter);
     }
   };
 
@@ -54,15 +55,15 @@ const MultiFileInput = ({
     <>
       <label
         htmlFor={htmlFor}
-        className={`${className} flex items-center justify-center p-2 w-full border-2 border-accent-1-base rounded-md cursor-pointer bg-white text-center text-accent-1-dark hover:shadow-lg ${
-          isFocused ? "outline-2 outline-accent-1-dark outline-dashed" : ""
-        }`}>
+        className={`${className} flex items-center justify-center p-2 w-full border-2 border-accent-1-base rounded-md cursor-pointer bg-white text-center text-accent-1-dark hover:shadow-lg ${isFocused ? "outline-2 outline-accent-1-dark outline-dashed" : ""
+          }`}>
         {<span>{message}</span>}
         <input
           id={htmlFor}
           onFocus={(e) => setIsFocused(true)}
           onBlur={(e) => setIsFocused(false)}
           type="file"
+          multiple={true}
           className="w-0 h-0 overflow-hidden focus:outline-none"
           onChange={handleFileChange}
           accept={accept}

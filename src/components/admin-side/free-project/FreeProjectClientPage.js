@@ -9,7 +9,7 @@ const FreeProjectClientPage = ({ cities, plots }) => {
   const router = useRouter();
   const { showAlert } = useContext(AlertContext);
   const [showSpinner, setShowSpinner] = useState(false);
-  const [projectId, setProjectId] = useState(null); // UNDO: to be removed
+  const [projectId, setProjectId] = useState("Some project id"); // UNDO: to be removed
   // Screen 1 states and handlers
   const defaultFreeProjectS1 = {
     title: "",
@@ -78,12 +78,11 @@ const FreeProjectClientPage = ({ cities, plots }) => {
       {/* for >1024 width, calc(100vh - (AdminHeader height + 1rem) - page header height) */}
       <div className="max-w-8xl w-full mx-auto flex flex-row gap-x-4 max-h-[calc(100vh-6rem-6rem)] xl:max-h-[calc(100vh-6rem-5rem)]">
         {projectId ? (
-          // <FreeProjectS2
-          //   freeProjectS2={freeProjectS2}
-          //   freeProjectS2InputHandler={freeProjectS2InputHandler}
-          //   addFreeProjectS2Handler={addFreeProjectS2Handler}
-          // />
-          <div>Screen 2</div>
+          <FreeProjectS2
+            freeProjectS2={freeProjectS2}
+            freeProjectS2InputHandler={freeProjectS2InputHandler}
+            addFreeProjectS2Handler={addFreeProjectS2Handler}
+          />
         ) : (
           <FreeProjectS1
             freeProjectS1={freeProjectS1}
