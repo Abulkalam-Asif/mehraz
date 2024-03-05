@@ -1,7 +1,6 @@
 "use client";
-import { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
 import { AlertContext } from "@/context/AlertContext";
-import reduceFilename from "@/utilities/admin-panel/reduceFilename";
 
 const MultiFileInput = ({
   accept,
@@ -15,13 +14,16 @@ const MultiFileInput = ({
   inputHandler,
 }) => {
   const { showAlert } = useContext(AlertContext);
-  const [files, setFiles] = useState(null);
   const [isFocused, setIsFocused] = useState(false);
 
   const handleFileChange = (e) => {
     if (e.target.files) {
-      const initialFiles = e.target.files;
-      setFiles(initialFiles.filter);
+      const initialFiles = Array.from(e.target.files);
+      const filteredFiles = initialFiles.filter((file) => (file.type.startsWith(typeStartsWith)));
+      if (initialFiles.length > filteredFiles.length) {
+        showAlert({ type: "warning", message: wrongFileTypeWarning });
+      }
+      fileStateSetter(filteredFiles);
     }
   };
 
@@ -29,27 +31,6 @@ const MultiFileInput = ({
     const resultantFiles = [...filesArray, ...newFiles];
     inputHandler(null, name, resultantFiles);
   };
-
-  useEffect(() => {
-    if (files) {
-      files.foreach((file) => {
-        if (!file.type.startsWith(typeStartsWith)) {
-          setFiles((prevState) =>
-            prevState.filter((currFile) => currFile.name !== file.name)
-          );
-        }
-      });
-
-      fileStateSetter(files);
-      // setFiles(null);
-      // setFileName(null);
-      // fileStateSetter(null);
-      // showAlert({
-      //   type: "warning",
-      //   message: wrongFileTypeWarning,
-      // });
-    }
-  }, [files]);
 
   return (
     <>
@@ -60,8 +41,8 @@ const MultiFileInput = ({
         {<span>{message}</span>}
         <input
           id={htmlFor}
-          onFocus={(e) => setIsFocused(true)}
-          onBlur={(e) => setIsFocused(false)}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
           type="file"
           multiple={true}
           className="w-0 h-0 overflow-hidden focus:outline-none"

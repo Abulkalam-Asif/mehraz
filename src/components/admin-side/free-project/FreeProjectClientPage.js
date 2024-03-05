@@ -71,7 +71,7 @@ const FreeProjectClientPage = ({ cities, plots }) => {
       [name || e?.target.name]: value || e?.target.value,
     });
   };
-  const addFreeProjectS2Handler = () => {};
+  const addFreeProjectS2Handler = () => { };
 
   return (
     <>

@@ -15,6 +15,8 @@ export { default as AdminHeader } from "./admin-side/AdminHeader";
 export { default as Table } from "./admin-side/Table";
 export { default as TagsInput } from "./admin-side/TagsInput";
 export { default as Tag } from "./admin-side/Tag";
+export { default as MultiFileInput } from "./admin-side/MultiFileInput";
+export { default as MultiFileDisplay } from "./admin-side/MultiFileDisplay";
 // Admin Side - AdminDashboard
 export { default as AdminDashboardGroup } from "./admin-side/dashboard/AdminDashboardGroup";
 export { default as AdminDashboardDropdown } from "./admin-side/dashboard/AdminDashboardDropdown";
@@ -29,7 +31,9 @@ export { default as FreeProjectS2 } from "./admin-side/free-project/FreeProjectS
 export { default as FreeProjectInputBox } from "./admin-side/free-project/FreeProjectInputBox";
 export { default as FreeProjectSelect } from "./admin-side/free-project/FreeProjectSelect";
 export { default as FileInput } from "./admin-side/free-project/FileInput";
-export { default as MultiFileInput } from "./admin-side/free-project/MultiFileInput";
+export { default as FreeProjectContainer } from "./admin-side/free-project/FreeProjectContainer";
+export { default as ExteriorSection } from "./admin-side/free-project/ExteriorSection";
+export { default as InteriorSection } from "./admin-side/free-project/InteriorSection";
 // Admin Side - RAC
 export { default as RACInputBox } from "./admin-side/rac/RACInputBox";
 export { default as RACClientPage } from "./admin-side/rac/RACClientPage";
