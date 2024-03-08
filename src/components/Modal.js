@@ -1,6 +1,6 @@
 import { closeIcon } from "@/assets";
 import Image from "next/image";
-import Spinner from "./admin-side/Spinner";
+import { Spinner } from "@/components";
 
 const Modal = ({
   isModalOpen = false,
