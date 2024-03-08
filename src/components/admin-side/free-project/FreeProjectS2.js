@@ -1,13 +1,14 @@
 "use client";
-import Button from "../Button";
-import FileInput from "./FileInput";
-import MultiFileInput from "../MultiFileInput";
-import MultiFileDisplay from "../MultiFileDisplay";
-import ExteriorSection from "./ExteriorSection";
-import InteriorSection from "./InteriorSection";
+import {
+  Button,
+  FileInput,
+  MultiFileInput,
+  MultiFileDisplay,
+  ExteriorSection,
+  Modal,
+  ExteriorModal,
+} from "@/components";
 import { useContext, useEffect, useState } from "react";
-import Modal from "@/components/Modal";
-import ExteriorModal from "./ExteriorModal";
 import { addEditExteriorViewService } from "@/services/admin-side/free-project/exteriorViews";
 import { AlertContext } from "@/context/AlertContext";
 import { ulid } from "ulid";
@@ -146,10 +147,18 @@ const FreeProjectS2 = ({
               toggleModal={toggleModal}
               setCurrentExteriorView={setCurrentExteriorView}
             />
-            <InteriorSection interiorViews={interiorViews} />
-            <InteriorSection interiorViews={interiorViews} />
-            {/* <InteriorSection interiorViews={interiorViews} /> */}
-            {/* <InteriorSection interiorViews={interiorViews} /> */}
+            <ExteriorSection
+              exteriorViews={freeProjectS2.exteriorViews}
+              setModalMetadata={setModalMetadata}
+              toggleModal={toggleModal}
+              setCurrentExteriorView={setCurrentExteriorView}
+            />
+            <ExteriorSection
+              exteriorViews={freeProjectS2.exteriorViews}
+              setModalMetadata={setModalMetadata}
+              toggleModal={toggleModal}
+              setCurrentExteriorView={setCurrentExteriorView}
+            />
           </div>
         </div>
         <Button

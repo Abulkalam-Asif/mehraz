@@ -35,7 +35,6 @@ export { default as FreeProjectSelect } from "./admin-side/free-project/FreeProj
 export { default as FileInput } from "./admin-side/free-project/FileInput";
 export { default as FreeProjectContainer } from "./admin-side/free-project/FreeProjectContainer";
 export { default as ExteriorSection } from "./admin-side/free-project/ExteriorSection";
-export { default as InteriorSection } from "./admin-side/free-project/InteriorSection";
 export { default as ExteriorModal } from "./admin-side/free-project/ExteriorModal";
 // Admin Side - RAC
 export { default as RACClientPage } from "./admin-side/rac/RACClientPage";

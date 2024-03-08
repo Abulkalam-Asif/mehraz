@@ -1,10 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
-import Button from "../Button";
-import TagsInput from "../TagsInput";
-import FileInput from "./FileInput";
-import FreeProjectInputBox from "./FreeProjectInputBox";
-import FreeProjectSelect from "./FreeProjectSelect";
+import {
+  Button,
+  TagsInput,
+  FileInput,
+  FreeProjectInputBox,
+  FreeProjectSelect,
+} from "@/components";
 
 const FreeProjectS1 = ({
   freeProjectS1,
@@ -15,7 +17,7 @@ const FreeProjectS1 = ({
 }) => {
   const [citiesOptions, setCitiesOptions] = useState(cities);
   useEffect(() => {
-    if (!citiesOptions.some((city) => city.id === "GENERAL")) {
+    if (!citiesOptions.some(city => city.id === "GENERAL")) {
       setCitiesOptions([{ id: "GENERAL", name: "GENERAL" }, ...citiesOptions]);
     }
   }, []);

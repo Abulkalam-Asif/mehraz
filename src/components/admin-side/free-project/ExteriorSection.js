@@ -1,12 +1,14 @@
 import Image from "next/image";
-import Dropdown from "../Dropdown";
-import H2 from "../H2";
-import Table from "../Table";
-import Td from "../Td";
-import Th from "../Th";
-import FreeProjectContainer from "./FreeProjectContainer";
-import { deleteIcon, editIcon, ellipsisIcon, linkIcon } from "@/assets";
-import Button from "../Button";
+import {
+  Dropdown,
+  H2,
+  Table,
+  Td,
+  Th,
+  FreeProjectContainer,
+  Button,
+} from "@/components/";
+import { deleteIcon, editIcon, ellipsisIcon } from "@/assets";
 
 const ExteriorSection = ({
   exteriorViews,
