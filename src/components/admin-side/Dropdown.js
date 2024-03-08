@@ -9,10 +9,10 @@ const Dropdown = ({
   contentClassName = "",
 }) => {
   const [showDropdown, setShowDropdown] = useState(false);
-  const toggleDropdown = () => setShowDropdown((prevState) => !prevState);
+  const toggleDropdown = () => setShowDropdown(prevState => !prevState);
 
   useEffect(() => {
-    const handleOutsideClick = (e) => {
+    const handleOutsideClick = e => {
       setShowDropdown(null);
     };
     document.addEventListener("click", handleOutsideClick);
@@ -24,7 +24,10 @@ const Dropdown = ({
   return (
     <>
       <div className={`relative ${className}`}>
-        <button className={buttonClassName} onClick={toggleDropdown}>
+        <button
+          className={buttonClassName}
+          type="button"
+          onClick={toggleDropdown}>
           {triggerContent}
         </button>
         {showDropdown && <div className={contentClassName}>{children}</div>}

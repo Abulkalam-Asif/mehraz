@@ -89,13 +89,13 @@ const RACClientPage = ({
     },
   };
   const [currentCity, setCurrentCity] = useState(defaultCity);
-  const currentCityInputHandler = (e) => {
-    setCurrentCity((prevState) => ({
+  const currentCityInputHandler = e => {
+    setCurrentCity(prevState => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }));
   };
-  const addNewCityHandler = (e) => {
+  const addNewCityHandler = e => {
     e.preventDefault();
     // Calling the service
     addNewCityService(
@@ -103,10 +103,10 @@ const RACClientPage = ({
       currentCity,
       setShowModalSpinner,
       showAlert,
-      hideModal
+      hideModal,
     );
   };
-  const editCityHandler = (e) => {
+  const editCityHandler = e => {
     e.preventDefault();
     // Calling the service
     editCityService(
@@ -114,10 +114,10 @@ const RACClientPage = ({
       currentCity,
       setShowModalSpinner,
       showAlert,
-      hideModal
+      hideModal,
     );
   };
-  const deleteCityHandler = (e) => {
+  const deleteCityHandler = e => {
     e.preventDefault();
     // Calling the service
     deleteCityService(itemToDelete, setShowModalSpinner, showAlert, hideModal);
@@ -136,13 +136,13 @@ const RACClientPage = ({
   const [currentCurrency, setCurrentCurrency] = useState(defaultCurrency);
 
   const currentCurrencyInputHandler = (e, value = null) => {
-    setCurrentCurrency((prevState) => ({
+    setCurrentCurrency(prevState => ({
       ...prevState,
       [e.target.name]: value || e.target.value,
     }));
   };
 
-  const addNewCurrencyHandler = (e) => {
+  const addNewCurrencyHandler = e => {
     e.preventDefault();
     // Calling the service
     addNewCurrencyService(
@@ -150,16 +150,16 @@ const RACClientPage = ({
       currencies,
       showAlert,
       setShowModalSpinner,
-      hideModal
+      hideModal,
     );
   };
 
-  const editCurrencyHandler = (e) => {
+  const editCurrencyHandler = e => {
     e.preventDefault();
     // returns array of the ids of the cities that were previously selected
     const prevCities = currencies
-      .find((currency) => currency.id === currentCurrency.id)
-      .cities.map((city) => city.id);
+      .find(currency => currency.id === currentCurrency.id)
+      .cities.map(city => city.id);
     // Calling the service
     editCurrencyService(
       currentCurrency,
@@ -167,17 +167,17 @@ const RACClientPage = ({
       currencies,
       showAlert,
       setShowModalSpinner,
-      hideModal
+      hideModal,
     );
   };
-  const deleteCurrencyHandler = (e) => {
+  const deleteCurrencyHandler = e => {
     e.preventDefault();
     // Calling the service
     deleteCurrencyService(
       itemToDelete,
       setShowModalSpinner,
       showAlert,
-      hideModal
+      hideModal,
     );
   };
 
@@ -190,16 +190,16 @@ const RACClientPage = ({
     image: null,
   };
   const [currentOfficeLocation, setCurrentOfficeLocation] = useState(
-    defaultOfficeLocation
+    defaultOfficeLocation,
   );
-  const currentOfficeLocationInputHandler = (e) => {
-    setCurrentOfficeLocation((prevState) => ({
+  const currentOfficeLocationInputHandler = e => {
+    setCurrentOfficeLocation(prevState => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }));
   };
 
-  const addNewOfficeLocationHandler = (e) => {
+  const addNewOfficeLocationHandler = e => {
     e.preventDefault();
     // Calling the service
     addNewOfficeLocationService(
@@ -207,29 +207,29 @@ const RACClientPage = ({
       showAlert,
       setShowModalSpinner,
       hideModal,
-      officeLocations
+      officeLocations,
     );
   };
 
-  const editOfficeLocationHandler = (e) => {
+  const editOfficeLocationHandler = e => {
     e.preventDefault();
     // Calling the service
     editOfficeLocationService(
       currentOfficeLocation,
       showAlert,
       setShowModalSpinner,
-      hideModal
+      hideModal,
     );
   };
 
-  const deleteOfficeLocationHandler = (e) => {
+  const deleteOfficeLocationHandler = e => {
     e.preventDefault();
     // Calling the service
     deleteOfficeLocationService(
       itemToDelete,
       setShowModalSpinner,
       showAlert,
-      hideModal
+      hideModal,
     );
   };
 
@@ -243,14 +243,14 @@ const RACClientPage = ({
     },
   };
   const [currentPlot, setCurrentPlot] = useState(deafultPlot);
-  const currentPlotInputHandler = (e) => {
-    setCurrentPlot((prevState) => ({
+  const currentPlotInputHandler = e => {
+    setCurrentPlot(prevState => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }));
   };
 
-  const addNewPlotHandler = (e) => {
+  const addNewPlotHandler = e => {
     e.preventDefault();
     // Calling the service
     addNewPlotService(
@@ -258,11 +258,11 @@ const RACClientPage = ({
       showAlert,
       plots,
       setShowModalSpinner,
-      hideModal
+      hideModal,
     );
   };
 
-  const editPlotHandler = (e) => {
+  const editPlotHandler = e => {
     e.preventDefault();
     // Calling the service
     editPlotService(
@@ -270,11 +270,11 @@ const RACClientPage = ({
       showAlert,
       plots,
       setShowModalSpinner,
-      hideModal
+      hideModal,
     );
   };
 
-  const deletePlotHandler = (e) => {
+  const deletePlotHandler = e => {
     e.preventDefault();
     // Calling the service
     deletePlotService(itemToDelete, setShowModalSpinner, showAlert, hideModal);
@@ -292,14 +292,14 @@ const RACClientPage = ({
   };
   const [currentStyle, setCurrentStyle] = useState(defaultStyle);
 
-  const currentStyleInputHandler = (e) => {
-    setCurrentStyle((prevState) => ({
+  const currentStyleInputHandler = e => {
+    setCurrentStyle(prevState => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }));
   };
 
-  const addNewStyleHandler = (e) => {
+  const addNewStyleHandler = e => {
     e.preventDefault();
     // Calling the service
     addNewStyleService(
@@ -307,11 +307,11 @@ const RACClientPage = ({
       styles,
       showAlert,
       setShowModalSpinner,
-      hideModal
+      hideModal,
     );
   };
 
-  const editStyleHandler = (e) => {
+  const editStyleHandler = e => {
     e.preventDefault();
     // Calling the service
     editStyleService(
@@ -319,11 +319,11 @@ const RACClientPage = ({
       styles,
       showAlert,
       setShowModalSpinner,
-      hideModal
+      hideModal,
     );
   };
 
-  const deleteStyleHandler = (e) => {
+  const deleteStyleHandler = e => {
     e.preventDefault();
     // Calling the service
     deleteStyleService(itemToDelete, setShowModalSpinner, showAlert, hideModal);
@@ -343,7 +343,7 @@ const RACClientPage = ({
     action: null,
   });
   const toggleModal = () => {
-    setIsModalOpen((prevState) => !prevState);
+    setIsModalOpen(prevState => !prevState);
   };
   const hideModal = () => {
     setIsModalOpen(false);

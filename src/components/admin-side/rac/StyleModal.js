@@ -1,5 +1,5 @@
 "use client";
-import { RACInputBox, RACModal, Dropzone, RACSelect } from "@/components";
+import { AdminInputBox, AdminModal, RACImageInput, RACSelect } from "@/components";
 import checkIfValidUrl from "@/utilities/admin-panel/roles-analytics-cities/checkIfValidUrl";
 import Image from "next/image";
 import { useState } from "react";
@@ -16,7 +16,7 @@ const StyleModal = ({
 
   return (
     <>
-      <RACModal
+      <AdminModal
         heading={modalMetadata.action === "add" ? "Add style" : "Edit style"}
         buttonText={
           modalMetadata.action === "add" ? "Add style" : "Update style"
@@ -26,7 +26,7 @@ const StyleModal = ({
         }
         className={"flex items-stretch gap-8"}>
         <div className="w-1/2 space-y-2">
-          <RACInputBox
+          <AdminInputBox
             label="Enter style name"
             value={currentStyle.name}
             inputHandler={currentStyleInputHandler}
@@ -45,14 +45,14 @@ const StyleModal = ({
               { label: "High", value: "HIGH" },
             ]}
           />
-          <Dropzone
+          <RACImageInput
             message={"Attach an image (.jpg, .png, .gif etc)"}
             title={"Attach an image here"}
             accept="image/*"
             setPreviewSrc={setPreviewSrc}
             previewSrc={previewSrc}
             file={currentStyle?.image}
-            fileStateSetter={(file) =>
+            imageStateSetter={(file) =>
               setCurrentStyle((prevState) => ({
                 ...prevState,
                 image: file,
@@ -78,7 +78,7 @@ const StyleModal = ({
             </div>
           )}
         </div>
-      </RACModal>
+      </AdminModal>
     </>
   );
 };

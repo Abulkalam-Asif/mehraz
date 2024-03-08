@@ -3,6 +3,8 @@ export { default as Alert } from "./Alert";
 export { default as Carousel } from "./Carousel";
 export { default as AlertContainer } from "./AlertContainer";
 // Admin Side
+export { default as AdminInputBox } from "./admin-side/AdminInputBox";
+export { default as AdminModal } from "./admin-side/AdminModal";
 export { default as LinkButton } from "./admin-side/LinkButton";
 export { default as Button } from "./admin-side/Button";
 export { default as Dropdown } from "./admin-side/Dropdown";
@@ -34,13 +36,12 @@ export { default as FileInput } from "./admin-side/free-project/FileInput";
 export { default as FreeProjectContainer } from "./admin-side/free-project/FreeProjectContainer";
 export { default as ExteriorSection } from "./admin-side/free-project/ExteriorSection";
 export { default as InteriorSection } from "./admin-side/free-project/InteriorSection";
+export { default as ExteriorModal } from "./admin-side/free-project/ExteriorModal";
 // Admin Side - RAC
-export { default as RACInputBox } from "./admin-side/rac/RACInputBox";
 export { default as RACClientPage } from "./admin-side/rac/RACClientPage";
 export { default as MultiCheckbox } from "./admin-side/rac/MultiCheckbox";
-export { default as Dropzone } from "./admin-side/rac/Dropzone";
+export { default as RACImageInput } from "./admin-side/rac/RACImageInput";
 export { default as DeleteModal } from "./admin-side/rac/DeleteModal";
-export { default as RACModal } from "./admin-side/rac/RACModal";
 export { default as RACButtonMobile } from "./admin-side/rac/RACButtonMobile";
 export { default as RACContainer } from "./admin-side/rac/RACContainer";
 export { default as RolesSection } from "./admin-side/rac/RolesSection";

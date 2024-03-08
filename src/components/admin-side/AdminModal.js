@@ -1,6 +1,6 @@
 import { Button, H2 } from "@/components";
 
-const RACModal = ({
+const AdminModal = ({
   children,
   heading = "",
   buttonText = "",
@@ -29,4 +29,4 @@ const RACModal = ({
   );
 };
 
-export default RACModal;
+export default AdminModal;

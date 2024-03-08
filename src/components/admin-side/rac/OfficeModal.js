@@ -1,5 +1,5 @@
 "use client";
-import { RACInputBox, RACModal, Dropzone } from "@/components";
+import { AdminInputBox, AdminModal, RACImageInput } from "@/components";
 import checkIfValidUrl from "@/utilities/admin-panel/roles-analytics-cities/checkIfValidUrl";
 import Image from "next/image";
 import { useState } from "react";
@@ -16,7 +16,7 @@ const OfficeModal = ({
 
   return (
     <>
-      <RACModal
+      <AdminModal
         heading={modalMetadata.action === "add" ? "Add office" : "Edit office"}
         buttonText={
           modalMetadata.action === "add" ? "Add office" : "Update office"
@@ -28,35 +28,35 @@ const OfficeModal = ({
         }
         className={"flex items-stretch gap-8"}>
         <div className="w-1/2 space-y-2">
-          <RACInputBox
+          <AdminInputBox
             label="Enter office name"
             value={currentOfficeLocation.name}
             inputHandler={currentOfficeLocationInputHandler}
             idHtmlFor="name"
             name="name"
           />
-          <RACInputBox
+          <AdminInputBox
             label="Enter office address"
             value={currentOfficeLocation.address}
             inputHandler={currentOfficeLocationInputHandler}
             idHtmlFor="address"
             name="address"
           />
-          <RACInputBox
+          <AdminInputBox
             label="Enter maps link"
             value={currentOfficeLocation?.mapsLink}
             inputHandler={currentOfficeLocationInputHandler}
             idHtmlFor="mapsLink"
             name="mapsLink"
           />
-          <Dropzone
+          <RACImageInput
             message={"Attach an image (.jpg, .png, .gif etc)"}
             title={"Attach an image here"}
             accept="image/*"
             setPreviewSrc={setPreviewSrc}
             previewSrc={previewSrc}
             file={currentOfficeLocation?.image}
-            fileStateSetter={(file) =>
+            imageStateSetter={(file) =>
               setCurrentOfficeLocation((prevState) => ({
                 ...prevState,
                 image: file,
@@ -82,7 +82,7 @@ const OfficeModal = ({
             </div>
           )}
         </div>
-      </RACModal>
+      </AdminModal>
     </>
   );
 };

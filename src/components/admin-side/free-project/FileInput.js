@@ -1,10 +1,10 @@
-"use client";
-import { useState, useEffect, useContext } from "react";
+import { useContext } from "react";
 import { AlertContext } from "@/context/AlertContext";
 import reduceFilename from "@/utilities/admin-panel/reduceFilename";
 
 const FileInput = ({
   accept,
+  file = null,
   message,
   name = "",
   htmlFor,
@@ -14,65 +14,51 @@ const FileInput = ({
   inputHandler,
 }) => {
   const { showAlert } = useContext(AlertContext);
-  const [file, setFile] = useState(null);
-  const [fileName, setFileName] = useState(null);
-  const [isFocused, setIsFocused] = useState(false);
 
-  const handleFileChange = (event) => {
+  const handleFileChange = event => {
     if (event.target.files && event.target.files[0]) {
-      setFile(event.target.files[0]);
-    }
-  };
-
-  const fileStateSetter = (currentfile) => {
-    inputHandler(null, name, currentfile);
-  };
-
-  useEffect(() => {
-    if (file) {
-      if (file.type.startsWith(typeStartsWith)) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setFileName(reduceFilename(file.name, 13));
-        };
-        reader.readAsDataURL(file);
-        fileStateSetter(file);
+      const newFile = event.target.files[0];
+      if (newFile.type.startsWith(typeStartsWith)) {
+        imageStateSetter(newFile);
+        showAlert({
+          type: "success",
+          message: "File attached successfully.",
+        });
       } else {
-        setFile(null);
-        setFileName(null);
-        fileStateSetter(null);
         showAlert({
           type: "warning",
           message: wrongFileTypeWarning,
         });
       }
     }
-  }, [file]);
+  };
+
+  const imageStateSetter = currentfile => {
+    inputHandler(null, name, currentfile);
+  };
 
   return (
     <>
-      <label
-        htmlFor={htmlFor}
-        className={`${className} flex items-center justify-center p-2 w-full border-2 border-accent-1-base rounded-md cursor-pointer bg-white text-center text-accent-1-dark hover:shadow-lg ${
-          isFocused ? "outline-2 outline-accent-1-dark outline-dashed" : ""
-        }`}>
-        {fileName ? (
-          <span className="text-green-500">
-            {fileName} attached successfully.
-          </span>
-        ) : (
-          <span>{message}</span>
-        )}
+      <div className="flex">
         <input
           id={htmlFor}
-          onFocus={(e) => setIsFocused(true)}
-          onBlur={(e) => setIsFocused(false)}
           type="file"
-          className="w-0 h-0 overflow-hidden focus:outline-none"
+          className="peer w-0 h-0 focus:outline-none"
           onChange={handleFileChange}
           accept={accept}
         />
-      </label>
+        <label
+          htmlFor={htmlFor}
+          className={`${className} flex items-center justify-center p-2 w-full border-2 border-accent-1-base rounded-md cursor-pointer bg-white text-center text-accent-1-dark hover:shadow-lg outline-2 peer-focus:outline-accent-2-base peer-focus:outline-dashed`}>
+          {file ? (
+            <span className="text-green-500">
+              {reduceFilename(file?.name, 15)} attached.
+            </span>
+          ) : (
+            <span>{message}</span>
+          )}
+        </label>
+      </div>
     </>
   );
 };

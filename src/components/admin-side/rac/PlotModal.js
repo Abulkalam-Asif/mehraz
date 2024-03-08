@@ -1,4 +1,4 @@
-import { RACInputBox, RACModal } from "@/components";
+import { AdminInputBox, AdminModal } from "@/components";
 
 const PlotModal = ({
   currentPlot,
@@ -9,14 +9,14 @@ const PlotModal = ({
 }) => {
   return (
     <>
-      <RACModal
+      <AdminModal
         heading={modalMetadata.action === "add" ? "Add plot" : "Edit plot"}
         buttonText={modalMetadata.action === "add" ? "Add plot" : "Update plot"}
         onButtonClick={
           modalMetadata.action === "add" ? addNewPlotHandler : editPlotHandler
         }
         className={"flex items-center gap-8"}>
-        <RACInputBox
+        <AdminInputBox
           label="Enter area value"
           value={currentPlot.area}
           inputHandler={currentPlotInputHandler}
@@ -24,14 +24,14 @@ const PlotModal = ({
           name="area"
           type="number"
         />
-        <RACInputBox
+        <AdminInputBox
           label="Enter area unit"
           value={currentPlot.unit}
           inputHandler={currentPlotInputHandler}
           idHtmlFor="unit"
           name="unit"
         />
-      </RACModal>
+      </AdminModal>
     </>
   );
 };

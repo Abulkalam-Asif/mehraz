@@ -1,14 +1,44 @@
-import Image from "next/image"
-import Dropdown from "../Dropdown"
-import H2 from "../H2"
-import Table from "../Table"
-import Td from "../Td"
-import Th from "../Th"
-import FreeProjectContainer from "./FreeProjectContainer"
-import { deleteIcon, editIcon, ellipsisIcon } from "@/assets"
-import Button from "../Button"
+import Image from "next/image";
+import Dropdown from "../Dropdown";
+import H2 from "../H2";
+import Table from "../Table";
+import Td from "../Td";
+import Th from "../Th";
+import FreeProjectContainer from "./FreeProjectContainer";
+import { deleteIcon, editIcon, ellipsisIcon, linkIcon } from "@/assets";
+import Button from "../Button";
 
-const ExteriorSection = ({ exteriorViews }) => {
+const ExteriorSection = ({
+  exteriorViews,
+  setModalMetadata,
+  toggleModal,
+  setCurrentExteriorView,
+}) => {
+  const addExteriorClickHandler = () => {
+    setModalMetadata({
+      type: "EXTERIOR_VIEWS",
+      action: "add",
+    });
+    toggleModal();
+  };
+
+  const editExteriorClickHandler = e => {
+    setModalMetadata({
+      type: "EXTERIOR_VIEWS",
+      action: "edit",
+    });
+    toggleModal();
+    const exteriorId = e.currentTarget.dataset.exteriorId;
+    const exterior = exteriorViews.find(view => view.id === exteriorId);
+    setCurrentExteriorView(exterior);
+  };
+  const deleteExteriorClickHandler = e => {
+    setModalMetadata({
+      type: "EXTERIOR_VIEWS",
+      action: "delete",
+    });
+    toggleModal();
+  };
   return (
     <>
       <FreeProjectContainer className="flex flex-col gap-y-2">
@@ -19,7 +49,6 @@ const ExteriorSection = ({ exteriorViews }) => {
               <thead className="text-sm">
                 <tr>
                   <Th position="beginning">name</Th>
-                  <Th>video</Th>
                   <Th position="end">description</Th>
                 </tr>
               </thead>
@@ -30,9 +59,6 @@ const ExteriorSection = ({ exteriorViews }) => {
                       position="beginning"
                       isLastRow={index === exteriorViews.length - 1}>
                       {view.name}
-                    </Td>
-                    <Td isLastRow={index === exteriorViews.length - 1}>
-                      {view.video}
                     </Td>
                     <Td isLastRow={index === exteriorViews.length - 1}>
                       {view.description}
@@ -56,9 +82,9 @@ const ExteriorSection = ({ exteriorViews }) => {
                           </>
                         }>
                         <button
-                          title="Edit currency"
-                          // data-currency-id={currency.id}
-                          // onClick={editCurrencyClickHandler}
+                          title="Edit view"
+                          data-exterior-id={view.id}
+                          onClick={editExteriorClickHandler}
                           className="hover:bg-accent-1-extra-light p-2 rounded-full">
                           <Image
                             src={editIcon}
@@ -68,8 +94,8 @@ const ExteriorSection = ({ exteriorViews }) => {
                         </button>
                         <button
                           title="Delete currency"
-                          // data-currency-id={currency.id}
-                          // onClick={deleteCurrencyClickHandler}
+                          data-exterior-id={index}
+                          onClick={deleteExteriorClickHandler}
                           className="hover:bg-accent-1-extra-light p-2 rounded-full">
                           <Image
                             src={deleteIcon}
@@ -85,24 +111,24 @@ const ExteriorSection = ({ exteriorViews }) => {
             </Table>
           ) : (
             <div className="flex-1 font-medium flex items-center justify-center">
-              <p>No currencies added yet.</p>
+              <p>No views added yet.</p>
             </div>
           )
-        )
-          : (
-            <div className="flex-1 flex items-center justify-center">
-              <Spinner size={"sm"} text="Loading currencies..." />
-            </div>
-          )}
+        ) : (
+          <div className="flex-1 flex items-center justify-center">
+            <Spinner size={"sm"} text="Loading currencies..." />
+          </div>
+        )}
         <Button
-          text="add currency"
+          text="add exterior view"
           className="mr-auto ml-4"
+          type="button"
           size="xs"
-        // onClick={addCurrencyClickHandler}
+          onClick={addExteriorClickHandler}
         />
       </FreeProjectContainer>
     </>
-  )
-}
+  );
+};
 
-export default ExteriorSection
+export default ExteriorSection;

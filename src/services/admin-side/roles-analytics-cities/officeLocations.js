@@ -1,7 +1,7 @@
 import deleteOfficeFromDB from "@/Firebase/offices/deleteOfficeFromFirebase";
 import addOfficeToDB from "@/Firebase/offices/addOfficeToDB";
 import updateOfficeInDB from "@/Firebase/offices/updateOfficeFromFirebase";
-import fileToFormData from "@/utils/fileToFormData";
+import fileToFormData from "@/utilities/admin-panel/fileToFormData";
 
 const addNewOfficeLocationService = (
   currentOfficeLocation,

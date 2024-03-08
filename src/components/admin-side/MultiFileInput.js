@@ -1,5 +1,5 @@
 "use client";
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import { AlertContext } from "@/context/AlertContext";
 
 const MultiFileInput = ({
@@ -14,42 +14,46 @@ const MultiFileInput = ({
   inputHandler,
 }) => {
   const { showAlert } = useContext(AlertContext);
-  const [isFocused, setIsFocused] = useState(false);
 
-  const handleFileChange = (e) => {
+  const handleFileChange = e => {
     if (e.target.files) {
-      const initialFiles = Array.from(e.target.files);
-      const filteredFiles = initialFiles.filter((file) => (file.type.startsWith(typeStartsWith)));
-      if (initialFiles.length > filteredFiles.length) {
+      const newFiles = Array.from(e.target.files);
+      const filteredFiles = newFiles.filter(file =>
+        file.type.startsWith(typeStartsWith),
+      );
+      if (newFiles.length > filteredFiles.length) {
         showAlert({ type: "warning", message: wrongFileTypeWarning });
       }
-      fileStateSetter(filteredFiles);
+      imageStateSetter(filteredFiles);
+      showAlert({
+        type: "success",
+        message: "File(s) attached successfully.",
+      });
     }
   };
 
-  const fileStateSetter = (newFiles) => {
+  const imageStateSetter = newFiles => {
     const resultantFiles = [...filesArray, ...newFiles];
     inputHandler(null, name, resultantFiles);
   };
 
   return (
     <>
-      <label
-        htmlFor={htmlFor}
-        className={`${className} flex items-center justify-center p-2 w-full border-2 border-accent-1-base rounded-md cursor-pointer bg-white text-center text-accent-1-dark hover:shadow-lg ${isFocused ? "outline-2 outline-accent-1-dark outline-dashed" : ""
-          }`}>
-        {<span>{message}</span>}
+      <div className="flex">
         <input
           id={htmlFor}
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
           type="file"
           multiple={true}
-          className="w-0 h-0 overflow-hidden focus:outline-none"
+          className="peer w-0 h-0 focus:outline-none"
           onChange={handleFileChange}
           accept={accept}
         />
-      </label>
+        <label
+          htmlFor={htmlFor}
+          className={`${className} flex items-center justify-center p-2 w-full border-2 border-accent-1-base rounded-md cursor-pointer bg-white text-center text-accent-1-dark hover:shadow-lg outline-2 peer-focus:outline-accent-2-base peer-focus:outline-dashed`}>
+          {<span>{message}</span>}
+        </label>
+      </div>
     </>
   );
 };

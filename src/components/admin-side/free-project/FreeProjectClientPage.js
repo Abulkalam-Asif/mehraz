@@ -60,8 +60,8 @@ const FreeProjectClientPage = ({ cities, plots }) => {
     id: projectId,
     designFile: null,
     images: [],
-    exterior_views: [],
-    interior_views: [],
+    exteriorViews: [],
+    interiorViews: [],
     materials: [],
   };
   const [freeProjectS2, setFreeProjectS2] = useState(defaultFreeProjectS2);

@@ -1,5 +1,5 @@
 "use client";
-import { stringEllipsis } from "@/utils/stringEllipsis";
+import { stringEllipsis } from "@/utilities/admin-panel/stringEllipsis";
 import {
   Carousel,
   Table,
