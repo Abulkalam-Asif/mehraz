@@ -36,7 +36,7 @@ const ExteriorSection = ({
     const exterior = exteriorViews.find(view => view.id === exteriorId);
     setCurrentExteriorView(exterior);
   };
-  const deleteExteriorClickHandler = e => {
+  const deleteExteriorViewClickHandler = e => {
     setModalMetadata({
       type: "EXTERIOR_VIEWS",
       action: "DELETE",
@@ -101,9 +101,9 @@ const ExteriorSection = ({
                           />
                         </button>
                         <button
-                          title="Delete currency"
+                          title="Delete view"
                           data-exterior-id={view.id}
-                          onClick={deleteExteriorClickHandler}
+                          onClick={deleteExteriorViewClickHandler}
                           className="hover:bg-accent-1-extra-light p-2 rounded-full">
                           <Image
                             src={deleteIcon}
@@ -124,7 +124,7 @@ const ExteriorSection = ({
           )
         ) : (
           <div className="flex-1 flex items-center justify-center">
-            <Spinner size={"sm"} text="Loading currencies..." />
+            <Spinner size={"sm"} text="Loading views..." />
           </div>
         )}
         <Button

@@ -1,8 +1,13 @@
 "use client";
-import { AdminInputBox, AdminModal, RACImageInput, RACSelect } from "@/components";
+import {
+  AdminInputBox,
+  AdminModal,
+  RACImageInput,
+  RACSelect,
+} from "@/components";
 import checkIfValidUrl from "@/utilities/admin-panel/roles-analytics-cities/checkIfValidUrl";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const StyleModal = ({
   addNewStyleHandler,
@@ -13,6 +18,13 @@ const StyleModal = ({
   modalMetadata,
 }) => {
   const [previewSrc, setPreviewSrc] = useState(null);
+  useEffect(() => {
+    if (currentStyle?.image && currentStyle?.image instanceof File) {
+      const imageUrl = URL.createObjectURL(currentStyle.image);
+      setPreviewSrc(imageUrl);
+      return () => URL.revokeObjectURL(imageUrl);
+    }
+  }, [currentStyle?.image]);
 
   return (
     <>
@@ -46,14 +58,11 @@ const StyleModal = ({
             ]}
           />
           <RACImageInput
-            message={"Attach an image (.jpg, .png, .gif etc)"}
-            title={"Attach an image here"}
+            message={"Attach an image."}
             accept="image/*"
-            setPreviewSrc={setPreviewSrc}
-            previewSrc={previewSrc}
             file={currentStyle?.image}
-            imageStateSetter={(file) =>
-              setCurrentStyle((prevState) => ({
+            imageStateSetter={file =>
+              setCurrentStyle(prevState => ({
                 ...prevState,
                 image: file,
               }))

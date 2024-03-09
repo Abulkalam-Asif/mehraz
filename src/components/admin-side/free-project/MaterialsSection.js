@@ -11,69 +11,73 @@ import {
 } from "@/components/";
 import { deleteIcon, editIcon, ellipsisIcon } from "@/assets";
 
-const InteriorSection = ({
-  interiorViews,
+const MaterialsSection = ({
+  materials,
   setModalMetadata,
   toggleModal,
-  setCurrentInteriorView,
+  setCurrentMaterial,
   setItemToDelete,
 }) => {
-  const addInteriorViewClickHandler = () => {
+  const addMaterialClickHandler = () => {
     setModalMetadata({
-      type: "INTERIOR_VIEWS",
+      type: "MATERIALS",
       action: "ADD",
     });
     toggleModal();
   };
 
-  const editInteriorViewClickHandler = e => {
+  const editMaterialClickHandler = e => {
     setModalMetadata({
-      type: "INTERIOR_VIEWS",
+      type: "MATERIALS",
       action: "EDIT",
     });
     toggleModal();
-    const interiorId = e.currentTarget.dataset.interiorId;
-    const interior = interiorViews.find(view => view.id === interiorId);
-    setCurrentInteriorView(interior);
+    const materialId = e.currentTarget.dataset.materialId;
+    const material = materials.find(material => material.id === materialId);
+    setCurrentMaterial(material);
   };
-  const deleteInteriorViewClickHandler = e => {
+  const deleteMaterialClickHandler = e => {
     setModalMetadata({
-      type: "INTERIOR_VIEWS",
+      type: "MATERIALS",
       action: "DELETE",
     });
     toggleModal();
     setItemToDelete({
-      name: "interior view",
-      id: e.currentTarget.dataset.interiorId,
+      name: "material",
+      id: e.currentTarget.dataset.materialId,
     });
   };
   return (
     <>
       <FreeProjectContainer className="flex flex-col gap-y-2">
-        <H2 text="Interior 360 views" />
-        {interiorViews ? (
-          interiorViews.length > 0 ? (
+        <H2 text="Materials" />
+        {materials ? (
+          materials.length > 0 ? (
             <Table border={false} className="h-full overflow-y-auto">
               <thead className="text-sm">
                 <tr>
                   <Th position="beginning">name</Th>
-                  <Th position="end">description</Th>
+                  <Th>vendor</Th>
+                  <Th position="end">rate</Th>
                 </tr>
               </thead>
               <tbody className="text-xs font-semibold">
-                {interiorViews?.map((view, index) => (
+                {materials?.map((material, index) => (
                   <tr key={index}>
                     <Td
                       position="beginning"
-                      isLastRow={index === interiorViews.length - 1}>
-                      {view.name}
+                      isLastRow={index === materials.length - 1}>
+                      {material.name}
                     </Td>
-                    <Td isLastRow={index === interiorViews.length - 1}>
-                      {view.description}
+                    <Td isLastRow={index === materials.length - 1}>
+                      {material.vendor}
+                    </Td>
+                    <Td isLastRow={index === materials.length - 1}>
+                      {material.rate}
                     </Td>
                     <Td
                       position="end"
-                      isLastRow={index === interiorViews.length - 1}>
+                      isLastRow={index === materials.length - 1}>
                       <Dropdown
                         className="w-fit"
                         contentClassName={
@@ -90,9 +94,9 @@ const InteriorSection = ({
                           </>
                         }>
                         <button
-                          title="Edit view"
-                          data-interior-id={view.id}
-                          onClick={editInteriorViewClickHandler}
+                          title="Edit material"
+                          data-material-id={material.id}
+                          onClick={editMaterialClickHandler}
                           className="hover:bg-accent-1-extra-light p-2 rounded-full">
                           <Image
                             src={editIcon}
@@ -101,9 +105,9 @@ const InteriorSection = ({
                           />
                         </button>
                         <button
-                          title="Delete view"
-                          data-interior-id={view.id}
-                          onClick={deleteInteriorViewClickHandler}
+                          title="Delete material"
+                          data-material-id={material.id}
+                          onClick={deleteMaterialClickHandler}
                           className="hover:bg-accent-1-extra-light p-2 rounded-full">
                           <Image
                             src={deleteIcon}
@@ -119,24 +123,24 @@ const InteriorSection = ({
             </Table>
           ) : (
             <div className="flex-1 font-medium flex items-center justify-center">
-              <p>No views added yet.</p>
+              <p>No materials added yet.</p>
             </div>
           )
         ) : (
           <div className="flex-1 flex items-center justify-center">
-            <Spinner size={"sm"} text="Loading views..." />
+            <Spinner size={"sm"} text="Loading materials..." />
           </div>
         )}
         <Button
-          text="add interior view"
+          text="add material"
           className="mr-auto ml-4"
           type="button"
           size="xs"
-          onClick={addInteriorViewClickHandler}
+          onClick={addMaterialClickHandler}
         />
       </FreeProjectContainer>
     </>
   );
 };
 
-export default InteriorSection;
+export default MaterialsSection;

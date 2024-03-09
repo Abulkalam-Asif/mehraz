@@ -2,7 +2,7 @@
 import { AdminInputBox, AdminModal, RACImageInput } from "@/components";
 import checkIfValidUrl from "@/utilities/admin-panel/roles-analytics-cities/checkIfValidUrl";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const OfficeModal = ({
   currentOfficeLocation,
@@ -13,6 +13,16 @@ const OfficeModal = ({
   modalMetadata,
 }) => {
   const [previewSrc, setPreviewSrc] = useState(null);
+  useEffect(() => {
+    if (
+      currentOfficeLocation?.image &&
+      currentOfficeLocation?.image instanceof File
+    ) {
+      const imageUrl = URL.createObjectURL(currentOfficeLocation.image);
+      setPreviewSrc(imageUrl);
+      return () => URL.revokeObjectURL(imageUrl);
+    }
+  }, [currentOfficeLocation?.image]);
 
   return (
     <>
@@ -50,14 +60,11 @@ const OfficeModal = ({
             name="mapsLink"
           />
           <RACImageInput
-            message={"Attach an image (.jpg, .png, .gif etc)"}
-            title={"Attach an image here"}
+            message={"Attach an image."}
             accept="image/*"
-            setPreviewSrc={setPreviewSrc}
-            previewSrc={previewSrc}
             file={currentOfficeLocation?.image}
-            imageStateSetter={(file) =>
-              setCurrentOfficeLocation((prevState) => ({
+            imageStateSetter={file =>
+              setCurrentOfficeLocation(prevState => ({
                 ...prevState,
                 image: file,
               }))

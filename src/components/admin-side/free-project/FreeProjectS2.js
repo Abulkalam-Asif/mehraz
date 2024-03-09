@@ -10,12 +10,15 @@ import {
   DeleteModal,
   InteriorSection,
   InteriorModal,
+  MaterialsSection,
+  MaterialsModal,
 } from "@/components";
 import { useContext, useEffect, useState } from "react";
 import { addEditExteriorViewService } from "@/services/admin-side/free-project/exteriorViews";
 import { addEditInteriorViewService } from "@/services/admin-side/free-project/interiorViews";
 import { AlertContext } from "@/context/AlertContext";
 import { ulid } from "ulid";
+import { addEditMaterialService } from "@/services/admin-side/free-project/materials";
 
 const FreeProjectS2 = ({
   freeProjectS2InputHandler,
@@ -143,7 +146,65 @@ const FreeProjectS2 = ({
     toggleModal();
   };
 
-  const deleteMaterialHandler = () => {};
+  // Materials states and functions
+  const defaultMaterial = {
+    id: null,
+    name: "",
+    vendor: "",
+    rate: 0,
+    image: null,
+  };
+  const [currentMaterial, setCurrentMaterial] = useState(defaultMaterial);
+  const currentMaterialInputHandler = (e, name = null, value = null) => {
+    setCurrentMaterial({
+      ...currentMaterial,
+      [name || e.target.name]: value || e.target.value,
+    });
+  };
+  const addNewMaterialHandler = e => {
+    e.preventDefault();
+    // Adding new material to the state
+    if (addEditMaterialService(currentMaterial, showAlert)) {
+      freeProjectS2InputHandler(null, "materials", [
+        ...freeProjectS2.materials,
+        { ...currentMaterial, id: ulid() },
+      ]);
+      showAlert({
+        type: "SUCCESS",
+        message: "Material added successfully.",
+      });
+      toggleModal();
+    }
+  };
+  const editMaterialHandler = e => {
+    e.preventDefault();
+    // Editing material in the state
+    if (addEditMaterialService(currentMaterial, showAlert)) {
+      freeProjectS2InputHandler(null, "materials", [
+        currentMaterial,
+        ...freeProjectS2.materials.filter(
+          material => material.id !== currentMaterial.id,
+        ),
+      ]);
+      showAlert({
+        type: "SUCCESS",
+        message: "Material updated successfully.",
+      });
+      toggleModal();
+    }
+  };
+  const deleteMaterialHandler = () => {
+    freeProjectS2InputHandler(null, "materials", [
+      ...freeProjectS2.materials.filter(
+        material => material.id !== itemToDelete.id,
+      ),
+    ]);
+    showAlert({
+      type: "SUCCESS",
+      message: "Material deleted successfully.",
+    });
+    toggleModal();
+  };
 
   // General state for deleting items
   const defaultItemToDelete = {
@@ -168,13 +229,14 @@ const FreeProjectS2 = ({
       });
       setCurrentExteriorView(defaultExteriorView);
       setCurrentInteriorView(defaultInteriorView);
+      setCurrentMaterial(defaultMaterial);
     }
   }, [isModalOpen]);
 
   return (
     <>
       <form className="h-full flex gap-4 w-full max-w-7xl mx-auto pr-2">
-        <div className="h-full w-full grid grid-cols-3 gap-4">
+        <div className="h-full w-full grid grid-cols-2 gap-4">
           <div>
             <FileInput
               file={freeProjectS2.designFile}
@@ -203,7 +265,7 @@ const FreeProjectS2 = ({
               />
             </div>
           </div>
-          <div className="h-full overflow-hidden col-span-2 grid grid-rows-3 gap-4">
+          <div className="h-full overflow-hidden grid grid-rows-3 gap-4">
             <ExteriorSection
               exteriorViews={freeProjectS2.exteriorViews}
               setModalMetadata={setModalMetadata}
@@ -218,11 +280,11 @@ const FreeProjectS2 = ({
               setCurrentInteriorView={setCurrentInteriorView}
               setItemToDelete={setItemToDelete}
             />
-            <InteriorSection
-              interiorViews={freeProjectS2.interiorViews}
+            <MaterialsSection
+              materials={freeProjectS2.materials}
               setModalMetadata={setModalMetadata}
               toggleModal={toggleModal}
-              setCurrentInteriorView={setCurrentInteriorView}
+              setCurrentMaterial={setCurrentMaterial}
               setItemToDelete={setItemToDelete}
             />
           </div>
@@ -266,7 +328,15 @@ const FreeProjectS2 = ({
               modalMetadata={modalMetadata}
             />
           ) : (
-            modalMetadata.type == "MATERIALS" && <div>materials</div>
+            modalMetadata.type == "MATERIALS" && (
+              <MaterialsModal
+                currentMaterial={currentMaterial}
+                currentMaterialInputHandler={currentMaterialInputHandler}
+                addNewMaterialHandler={addNewMaterialHandler}
+                editMaterialHandler={editMaterialHandler}
+                modalMetadata={modalMetadata}
+              />
+            )
           )}
         </Modal>
       )}
