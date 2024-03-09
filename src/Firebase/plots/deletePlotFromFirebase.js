@@ -3,7 +3,7 @@ import { revalidatePath } from "next/cache";
 import { db } from "../firebase";
 import { deleteDoc, doc, getDoc } from "firebase/firestore";
 
-const deletePlotFromDB = async (id) => {
+const deletePlotFromDB = async id => {
   try {
     const PlotRef = doc(db, "PLOTS", id);
     const docSnapshot = await getDoc(PlotRef);
@@ -18,30 +18,30 @@ const deletePlotFromDB = async (id) => {
       }
       if (usageCases !== "") {
         return {
-          type: "error",
+          type: "ERROR",
           message: `This plot cannot be deleted. This is being used in ${usageCases.slice(
             0,
-            -2
+            -2,
           )}.`,
         };
       } else {
         await deleteDoc(PlotRef);
         revalidatePath("/admin/roles-analytics-cities", "page");
         return {
-          type: "success",
+          type: "SUCCESS",
           message: "Plot deleted successfully.",
         };
       }
     } else {
       return {
-        type: "error",
+        type: "ERROR",
         message: "Something went wrong, please try again later.",
       };
     }
   } catch (error) {
     console.error("Error deleting the plot: ", error);
     return {
-      type: "error",
+      type: "ERROR",
       message: "Something went wrong, please try again later.",
     };
   }
