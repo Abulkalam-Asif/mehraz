@@ -46,7 +46,7 @@ const FreeProjectClientPage = ({ cities, plots }) => {
     const id = await addFreeProjectS1Service(
       freeProjectS1,
       showAlert,
-      setShowSpinner
+      setShowSpinner,
     );
     // If the operation is successful, setting the returned projectId
     if (id) {
@@ -71,12 +71,12 @@ const FreeProjectClientPage = ({ cities, plots }) => {
       [name || e?.target.name]: value || e?.target.value,
     });
   };
-  const addFreeProjectS2Handler = () => { };
+  const addFreeProjectS2Handler = () => {};
 
   return (
     <>
       {/* for >1024 width, calc(100vh - (AdminHeader height + 1rem) - page header height) */}
-      <div className="max-w-8xl w-full mx-auto flex flex-row gap-x-4 max-h-[calc(100vh-6rem-6rem)] xl:max-h-[calc(100vh-6rem-5rem)]">
+      <div className="max-w-8xl w-full mx-auto flex flex-row gap-x-4 h-[calc(100vh-6rem-6rem)] xl:h-[calc(100vh-6rem-5rem)]">
         {projectId ? (
           <FreeProjectS2
             freeProjectS2={freeProjectS2}

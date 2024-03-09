@@ -8,9 +8,12 @@ import {
   Modal,
   ExteriorModal,
   DeleteModal,
+  InteriorSection,
+  InteriorModal,
 } from "@/components";
 import { useContext, useEffect, useState } from "react";
 import { addEditExteriorViewService } from "@/services/admin-side/free-project/exteriorViews";
+import { addEditInteriorViewService } from "@/services/admin-side/free-project/interiorViews";
 import { AlertContext } from "@/context/AlertContext";
 import { ulid } from "ulid";
 
@@ -80,7 +83,66 @@ const FreeProjectS2 = ({
     toggleModal();
   };
 
-  const deleteInteriorViewHandler = () => {};
+  // Interior states and functions
+  const defaultInteriorView = {
+    id: null,
+    name: "",
+    description: "",
+    video: null,
+  };
+  const [currentInteriorView, setCurrentInteriorView] =
+    useState(defaultInteriorView);
+  const currentInteriorViewInputHandler = (e, name = null, value = null) => {
+    setCurrentInteriorView({
+      ...currentInteriorView,
+      [name || e.target.name]: value || e.target.value,
+    });
+  };
+  const addNewInteriorViewHandler = e => {
+    e.preventDefault();
+    // Adding new interior view to the state
+    if (addEditInteriorViewService(currentInteriorView, showAlert)) {
+      freeProjectS2InputHandler(null, "interiorViews", [
+        ...freeProjectS2.interiorViews,
+        { ...currentInteriorView, id: ulid() },
+      ]);
+      showAlert({
+        type: "SUCCESS",
+        message: "Interior view added successfully.",
+      });
+      toggleModal();
+    }
+  };
+  const editInteriorViewHandler = e => {
+    e.preventDefault();
+    // Editing interior view in the state
+    if (addEditInteriorViewService(currentInteriorView, showAlert)) {
+      freeProjectS2InputHandler(null, "interiorViews", [
+        currentInteriorView,
+        ...freeProjectS2.interiorViews.filter(
+          view => view.id !== currentInteriorView.id,
+        ),
+      ]);
+      showAlert({
+        type: "SUCCESS",
+        message: "Interior view updated successfully.",
+      });
+      toggleModal();
+    }
+  };
+  const deleteInteriorViewHandler = () => {
+    freeProjectS2InputHandler(null, "interiorViews", [
+      ...freeProjectS2.interiorViews.filter(
+        view => view.id !== itemToDelete.id,
+      ),
+    ]);
+    showAlert({
+      type: "SUCCESS",
+      message: "Interior view deleted successfully.",
+    });
+    toggleModal();
+  };
+
   const deleteMaterialHandler = () => {};
 
   // General state for deleting items
@@ -105,6 +167,7 @@ const FreeProjectS2 = ({
         action: null,
       });
       setCurrentExteriorView(defaultExteriorView);
+      setCurrentInteriorView(defaultInteriorView);
     }
   }, [isModalOpen]);
 
@@ -148,18 +211,18 @@ const FreeProjectS2 = ({
               setCurrentExteriorView={setCurrentExteriorView}
               setItemToDelete={setItemToDelete}
             />
-            <ExteriorSection
-              exteriorViews={freeProjectS2.exteriorViews}
+            <InteriorSection
+              interiorViews={freeProjectS2.interiorViews}
               setModalMetadata={setModalMetadata}
               toggleModal={toggleModal}
-              setCurrentExteriorView={setCurrentExteriorView}
+              setCurrentInteriorView={setCurrentInteriorView}
               setItemToDelete={setItemToDelete}
             />
-            <ExteriorSection
-              exteriorViews={freeProjectS2.exteriorViews}
+            <InteriorSection
+              interiorViews={freeProjectS2.interiorViews}
               setModalMetadata={setModalMetadata}
               toggleModal={toggleModal}
-              setCurrentExteriorView={setCurrentExteriorView}
+              setCurrentInteriorView={setCurrentInteriorView}
               setItemToDelete={setItemToDelete}
             />
           </div>
@@ -195,7 +258,13 @@ const FreeProjectS2 = ({
               modalMetadata={modalMetadata}
             />
           ) : modalMetadata.type == "INTERIOR_VIEWS" ? (
-            <div>interior views</div>
+            <InteriorModal
+              currentInteriorView={currentInteriorView}
+              currentInteriorViewInputHandler={currentInteriorViewInputHandler}
+              addNewInteriorViewHandler={addNewInteriorViewHandler}
+              editInteriorViewHandler={editInteriorViewHandler}
+              modalMetadata={modalMetadata}
+            />
           ) : (
             modalMetadata.type == "MATERIALS" && <div>materials</div>
           )}
