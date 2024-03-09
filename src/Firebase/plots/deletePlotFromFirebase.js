@@ -18,7 +18,7 @@ const deletePlotFromDB = async (id) => {
       }
       if (usageCases !== "") {
         return {
-          type: "ERROR",
+          type: "error",
           message: `This plot cannot be deleted. This is being used in ${usageCases.slice(
             0,
             -2
@@ -28,20 +28,20 @@ const deletePlotFromDB = async (id) => {
         await deleteDoc(PlotRef);
         revalidatePath("/admin/roles-analytics-cities", "page");
         return {
-          type: "SUCCESS",
+          type: "success",
           message: "Plot deleted successfully.",
         };
       }
     } else {
       return {
-        type: "ERROR",
+        type: "error",
         message: "Something went wrong, please try again later.",
       };
     }
   } catch (error) {
     console.error("Error deleting the plot: ", error);
     return {
-      type: "ERROR",
+      type: "error",
       message: "Something went wrong, please try again later.",
     };
   }

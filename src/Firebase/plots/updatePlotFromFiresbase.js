@@ -12,11 +12,11 @@ const updatePlotInDB = async ({ id, area, unit }) => {
       unit: unit,
     });
     revalidatePath("/admin/roles-analytics-cities", "page");
-    return { type: "SUCCESS", message: "Plot updated successfully!" };
+    return { type: "success", message: "Plot updated successfully!" };
   } catch (error) {
     console.error("Error updating the plot:", error);
     return {
-      type: "ERROR",
+      type: "error",
       message: "Something went wrong, please try again later.",
     };
   }

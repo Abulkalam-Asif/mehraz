@@ -12,11 +12,11 @@ const addPlotToDB = async ({ area, unit, usage }) => {
       usage,
     });
     revalidatePath("/admin/roles-analytics-cities", "page");
-    return { type: "SUCCESS", message: "Plot added successfully!" };
+    return { type: "success", message: "Plot added successfully!" };
   } catch (err) {
     console.error("Error adding the plot: " + err);
     return {
-      type: "ERROR",
+      type: "error",
       message: "Something went wrong, please try again later.",
     };
   }
