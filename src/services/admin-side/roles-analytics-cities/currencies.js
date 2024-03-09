@@ -17,18 +17,18 @@ const addNewCurrencyService = (
   };
 
   if (formattedData.name === "") {
-    showAlert({ type: "warning", message: "Please enter a currency name" });
+    showAlert({ type: "WARNING", message: "Please enter a currency name" });
     return;
   } else if (
     currencies?.find((currency) => currency.name === formattedData.name)
   ) {
-    showAlert({ type: "error", message: "This currency already exists" });
+    showAlert({ type: "ERROR", message: "This currency already exists" });
     return;
   } else if (formattedData.valueInPkr <= 0) {
-    showAlert({ type: "warning", message: "Please enter a valid PKR value" });
+    showAlert({ type: "WARNING", message: "Please enter a valid PKR value" });
   } else if (formattedData.cities.length === 0) {
     showAlert({
-      type: "warning",
+      type: "WARNING",
       message: "Please select at least one city",
     });
   } else {
@@ -57,7 +57,7 @@ const editCurrencyService = (
   };
 
   if (formattedData.name === "") {
-    showAlert({ type: "warning", message: "Please enter a currency name" });
+    showAlert({ type: "WARNING", message: "Please enter a currency name" });
     return;
   } else if (
     currencies.find(
@@ -65,13 +65,13 @@ const editCurrencyService = (
         currency.name === formattedData.name && currency.id !== formattedData.id
     )
   ) {
-    showAlert({ type: "error", message: "This currency already exists" });
+    showAlert({ type: "ERROR", message: "This currency already exists" });
     return;
   } else if (formattedData.valueInPkr <= 0) {
-    showAlert({ type: "warning", message: "Please enter a valid PKR value" });
+    showAlert({ type: "WARNING", message: "Please enter a valid PKR value" });
   } else if (formattedData.cities.length === 0) {
     showAlert({
-      type: "warning",
+      type: "WARNING",
       message: "Please select at least one city",
     });
   } else {

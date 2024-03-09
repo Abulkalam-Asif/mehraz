@@ -16,10 +16,10 @@ const addNewPlotService = (
   };
 
   if (formattedData.area <= 0) {
-    showAlert({ type: "warning", message: "Please enter valid area value" });
+    showAlert({ type: "WARNING", message: "Please enter valid area value" });
     return;
   } else if (formattedData.unit === "") {
-    showAlert({ type: "warning", message: "Please enter a unit" });
+    showAlert({ type: "WARNING", message: "Please enter a unit" });
     return;
   } else if (
     plots?.find(
@@ -28,7 +28,7 @@ const addNewPlotService = (
     )
   ) {
     showAlert({
-      type: "warning",
+      type: "WARNING",
       message: "A Plot with these values already exists",
     });
     return;
@@ -56,10 +56,10 @@ const editPlotService = (
   };
 
   if (formattedData.area <= 0) {
-    showAlert({ type: "warning", message: "Please enter valid area value" });
+    showAlert({ type: "WARNING", message: "Please enter valid area value" });
     return;
   } else if (formattedData.unit === "") {
-    showAlert({ type: "warning", message: "Please enter a unit" });
+    showAlert({ type: "WARNING", message: "Please enter a unit" });
     return;
   } else if (
     plots?.find(
@@ -68,7 +68,7 @@ const editPlotService = (
     )
   ) {
     showAlert({
-      type: "warning",
+      type: "WARNING",
       message: "A Plot with these values already exists",
     });
     return;

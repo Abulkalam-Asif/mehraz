@@ -331,7 +331,7 @@ const RACClientPage = ({
 
   // General state for deleting items
   const defaultItemToDelete = {
-    type: null,
+    name: null,
     id: null,
   };
   const [itemToDelete, setItemToDelete] = useState(defaultItemToDelete);
@@ -487,23 +487,23 @@ const RACClientPage = ({
           toggleModal={toggleModal}
           isModalOpen={isModalOpen}
           showModalSpinner={showModalSpinner}>
-          {modalMetadata.action === "delete" ? (
+          {modalMetadata.action === "DELETE" ? (
             <DeleteModal
               toggleModal={toggleModal}
               itemToDelete={itemToDelete}
               deleteHandler={
-                itemToDelete.type === "city"
+                modalMetadata.type === "CITY"
                   ? deleteCityHandler
-                  : itemToDelete.type === "currency"
+                  : modalMetadata.type === "CURRENCY"
                   ? deleteCurrencyHandler
-                  : itemToDelete.type === "office"
+                  : modalMetadata.type === "OFFICE"
                   ? deleteOfficeLocationHandler
-                  : itemToDelete.type === "plot"
+                  : modalMetadata.type === "PLOT"
                   ? deletePlotHandler
-                  : itemToDelete.type === "style" && deleteStyleHandler
+                  : modalMetadata.type === "STYLE" && deleteStyleHandler
               }
             />
-          ) : modalMetadata.type === "city" ? (
+          ) : modalMetadata.type === "CITY" ? (
             <CityModal
               addNewCityHandler={addNewCityHandler}
               editCityHandler={editCityHandler}
@@ -511,7 +511,7 @@ const RACClientPage = ({
               currentCityInputHandler={currentCityInputHandler}
               modalMetadata={modalMetadata}
             />
-          ) : modalMetadata.type === "currency" ? (
+          ) : modalMetadata.type === "CURRENCY" ? (
             <CurrencyModal
               addNewCurrencyHandler={addNewCurrencyHandler}
               editCurrencyHandler={editCurrencyHandler}
@@ -520,7 +520,7 @@ const RACClientPage = ({
               modalMetadata={modalMetadata}
               cities={cities}
             />
-          ) : modalMetadata.type === "office" ? (
+          ) : modalMetadata.type === "OFFICE" ? (
             <OfficeModal
               addNewOfficeLocationHandler={addNewOfficeLocationHandler}
               editOfficeLocationHandler={editOfficeLocationHandler}
@@ -531,7 +531,7 @@ const RACClientPage = ({
               setCurrentOfficeLocation={setCurrentOfficeLocation}
               modalMetadata={modalMetadata}
             />
-          ) : modalMetadata.type === "plot" ? (
+          ) : modalMetadata.type === "PLOT" ? (
             <PlotModal
               addNewPlotHandler={addNewPlotHandler}
               editPlotHandler={editPlotHandler}
@@ -540,7 +540,7 @@ const RACClientPage = ({
               modalMetadata={modalMetadata}
             />
           ) : (
-            modalMetadata.type === "style" && (
+            modalMetadata.type === "STYLE" && (
               <StyleModal
                 addNewStyleHandler={addNewStyleHandler}
                 editStyleHandler={editStyleHandler}

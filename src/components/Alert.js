@@ -27,11 +27,11 @@ const Alert = ({ message, type }) => {
         </button>
         <div
           className={`${
-            type === "success"
+            type === "SUCCESS"
               ? "bg-green-500"
-              : type === "error"
+              : type === "ERROR"
               ? "bg-red-500"
-              : type === "warning"
+              : type === "WARNING"
               ? "bg-yellow-500"
               : "bg-blue-500"
           } h-1 absolute bottom-0 left-0 right-0 animate-alert`}></div>

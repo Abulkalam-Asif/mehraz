@@ -11,24 +11,24 @@ const ExteriorModal = ({
 }) => {
   const [previewSrc, setPreviewSrc] = useState(null);
   useEffect(() => {
-    if (currentExteriorView.video) {
+    if (currentExteriorView?.video) {
       const videoUrl = URL.createObjectURL(currentExteriorView.video);
       setPreviewSrc(videoUrl);
       return () => URL.revokeObjectURL(videoUrl);
     }
-  }, [currentExteriorView.video]);
+  }, [currentExteriorView?.video]);
 
   return (
     <>
       <AdminModal
         heading={
-          modalMetadata.action === "add"
+          modalMetadata.action === "ADD"
             ? "Add exterior 360 view"
             : "Edit exterior 360 view"
         }
-        buttonText={modalMetadata.action === "add" ? "Add view" : "Update view"}
+        buttonText={modalMetadata.action === "ADD" ? "Add view" : "Update view"}
         onButtonClick={
-          modalMetadata.action === "add"
+          modalMetadata.action === "ADD"
             ? addNewExteriorViewHandler
             : editExteriorViewHandler
         }

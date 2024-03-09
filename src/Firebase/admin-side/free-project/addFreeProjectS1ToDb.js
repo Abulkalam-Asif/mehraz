@@ -32,7 +32,7 @@ const addFreeProjectS1ToDb = async ({
         console.error("The selected city does not exist in the database.");
         return {
           data: null,
-          type: "error",
+          type: "ERROR",
           message: "Something went wrong, please try again later.",
         };
       }
@@ -44,7 +44,7 @@ const addFreeProjectS1ToDb = async ({
       console.error("The selected area does not exist in the database.");
       return {
         data: null,
-        type: "error",
+        type: "ERROR",
         message: "Something went wrong, please try again later.",
       };
     }
@@ -59,7 +59,7 @@ const addFreeProjectS1ToDb = async ({
       console.error("The free project with the same title already exists.");
       return {
         data: null,
-        type: "error",
+        type: "ERROR",
         message: " The free project with the same title already exists.",
       };
     }
@@ -84,14 +84,14 @@ const addFreeProjectS1ToDb = async ({
 
     return {
       data: response.id,
-      type: "success",
+      type: "SUCCESS",
       message: "Free project screen 1 added successfully!",
     };
   } catch (error) {
     console.error("Error adding the free project: " + error);
     return {
       data: null,
-      type: "error",
+      type: "ERROR",
       message: "Something went wrong, please try again later.",
     };
   }

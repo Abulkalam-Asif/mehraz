@@ -11,15 +11,15 @@ const PlotsSection = ({
 }) => {
   const addPlotClickHandler = () => {
     setModalMetadata({
-      type: "plot",
-      action: "add",
+      type: "PLOT",
+      action: "ADD",
     });
     toggleModal();
   };
   const editPlotClickHandler = (e) => {
     setModalMetadata({
-      type: "plot",
-      action: "edit",
+      type: "PLOT",
+      action: "EDIT",
     });
     toggleModal();
     const plotId = e.currentTarget.dataset.plotId;
@@ -29,15 +29,15 @@ const PlotsSection = ({
 
   const deletePlotClickHandler = (e) => {
     setModalMetadata({
-      type: "plot",
-      action: "delete",
+      type: "PLOT",
+      action: "DELETE",
     });
     toggleModal();
     const plotId = e.currentTarget.dataset.plotId;
     const plot = plots.find((plot) => plot.id === plotId);
     setItemToDelete({
       id: plot.id,
-      type: "plot",
+      name: "plot",
     });
   };
 

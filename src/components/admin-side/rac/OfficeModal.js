@@ -17,12 +17,12 @@ const OfficeModal = ({
   return (
     <>
       <AdminModal
-        heading={modalMetadata.action === "add" ? "Add office" : "Edit office"}
+        heading={modalMetadata.action === "ADD" ? "Add office" : "Edit office"}
         buttonText={
-          modalMetadata.action === "add" ? "Add office" : "Update office"
+          modalMetadata.action === "ADD" ? "Add office" : "Update office"
         }
         onButtonClick={
-          modalMetadata.action === "add"
+          modalMetadata.action === "ADD"
             ? addNewOfficeLocationHandler
             : editOfficeLocationHandler
         }

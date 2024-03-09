@@ -6,13 +6,13 @@ const addEditExteriorViewService = (currentExteriorView, showAlert) => {
   };
 
   if (formattedData.name === "") {
-    showAlert({ type: "warning", message: "Please enter name" });
+    showAlert({ type: "WARNING", message: "Please enter name" });
     return false;
   } else if (formattedData.description === "") {
-    showAlert({ type: "warning", message: "Please enter description" });
+    showAlert({ type: "WARNING", message: "Please enter description" });
     return false;
   } else if (formattedData.video === null) {
-    showAlert({ type: "warning", message: "Please attach a video" });
+    showAlert({ type: "WARNING", message: "Please attach a video" });
     return false;
   }
   return true;

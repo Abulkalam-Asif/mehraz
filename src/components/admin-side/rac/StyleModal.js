@@ -17,12 +17,12 @@ const StyleModal = ({
   return (
     <>
       <AdminModal
-        heading={modalMetadata.action === "add" ? "Add style" : "Edit style"}
+        heading={modalMetadata.action === "ADD" ? "Add style" : "Edit style"}
         buttonText={
-          modalMetadata.action === "add" ? "Add style" : "Update style"
+          modalMetadata.action === "ADD" ? "Add style" : "Update style"
         }
         onButtonClick={
-          modalMetadata.action === "add" ? addNewStyleHandler : editStyleHandler
+          modalMetadata.action === "ADD" ? addNewStyleHandler : editStyleHandler
         }
         className={"flex items-stretch gap-8"}>
         <div className="w-1/2 space-y-2">

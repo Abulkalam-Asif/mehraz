@@ -18,7 +18,7 @@ const deleteCityFromDB = async (id) => {
       }
       if (usageCases !== "") {
         return {
-          type: "error",
+          type: "ERROR",
           message: `This city cannot be deleted. This is being used in ${usageCases.slice(
             0,
             -2
@@ -28,20 +28,20 @@ const deleteCityFromDB = async (id) => {
         await deleteDoc(cityRef);
         revalidatePath("/admin/roles-analytics-cities", "page");
         return {
-          type: "success",
+          type: "SUCCESS",
           message: "City deleted successfully.",
         };
       }
     } else {
       return {
-        type: "error",
+        type: "ERROR",
         message: "Something went wrong, please try again later.",
       };
     }
   } catch (error) {
     console.error("Error deleting the city: ", error);
     return {
-      type: "error",
+      type: "ERROR",
       message: "Something went wrong, please try again later.",
     };
   }

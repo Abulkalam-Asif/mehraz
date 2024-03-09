@@ -16,13 +16,13 @@ const CurrencyModal = ({
     <>
       <AdminModal
         heading={
-          modalMetadata.action === "add" ? "Add currency" : "Edit currency"
+          modalMetadata.action === "ADD" ? "Add currency" : "Edit currency"
         }
         buttonText={
-          modalMetadata.action === "add" ? "Add currency" : "Update currency"
+          modalMetadata.action === "ADD" ? "Add currency" : "Update currency"
         }
         onButtonClick={
-          modalMetadata.action === "add"
+          modalMetadata.action === "ADD"
             ? addNewCurrencyHandler
             : editCurrencyHandler
         }

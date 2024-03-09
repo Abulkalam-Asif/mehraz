@@ -19,10 +19,10 @@ const TagsInput = ({
   const addTagHandler = (e) => {
     if (e.key === "Enter") {
       if (e.target.value.trim() === "") {
-        showAlert({ type: "error", message: "Please enter a keyword!" });
+        showAlert({ type: "ERROR", message: "Please enter a keyword!" });
         return;
       } else if (tagsArr.includes(e.target.value.trim().toUpperCase())) {
-        showAlert({ type: "error", message: "This keyword already exists!" });
+        showAlert({ type: "ERROR", message: "This keyword already exists!" });
         return;
       }
       const updatedTagsArr = [...tagsArr, e.target.value.trim().toUpperCase()];

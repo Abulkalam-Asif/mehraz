@@ -10,10 +10,10 @@ const PlotModal = ({
   return (
     <>
       <AdminModal
-        heading={modalMetadata.action === "add" ? "Add plot" : "Edit plot"}
-        buttonText={modalMetadata.action === "add" ? "Add plot" : "Update plot"}
+        heading={modalMetadata.action === "ADD" ? "Add plot" : "Edit plot"}
+        buttonText={modalMetadata.action === "ADD" ? "Add plot" : "Update plot"}
         onButtonClick={
-          modalMetadata.action === "add" ? addNewPlotHandler : editPlotHandler
+          modalMetadata.action === "ADD" ? addNewPlotHandler : editPlotHandler
         }
         className={"flex items-center gap-8"}>
         <AdminInputBox

@@ -19,7 +19,7 @@ const deleteStyleFromDB = async (styleId) => {
       }
       if (usageCases !== "") {
         return {
-          type: "error",
+          type: "ERROR",
           message: `This style cannot be deleted. This is being used in ${usageCases.slice(
             0,
             -2
@@ -34,20 +34,20 @@ const deleteStyleFromDB = async (styleId) => {
         await deleteDoc(docRef);
         revalidatePath("/admin/roles-analytics-cities", "page");
         return {
-          type: "success",
+          type: "SUCCESS",
           message: "Style deleted successfully.",
         };
       }
     } else {
       return {
-        type: "error",
+        type: "ERROR",
         message: "Something went wrong, please try again later.",
       };
     }
   } catch (error) {
     console.error("Error deleting the style: ", error);
     return {
-      type: "error",
+      type: "ERROR",
       message: "Something went wrong, please try again later.",
     };
   }

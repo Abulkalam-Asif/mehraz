@@ -15,10 +15,10 @@ const addNewCityService = (
   };
 
   if (formattedData.name === "") {
-    showAlert({ type: "warning", message: "Please enter a city name" });
+    showAlert({ type: "WARNING", message: "Please enter a city name" });
     return;
   } else if (cities.some((city) => city.name === formattedData.name)) {
-    showAlert({ type: "error", message: "This city already exists" });
+    showAlert({ type: "ERROR", message: "This city already exists" });
     return;
   } else {
     setShowModalSpinner(true);
@@ -43,10 +43,10 @@ const editCityService = (
   };
 
   if (formattedData.name === "") {
-    showAlert({ type: "warning", message: "Please enter a city name" });
+    showAlert({ type: "WARNING", message: "Please enter a city name" });
     return;
   } else if (cities.some((city) => city.name === formattedData.name)) {
-    showAlert({ type: "error", message: "This city already exists" });
+    showAlert({ type: "ERROR", message: "This city already exists" });
     return;
   } else {
     setShowModalSpinner(true);

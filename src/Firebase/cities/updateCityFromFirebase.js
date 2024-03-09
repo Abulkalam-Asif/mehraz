@@ -21,7 +21,7 @@ const updateCityInDB = async ({ id, name }) => {
 		const querySnapshot = await getDocs(queryResult);
 
 		if (!querySnapshot.empty) {
-			return { type: "error", message: "City with this name already exists." };
+			return { type: "ERROR", message: "City with this name already exists." };
 		}
 
 		const docSnapshot = await getDoc(cityRef);
@@ -32,17 +32,17 @@ const updateCityInDB = async ({ id, name }) => {
 				usage: docSnapshot.data().usage,
 			});
 			revalidatePath("/admin/roles-analytics-cities", "page");
-			return { type: "success", message: "City updated successfully!" };
+			return { type: "SUCCESS", message: "City updated successfully!" };
 		} else {
 			return {
-				type: "error",
+				type: "ERROR",
 				message: "Something went wrong, please try again later.",
 			};
 		}
 	} catch (error) {
 		console.error("Error updating the city:", error);
 		return {
-			type: "error",
+			type: "ERROR",
 			message: "Something went wrong, please try again later.",
 		};
 	}

@@ -12,7 +12,7 @@ const addCityToDB = async ({ name, usage }) => {
   const querySnapshot = await getDocs(queryResult);
 
   if (!querySnapshot.empty) {
-    return { type: "error", message: "City with this name already exists." };
+    return { type: "ERROR", message: "City with this name already exists." };
   }
 
   try {
@@ -21,7 +21,7 @@ const addCityToDB = async ({ name, usage }) => {
       usage,
     });
     revalidatePath("/admin/roles-analytics-cities", "page");
-    return { type: "success", message: "City added successfully!" };
+    return { type: "SUCCESS", message: "City added successfully!" };
   } catch (err) {}
 };
 

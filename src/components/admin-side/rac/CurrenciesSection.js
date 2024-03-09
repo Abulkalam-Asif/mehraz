@@ -25,26 +25,26 @@ const CurrenciesSection = ({
   const addCurrencyClickHandler = () => {
     if (citiesCount == 0) {
       showAlert({
-        type: "warning",
+        type: "WARNING",
         message: "Please add at least one city to add a currency.",
       });
       return;
     }
     setModalMetadata({
-      type: "currency",
-      action: "add",
+      type: "CURRENCY",
+      action: "ADD",
     });
     toggleModal();
   };
 
-  const editCurrencyClickHandler = (e) => {
+  const editCurrencyClickHandler = e => {
     setModalMetadata({
-      type: "currency",
-      action: "edit",
+      type: "CURRENCY",
+      action: "EDIT",
     });
     toggleModal();
     const currencyId = e.currentTarget.dataset.currencyId;
-    const currency = currencies.find((currency) => currency.id === currencyId);
+    const currency = currencies.find(currency => currency.id === currencyId);
     // Just using the ids of the cities
     const cities = currency.cities.map(({ id }) => id);
     setCurrentCurrency({
@@ -53,17 +53,17 @@ const CurrenciesSection = ({
     });
   };
 
-  const deleteCurrencyClickHandler = (e) => {
+  const deleteCurrencyClickHandler = e => {
     setModalMetadata({
-      type: "currency",
-      action: "delete",
+      type: "CURRENCY",
+      action: "DELETE",
     });
     toggleModal();
     const currencyId = e.currentTarget.dataset.currencyId;
-    const currency = currencies.find((currency) => currency.id === currencyId);
+    const currency = currencies.find(currency => currency.id === currencyId);
     setItemToDelete({
       id: currency.id,
-      type: "currency",
+      name: "currency",
     });
   };
 

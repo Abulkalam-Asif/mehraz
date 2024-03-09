@@ -60,17 +60,17 @@ const updateCurrencyInDB = async (currentCurrency, prevCities) => {
 			});
 
 			revalidatePath("/admin/roles-analytics-cities", "page");
-			return { type: "success", message: "Currency updated successfully!" };
+			return { type: "SUCCESS", message: "Currency updated successfully!" };
 		} else {
 			return {
-				type: "error",
+				type: "ERROR",
 				message: "Something went wrong, please try again later.",
 			};
 		}
 	} catch (error) {
 		console.error("Error updating the currency:", error);
 		return {
-			type: "error",
+			type: "ERROR",
 			message: "Something went wrong, please try again later.",
 		};
 	}

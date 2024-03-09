@@ -11,15 +11,15 @@ const CitiesSection = ({
 }) => {
   const addCityClickHandler = () => {
     setModalMetadata({
-      type: "city",
-      action: "add",
+      type: "CITY",
+      action: "ADD",
     });
     toggleModal();
   };
   const editCityClickHandler = e => {
     setModalMetadata({
-      type: "city",
-      action: "edit",
+      type: "CITY",
+      action: "EDIT",
     });
     toggleModal();
     const cityId = e.currentTarget.dataset.cityId;
@@ -29,15 +29,15 @@ const CitiesSection = ({
 
   const deleteCityClickHandler = e => {
     setModalMetadata({
-      type: "city",
-      action: "delete",
+      type: "CITY",
+      action: "DELETE",
     });
     toggleModal();
     const cityId = e.currentTarget.dataset.cityId;
     const city = cities.find(city => city.id === cityId);
     setItemToDelete({
       id: city.id,
-      type: "city",
+      name: "city",
     });
   };
 

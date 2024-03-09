@@ -24,12 +24,12 @@ const RACImageInput = ({
         reader.readAsDataURL(newFile);
         imageStateSetter(newFile);
         showAlert({
-          type: "success",
+          type: "SUCCESS",
           message: "Image attached successfully.",
         });
       } else {
         showAlert({
-          type: "warning",
+          type: "WARNING",
           message: "Please select an image to upload.",
         });
       }

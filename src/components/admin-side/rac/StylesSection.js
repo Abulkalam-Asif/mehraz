@@ -11,33 +11,33 @@ const StylesSection = ({
 }) => {
   const addStyleClickHandler = () => {
     setModalMetadata({
-      type: "style",
-      action: "add",
+      type: "STYLE",
+      action: "ADD",
     });
     toggleModal();
   };
-  const editStyleClickHandler = (e) => {
+  const editStyleClickHandler = e => {
     setModalMetadata({
-      type: "style",
-      action: "edit",
+      type: "STYLE",
+      action: "EDIT",
     });
     toggleModal();
     const styleId = e.currentTarget.dataset.styleId;
-    const currentStyle = styles.find((style) => style.id === styleId);
+    const currentStyle = styles.find(style => style.id === styleId);
     setCurrentStyle(currentStyle);
   };
 
-  const deleteStyleClickHandler = (e) => {
+  const deleteStyleClickHandler = e => {
     setModalMetadata({
-      type: "style",
-      action: "delete",
+      type: "STYLE",
+      action: "DELETE",
     });
     toggleModal();
     const styleId = e.currentTarget.dataset.styleId;
-    const currentStyle = styles.find((style) => style.id === styleId);
+    const currentStyle = styles.find(style => style.id === styleId);
     setItemToDelete({
       id: currentStyle.id,
-      type: "style",
+      name: "style",
     });
   };
   return (

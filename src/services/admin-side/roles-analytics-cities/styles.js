@@ -18,16 +18,16 @@ const addNewStyleService = (
   };
 
   if (formattedData.name === "") {
-    showAlert({ type: "warning", message: "Please enter a style name" });
+    showAlert({ type: "WARNING", message: "Please enter a style name" });
     return;
   } else if (!["LOW", "MEDIUM", "HIGH"].includes(formattedData.budget)) {
-    showAlert({ type: "warning", message: "Please select budget" });
+    showAlert({ type: "WARNING", message: "Please select budget" });
     return;
   } else if (styles?.some((style) => style.name === formattedData.name)) {
-    showAlert({ type: "warning", message: "This style already exists" });
+    showAlert({ type: "WARNING", message: "This style already exists" });
     return;
   } else if (!formattedData.image) {
-    showAlert({ type: "warning", message: "Please attach an image" });
+    showAlert({ type: "WARNING", message: "Please attach an image" });
     return;
   } else {
     setShowModalSpinner(true);
@@ -57,10 +57,10 @@ const editStyleService = (
   };
 
   if (formattedData.name === "") {
-    showAlert({ type: "warning", message: "Please enter a style name" });
+    showAlert({ type: "WARNING", message: "Please enter a style name" });
     return;
   } else if (!["LOW", "MEDIUM", "HIGH"].includes(formattedData.budget)) {
-    showAlert({ type: "warning", message: "Please select budget" });
+    showAlert({ type: "WARNING", message: "Please select budget" });
     return;
   } else if (
     styles?.some(
@@ -68,10 +68,10 @@ const editStyleService = (
         style.name === formattedData.name && style.id !== formattedData.id
     )
   ) {
-    showAlert({ type: "warning", message: "This style already exists" });
+    showAlert({ type: "WARNING", message: "This style already exists" });
     return;
   } else if (!formattedData.image) {
-    showAlert({ type: "warning", message: "Please attach an image" });
+    showAlert({ type: "WARNING", message: "Please attach an image" });
     return;
   } else {
     setShowModalSpinner(true);

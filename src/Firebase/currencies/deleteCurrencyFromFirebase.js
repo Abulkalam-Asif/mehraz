@@ -24,7 +24,7 @@ const deleteCurrencyFromDB = async (id) => {
       }
       if (usageCases !== "") {
         return {
-          type: "error",
+          type: "ERROR",
           message: `This currency cannot be deleted. This is being used in ${usageCases.slice(
             0,
             -2
@@ -41,18 +41,18 @@ const deleteCurrencyFromDB = async (id) => {
         });
         await deleteDoc(currencyRef);
         revalidatePath("/admin/roles-analytics-cities", "page");
-        return { type: "success", message: "Currency deleted successfully!" };
+        return { type: "SUCCESS", message: "Currency deleted successfully!" };
       }
     } else {
       return {
-        type: "error",
+        type: "ERROR",
         message: "Something went wrong, please try again later.",
       };
     }
   } catch (error) {
     console.error("Error deleting the currency: ", error);
     return {
-      type: "error",
+      type: "ERROR",
       message: "Something went wrong, please try again later.",
     };
   }

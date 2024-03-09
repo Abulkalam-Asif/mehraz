@@ -22,11 +22,11 @@ const MultiFileInput = ({
         file.type.startsWith(typeStartsWith),
       );
       if (newFiles.length > filteredFiles.length) {
-        showAlert({ type: "warning", message: wrongFileTypeWarning });
+        showAlert({ type: "WARNING", message: wrongFileTypeWarning });
       }
       imageStateSetter(filteredFiles);
       showAlert({
-        type: "success",
+        type: "SUCCESS",
         message: "File(s) attached successfully.",
       });
     }

@@ -11,15 +11,15 @@ const OfficeLocSection = ({
 }) => {
   const addOfficeClickHandler = () => {
     setModalMetadata({
-      type: "office",
-      action: "add",
+      type: "OFFICE",
+      action: "ADD",
     });
     toggleModal();
   };
   const editOfficeClickHandler = (e) => {
     setModalMetadata({
-      type: "office",
-      action: "edit",
+      type: "OFFICE",
+      action: "EDIT",
     });
     toggleModal();
     const officeId = e.currentTarget.dataset.officeId;
@@ -29,15 +29,15 @@ const OfficeLocSection = ({
 
   const deleteOfficeClickHandler = (e) => {
     setModalMetadata({
-      type: "office",
-      action: "delete",
+      type: "OFFICE",
+      action: "DELETE",
     });
     toggleModal();
     const officeId = e.currentTarget.dataset.officeId;
     const office = officeLocations.find((office) => office.id === officeId);
     setItemToDelete({
       id: office.id,
-      type: "office",
+      name: "office",
     });
   };
   return (

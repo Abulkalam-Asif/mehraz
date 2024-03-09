@@ -22,13 +22,13 @@ const addStyleToDB = async ({ name, budget, image, usage }) => {
 
     revalidatePath("/admin/roles-analytics-cities", "page");
     return {
-      type: "success",
+      type: "SUCCESS",
       message: "Style added successfully!",
     };
   } catch (error) {
     console.error("Error adding the style: " + error);
     return {
-      type: "error",
+      type: "ERROR",
       message: "Something went wrong, please try again later.",
     };
   }

@@ -35,7 +35,7 @@ const FreeProjectClientPage = ({ cities, plots }) => {
     if (cities?.length == 0 || plots?.length == 0) {
       router.push("/admin/projects");
       showAlert({
-        type: "error",
+        type: "ERROR",
         message: "No cities or plots found. Please add one first.",
       });
     }

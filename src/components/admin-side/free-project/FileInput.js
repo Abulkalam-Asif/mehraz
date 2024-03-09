@@ -21,12 +21,12 @@ const FileInput = ({
       if (newFile.type.startsWith(typeStartsWith)) {
         imageStateSetter(newFile);
         showAlert({
-          type: "success",
+          type: "SUCCESS",
           message: "File attached successfully.",
         });
       } else {
         showAlert({
-          type: "warning",
+          type: "WARNING",
           message: wrongFileTypeWarning,
         });
       }

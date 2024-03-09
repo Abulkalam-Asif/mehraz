@@ -10,10 +10,10 @@ const CityModal = ({
   return (
     <>
       <AdminModal
-        heading={modalMetadata.action === "add" ? "Add city" : "Edit city"}
-        buttonText={modalMetadata.action === "add" ? "Add city" : "Update city"}
+        heading={modalMetadata.action === "ADD" ? "Add city" : "Edit city"}
+        buttonText={modalMetadata.action === "ADD" ? "Add city" : "Update city"}
         onButtonClick={
-          modalMetadata.action === "add" ? addNewCityHandler : editCityHandler
+          modalMetadata.action === "ADD" ? addNewCityHandler : editCityHandler
         }>
         <AdminInputBox
           label="Enter city name"

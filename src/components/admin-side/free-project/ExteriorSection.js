@@ -16,19 +16,20 @@ const ExteriorSection = ({
   setModalMetadata,
   toggleModal,
   setCurrentExteriorView,
+  setItemToDelete,
 }) => {
-  const addExteriorClickHandler = () => {
+  const addExteriorViewClickHandler = () => {
     setModalMetadata({
       type: "EXTERIOR_VIEWS",
-      action: "add",
+      action: "ADD",
     });
     toggleModal();
   };
 
-  const editExteriorClickHandler = e => {
+  const editExteriorViewClickHandler = e => {
     setModalMetadata({
       type: "EXTERIOR_VIEWS",
-      action: "edit",
+      action: "EDIT",
     });
     toggleModal();
     const exteriorId = e.currentTarget.dataset.exteriorId;
@@ -38,9 +39,13 @@ const ExteriorSection = ({
   const deleteExteriorClickHandler = e => {
     setModalMetadata({
       type: "EXTERIOR_VIEWS",
-      action: "delete",
+      action: "DELETE",
     });
     toggleModal();
+    setItemToDelete({
+      name: "exterior view",
+      id: e.currentTarget.dataset.exteriorId,
+    });
   };
   return (
     <>
@@ -87,7 +92,7 @@ const ExteriorSection = ({
                         <button
                           title="Edit view"
                           data-exterior-id={view.id}
-                          onClick={editExteriorClickHandler}
+                          onClick={editExteriorViewClickHandler}
                           className="hover:bg-accent-1-extra-light p-2 rounded-full">
                           <Image
                             src={editIcon}
@@ -97,7 +102,7 @@ const ExteriorSection = ({
                         </button>
                         <button
                           title="Delete currency"
-                          data-exterior-id={index}
+                          data-exterior-id={view.id}
                           onClick={deleteExteriorClickHandler}
                           className="hover:bg-accent-1-extra-light p-2 rounded-full">
                           <Image
@@ -127,7 +132,7 @@ const ExteriorSection = ({
           className="mr-auto ml-4"
           type="button"
           size="xs"
-          onClick={addExteriorClickHandler}
+          onClick={addExteriorViewClickHandler}
         />
       </FreeProjectContainer>
     </>

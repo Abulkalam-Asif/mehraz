@@ -23,17 +23,17 @@ const updateStyleInDB = async ({ id, name, budget, image }) => {
         budget: budget,
       });
       revalidatePath("/admin/roles-analytics-cities", "page");
-      return { type: "success", message: "Style updated successfully!" };
+      return { type: "SUCCESS", message: "Style updated successfully!" };
     } else {
       return {
-        type: "error",
+        type: "ERROR",
         message: "Something went wrong, please try again later.",
       };
     }
   } catch (error) {
     console.error("Error updating the style:", error);
     return {
-      type: "error",
+      type: "ERROR",
       message: "Something went wrong, please try again later.",
     };
   }

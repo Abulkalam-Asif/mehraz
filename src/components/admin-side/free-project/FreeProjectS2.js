@@ -7,34 +7,12 @@ import {
   ExteriorSection,
   Modal,
   ExteriorModal,
+  DeleteModal,
 } from "@/components";
 import { useContext, useEffect, useState } from "react";
 import { addEditExteriorViewService } from "@/services/admin-side/free-project/exteriorViews";
 import { AlertContext } from "@/context/AlertContext";
 import { ulid } from "ulid";
-
-const interiorViews = [
-  {
-    name: "front",
-    video: "something",
-    description: "something",
-  },
-  {
-    name: "back",
-    video: "something",
-    description: "something",
-  },
-  {
-    name: "left",
-    video: "something",
-    description: "something",
-  },
-  {
-    name: "right",
-    video: "something",
-    description: "something",
-  },
-];
 
 const FreeProjectS2 = ({
   freeProjectS2InputHandler,
@@ -66,7 +44,7 @@ const FreeProjectS2 = ({
         { ...currentExteriorView, id: ulid() },
       ]);
       showAlert({
-        type: "success",
+        type: "SUCCESS",
         message: "Exterior view added successfully.",
       });
       toggleModal();
@@ -83,12 +61,34 @@ const FreeProjectS2 = ({
         ),
       ]);
       showAlert({
-        type: "success",
+        type: "SUCCESS",
         message: "Exterior view updated successfully.",
       });
       toggleModal();
     }
   };
+  const deleteExteriorViewHandler = () => {
+    freeProjectS2InputHandler(null, "exteriorViews", [
+      ...freeProjectS2.exteriorViews.filter(
+        view => view.id !== itemToDelete.id,
+      ),
+    ]);
+    showAlert({
+      type: "SUCCESS",
+      message: "Exterior view deleted successfully.",
+    });
+    toggleModal();
+  };
+
+  const deleteInteriorViewHandler = () => {};
+  const deleteMaterialHandler = () => {};
+
+  // General state for deleting items
+  const defaultItemToDelete = {
+    name: null,
+    id: null,
+  };
+  const [itemToDelete, setItemToDelete] = useState(defaultItemToDelete);
 
   // Modal states and functions
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -146,18 +146,21 @@ const FreeProjectS2 = ({
               setModalMetadata={setModalMetadata}
               toggleModal={toggleModal}
               setCurrentExteriorView={setCurrentExteriorView}
+              setItemToDelete={setItemToDelete}
             />
             <ExteriorSection
               exteriorViews={freeProjectS2.exteriorViews}
               setModalMetadata={setModalMetadata}
               toggleModal={toggleModal}
               setCurrentExteriorView={setCurrentExteriorView}
+              setItemToDelete={setItemToDelete}
             />
             <ExteriorSection
               exteriorViews={freeProjectS2.exteriorViews}
               setModalMetadata={setModalMetadata}
               toggleModal={toggleModal}
               setCurrentExteriorView={setCurrentExteriorView}
+              setItemToDelete={setItemToDelete}
             />
           </div>
         </div>
@@ -171,7 +174,19 @@ const FreeProjectS2 = ({
       </form>
       {isModalOpen && (
         <Modal toggleModal={toggleModal} isModalOpen={isModalOpen}>
-          {modalMetadata.type == "EXTERIOR_VIEWS" ? (
+          {modalMetadata.action === "DELETE" ? (
+            <DeleteModal
+              toggleModal={toggleModal}
+              itemToDelete={itemToDelete}
+              deleteHandler={
+                modalMetadata.type === "EXTERIOR_VIEWS"
+                  ? deleteExteriorViewHandler
+                  : modalMetadata.type === "INTERIOR_VIEWS"
+                  ? deleteInteriorViewHandler
+                  : modalMetadata.type === "MATERIALS" && deleteMaterialHandler
+              }
+            />
+          ) : modalMetadata.type == "EXTERIOR_VIEWS" ? (
             <ExteriorModal
               currentExteriorView={currentExteriorView}
               currentExteriorViewInputHandler={currentExteriorViewInputHandler}

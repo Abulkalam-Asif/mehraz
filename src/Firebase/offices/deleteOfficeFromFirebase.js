@@ -17,19 +17,19 @@ const deleteOfficeFromDB = async (officeId) => {
 
       revalidatePath("/admin/roles-analytics-cities", "page");
       return {
-        type: "success",
+        type: "SUCCESS",
         message: "Office deleted successfully.",
       };
     } else {
       return {
-        type: "error",
+        type: "ERROR",
         message: "Something went wrong, please try again later.",
       };
     }
   } catch (error) {
     console.error("Error deleting the office: ", error);
     return {
-      type: "error",
+      type: "ERROR",
       message: "Something went wrong, please try again later.",
     };
   }

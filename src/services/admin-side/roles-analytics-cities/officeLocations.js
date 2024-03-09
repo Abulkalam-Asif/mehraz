@@ -18,24 +18,24 @@ const addNewOfficeLocationService = (
   };
 
   if (formattedData.name === "") {
-    showAlert({ type: "warning", message: "Please enter office name" });
+    showAlert({ type: "WARNING", message: "Please enter office name" });
     return;
   } else if (
     officeLocations.some((office) => office.name === formattedData.name)
   ) {
-    showAlert({ type: "warning", message: "This office name already exists" });
+    showAlert({ type: "WARNING", message: "This office name already exists" });
     return;
   } else if (formattedData.address === "") {
-    showAlert({ type: "warning", message: "Please enter an address" });
+    showAlert({ type: "WARNING", message: "Please enter an address" });
     return;
   } else if (formattedData?.mapsLink === "") {
-    showAlert({ type: "warning", message: "Please enter a maps link" });
+    showAlert({ type: "WARNING", message: "Please enter a maps link" });
     return;
   } else if (!formattedData?.mapsLink.match(/^https?:\/\/[^\s/$.?#].[^\s]*$/)) {
-    showAlert({ type: "warning", message: "Please enter a valid maps link" });
+    showAlert({ type: "WARNING", message: "Please enter a valid maps link" });
     return;
   } else if (!formattedData.image) {
-    showAlert({ type: "warning", message: "Please attach an image" });
+    showAlert({ type: "WARNING", message: "Please attach an image" });
     return;
   } else {
     setShowModalSpinner(true);
@@ -65,19 +65,19 @@ const editOfficeLocationService = (
   };
 
   if (formattedData.name === "") {
-    showAlert({ type: "warning", message: "Please enter office name" });
+    showAlert({ type: "WARNING", message: "Please enter office name" });
     return;
   } else if (formattedData.address === "") {
-    showAlert({ type: "warning", message: "Please enter an address" });
+    showAlert({ type: "WARNING", message: "Please enter an address" });
     return;
   } else if (formattedData?.mapsLink === "") {
-    showAlert({ type: "warning", message: "Please enter a maps link" });
+    showAlert({ type: "WARNING", message: "Please enter a maps link" });
     return;
   } else if (!formattedData?.mapsLink.match(/^https?:\/\/[^\s/$.?#].[^\s]*$/)) {
-    showAlert({ type: "warning", message: "Please enter a valid maps link" });
+    showAlert({ type: "WARNING", message: "Please enter a valid maps link" });
     return;
   } else if (!formattedData.image) {
-    showAlert({ type: "warning", message: "Please attach an image" });
+    showAlert({ type: "WARNING", message: "Please attach an image" });
     return;
   } else {
     setShowModalSpinner(true);

@@ -21,7 +21,7 @@ const addCurrencyToDB = async ({ name, valueInPkr, cities, usage }) => {
 
 	if (!querySnapshot.empty) {
 		return {
-			type: "error",
+			type: "ERROR",
 			message: "Currency with this name already exists.",
 		};
 	}
@@ -55,11 +55,11 @@ const addCurrencyToDB = async ({ name, valueInPkr, cities, usage }) => {
 		});
 
 		revalidatePath("/admin/roles-analytics-cities", "page");
-		return { type: "success", message: "Currency added successfully!" };
+		return { type: "SUCCESS", message: "Currency added successfully!" };
 	} catch (err) {
 		console.error("Error adding the currency:", err);
 		return {
-			type: "error",
+			type: "ERROR",
 			message: "Something went wrong, please try again later.",
 		};
 	}
