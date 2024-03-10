@@ -73,6 +73,7 @@ const InteriorSection = ({
                     </Td>
                     <Td
                       position="end"
+                      align="center"
                       isLastRow={index === interiorViews.length - 1}>
                       <Dropdown
                         className="w-fit"

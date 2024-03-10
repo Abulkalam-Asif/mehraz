@@ -16,25 +16,25 @@ const PlotsSection = ({
     });
     toggleModal();
   };
-  const editPlotClickHandler = (e) => {
+  const editPlotClickHandler = e => {
     setModalMetadata({
       type: "PLOT",
       action: "EDIT",
     });
     toggleModal();
     const plotId = e.currentTarget.dataset.plotId;
-    const plot = plots.find((plot) => plot.id === plotId);
+    const plot = plots.find(plot => plot.id === plotId);
     setCurrentPlot(plot);
   };
 
-  const deletePlotClickHandler = (e) => {
+  const deletePlotClickHandler = e => {
     setModalMetadata({
       type: "PLOT",
       action: "DELETE",
     });
     toggleModal();
     const plotId = e.currentTarget.dataset.plotId;
-    const plot = plots.find((plot) => plot.id === plotId);
+    const plot = plots.find(plot => plot.id === plotId);
     setItemToDelete({
       id: plot.id,
       name: "plot",

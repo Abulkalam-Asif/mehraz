@@ -77,6 +77,7 @@ const MaterialsSection = ({
                     </Td>
                     <Td
                       position="end"
+                      align="center"
                       isLastRow={index === materials.length - 1}>
                       <Dropdown
                         className="w-fit"

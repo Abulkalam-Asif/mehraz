@@ -40,6 +40,8 @@ export { default as InteriorSection } from "./admin-side/free-project/InteriorSe
 export { default as InteriorModal } from "./admin-side/free-project/InteriorModal";
 export { default as MaterialsSection } from "./admin-side/free-project/MaterialsSection";
 export { default as MaterialsModal } from "./admin-side/free-project/MaterialsModal";
+export { default as ProgramSection } from "./admin-side/free-project/ProgramSection";
+export { default as ProgramModal } from "./admin-side/free-project/ProgramModal";
 // Admin Side - RAC
 export { default as RACClientPage } from "./admin-side/rac/RACClientPage";
 export { default as MultiCheckbox } from "./admin-side/rac/MultiCheckbox";

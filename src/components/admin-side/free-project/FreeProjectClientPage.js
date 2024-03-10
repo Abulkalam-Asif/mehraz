@@ -63,6 +63,30 @@ const FreeProjectClientPage = ({ cities, plots }) => {
     exteriorViews: [],
     interiorViews: [],
     materials: [],
+    programs: [
+      {
+        category: "BEDROOM",
+        quantity: 2,
+        subCategories: [
+          { space: "bedroom 1", size: "10 FT" },
+          { space: "bedroom 2", size: "4 FT" },
+        ],
+      },
+      {
+        category: "BATHROOM",
+        quantity: 3,
+        subCategories: [
+          { space: "bathroom 1", size: "2.5 FT" },
+          { space: "bathroom 2", size: "4 FT" },
+          { space: "bathroom 3", size: "3 FT" },
+        ],
+      },
+      {
+        category: "SOMETHING",
+        quantity: 1,
+        subCategories: [{ space: "something 1", size: "2.5 FT" }],
+      },
+    ],
   };
   const [freeProjectS2, setFreeProjectS2] = useState(defaultFreeProjectS2);
   const freeProjectS2InputHandler = (e, name = null, value = null) => {

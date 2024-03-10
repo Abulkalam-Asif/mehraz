@@ -4,6 +4,7 @@ const Td = ({
   position = "middle",
   isLastRow = false,
   align = "left",
+  rowSpan = 1,
 }) => {
   // position can be beginning, middle or end
   // position and isLastRow are used to determine the border styles
@@ -16,6 +17,7 @@ const Td = ({
   return (
     <>
       <td
+        rowSpan={rowSpan}
         align={align}
         className={`${positionStyles[position]} px-1 border-accent-1-dark ${className}`}>
         {children}

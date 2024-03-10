@@ -12,6 +12,8 @@ import {
   InteriorModal,
   MaterialsSection,
   MaterialsModal,
+  ProgramSection,
+  ProgramModal,
 } from "@/components";
 import { useContext, useEffect, useState } from "react";
 import { addEditExteriorViewService } from "@/services/admin-side/free-project/exteriorViews";
@@ -26,6 +28,64 @@ const FreeProjectS2 = ({
   freeProjectS2,
 }) => {
   const { showAlert } = useContext(AlertContext);
+  // Program states and functions
+  const defaultProgram = {
+    category: "",
+    quantity: 0,
+    subCategories: [],
+  };
+  const [currentProgram, setCurrentProgram] = useState(defaultProgram);
+  const currentProgramInputHandler = (e, name = null, value = null) => {
+    setCurrentProgram({
+      ...currentProgram,
+      [name || e.target.name]: value || e.target.value,
+    });
+  };
+  const addNewProgramHandler = e => {
+    e.preventDefault();
+    // // Adding new program to the state
+    // if (addEditProgramService(currentProgram, showAlert)) {
+    //   freeProjectS2InputHandler(null, "programs", [
+    //     ...freeProjectS2.programs,
+    //     { ...currentProgram, id: ulid() },
+    //   ]);
+    //   showAlert({
+    //     type: "SUCCESS",
+    //     message: "Exterior view added successfully.",
+    //   });
+    //   toggleModal();
+    // }
+  };
+  const editProgramHandler = e => {
+    e.preventDefault();
+    // // Editing exterior view in the state
+    // if (addEditProgramService(currentProgram, showAlert)) {
+    //   freeProjectS2InputHandler(null, "programs", [
+    //     currentProgram,
+    //     ...freeProjectS2.programs.filter(
+    //       view => view.id !== currentProgram.id,
+    //     ),
+    //   ]);
+    //   showAlert({
+    //     type: "SUCCESS",
+    //     message: "Exterior view updated successfully.",
+    //   });
+    //   toggleModal();
+    // }
+  };
+  const deleteProgramHandler = () => {
+    // freeProjectS2InputHandler(null, "programs", [
+    //   ...freeProjectS2.programs.filter(
+    //     view => view.id !== itemToDelete.id,
+    //   ),
+    // ]);
+    // showAlert({
+    //   type: "SUCCESS",
+    //   message: "Exterior view deleted successfully.",
+    // });
+    // toggleModal();
+  };
+
   // Exterior states and functions
   const defaultExteriorView = {
     id: null,
@@ -227,6 +287,7 @@ const FreeProjectS2 = ({
         type: null,
         action: null,
       });
+      setCurrentProgram(defaultProgram);
       setCurrentExteriorView(defaultExteriorView);
       setCurrentInteriorView(defaultInteriorView);
       setCurrentMaterial(defaultMaterial);
@@ -264,6 +325,13 @@ const FreeProjectS2 = ({
                 removeFileHandler={freeProjectS2InputHandler}
               />
             </div>
+            <ProgramSection
+              programs={freeProjectS2.programs}
+              setModalMetadata={setModalMetadata}
+              toggleModal={toggleModal}
+              setCurrentProgram={setCurrentProgram}
+              setItemToDelete={setItemToDelete}
+            />
           </div>
           <div className="h-full overflow-hidden grid grid-rows-3 gap-4">
             <ExteriorSection
@@ -310,6 +378,14 @@ const FreeProjectS2 = ({
                   ? deleteInteriorViewHandler
                   : modalMetadata.type === "MATERIALS" && deleteMaterialHandler
               }
+            />
+          ) : modalMetadata.type == "PROGRAMS" ? (
+            <ProgramModal
+              currentProgram={currentProgram}
+              currentProgramInputHandler={currentProgramInputHandler}
+              addNewProgramHandler={addNewExteriorViewHandler}
+              editProgramHandler={editProgramHandler}
+              modalMetadata={modalMetadata}
             />
           ) : modalMetadata.type == "EXTERIOR_VIEWS" ? (
             <ExteriorModal
