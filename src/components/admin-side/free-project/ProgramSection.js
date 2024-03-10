@@ -32,9 +32,9 @@ const ProgramSection = ({
       action: "EDIT",
     });
     toggleModal();
-    const programIndex = e.currentTarget.dataset.programIndex;
-    const program = programs[programIndex];
-    setCurrentProgram(program);
+    const programId = e.currentTarget.dataset.programId;
+    const program = programs.find(program => program.id === programId);
+    setCurrentProgram({ ...program, id: programId });
   };
 
   const deleteProgramClickHandler = e => {
@@ -45,8 +45,7 @@ const ProgramSection = ({
     toggleModal();
     setItemToDelete({
       name: "program",
-      // The id here is actually the index of the program
-      id: e.currentTarget.dataset.programIndex,
+      id: e.currentTarget.dataset.programId,
     });
   };
 
@@ -68,9 +67,9 @@ const ProgramSection = ({
               <tbody className="text-xs font-semibold">
                 {programs.map((program, programIndex) =>
                   Array.from({ length: program.quantity }).map(
-                    (_, subProgramindex) => (
-                      <tr key={`${programIndex}${subProgramindex}`}>
-                        {subProgramindex === 0 && (
+                    (_, subCategoryIndex) => (
+                      <tr key={`${programIndex}${subCategoryIndex}`}>
+                        {subCategoryIndex === 0 && (
                           <>
                             <Td
                               position="beginning"
@@ -85,13 +84,23 @@ const ProgramSection = ({
                             </Td>
                           </>
                         )}
-                        <Td isLastRow={programIndex === programs.length - 1}>
-                          {program.subCategories[subProgramindex].space}
+                        <Td
+                          isLastRow={
+                            programIndex === programs.length - 1 &&
+                            subCategoryIndex ===
+                              program.subCategories?.length - 1
+                          }>
+                          {program.subCategories[subCategoryIndex]?.space}
                         </Td>
-                        <Td isLastRow={programIndex === programs.length - 1}>
-                          {program.subCategories[subProgramindex].size}
+                        <Td
+                          isLastRow={
+                            programIndex === programs.length - 1 &&
+                            subCategoryIndex ===
+                              program.subCategories?.length - 1
+                          }>
+                          {program.subCategories[subCategoryIndex]?.size}
                         </Td>
-                        {subProgramindex === 0 && (
+                        {subCategoryIndex === 0 && (
                           <>
                             <Td
                               position="end"
@@ -114,7 +123,7 @@ const ProgramSection = ({
                                 }>
                                 <button
                                   title="Edit program"
-                                  data-program-index={programIndex}
+                                  data-program-id={program.id}
                                   onClick={editProgramClickHandler}
                                   className="hover:bg-accent-1-extra-light p-2 rounded-full">
                                   <Image
@@ -125,7 +134,7 @@ const ProgramSection = ({
                                 </button>
                                 <button
                                   title="Delete program"
-                                  data-program-index={programIndex}
+                                  data-program-id={program.id}
                                   onClick={deleteProgramClickHandler}
                                   className="hover:bg-accent-1-extra-light p-2 rounded-full">
                                   <Image

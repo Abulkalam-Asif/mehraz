@@ -6,6 +6,7 @@ const AdminInputBox = ({
   type = "text",
   setInput = null,
   inputHandler = null,
+  max = 0,
 }) => {
   return (
     <>
@@ -13,14 +14,14 @@ const AdminInputBox = ({
         <label htmlFor={idHtmlFor} className="text-accent-1-dark">
           {label}
         </label>
-        {(type === "text" || type === "number") && (
+        {type === "text" ? (
           <input
-            type={type}
+            type={"text"}
             className="border-2 text-sm border-accent-1-base rounded-md px-4 py-1"
             id={idHtmlFor}
             name={name}
             value={value}
-            onChange={(e) => {
+            onChange={e => {
               if (setInput) {
                 setInput(e.target.value);
               }
@@ -30,6 +31,31 @@ const AdminInputBox = ({
             }}
             autoComplete="off"
           />
+        ) : (
+          type === "number" && (
+            <input
+              type={"number"}
+              className="border-2 text-sm border-accent-1-base rounded-md px-4 py-1"
+              id={idHtmlFor}
+              name={name}
+              value={value}
+              max={max}
+              onInput={e => {
+                if (e.target.value > max) {
+                  e.target.value = max;
+                }
+              }}
+              onChange={e => {
+                if (setInput) {
+                  setInput(e.target.value);
+                }
+                if (inputHandler) {
+                  inputHandler(e);
+                }
+              }}
+              autoComplete="off"
+            />
+          )
         )}
       </div>
     </>

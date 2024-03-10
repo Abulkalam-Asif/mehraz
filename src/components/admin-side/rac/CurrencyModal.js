@@ -1,8 +1,4 @@
-import {
-  AdminInputBox,
-  MultiCheckbox,
-  AdminModal,
-} from "@/components";
+import { AdminInputBox, MultiCheckbox, AdminModal } from "@/components";
 
 const CurrencyModal = ({
   addNewCurrencyHandler,
@@ -42,10 +38,11 @@ const CurrencyModal = ({
             inputHandler={currentCurrencyInputHandler}
             idHtmlFor="valueInPkr"
             name="valueInPkr"
+            max={9999}
           />
         </div>
         <div className="w-1/2 space-y-1">
-          <span className="text-accent-1-dark">FreeProjectSelect cities</span>
+          <span className="text-accent-1-dark">Select cities</span>
           <MultiCheckbox
             className={"max-h-24 pl-2 overflow-y-auto"}
             options={cities}

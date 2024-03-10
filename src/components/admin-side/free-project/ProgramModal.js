@@ -13,9 +13,9 @@ const ProgramModal = ({
     currentProgramInputHandler(
       null,
       "subCategories",
-      currentProgram.subCategories.length < currentProgram.quantity
+      currentProgram.subCategories?.length < currentProgram.quantity
         ? [...currentProgram.subCategories, { space: "", size: "" }]
-        : [...currentProgram.subCategories.slice(0, currentProgram.quantity)],
+        : [...currentProgram.subCategories?.slice(0, currentProgram.quantity)],
     );
   }, [currentProgram.quantity]);
 
@@ -49,56 +49,66 @@ const ProgramModal = ({
             idHtmlFor="quantity"
             name="quantity"
             type="number"
+            max={99}
           />
         </div>
-        <div className="w-1/2 flex flex-col justify-center">
-          {Array.from({ length: currentProgram.quantity }).map(
-            (_, subCategoryIndex) => (
-              <div
-                key={subCategoryIndex}
-                className="flex flex-col gap-4 items-center">
-                <AdminInputBox
-                  label={`Enter space ${subCategoryIndex + 1}`}
-                  value={currentProgram.subCategories[subCategoryIndex]?.space}
-                  inputHandler={e =>
-                    currentProgramInputHandler(
-                      null,
-                      "subCategories",
-                      [...currentProgram.subCategories].map(
-                        (subCategory, index) => {
-                          if (index === subCategoryIndex) {
-                            return { ...subCategory, space: e.target.value };
-                          }
-                          return subCategory;
-                        },
-                      ),
-                    )
-                  }
-                  idHtmlFor={`space${subCategoryIndex}`}
-                  name={`space${subCategoryIndex}`}
-                />
-                <AdminInputBox
-                  label={`Enter size ${subCategoryIndex + 1}`}
-                  value={currentProgram.subCategories[subCategoryIndex]?.size}
-                  inputHandler={e =>
-                    currentProgramInputHandler(
-                      null,
-                      "subCategories",
-                      [...currentProgram.subCategories].map(
-                        (subCategory, index) => {
-                          if (index === subCategoryIndex) {
-                            return { ...subCategory, size: e.target.value };
-                          }
-                          return subCategory;
-                        },
-                      ),
-                    )
-                  }
-                  idHtmlFor={`size${subCategoryIndex}`}
-                  name={`size${subCategoryIndex}`}
-                />
-              </div>
-            ),
+        <div className="max-h-32 w-1/2 flex flex-col overflow-y-auto">
+          {currentProgram.quantity > 0 ? (
+            Array.from({ length: currentProgram.quantity }).map(
+              (_, subCategoryIndex) => (
+                <div
+                  key={subCategoryIndex}
+                  className="flex flex-col gap-2 items-center">
+                  <AdminInputBox
+                    label={`Enter space ${subCategoryIndex + 1}`}
+                    value={
+                      currentProgram.subCategories[subCategoryIndex]?.space
+                    }
+                    inputHandler={e =>
+                      currentProgramInputHandler(
+                        null,
+                        "subCategories",
+                        [...currentProgram.subCategories].map(
+                          (subCategory, index) => {
+                            if (index === subCategoryIndex) {
+                              return { ...subCategory, space: e.target.value };
+                            }
+                            return subCategory;
+                          },
+                        ),
+                      )
+                    }
+                    idHtmlFor={`space${subCategoryIndex}`}
+                    name={`space${subCategoryIndex}`}
+                  />
+                  <AdminInputBox
+                    label={`Enter size ${subCategoryIndex + 1}`}
+                    value={currentProgram.subCategories[subCategoryIndex]?.size}
+                    inputHandler={e =>
+                      currentProgramInputHandler(
+                        null,
+                        "subCategories",
+                        [...currentProgram.subCategories].map(
+                          (subCategory, index) => {
+                            if (index === subCategoryIndex) {
+                              return { ...subCategory, size: e.target.value };
+                            }
+                            return subCategory;
+                          },
+                        ),
+                      )
+                    }
+                    idHtmlFor={`size${subCategoryIndex}`}
+                    name={`size${subCategoryIndex}`}
+                  />
+                  {subCategoryIndex + 1 !== Number(currentProgram.quantity) && (
+                    <hr className="w-full border-t-2 border-accent-1-base my-2" />
+                  )}
+                </div>
+              ),
+            )
+          ) : (
+            <p className="text-center">Spaces and Sizes</p>
           )}
         </div>
       </AdminModal>

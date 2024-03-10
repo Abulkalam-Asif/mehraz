@@ -56,6 +56,7 @@ const MaterialsModal = ({
             idHtmlFor="rate"
             name="rate"
             type="number"
+            max={99999}
           />
           <FileInput
             file={currentMaterial.image}

@@ -1,5 +1,6 @@
 const addEditInteriorViewService = (currentInteriorView, showAlert) => {
   const formattedData = {
+    id: currentInteriorView.id,
     name: currentInteriorView.name.trim().toUpperCase(),
     description: currentInteriorView.description.trim(),
     video: currentInteriorView.video,
@@ -7,15 +8,15 @@ const addEditInteriorViewService = (currentInteriorView, showAlert) => {
 
   if (formattedData.name === "") {
     showAlert({ type: "WARNING", message: "Please enter name" });
-    return false;
+    return null;
   } else if (formattedData.description === "") {
     showAlert({ type: "WARNING", message: "Please enter description" });
-    return false;
+    return null;
   } else if (formattedData.video === null) {
     showAlert({ type: "WARNING", message: "Please attach a video" });
-    return false;
+    return null;
   }
-  return true;
+  return formattedData;
 };
 
 export { addEditInteriorViewService };

@@ -1,5 +1,6 @@
 const addEditExteriorViewService = (currentExteriorView, showAlert) => {
   const formattedData = {
+    id: currentExteriorView.id,
     name: currentExteriorView.name.trim().toUpperCase(),
     description: currentExteriorView.description.trim(),
     video: currentExteriorView.video,
@@ -7,15 +8,15 @@ const addEditExteriorViewService = (currentExteriorView, showAlert) => {
 
   if (formattedData.name === "") {
     showAlert({ type: "WARNING", message: "Please enter name" });
-    return false;
+    return null;
   } else if (formattedData.description === "") {
     showAlert({ type: "WARNING", message: "Please enter description" });
-    return false;
+    return null;
   } else if (formattedData.video === null) {
     showAlert({ type: "WARNING", message: "Please attach a video" });
-    return false;
+    return null;
   }
-  return true;
+  return formattedData;
 };
 
 export { addEditExteriorViewService };

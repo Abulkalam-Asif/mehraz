@@ -21,6 +21,7 @@ import { addEditInteriorViewService } from "@/services/admin-side/free-project/i
 import { AlertContext } from "@/context/AlertContext";
 import { ulid } from "ulid";
 import { addEditMaterialService } from "@/services/admin-side/free-project/materials";
+import { addEditProgramService } from "@/services/admin-side/free-project/programs";
 
 const FreeProjectS2 = ({
   freeProjectS2InputHandler,
@@ -30,8 +31,9 @@ const FreeProjectS2 = ({
   const { showAlert } = useContext(AlertContext);
   // Program states and functions
   const defaultProgram = {
+    id: null,
     category: "",
-    quantity: 0,
+    quantity: 1,
     subCategories: [],
   };
   const [currentProgram, setCurrentProgram] = useState(defaultProgram);
@@ -43,47 +45,49 @@ const FreeProjectS2 = ({
   };
   const addNewProgramHandler = e => {
     e.preventDefault();
-    // // Adding new program to the state
-    // if (addEditProgramService(currentProgram, showAlert)) {
-    //   freeProjectS2InputHandler(null, "programs", [
-    //     ...freeProjectS2.programs,
-    //     { ...currentProgram, id: ulid() },
-    //   ]);
-    //   showAlert({
-    //     type: "SUCCESS",
-    //     message: "Exterior view added successfully.",
-    //   });
-    //   toggleModal();
-    // }
+    // Adding new program to the state
+    const programToAdd = addEditProgramService(currentProgram, showAlert);
+    if (programToAdd) {
+      freeProjectS2InputHandler(null, "programs", [
+        ...freeProjectS2.programs,
+        { ...programToAdd, id: ulid() },
+      ]);
+      showAlert({
+        type: "SUCCESS",
+        message: "Program added successfully.",
+      });
+      toggleModal();
+    }
   };
   const editProgramHandler = e => {
     e.preventDefault();
-    // // Editing exterior view in the state
-    // if (addEditProgramService(currentProgram, showAlert)) {
-    //   freeProjectS2InputHandler(null, "programs", [
-    //     currentProgram,
-    //     ...freeProjectS2.programs.filter(
-    //       view => view.id !== currentProgram.id,
-    //     ),
-    //   ]);
-    //   showAlert({
-    //     type: "SUCCESS",
-    //     message: "Exterior view updated successfully.",
-    //   });
-    //   toggleModal();
-    // }
+    // Editing exterior view in the state
+    const programToEdit = addEditProgramService(currentProgram, showAlert);
+    if (programToEdit) {
+      freeProjectS2InputHandler(null, "programs", [
+        programToEdit,
+        ...freeProjectS2.programs.filter(
+          program => program.id !== programToEdit.id,
+        ),
+      ]);
+      showAlert({
+        type: "SUCCESS",
+        message: "Program updated successfully.",
+      });
+      toggleModal();
+    }
   };
   const deleteProgramHandler = () => {
-    // freeProjectS2InputHandler(null, "programs", [
-    //   ...freeProjectS2.programs.filter(
-    //     view => view.id !== itemToDelete.id,
-    //   ),
-    // ]);
-    // showAlert({
-    //   type: "SUCCESS",
-    //   message: "Exterior view deleted successfully.",
-    // });
-    // toggleModal();
+    freeProjectS2InputHandler(null, "programs", [
+      ...freeProjectS2.programs.filter(
+        program => program.id !== itemToDelete.id,
+      ),
+    ]);
+    showAlert({
+      type: "SUCCESS",
+      message: "Program deleted successfully.",
+    });
+    toggleModal();
   };
 
   // Exterior states and functions
@@ -104,10 +108,14 @@ const FreeProjectS2 = ({
   const addNewExteriorViewHandler = e => {
     e.preventDefault();
     // Adding new exterior view to the state
-    if (addEditExteriorViewService(currentExteriorView, showAlert)) {
+    const exteriorViewToAdd = addEditExteriorViewService(
+      currentExteriorView,
+      showAlert,
+    );
+    if (exteriorViewToAdd) {
       freeProjectS2InputHandler(null, "exteriorViews", [
         ...freeProjectS2.exteriorViews,
-        { ...currentExteriorView, id: ulid() },
+        { ...exteriorViewToAdd, id: ulid() },
       ]);
       showAlert({
         type: "SUCCESS",
@@ -119,11 +127,15 @@ const FreeProjectS2 = ({
   const editExteriorViewHandler = e => {
     e.preventDefault();
     // Editing exterior view in the state
-    if (addEditExteriorViewService(currentExteriorView, showAlert)) {
+    const exteriorViewToEdit = addEditExteriorViewService(
+      currentExteriorView,
+      showAlert,
+    );
+    if (exteriorViewToEdit) {
       freeProjectS2InputHandler(null, "exteriorViews", [
-        currentExteriorView,
+        exteriorViewToEdit,
         ...freeProjectS2.exteriorViews.filter(
-          view => view.id !== currentExteriorView.id,
+          view => view.id !== exteriorViewToEdit.id,
         ),
       ]);
       showAlert({
@@ -164,10 +176,14 @@ const FreeProjectS2 = ({
   const addNewInteriorViewHandler = e => {
     e.preventDefault();
     // Adding new interior view to the state
-    if (addEditInteriorViewService(currentInteriorView, showAlert)) {
+    const interiorViewToAdd = addEditInteriorViewService(
+      currentInteriorView,
+      showAlert,
+    );
+    if (interiorViewToAdd) {
       freeProjectS2InputHandler(null, "interiorViews", [
         ...freeProjectS2.interiorViews,
-        { ...currentInteriorView, id: ulid() },
+        { ...interiorViewToAdd, id: ulid() },
       ]);
       showAlert({
         type: "SUCCESS",
@@ -179,11 +195,15 @@ const FreeProjectS2 = ({
   const editInteriorViewHandler = e => {
     e.preventDefault();
     // Editing interior view in the state
-    if (addEditInteriorViewService(currentInteriorView, showAlert)) {
+    const interiorViewToEdit = addEditInteriorViewService(
+      currentInteriorView,
+      showAlert,
+    );
+    if (interiorViewToEdit) {
       freeProjectS2InputHandler(null, "interiorViews", [
-        currentInteriorView,
+        interiorViewToEdit,
         ...freeProjectS2.interiorViews.filter(
-          view => view.id !== currentInteriorView.id,
+          view => view.id !== interiorViewToEdit.id,
         ),
       ]);
       showAlert({
@@ -224,10 +244,11 @@ const FreeProjectS2 = ({
   const addNewMaterialHandler = e => {
     e.preventDefault();
     // Adding new material to the state
-    if (addEditMaterialService(currentMaterial, showAlert)) {
+    const materialToAdd = addEditMaterialService(currentMaterial, showAlert);
+    if (materialToAdd) {
       freeProjectS2InputHandler(null, "materials", [
         ...freeProjectS2.materials,
-        { ...currentMaterial, id: ulid() },
+        { ...materialToAdd, id: ulid() },
       ]);
       showAlert({
         type: "SUCCESS",
@@ -239,11 +260,13 @@ const FreeProjectS2 = ({
   const editMaterialHandler = e => {
     e.preventDefault();
     // Editing material in the state
-    if (addEditMaterialService(currentMaterial, showAlert)) {
+    const materialToEdit = addEditMaterialService(currentMaterial, showAlert);
+    console.log(materialToEdit);
+    if (materialToEdit) {
       freeProjectS2InputHandler(null, "materials", [
-        currentMaterial,
+        materialToEdit,
         ...freeProjectS2.materials.filter(
-          material => material.id !== currentMaterial.id,
+          material => material.id !== materialToEdit.id,
         ),
       ]);
       showAlert({
@@ -372,7 +395,9 @@ const FreeProjectS2 = ({
               toggleModal={toggleModal}
               itemToDelete={itemToDelete}
               deleteHandler={
-                modalMetadata.type === "EXTERIOR_VIEWS"
+                modalMetadata.type === "PROGRAMS"
+                  ? deleteProgramHandler
+                  : modalMetadata.type === "EXTERIOR_VIEWS"
                   ? deleteExteriorViewHandler
                   : modalMetadata.type === "INTERIOR_VIEWS"
                   ? deleteInteriorViewHandler
@@ -383,7 +408,7 @@ const FreeProjectS2 = ({
             <ProgramModal
               currentProgram={currentProgram}
               currentProgramInputHandler={currentProgramInputHandler}
-              addNewProgramHandler={addNewExteriorViewHandler}
+              addNewProgramHandler={addNewProgramHandler}
               editProgramHandler={editProgramHandler}
               modalMetadata={modalMetadata}
             />

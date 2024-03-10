@@ -23,6 +23,7 @@ const PlotModal = ({
           idHtmlFor="area"
           name="area"
           type="number"
+          max={9999999}
         />
         <AdminInputBox
           label="Enter area unit"
