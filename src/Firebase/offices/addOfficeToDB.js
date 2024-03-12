@@ -1,37 +1,49 @@
 "use server";
 import { db, storage } from "../firebase";
-import { collection, doc, setDoc } from "firebase/firestore";
+import { collection, doc, setDoc,query,where,getDocs } from "firebase/firestore";
 import { ref, uploadBytes } from "firebase/storage";
 import { revalidatePath } from "next/cache";
 
 const addOfficeToDB = async ({ name, address, mapsLink, image }) => {
-  try {
-    const currentTimeInMilliseconds = new Date().getTime().toString();
+	try {
+		const refer = collection(db, "OFFICES");
 
-    const imageRef = ref(storage, `Offices/${currentTimeInMilliseconds}`);
-    await uploadBytes(imageRef, image.get("image"));
+		const queryResult = query(refer, where("name", "==", name));
 
-    const collectionRef = collection(db, "OFFICES");
-    const newDocRef = doc(collectionRef, currentTimeInMilliseconds);
+		const querySnapshot = await getDocs(queryResult);
 
-    await setDoc(newDocRef, {
-      name: name,
-      address: address,
-      mapsLink: mapsLink,
-    });
+		if (!querySnapshot.empty) {
+			return {
+				type: "error",
+				message: "Office with this name already exists.",
+			};
+		}
+		const currentTimeInMilliseconds = new Date().getTime().toString();
 
-    revalidatePath("/admin/roles-analytics-cities", "page");
-    return {
-      type: "SUCCESS",
-      message: "Office added successfully!",
-    };
-  } catch (err) {
-    console.error("Error adding the office: " + err);
-    return {
-      type: "ERROR",
-      message: "Something went wrong, please try again later.",
-    };
-  }
+		const imageRef = ref(storage, `OFFICES/${currentTimeInMilliseconds}`);
+		await uploadBytes(imageRef, image.get("image"));
+
+		const collectionRef = collection(db, "OFFICES");
+		const newDocRef = doc(collectionRef, currentTimeInMilliseconds);
+
+		await setDoc(newDocRef, {
+			name: name,
+			address: address,
+			mapsLink: mapsLink,
+		});
+
+		revalidatePath("/admin/roles-analytics-cities", "page");
+		return {
+			type: "success",
+			message: "Office added successfully!",
+		};
+	} catch (err) {
+		console.error("Error adding the office: " + err);
+		return {
+			type: "error",
+			message: "Something went wrong, please try again later.",
+		};
+	}
 };
 
 export default addOfficeToDB;

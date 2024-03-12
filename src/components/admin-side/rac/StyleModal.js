@@ -82,7 +82,7 @@ const StyleModal = ({
               />
             </>
           ) : (
-            <div className="w-full h-full p-4 flex items-center justify-center text-center text-accent-1-dark border-2 border-accent-1-base rounded-xl">
+            <div className="w-full h-full p-4 flex items-center justify-center text-center text-accent-1-dark border-dashed border-2 border-accent-1-dark rounded-xl">
               <p>Attached image will be displayed here</p>
             </div>
           )}

@@ -3,7 +3,7 @@ import { revalidatePath } from "next/cache";
 import { db } from "../firebase";
 import {
 	doc,
-  collection,
+	collection,
 	getDoc,
 	updateDoc,
 	increment,
@@ -16,8 +16,19 @@ const updateCurrencyInDB = async (currentCurrency, prevCities) => {
 	let { id, name, cities, valueInPkr } = currentCurrency;
 	const ref = collection(db, "CURRENCIES");
 
-	
 	try {
+		const querySnapshot = await getDocs(
+			query(collection(db, "CURRENCIES"), where("name", "==", name))
+		);
+		const duplicateCurrency = querySnapshot.docs.find((doc) => doc.id !== id);
+		if (duplicateCurrency) {
+			return {
+				type: "error",
+				message: "Currency with this name already exists.",
+			};
+		}
+		
+
 		const currencyExistPromises = cities.map(async (id) => {
 			const cityDoc = doc(db, "CITIES", id);
 			const citySnapshot = await getDoc(cityDoc);

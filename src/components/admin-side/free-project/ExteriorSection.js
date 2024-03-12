@@ -49,7 +49,7 @@ const ExteriorSection = ({
   };
   return (
     <>
-      <FreeProjectContainer className="flex flex-col gap-y-2">
+      <FreeProjectContainer className="w-full flex flex-col gap-y-2">
         <H2 text="Exterior 360 views" />
         {exteriorViews ? (
           exteriorViews.length > 0 ? (

@@ -15,15 +15,16 @@ const updateCityInDB = async ({ id, name }) => {
 	try {
 		const cityRef = doc(db, "CITIES", id);
 
-		const citiesCollectionRef = collection(db, "CITIES");
-		const queryResult = query(citiesCollectionRef, where("name", "==", name));
-
-		const querySnapshot = await getDocs(queryResult);
-
-		if (!querySnapshot.empty) {
-			return { type: "ERROR", message: "City with this name already exists." };
+		const querySnapshot = await getDocs(
+			query(collection(db, "CITIES"), where("name", "==", name))
+		);
+		const duplicateCity = querySnapshot.docs.find((doc) => doc.id !== id);
+		if (duplicateCity) {
+			return {
+				type: "error",
+				message: "City with this name already exists.",
+			};
 		}
-
 		const docSnapshot = await getDoc(cityRef);
 
 		if (docSnapshot.exists()) {

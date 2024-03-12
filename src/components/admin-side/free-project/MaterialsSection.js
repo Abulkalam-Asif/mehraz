@@ -49,7 +49,7 @@ const MaterialsSection = ({
   };
   return (
     <>
-      <FreeProjectContainer className="flex flex-col gap-y-2">
+      <FreeProjectContainer className="w-full flex flex-col gap-y-2">
         <H2 text="Materials" />
         {materials ? (
           materials.length > 0 ? (

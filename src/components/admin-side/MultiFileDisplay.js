@@ -1,18 +1,24 @@
-import { fileSizeConversion } from "@/utilities/admin-panel/fileSizeConversion"
-import reduceFilename from "@/utilities/admin-panel/reduceFilename"
-import { FaXmark } from "react-icons/fa6"
+import { fileSizeConversion } from "@/utilities/admin-panel/fileSizeConversion";
+import reduceFilename from "@/utilities/admin-panel/reduceFilename";
+import { FaXmark } from "react-icons/fa6";
 
-const MultiFileDisplay = ({ filesArray, removeFileHandler }) => {
-  const removeHandler = (index) => {
-    const newFilesArray = filesArray.filter((_, i) => i !== index)
-    removeFileHandler(null, "images", newFilesArray)
-  }
+const MultiFileDisplay = ({
+  filesArray,
+  removeFileHandler,
+  className = "",
+}) => {
+  const removeHandler = index => {
+    const newFilesArray = filesArray.filter((_, i) => i !== index);
+    removeFileHandler(null, "images", newFilesArray);
+  };
 
   return (
     <>
-      <div className="flex flex-col gap-y-1 text-white">
+      <div className={`flex flex-col gap-y-2 text-white ${className}`}>
         {filesArray.map((file, index) => (
-          <div key={index} className="flex items-center gap-4 justify-between rounded w-full bg-accent-1-dark px-2 py-1">
+          <div
+            key={index}
+            className="flex items-center gap-4 justify-between rounded w-full bg-accent-1-dark px-2 py-1">
             <span>{reduceFilename(file.name, 15)}</span>
             <span className="text-sm">{fileSizeConversion(file.size)}</span>
             <button
@@ -23,11 +29,10 @@ const MultiFileDisplay = ({ filesArray, removeFileHandler }) => {
               <FaXmark className="text-white" />
             </button>
           </div>
-        ))
-        }
+        ))}
       </div>
     </>
-  )
-}
+  );
+};
 
-export default MultiFileDisplay
+export default MultiFileDisplay;

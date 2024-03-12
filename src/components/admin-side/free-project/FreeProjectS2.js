@@ -14,6 +14,7 @@ import {
   MaterialsModal,
   ProgramSection,
   ProgramModal,
+  RACButtonMobile,
 } from "@/components";
 import { useContext, useEffect, useState } from "react";
 import { addEditExteriorViewService } from "@/services/admin-side/free-project/exteriorViews";
@@ -23,12 +24,22 @@ import { ulid } from "ulid";
 import { addEditMaterialService } from "@/services/admin-side/free-project/materials";
 import { addEditProgramService } from "@/services/admin-side/free-project/programs";
 
+const mobileButtonsData = [
+  { text: "design and images", name: "files" },
+  { text: "programs", name: "programs" },
+  { text: "exterior views", name: "exterior" },
+  { text: "interior views", name: "interior" },
+  { text: "materials", name: "materials" },
+];
+
 const FreeProjectS2 = ({
   freeProjectS2InputHandler,
   addFreeProjectS2Handler,
   freeProjectS2,
 }) => {
   const { showAlert } = useContext(AlertContext);
+  const [expandedSection, setExpandedSection] = useState(null);
+
   // Program states and functions
   const defaultProgram = {
     id: null,
@@ -319,20 +330,21 @@ const FreeProjectS2 = ({
 
   return (
     <>
-      <form className="h-full flex gap-4 w-full max-w-7xl mx-auto pr-2">
-        <div className="h-full w-full grid grid-cols-2 gap-4">
-          <div>
-            <FileInput
-              file={freeProjectS2.designFile}
-              message={"Attach design file"}
-              accept={"application/pdf"}
-              typeStartsWith={"application/pdf"}
-              inputHandler={freeProjectS2InputHandler}
-              name="designFile"
-              htmlFor={"designFile"}
-              wrongFileTypeWarning="Please attach a pdf file."
-            />
-            <div>
+      <form className="flex gap-4 w-full max-w-7xl mx-auto pr-2">
+        {/* This div will be displayed for over 1024px width */}
+        <div className="w-full grid grid-cols-2 gap-4 lg:hidden">
+          <div className="overflow-hidden grid grid-rows-2 gap-4">
+            <div className="flex flex-col gap-4">
+              <FileInput
+                file={freeProjectS2.designFile}
+                message={"Attach design file"}
+                accept={"application/pdf"}
+                typeStartsWith={"application/pdf"}
+                inputHandler={freeProjectS2InputHandler}
+                name="designFile"
+                htmlFor={"designFile"}
+                wrongFileTypeWarning="Please attach a pdf file."
+              />
               <MultiFileInput
                 message={"Attach images"}
                 filesArray={freeProjectS2.images}
@@ -343,10 +355,17 @@ const FreeProjectS2 = ({
                 inputHandler={freeProjectS2InputHandler}
                 wrongFileTypeWarning="Some of the files were not images and were not attached."
               />
-              <MultiFileDisplay
-                filesArray={freeProjectS2.images}
-                removeFileHandler={freeProjectS2InputHandler}
-              />
+              {freeProjectS2.images?.length > 0 ? (
+                <MultiFileDisplay
+                  className="overflow-y-auto p-2"
+                  filesArray={freeProjectS2.images}
+                  removeFileHandler={freeProjectS2InputHandler}
+                />
+              ) : (
+                <div className="w-full h-full p-4 flex items-center justify-center text-center text-accent-1-dark border-dashed border-2 border-accent-1-dark rounded-xl">
+                  <p>Attached images will be listed here</p>
+                </div>
+              )}
             </div>
             <ProgramSection
               programs={freeProjectS2.programs}
@@ -356,7 +375,7 @@ const FreeProjectS2 = ({
               setItemToDelete={setItemToDelete}
             />
           </div>
-          <div className="h-full overflow-hidden grid grid-rows-3 gap-4">
+          <div className="overflow-hidden grid grid-rows-3 gap-4">
             <ExteriorSection
               exteriorViews={freeProjectS2.exteriorViews}
               setModalMetadata={setModalMetadata}
@@ -379,6 +398,89 @@ const FreeProjectS2 = ({
               setItemToDelete={setItemToDelete}
             />
           </div>
+        </div>
+        {/* This div will be displayed for up to 1024px width */}
+        <div className="hidden lg:h-[calc(100vh-7rem-3rem)] lg:flex flex-col items-center justify-start gap-y-3 pt-2 mx-auto">
+          <div className="flex flex-wrap justify-center gap-2">
+            {mobileButtonsData?.map((buttonData, index) => (
+              <RACButtonMobile
+                key={index}
+                text={buttonData.text}
+                name={buttonData.name}
+                expandedSection={expandedSection}
+                setExpandedSection={setExpandedSection}
+              />
+            ))}
+          </div>
+          {expandedSection === "files" ? (
+            <div className="w-full flex flex-col gap-4 overflow-y-auto">
+              <FileInput
+                file={freeProjectS2.designFile}
+                message={"Attach design file"}
+                accept={"application/pdf"}
+                typeStartsWith={"application/pdf"}
+                inputHandler={freeProjectS2InputHandler}
+                name="designFile"
+                htmlFor={"designFile"}
+                wrongFileTypeWarning="Please attach a pdf file."
+              />
+              <MultiFileInput
+                message={"Attach images"}
+                filesArray={freeProjectS2.images}
+                accept={"image/*"}
+                typeStartsWith={"image"}
+                name="images"
+                htmlFor={"images"}
+                inputHandler={freeProjectS2InputHandler}
+                wrongFileTypeWarning="Some of the files were not images and were not attached."
+              />
+              {freeProjectS2.images?.length > 0 ? (
+                <MultiFileDisplay
+                  className="overflow-y-auto p-2"
+                  filesArray={freeProjectS2.images}
+                  removeFileHandler={freeProjectS2InputHandler}
+                />
+              ) : (
+                <div className="w-full h-full p-4 flex items-center justify-center text-center text-accent-1-dark border-dashed border-2 border-accent-1-dark rounded-xl">
+                  <p>Attached images will be listed here</p>
+                </div>
+              )}
+            </div>
+          ) : expandedSection === "programs" ? (
+            <ProgramSection
+              programs={freeProjectS2.programs}
+              setModalMetadata={setModalMetadata}
+              toggleModal={toggleModal}
+              setCurrentProgram={setCurrentProgram}
+              setItemToDelete={setItemToDelete}
+            />
+          ) : expandedSection === "exterior" ? (
+            <ExteriorSection
+              exteriorViews={freeProjectS2.exteriorViews}
+              setModalMetadata={setModalMetadata}
+              toggleModal={toggleModal}
+              setCurrentExteriorView={setCurrentExteriorView}
+              setItemToDelete={setItemToDelete}
+            />
+          ) : expandedSection === "interior" ? (
+            <InteriorSection
+              interiorViews={freeProjectS2.interiorViews}
+              setModalMetadata={setModalMetadata}
+              toggleModal={toggleModal}
+              setCurrentInteriorView={setCurrentInteriorView}
+              setItemToDelete={setItemToDelete}
+            />
+          ) : (
+            expandedSection === "materials" && (
+              <MaterialsSection
+                materials={freeProjectS2.materials}
+                setModalMetadata={setModalMetadata}
+                toggleModal={toggleModal}
+                setCurrentMaterial={setCurrentMaterial}
+                setItemToDelete={setItemToDelete}
+              />
+            )
+          )}
         </div>
         <Button
           type="button"

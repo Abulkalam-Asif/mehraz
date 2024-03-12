@@ -51,11 +51,11 @@ const ProgramSection = ({
 
   return (
     <>
-      <FreeProjectContainer className="flex flex-col gap-y-2">
+      <FreeProjectContainer className="w-full flex flex-col gap-y-2">
         <H2 text="Programs" />
         {programs ? (
           programs.length > 0 ? (
-            <Table border={false}>
+            <Table border={false} className="h-full overflow-y-auto">
               <thead className="text-sm">
                 <tr>
                   <Th position="beginning">Category</Th>
