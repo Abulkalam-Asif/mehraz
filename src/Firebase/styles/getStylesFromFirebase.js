@@ -19,7 +19,7 @@ const useStylesFromDB = async () => {
           arr.push(stylesData);
 
           const imageName = `${doc.id}`;
-          const imageRef = ref(storage, `Styles/${imageName}`);
+          const imageRef = ref(storage, `STYLES/${imageName}`);
           promises.push(
             getDownloadURL(imageRef).then((url) => {
               stylesData.image = url;
