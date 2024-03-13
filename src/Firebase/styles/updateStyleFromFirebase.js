@@ -1,11 +1,22 @@
 "use server";
 import { db, storage } from "../firebase";
-import { doc, updateDoc, getDoc } from "firebase/firestore";
+import { doc, updateDoc, getDoc,getDocs,query,where } from "firebase/firestore";
 import { ref, uploadBytes, deleteObject } from "firebase/storage";
 import { revalidatePath } from "next/cache";
 
 const updateStyleInDB = async ({ id, name, budget, image }) => {
   try {
+
+    const querySnapshot = await getDocs(
+      query(collection(db, "STYLES"), where("name", "==", name)),
+    );
+    const duplicateOffice = querySnapshot.docs.find(doc => doc.id !== id);
+    if (duplicateOffice) {
+      return {
+        type: "error",
+        message: "Style with this name already exists.",
+      };
+    }
     const docRef = doc(db, "STYLES", id);
     const docSnap = await getDoc(docRef);
 

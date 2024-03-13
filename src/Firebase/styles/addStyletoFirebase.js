@@ -1,11 +1,23 @@
 "use server";
 import { db, storage } from "../firebase";
-import { collection, doc, setDoc } from "firebase/firestore";
+import { collection, doc, setDoc,getDocs,query,where } from "firebase/firestore";
 import { ref, uploadBytes } from "firebase/storage";
 import { revalidatePath } from "next/cache";
 
 const addStyleToDB = async ({ name, budget, image, usage }) => {
   try {
+    
+    //checking Uniqueness
+    const refer = collection(db, "STYLES");
+
+    const queryResult = query(refer, where("name", "==", name));
+
+    const querySnapshot = await getDocs(queryResult);
+
+    if (!querySnapshot.empty) {
+      return { type: "ERROR", message: "STYLE with this name already exists." };
+    }
+
     const currentTimeInMilliseconds = new Date().getTime().toString();
 
     const imageRef = ref(storage, `STYLES/${currentTimeInMilliseconds}`);
