@@ -15,6 +15,9 @@ module.exports = {
       xs: { max: "360px" },
     },
     extend: {
+      fontFamily: {
+        "proxima-nova": ["Proxima Nova", "sans-serif"],
+      },
       colors: {
         "accent-1-extra-light": "#eeeeee",
         "accent-1-base": "#D9D9D9",

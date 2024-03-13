@@ -13,7 +13,7 @@ const LinkButton = ({
     <>
       <Link
         href={href}
-        className={`font-medium uppercase rounded text-white bg-accent-2-base border-2 border-accent-2-base shadow-lg hover:shadow-none hover:text-accent-2-base hover:bg-transparent hover:border-accent-1-dark transition-colors duration-500 ${className} ${typeStyles[type]}`}>
+        className={`font-proxima-nova font-medium uppercase rounded text-white bg-accent-2-base border-2 border-accent-2-base shadow-lg hover:shadow-none hover:text-accent-2-base hover:bg-transparent hover:border-accent-1-dark transition-colors duration-500 ${className} ${typeStyles[type]}`}>
         {text}
       </Link>
     </>

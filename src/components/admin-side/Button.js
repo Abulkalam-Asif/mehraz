@@ -27,7 +27,7 @@ const Button = ({
         onClick={onClick}
         type={type}
         disabled={disabled}
-        className={`uppercase rounded ${
+        className={`font-proxima-nova uppercase rounded ${
           isTransitioned && transitionStyles[color]
         } ${sizeStyles[size]} ${colorStyles[color]} ${className}`}>
         {text}
