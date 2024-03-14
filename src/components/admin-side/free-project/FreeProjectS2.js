@@ -400,17 +400,26 @@ const FreeProjectS2 = ({
           </div>
         </div>
         {/* This div will be displayed for up to 1024px width */}
-        <div className="hidden lg:h-[calc(100vh-7rem-3rem)] lg:flex flex-col items-center justify-start gap-y-3 pt-2 mx-auto">
-          <div className="flex flex-wrap justify-center gap-2">
-            {mobileButtonsData?.map((buttonData, index) => (
-              <RACButtonMobile
-                key={index}
-                text={buttonData.text}
-                name={buttonData.name}
-                expandedSection={expandedSection}
-                setExpandedSection={setExpandedSection}
-              />
-            ))}
+        <div className="hidden lg:h-[calc(100vh-7rem-3rem)] lg:flex flex-col items-center justify-start gap-y-3 pt-4 mx-auto sm:pt-2">
+          <div className="flex gap-4">
+            <div className="flex flex-wrap justify-center gap-2">
+              {mobileButtonsData?.map((buttonData, index) => (
+                <RACButtonMobile
+                  key={index}
+                  text={buttonData.text}
+                  name={buttonData.name}
+                  expandedSection={expandedSection}
+                  setExpandedSection={setExpandedSection}
+                />
+              ))}
+            </div>
+            <Button
+              type="button"
+              text="Upload"
+              isTransitioned={true}
+              className="hidden lg:block ml-auto self-start"
+              onClick={addFreeProjectS2Handler}
+            />
           </div>
           {expandedSection === "files" ? (
             <div className="w-full flex flex-col gap-4 overflow-y-auto">
@@ -486,7 +495,7 @@ const FreeProjectS2 = ({
           type="button"
           text="Upload"
           isTransitioned={true}
-          className="block ml-auto self-end"
+          className="lg:hidden block ml-auto self-end"
           onClick={addFreeProjectS2Handler}
         />
       </form>

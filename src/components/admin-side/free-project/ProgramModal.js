@@ -10,11 +10,17 @@ const ProgramModal = ({
   modalMetadata,
 }) => {
   useEffect(() => {
+    const currentSubcategoriesCount = currentProgram.subCategories?.length;
+    const currentQuantity = Number(currentProgram.quantity);
     currentProgramInputHandler(
       null,
       "subCategories",
-      currentProgram.subCategories?.length < currentProgram.quantity
-        ? [...currentProgram.subCategories, { space: "", size: "" }]
+      currentSubcategoriesCount < currentQuantity
+        ? [...currentProgram.subCategories].concat(
+            Array.from({
+              length: currentQuantity - currentSubcategoriesCount,
+            }).map(() => ({ space: "", size: "" })),
+          )
         : [...currentProgram.subCategories?.slice(0, currentProgram.quantity)],
     );
   }, [currentProgram.quantity]);

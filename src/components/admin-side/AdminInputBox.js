@@ -50,6 +50,7 @@ const AdminInputBox = ({
                   setInput(e.target.value);
                 }
                 if (inputHandler) {
+                  console.log(e.target.name, e.target.value);
                   inputHandler(e);
                 }
               }}

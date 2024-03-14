@@ -416,7 +416,7 @@ const RACClientPage = ({
       </div>
       {/* for 0-1024 width, calc(100vh - (AdminHeader height + 3rem) - page header height) */}
       {/* This div will be displayed for up to 1024px width */}
-      <div className="hidden lg:h-[calc(100vh-7rem-3rem)] lg:flex flex-col items-center justify-start gap-y-3 w-full mx-auto">
+      <div className="hidden lg:h-[calc(100vh-7rem-3rem)] lg:flex flex-col items-center justify-start gap-y-3 w-full mx-auto pt-4 sm:pt-2">
         <div className="flex flex-wrap justify-center gap-2">
           {mobileButtonsData?.map((buttonData, index) => (
             <RACButtonMobile
