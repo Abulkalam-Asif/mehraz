@@ -1,12 +1,13 @@
 "use server";
+import { db, storage } from "../../../firebase";
+import { getDoc, doc, deleteDoc } from "firebase/firestore";
+import { ref, deleteObject } from "firebase/storage";
 import { revalidatePath } from "next/cache";
-import { db } from "../firebase";
-import { deleteDoc, doc, getDoc } from "firebase/firestore";
 
-const deleteCityFromDB = async (id) => {
+const deleteStyleFromDB = async (styleId) => {
   try {
-    const cityRef = doc(db, "CITIES", id);
-    const docSnapshot = await getDoc(cityRef);
+    const docRef = doc(db, "STYLES", styleId);
+    const docSnapshot = await getDoc(docRef);
 
     if (docSnapshot.exists()) {
       let usage = docSnapshot.data().usage;
@@ -19,17 +20,22 @@ const deleteCityFromDB = async (id) => {
       if (usageCases !== "") {
         return {
           type: "ERROR",
-          message: `This city cannot be deleted. This is being used in ${usageCases.slice(
+          message: `This style cannot be deleted. This is being used in ${usageCases.slice(
             0,
             -2
           )}.`,
         };
       } else {
-        await deleteDoc(cityRef);
+        const data = docSnapshot.data();
+        if (data) {
+          const imageRef = ref(storage, `STYLES/${styleId}`);
+          await deleteObject(imageRef);
+        }
+        await deleteDoc(docRef);
         revalidatePath("/admin/roles-analytics-cities", "page");
         return {
           type: "SUCCESS",
-          message: "City deleted successfully.",
+          message: "Style deleted successfully.",
         };
       }
     } else {
@@ -39,7 +45,7 @@ const deleteCityFromDB = async (id) => {
       };
     }
   } catch (error) {
-    console.error("Error deleting the city: ", error);
+    console.error("Error deleting the style: ", error);
     return {
       type: "ERROR",
       message: "Something went wrong, please try again later.",
@@ -47,4 +53,4 @@ const deleteCityFromDB = async (id) => {
   }
 };
 
-export default deleteCityFromDB;
+export default deleteStyleFromDB;

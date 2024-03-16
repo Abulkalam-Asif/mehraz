@@ -1,5 +1,5 @@
 "use server";
-import { db, storage } from "../firebase";
+import { db, storage } from "../../../firebase";
 import { collection, doc, setDoc,getDocs,query,where } from "firebase/firestore";
 import { ref, uploadBytes } from "firebase/storage";
 import { revalidatePath } from "next/cache";

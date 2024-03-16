@@ -1,5 +1,5 @@
 import { collection, onSnapshot } from "firebase/firestore";
-import { db } from "../firebase";
+import { db } from "../../../firebase";
 import useCitiesFromDB from "../cities/getCitiesFromFirebase";
 
 const useCurrenciesFromDB = async () => {

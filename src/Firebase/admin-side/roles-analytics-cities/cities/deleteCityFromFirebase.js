@@ -1,12 +1,12 @@
 "use server";
 import { revalidatePath } from "next/cache";
-import { db } from "../firebase";
+import { db } from "../../../firebase";
 import { deleteDoc, doc, getDoc } from "firebase/firestore";
 
-const deletePlotFromDB = async id => {
+const deleteCityFromDB = async (id) => {
   try {
-    const PlotRef = doc(db, "PLOTS", id);
-    const docSnapshot = await getDoc(PlotRef);
+    const cityRef = doc(db, "CITIES", id);
+    const docSnapshot = await getDoc(cityRef);
 
     if (docSnapshot.exists()) {
       let usage = docSnapshot.data().usage;
@@ -19,17 +19,17 @@ const deletePlotFromDB = async id => {
       if (usageCases !== "") {
         return {
           type: "ERROR",
-          message: `This plot cannot be deleted. This is being used in ${usageCases.slice(
+          message: `This city cannot be deleted. This is being used in ${usageCases.slice(
             0,
-            -2,
+            -2
           )}.`,
         };
       } else {
-        await deleteDoc(PlotRef);
+        await deleteDoc(cityRef);
         revalidatePath("/admin/roles-analytics-cities", "page");
         return {
           type: "SUCCESS",
-          message: "Plot deleted successfully.",
+          message: "City deleted successfully.",
         };
       }
     } else {
@@ -39,7 +39,7 @@ const deletePlotFromDB = async id => {
       };
     }
   } catch (error) {
-    console.error("Error deleting the plot: ", error);
+    console.error("Error deleting the city: ", error);
     return {
       type: "ERROR",
       message: "Something went wrong, please try again later.",
@@ -47,4 +47,4 @@ const deletePlotFromDB = async id => {
   }
 };
 
-export default deletePlotFromDB;
+export default deleteCityFromDB;

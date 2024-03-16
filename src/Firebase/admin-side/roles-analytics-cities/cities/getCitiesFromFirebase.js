@@ -1,20 +1,19 @@
 import { collection, onSnapshot } from "firebase/firestore";
-import { db } from "../firebase";
+import { db } from "../../../firebase";
 
-const usePlotsFromDB = async () => {
-  const ref = collection(db, "PLOTS");
+const useCitiesFromDB = async () => {
+  const ref = collection(db, "CITIES");
   return new Promise((resolve, reject) => {
     const unsubscribe = onSnapshot(
       ref,
       (dataQuery) => {
         const arr = [];
         dataQuery.forEach((doc) => {
-          const docData = {
+          const city = {
             id: doc.id,
-            area: doc.data().area,
-            unit: doc.data().unit,
+            name: doc.data().name,
           };
-          arr.push(docData);
+          arr.push(city);
         });
         unsubscribe();
         resolve(arr);
@@ -27,4 +26,4 @@ const usePlotsFromDB = async () => {
   });
 };
 
-export default usePlotsFromDB;
+export default useCitiesFromDB;

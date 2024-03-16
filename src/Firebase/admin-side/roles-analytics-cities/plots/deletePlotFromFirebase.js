@@ -1,13 +1,12 @@
 "use server";
-import { db, storage } from "../firebase";
-import { getDoc, doc, deleteDoc } from "firebase/firestore";
-import { ref, deleteObject } from "firebase/storage";
 import { revalidatePath } from "next/cache";
+import { db } from "../../../firebase";
+import { deleteDoc, doc, getDoc } from "firebase/firestore";
 
-const deleteStyleFromDB = async (styleId) => {
+const deletePlotFromDB = async id => {
   try {
-    const docRef = doc(db, "STYLES", styleId);
-    const docSnapshot = await getDoc(docRef);
+    const PlotRef = doc(db, "PLOTS", id);
+    const docSnapshot = await getDoc(PlotRef);
 
     if (docSnapshot.exists()) {
       let usage = docSnapshot.data().usage;
@@ -20,22 +19,17 @@ const deleteStyleFromDB = async (styleId) => {
       if (usageCases !== "") {
         return {
           type: "ERROR",
-          message: `This style cannot be deleted. This is being used in ${usageCases.slice(
+          message: `This plot cannot be deleted. This is being used in ${usageCases.slice(
             0,
-            -2
+            -2,
           )}.`,
         };
       } else {
-        const data = docSnapshot.data();
-        if (data) {
-          const imageRef = ref(storage, `STYLES/${styleId}`);
-          await deleteObject(imageRef);
-        }
-        await deleteDoc(docRef);
+        await deleteDoc(PlotRef);
         revalidatePath("/admin/roles-analytics-cities", "page");
         return {
           type: "SUCCESS",
-          message: "Style deleted successfully.",
+          message: "Plot deleted successfully.",
         };
       }
     } else {
@@ -45,7 +39,7 @@ const deleteStyleFromDB = async (styleId) => {
       };
     }
   } catch (error) {
-    console.error("Error deleting the style: ", error);
+    console.error("Error deleting the plot: ", error);
     return {
       type: "ERROR",
       message: "Something went wrong, please try again later.",
@@ -53,4 +47,4 @@ const deleteStyleFromDB = async (styleId) => {
   }
 };
 
-export default deleteStyleFromDB;
+export default deletePlotFromDB;

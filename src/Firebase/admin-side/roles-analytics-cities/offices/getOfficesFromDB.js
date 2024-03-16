@@ -1,5 +1,5 @@
 import { collection, onSnapshot } from "firebase/firestore";
-import { db, storage } from "../firebase";
+import { db, storage } from "../../../firebase";
 import { getDownloadURL, ref } from "firebase/storage";
 
 const useOfficesFromDB = async () => {
