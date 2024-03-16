@@ -3,7 +3,10 @@ import { useContext, useEffect, useState } from "react";
 import { FreeProjectS1, FreeProjectS2, Spinner } from "@/components";
 import { useRouter } from "next/navigation";
 import { AlertContext } from "@/context/AlertContext";
-import addFreeProjectS1Service from "@/services/admin-side/free-project/addFreeProject";
+import {
+  addFreeProjectS1Service,
+  addFreeProjectS2Service,
+} from "@/services/admin-side/free-project/addFreeProject";
 
 const FreeProjectClientPage = ({ cities, plots }) => {
   const router = useRouter();
@@ -60,10 +63,10 @@ const FreeProjectClientPage = ({ cities, plots }) => {
     id: projectId,
     designFile: null,
     images: [],
+    programs: [],
     exteriorViews: [],
     interiorViews: [],
     materials: [],
-    programs: [],
   };
   const [freeProjectS2, setFreeProjectS2] = useState(defaultFreeProjectS2);
   const freeProjectS2InputHandler = (e, name = null, value = null) => {
@@ -72,7 +75,10 @@ const FreeProjectClientPage = ({ cities, plots }) => {
       [name || e?.target.name]: value || e?.target.value,
     });
   };
-  const addFreeProjectS2Handler = () => {};
+  const addFreeProjectS2Handler = () => {
+    // Calling the service to add the free project screen 2 to the database
+    addFreeProjectS2Service(freeProjectS2, showAlert, setShowSpinner);
+  };
 
   return (
     <>

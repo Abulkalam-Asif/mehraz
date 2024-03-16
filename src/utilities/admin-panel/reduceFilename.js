@@ -1,9 +1,9 @@
 function reduceFilename(filename, maxChars = 10) {
-  if (filename.length <= maxChars) {
+  if (filename?.length <= maxChars) {
     return filename;
   }
 
-  const parts = filename.split(".");
+  const parts = filename?.split(".");
   if (parts.length < 2) {
     return filename.substring(0, maxChars - 3) + "...";
   }
