@@ -2,8 +2,8 @@ import { chevronLeftIcon } from "@/assets";
 import { H1, LinkButton, ProjectsDisplay } from "@/components";
 import Image from "next/image";
 import Link from "next/link";
-import fetchReadyProjects from "@/Firebase/projects/fetchReadyProjects";
-import fetchFreeProjects from "@/Firebase/projects/fetchFreeProjects";
+import fetchReadyProjects from "@/Firebase/admin-side/projects/fetchReadyProjects";
+import fetchFreeProjects from "@/Firebase/admin-side/projects/fetchFreeProjects";
 
 const Projects = async () => {
   const readyProjects = await fetchReadyProjects();
