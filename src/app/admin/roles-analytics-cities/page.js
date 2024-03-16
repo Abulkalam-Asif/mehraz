@@ -2,11 +2,11 @@ import { chevronLeftIcon } from "@/assets";
 import { H1, RACClientPage } from "@/components";
 import Image from "next/image";
 import Link from "next/link";
-import useCurrenciesFromDB from "@/Firebase/currencies/getCurrenciesFromFirebase";
-import useCitiesFromDB from "@/Firebase/cities/getCitiesFromFirebase";
-import useOfficesFromDB from "@/Firebase/offices/getOfficesFromDB";
-import useStylesFromDB from "@/Firebase/styles/getStylesFromFirebase";
-import usePlotsFromDB from "@/Firebase/plots/getPlotsFromFirestore";
+import useCurrenciesFromDB from "@/Firebase/admin-side/roles-analytics-cities/currencies/getCurrenciesFromFirebase";
+import useCitiesFromDB from "@/Firebase/admin-side/roles-analytics-cities/cities/getCitiesFromFirebase";
+import useOfficesFromDB from "@/Firebase/admin-side/roles-analytics-cities/offices/getOfficesFromDB";
+import useStylesFromDB from "@/Firebase/admin-side/roles-analytics-cities/styles/getStylesFromFirebase";
+import usePlotsFromDB from "@/Firebase/admin-side/roles-analytics-cities/plots/getPlotsFromFirestore";
 
 const RAC = async () => {
   const cities = await useCitiesFromDB();

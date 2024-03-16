@@ -1,6 +1,6 @@
-import updatePlotInDB from "@/Firebase/plots/updatePlotFromFiresbase";
-import deletePlotFromDB from "@/Firebase/plots/deletePlotFromFirebase";
-import addPlotToDB from "@/Firebase/plots/addPlotToFirebase";
+import updatePlotInDB from "@/Firebase/admin-side/roles-analytics-cities/plots/updatePlotFromFiresbase";
+import deletePlotFromDB from "@/Firebase/admin-side/roles-analytics-cities/plots/deletePlotFromFirebase";
+import addPlotToDB from "@/Firebase/admin-side/roles-analytics-cities/plots/addPlotToFirebase";
 
 const addNewPlotService = (
   currentPlot,

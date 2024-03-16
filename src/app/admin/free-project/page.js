@@ -1,5 +1,5 @@
-import useCitiesFromDB from "@/Firebase/cities/getCitiesFromFirebase";
-import usePlotsFromDB from "@/Firebase/plots/getPlotsFromFirestore";
+import useCitiesFromDB from "@/Firebase/admin-side/roles-analytics-cities/cities/getCitiesFromFirebase";
+import usePlotsFromDB from "@/Firebase/admin-side/roles-analytics-cities/plots/getPlotsFromFirestore";
 import { chevronLeftIcon } from "@/assets";
 import { FreeProjectClientPage, H1 } from "@/components";
 import Image from "next/image";

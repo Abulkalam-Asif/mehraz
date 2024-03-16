@@ -1,6 +1,6 @@
-import addCityToDB from "@/Firebase/cities/addCityToFirebase";
-import deleteCityFromDB from "@/Firebase/cities/deleteCityFromFirebase";
-import updateCityInDB from "@/Firebase/cities/updateCityFromFirebase";
+import addCityToDB from "@/Firebase/admin-side/roles-analytics-cities/cities/addCityToFirebase";
+import deleteCityFromDB from "@/Firebase/admin-side/roles-analytics-cities/cities/deleteCityFromFirebase";
+import updateCityInDB from "@/Firebase/admin-side/roles-analytics-cities/cities/updateCityFromFirebase";
 
 const addNewCityService = (
   cities,
