@@ -21,7 +21,7 @@ const Alert = ({ message, type }) => {
     <>
       <div
         className={`fixed z-50 top-4 right-4 bg-white border border-accent-1-base shadow-xl rounded-lg flex items-center gap-4 overflow-hidden`}>
-        <span className="pl-4">{message}</span>
+        <span className="pl-4 py-2">{message}</span>
         <button className="p-4" onClick={hideAlert}>
           <Image src={closeIcon} alt="close" />
         </button>

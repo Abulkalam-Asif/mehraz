@@ -272,7 +272,6 @@ const FreeProjectS2 = ({
     e.preventDefault();
     // Editing material in the state
     const materialToEdit = addEditMaterialService(currentMaterial, showAlert);
-    console.log(materialToEdit);
     if (materialToEdit) {
       freeProjectS2InputHandler(null, "materials", [
         materialToEdit,
