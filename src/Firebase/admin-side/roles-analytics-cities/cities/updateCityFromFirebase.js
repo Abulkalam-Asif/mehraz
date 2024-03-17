@@ -21,7 +21,7 @@ const updateCityInDB = async ({ id, name }) => {
 		const duplicateCity = querySnapshot.docs.find((doc) => doc.id !== id);
 		if (duplicateCity) {
 			return {
-				type: "error",
+				type: ERROR,
 				message: "City with this name already exists.",
 			};
 		}

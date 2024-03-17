@@ -7,11 +7,12 @@ const addNewPlotService = (
   showAlert,
   plots,
   setShowModalSpinner,
-  hideModal
+  hideModal,
 ) => {
   const formattedData = {
     area: Number(currentPlot.area),
-    unit: currentPlot.unit.trim().toUpperCase(),
+    unit: currentPlot.unit.trim(),
+    category: currentPlot.category.trim(),
     usage: currentPlot.usage,
   };
 
@@ -23,8 +24,8 @@ const addNewPlotService = (
     return;
   } else if (
     plots?.find(
-      (plot) =>
-        plot.area === formattedData.area && plot.unit === formattedData.unit
+      plot =>
+        plot.area === formattedData.area && plot.unit === formattedData.unit,
     )
   ) {
     showAlert({
@@ -47,12 +48,13 @@ const editPlotService = (
   showAlert,
   plots,
   setShowModalSpinner,
-  hideModal
+  hideModal,
 ) => {
   const formattedData = {
     id: currentPlot.id,
     area: Number(currentPlot.area),
-    unit: currentPlot.unit.trim().toUpperCase(),
+    unit: currentPlot.unit.trim(),
+    category: currentPlot.category.trim(),
   };
 
   if (formattedData.area <= 0) {
@@ -63,8 +65,10 @@ const editPlotService = (
     return;
   } else if (
     plots?.find(
-      (plot) =>
-        plot.area === formattedData.area && plot.unit === formattedData.unit
+      plot =>
+        plot.area === formattedData.area &&
+        plot.unit === formattedData.unit &&
+        plot.id !== formattedData.id,
     )
   ) {
     showAlert({
@@ -86,7 +90,7 @@ const deletePlotService = (
   itemToDelete,
   setShowModalSpinner,
   showAlert,
-  hideModal
+  hideModal,
 ) => {
   setShowModalSpinner(true);
   deletePlotFromDB(itemToDelete.id).then(({ type, message }) => {

@@ -1,9 +1,11 @@
 import { Button, H2, Th, Td, Spinner, Dropdown, Table } from "@/components";
 import Image from "next/image";
 import { deleteIcon, editIcon, ellipsisIcon } from "@/assets";
+import { FaCheckCircle } from "react-icons/fa";
 
 const PlotsSection = ({
   plots,
+  units,
   setCurrentPlot,
   setModalMetadata,
   toggleModal,
@@ -51,7 +53,9 @@ const PlotsSection = ({
               <thead className="text-sm">
                 <tr>
                   <Th position="beginning">area</Th>
-                  <Th position="end">unit</Th>
+                  <Th>unit</Th>
+                  <Th position="end">&lt;</Th>
+                  <Th position="end">&gt;</Th>
                 </tr>
               </thead>
               <tbody className="text-xs font-semibold">
@@ -62,7 +66,17 @@ const PlotsSection = ({
                       isLastRow={index === plots.length - 1}>
                       {plot.area}
                     </Td>
-                    <Td isLastRow={index === plots.length - 1}>{plot.unit}</Td>
+                    <Td isLastRow={index === plots.length - 1}>
+                      {units?.find(unit => unit.id === plot.unit)?.name}
+                    </Td>
+                    <Td isLastRow={index === plots.length - 1} align="center">
+                      {plot.category === "BELOW_1_KANAL" && <FaCheckCircle size={14} />}
+                    </Td>
+                    <Td isLastRow={index === plots.length - 1} align="center">
+                      {plot.category === "1_KANAL_AND_ABOVE" && (
+                        <FaCheckCircle size={14} />
+                      )}
+                    </Td>
                     <Td
                       align="center"
                       position="end"

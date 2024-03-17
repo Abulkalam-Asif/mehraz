@@ -18,6 +18,7 @@ export { default as Table } from "./admin-side/Table";
 export { default as TagsInput } from "./admin-side/TagsInput";
 export { default as Tag } from "./admin-side/Tag";
 export { default as MultiFileInput } from "./admin-side/MultiFileInput";
+export { default as AdminRadio } from "./admin-side/AdminRadio";
 export { default as MultiFileDisplay } from "./admin-side/MultiFileDisplay";
 // Admin Side - AdminDashboard
 export { default as AdminDashboardGroup } from "./admin-side/dashboard/AdminDashboardGroup";

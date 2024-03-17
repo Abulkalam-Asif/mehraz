@@ -12,7 +12,7 @@ const updateOfficeInDB = async ({ id, name, address, mapsLink, image }) => {
 		const duplicateOffice = querySnapshot.docs.find((doc) => doc.id !== id);
 		if (duplicateOffice) {
 			return {
-				type: "error",
+				type: ERROR,
 				message: "Office with this name already exists.",
 			};
 		}
@@ -36,17 +36,17 @@ const updateOfficeInDB = async ({ id, name, address, mapsLink, image }) => {
 			});
 
 			revalidatePath("/admin/roles-analytics-cities", "page");
-			return { type: "success", message: "Office updated successfully!" };
+			return { type: "SUCCESS", message: "Office updated successfully!" };
 		} else {
 			return {
-				type: "error",
+				type: ERROR,
 				message: "Something went wrong, please try again later.",
 			};
 		}
 	} catch (error) {
 		console.error("Error updating the office:", error);
 		return {
-			type: "error",
+			type: ERROR,
 			message: "Something went wrong, please try again later.",
 		};
 	}

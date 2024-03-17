@@ -5,7 +5,7 @@ const fetchFreeProjects = async () => {
     const querySnapshot = await getDocs(collection(db, "FREE_PROJECTS"));
     if (!querySnapshot.empty) {
       const projects = [];
-      querySnapshot.forEach((doc) => {
+      querySnapshot.forEach(doc => {
         const documentData = doc.data();
         projects.push({
           id: doc.id,

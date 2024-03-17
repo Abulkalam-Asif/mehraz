@@ -14,7 +14,7 @@ const addOfficeToDB = async ({ name, address, mapsLink, image }) => {
 
 		if (!querySnapshot.empty) {
 			return {
-				type: "error",
+				type: ERROR,
 				message: "Office with this name already exists.",
 			};
 		}
@@ -34,13 +34,13 @@ const addOfficeToDB = async ({ name, address, mapsLink, image }) => {
 
 		revalidatePath("/admin/roles-analytics-cities", "page");
 		return {
-			type: "success",
+			type: "SUCCESS",
 			message: "Office added successfully!",
 		};
 	} catch (err) {
 		console.error("Error adding the office: " + err);
 		return {
-			type: "error",
+			type: ERROR,
 			message: "Something went wrong, please try again later.",
 		};
 	}

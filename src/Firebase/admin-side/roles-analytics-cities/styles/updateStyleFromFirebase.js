@@ -13,7 +13,7 @@ const updateStyleInDB = async ({ id, name, budget, image }) => {
     const duplicateOffice = querySnapshot.docs.find(doc => doc.id !== id);
     if (duplicateOffice) {
       return {
-        type: "error",
+        type: ERROR,
         message: "Style with this name already exists.",
       };
     }

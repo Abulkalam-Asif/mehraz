@@ -8,7 +8,7 @@ const RACSelect = ({
 }) => {
   return (
     <>
-      <div className="flex flex-col space-y-1">
+      <div className="w-full flex flex-col space-y-1">
         <label htmlFor={idHtmlFor} className="text-accent-1-dark">
           {label}
         </label>

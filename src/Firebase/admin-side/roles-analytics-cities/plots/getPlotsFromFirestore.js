@@ -13,6 +13,7 @@ const usePlotsFromDB = async () => {
             id: doc.id,
             area: doc.data().area,
             unit: doc.data().unit,
+            category: doc.data().category,
           };
           arr.push(docData);
         });

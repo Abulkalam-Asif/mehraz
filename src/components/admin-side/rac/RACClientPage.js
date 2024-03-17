@@ -68,6 +68,7 @@ const RACClientPage = ({
   officeLocations,
   plots,
   styles,
+  units,
 }) => {
   const { showAlert } = useContext(AlertContext);
   const [showModalSpinner, setShowModalSpinner] = useState(false);
@@ -237,7 +238,8 @@ const RACClientPage = ({
   const deafultPlot = {
     id: null,
     area: 0,
-    unit: "",
+    unit: units[0]?.id,
+    category: "BELOW_1_KANAL",
     usage: {
       projects: 0,
     },
@@ -399,6 +401,7 @@ const RACClientPage = ({
           />
           <PlotsSection
             plots={plots}
+            units={units}
             setCurrentPlot={setCurrentPlot}
             setModalMetadata={setModalMetadata}
             toggleModal={toggleModal}
@@ -462,6 +465,7 @@ const RACClientPage = ({
           <RACContainer className="w-full overflow-hidden">
             <PlotsSection
               plots={plots}
+              units={units}
               setCurrentPlot={setCurrentPlot}
               setModalMetadata={setModalMetadata}
               toggleModal={toggleModal}
@@ -538,6 +542,7 @@ const RACClientPage = ({
               currentPlot={currentPlot}
               currentPlotInputHandler={currentPlotInputHandler}
               modalMetadata={modalMetadata}
+              units={units}
             />
           ) : (
             modalMetadata.type === "STYLE" && (

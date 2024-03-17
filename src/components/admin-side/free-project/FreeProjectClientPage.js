@@ -12,7 +12,7 @@ const FreeProjectClientPage = ({ cities, plots }) => {
   const router = useRouter();
   const { showAlert } = useContext(AlertContext);
   const [showSpinner, setShowSpinner] = useState(false);
-  const [projectId, setProjectId] = useState("Some project id"); // UNDO: to be removed
+  const [projectId, setProjectId] = useState(null);
   // Screen 1 states and handlers
   const defaultFreeProjectS1 = {
     title: "",
