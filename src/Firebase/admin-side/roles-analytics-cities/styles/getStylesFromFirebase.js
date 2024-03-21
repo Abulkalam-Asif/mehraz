@@ -6,11 +6,11 @@ const useStylesFromDB = async () => {
   return new Promise((resolve, reject) => {
     const unsubscribe = onSnapshot(
       collection(db, "STYLES"),
-      (dataQuery) => {
+      dataQuery => {
         const arr = [];
         const promises = [];
 
-        dataQuery.forEach((doc) => {
+        dataQuery.forEach(doc => {
           const stylesData = {
             id: doc.id,
             name: doc.data().name,
@@ -21,9 +21,9 @@ const useStylesFromDB = async () => {
           const imageName = `${doc.id}`;
           const imageRef = ref(storage, `STYLES/${imageName}`);
           promises.push(
-            getDownloadURL(imageRef).then((url) => {
+            getDownloadURL(imageRef).then(url => {
               stylesData.image = url;
-            })
+            }),
           );
         });
         unsubscribe();
@@ -31,10 +31,10 @@ const useStylesFromDB = async () => {
           resolve(arr);
         });
       },
-      (error) => {
+      error => {
         unsubscribe();
         reject(error);
-      }
+      },
     );
   });
 };

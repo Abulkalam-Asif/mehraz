@@ -3,6 +3,7 @@ import {
   DeleteModal,
   MaterialCategoriesSection,
   MaterialCategoryModal,
+  MaterialsSection,
   Modal,
 } from "@/components";
 import { AlertContext } from "@/context/AlertContext";
@@ -13,8 +14,42 @@ import {
 } from "@/services/admin-side/materials/materialCategories";
 import { useContext, useEffect, useState } from "react";
 
-const MaterialsClientPage = ({ materialCategories }) => {
+const MaterialsClientPage = ({ materials, materialCategories }) => {
   const { showAlert } = useContext(AlertContext);
+  // Materials states and functions
+  const defaultMaterial = {
+    id: null,
+    name: "",
+    vendor: "",
+    rate: 0,
+    category: "",
+    description: "",
+    specs: [],
+    orderedAs: "",
+    image: null,
+    cover: null,
+    displayCover: false,
+    usage: {
+      projects: 0,
+    },
+  };
+  const [currentMaterial, setCurrentMaterial] = useState(defaultMaterial);
+  const currentMaterialInputHandler = (e, name = null, value = null) => {
+    setCurrentMaterial(prevState => ({
+      ...prevState,
+      [name || e.target.name]: value || e.target.value,
+    }));
+  };
+  const addNewMaterialHandler = e => {
+    e.preventDefault();
+  };
+  const editMaterialHandler = e => {
+    e.preventDefault();
+  };
+  const deleteMaterialHandler = e => {
+    e.preventDefault();
+  };
+
   // Material Category states and functions
   const defaultMaterialCategory = {
     id: null,
@@ -95,9 +130,12 @@ const MaterialsClientPage = ({ materialCategories }) => {
     <>
       {/* This div will be displayed for over 1024px width */}
       {/* for >1024 width, calc(100vh - (AdminHeader height + 1rem) - page header height) */}
-      <div className="max-w-8xl w-full mx-auto grid grid-rows-2 gap-4 h-[calc(100vh-6rem-6rem)] xl:h-[calc(100vh-6rem-5rem)]">
-        <div>Materials</div>
-        <div className="grid grid-cols-3">
+      <div className="max-w-8xl w-full mx-auto grid grid-rows-5 gap-4 h-[calc(100vh-6rem-6rem)] xl:h-[calc(100vh-6rem-5rem)]">
+        <MaterialsSection
+          materials={materials}
+          materialCategories={materialCategories}
+        />
+        <div className="grid grid-cols-3 row-span-2">
           <MaterialCategoriesSection
             materialCategories={materialCategories}
             setModalMetadata={setModalMetadata}
@@ -117,12 +155,24 @@ const MaterialsClientPage = ({ materialCategories }) => {
               toggleModal={toggleModal}
               itemToDelete={itemToDelete}
               deleteHandler={
-                modalMetadata.type === "MATERIAL_CATEGORIES" &&
-                deleteMaterialCategoryHandler
+                modalMetadata.type === "MATERIALS"
+                  ? deleteMaterialHandler
+                  : modalMetadata.type === "MATERIAL_CATEGORIES" &&
+                    deleteMaterialCategoryHandler
               }
             />
+          ) : modalMetadata.type === "MATERIAL_CATEGORIES" ? (
+            <MaterialCategoryModal
+              addNewMaterialCategoryHandler={addNewMaterialCategoryHandler}
+              currentMaterialCategory={currentMaterialCategory}
+              currentMaterialCategoryInputHandler={
+                currentMaterialCategoryInputHandler
+              }
+              editMaterialCategoryHandler={editMaterialCategoryHandler}
+              modalMetadata={modalMetadata}
+            />
           ) : (
-            modalMetadata.type == "MATERIAL_CATEGORIES" && (
+            modalMetadata.type === "MATERIAL_CATEGORIES" && (
               <MaterialCategoryModal
                 addNewMaterialCategoryHandler={addNewMaterialCategoryHandler}
                 currentMaterialCategory={currentMaterialCategory}

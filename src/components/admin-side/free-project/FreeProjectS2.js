@@ -10,7 +10,7 @@ import {
   DeleteModal,
   InteriorSection,
   InteriorModal,
-  MaterialsSection,
+  FreeProjectMaterialsSection,
   MaterialsModal,
   ProgramSection,
   ProgramModal,
@@ -391,7 +391,7 @@ const FreeProjectS2 = ({
               setCurrentInteriorView={setCurrentInteriorView}
               setItemToDelete={setItemToDelete}
             />
-            <MaterialsSection
+            <FreeProjectMaterialsSection
               materials={freeProjectS2.materials}
               setModalMetadata={setModalMetadata}
               toggleModal={toggleModal}
@@ -482,7 +482,7 @@ const FreeProjectS2 = ({
             />
           ) : (
             expandedSection === "materials" && (
-              <MaterialsSection
+              <FreeProjectMaterialsSection
                 materials={freeProjectS2.materials}
                 setModalMetadata={setModalMetadata}
                 toggleModal={toggleModal}
@@ -516,7 +516,7 @@ const FreeProjectS2 = ({
                   : modalMetadata.type === "MATERIALS" && deleteMaterialHandler
               }
             />
-          ) : modalMetadata.type == "PROGRAMS" ? (
+          ) : modalMetadata.type === "PROGRAMS" ? (
             <ProgramModal
               currentProgram={currentProgram}
               currentProgramInputHandler={currentProgramInputHandler}
@@ -524,7 +524,7 @@ const FreeProjectS2 = ({
               editProgramHandler={editProgramHandler}
               modalMetadata={modalMetadata}
             />
-          ) : modalMetadata.type == "EXTERIOR_VIEWS" ? (
+          ) : modalMetadata.type === "EXTERIOR_VIEWS" ? (
             <ExteriorModal
               currentExteriorView={currentExteriorView}
               currentExteriorViewInputHandler={currentExteriorViewInputHandler}
@@ -532,7 +532,7 @@ const FreeProjectS2 = ({
               editExteriorViewHandler={editExteriorViewHandler}
               modalMetadata={modalMetadata}
             />
-          ) : modalMetadata.type == "INTERIOR_VIEWS" ? (
+          ) : modalMetadata.type === "INTERIOR_VIEWS" ? (
             <InteriorModal
               currentInteriorView={currentInteriorView}
               currentInteriorViewInputHandler={currentInteriorViewInputHandler}
@@ -541,7 +541,7 @@ const FreeProjectS2 = ({
               modalMetadata={modalMetadata}
             />
           ) : (
-            modalMetadata.type == "MATERIALS" && (
+            modalMetadata.type === "MATERIALS" && (
               <MaterialsModal
                 currentMaterial={currentMaterial}
                 currentMaterialInputHandler={currentMaterialInputHandler}

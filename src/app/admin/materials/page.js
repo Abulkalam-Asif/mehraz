@@ -1,10 +1,12 @@
-import useMaterialCategoriesFromDb from "@/Firebase/admin-side/materials/material-categories/getMaterialCategoriedFromDb";
+import useMaterialCategoriesFromDb from "@/Firebase/admin-side/materials/material-categories/getMaterialCategoriesFromDb";
+import useMaterialsFromDb from "@/Firebase/admin-side/materials/materials/getMaterialsFromDb";
 import { chevronLeftIcon } from "@/assets";
 import { H1, MaterialsClientPage } from "@/components";
 import Image from "next/image";
 import Link from "next/link";
 
 const Materials = async () => {
+  const materials = await useMaterialsFromDb();
   const materialCaterogies = await useMaterialCategoriesFromDb();
 
   return (
@@ -26,7 +28,10 @@ const Materials = async () => {
             <H1 text="materials upload" className="mx-auto xl:text-2xl" />
           </div>
         </div>
-        <MaterialsClientPage materialCategories={materialCaterogies} />
+        <MaterialsClientPage
+          materials={materials}
+          materialCategories={materialCaterogies}
+        />
       </section>
     </>
   );

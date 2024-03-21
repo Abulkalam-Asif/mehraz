@@ -23,7 +23,7 @@ const CurrenciesSection = ({
 }) => {
   const { showAlert } = useContext(AlertContext);
   const addCurrencyClickHandler = () => {
-    if (citiesCount == 0) {
+    if (citiesCount === 0) {
       showAlert({
         type: "WARNING",
         message: "Please add at least one city to add a currency.",

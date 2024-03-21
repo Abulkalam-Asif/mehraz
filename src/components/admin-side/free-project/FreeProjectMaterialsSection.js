@@ -11,7 +11,7 @@ import {
 } from "@/components/";
 import { deleteIcon, editIcon, ellipsisIcon } from "@/assets";
 
-const MaterialsSection = ({
+const FreeProjectMaterialsSection = ({
   materials,
   setModalMetadata,
   toggleModal,
@@ -144,4 +144,4 @@ const MaterialsSection = ({
   );
 };
 
-export default MaterialsSection;
+export default FreeProjectMaterialsSection;

@@ -26,6 +26,7 @@ export { default as AdminDashboardDropdown } from "./admin-side/dashboard/AdminD
 export { default as AdminDashboardDropdowns } from "./admin-side/dashboard/AdminDashboardDropdowns";
 // Admin Side - Materials
 export { default as MaterialsClientPage } from "./admin-side/materials/MaterialsClientPage";
+export { default as MaterialsSection } from "./admin-side/materials/MaterialsSection";
 export { default as MaterialCategoriesSection } from "./admin-side/materials/MaterialCategoriesSection";
 export { default as MaterialCategoryModal } from "./admin-side/materials/MaterialCategoryModal";
 // Admin Side - Projects
@@ -43,7 +44,7 @@ export { default as ExteriorSection } from "./admin-side/free-project/ExteriorSe
 export { default as ExteriorModal } from "./admin-side/free-project/ExteriorModal";
 export { default as InteriorSection } from "./admin-side/free-project/InteriorSection";
 export { default as InteriorModal } from "./admin-side/free-project/InteriorModal";
-export { default as MaterialsSection } from "./admin-side/free-project/MaterialsSection";
+export { default as FreeProjectMaterialsSection } from "./admin-side/free-project/FreeProjectMaterialsSection";
 export { default as MaterialsModal } from "./admin-side/free-project/MaterialsModal";
 export { default as ProgramSection } from "./admin-side/free-project/ProgramSection";
 export { default as ProgramModal } from "./admin-side/free-project/ProgramModal";

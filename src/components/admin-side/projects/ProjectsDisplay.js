@@ -37,7 +37,7 @@ const ProjectsDisplay = ({ freeProjects, readyProjects }) => {
   return (
     <>
       {projects ? (
-        projectsCount == 0 ? (
+        projectsCount === 0 ? (
           <div className="flex items-center justify-center text-lg font-medium">
             <p className="mt-2">Not projects found!</p>
           </div>

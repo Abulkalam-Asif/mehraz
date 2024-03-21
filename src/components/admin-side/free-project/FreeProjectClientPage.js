@@ -35,7 +35,7 @@ const FreeProjectClientPage = ({ cities, plots }) => {
   };
 
   useEffect(() => {
-    if (cities?.length == 0 || plots?.length == 0) {
+    if (cities?.length === 0 || plots?.length === 0) {
       router.push("/admin/projects");
       showAlert({
         type: "ERROR",
