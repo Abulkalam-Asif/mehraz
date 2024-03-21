@@ -29,6 +29,7 @@ const linksData = {
     { text: "blogs", href: "/admin/blogs" },
     { text: "custom rates", href: "/admin/custom-rates" },
     { text: "product rates", href: "/admin/product-rates" },
+    { text: "materials", href: "/admin/materials" },
   ],
   groupChats: [
     { text: "client groups", href: "/admin/client-groups" },

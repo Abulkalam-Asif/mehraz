@@ -329,7 +329,9 @@ const FreeProjectS2 = ({
 
   return (
     <>
-      <form className="flex gap-4 w-full max-w-7xl mx-auto pr-2">
+      <form
+        className="flex gap-4 w-full max-w-7xl mx-auto pr-2"
+        onSubmit={e => e.preventDefault()}>
         {/* This div will be displayed for over 1024px width */}
         <div className="w-full grid grid-cols-2 gap-4 lg:hidden">
           <div className="overflow-hidden grid grid-rows-2 gap-4">

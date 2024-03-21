@@ -1,88 +1,73 @@
-import { Button, H2, Th, Td, Spinner, Dropdown, Table } from "@/components";
 import Image from "next/image";
+import {
+  Dropdown,
+  H2,
+  Table,
+  Td,
+  Th,
+  FreeProjectContainer,
+  Button,
+  Spinner,
+} from "@/components/";
 import { deleteIcon, editIcon, ellipsisIcon } from "@/assets";
-import { FaCheckCircle } from "react-icons/fa";
 
-const PlotsSection = ({
-  plots,
-  units,
-  setCurrentPlot,
+const MaterialCategoriesSection = ({
+  materialCategories,
   setModalMetadata,
   toggleModal,
+  setCurrentMaterial,
   setItemToDelete,
 }) => {
-  const addPlotClickHandler = () => {
+  const addMaterialCategoryClickHandler = () => {
     setModalMetadata({
-      type: "PLOT",
+      type: "MATERIAL_CATEGORIES",
       action: "ADD",
     });
     toggleModal();
   };
-  const editPlotClickHandler = e => {
+
+  const editMaterialCategoryClickHandler = e => {
     setModalMetadata({
-      type: "PLOT",
+      type: "MATERIAL_CATEGORIES",
       action: "EDIT",
     });
     toggleModal();
-    const plotId = e.currentTarget.dataset.plotId;
-    const plot = plots.find(plot => plot.id === plotId);
-    setCurrentPlot(plot);
+    const materialCategoryId = e.currentTarget.dataset.materialCategoryId;
+    const materialCategory = materialCategories.find(
+      category => category.id === materialCategoryId,
+    );
+    setCurrentMaterial(materialCategory);
   };
-
-  const deletePlotClickHandler = e => {
+  const deleteMaterialCategoryClickHandler = e => {
     setModalMetadata({
-      type: "PLOT",
+      type: "MATERIAL_CATEGORIES",
       action: "DELETE",
     });
     toggleModal();
-    const plotId = e.currentTarget.dataset.plotId;
-    const plot = plots.find(plot => plot.id === plotId);
     setItemToDelete({
-      id: plot.id,
-      name: "plot",
+      name: "material category",
+      id: e.currentTarget.dataset.materialCategoryId,
     });
   };
-
   return (
     <>
-      <div className="flex flex-col gap-y-2 lg:h-full lg:overflow-y-hidden">
-        <H2 text="plots" />
-        {plots ? (
-          plots.length > 0 ? (
-            <Table border={false} className="h-full overflow-y-auto py-2">
-              <thead className="text-sm">
-                <tr>
-                  <Th position="beginning">area</Th>
-                  <Th>unit</Th>
-                  <Th position="end">&lt;</Th>
-                  <Th position="end">&ge;</Th>
-                </tr>
-              </thead>
+      <FreeProjectContainer className="w-full flex flex-col gap-y-2">
+        <H2 text="Categories" />
+        {materialCategories ? (
+          materialCategories.length > 0 ? (
+            <Table border={false} className="h-full overflow-y-auto">
               <tbody className="text-xs font-semibold">
-                {plots?.map((plot, index) => (
+                {materialCategories?.map((category, index) => (
                   <tr key={index}>
                     <Td
                       position="beginning"
-                      isLastRow={index === plots.length - 1}>
-                      {plot.area}
-                    </Td>
-                    <Td isLastRow={index === plots.length - 1}>
-                      {units?.find(unit => unit.id === plot.unit)?.name}
-                    </Td>
-                    <Td isLastRow={index === plots.length - 1} align="center">
-                      {plot.category === "BELOW_1_KANAL" && (
-                        <FaCheckCircle size={14} />
-                      )}
-                    </Td>
-                    <Td isLastRow={index === plots.length - 1} align="center">
-                      {plot.category === "1_KANAL_AND_ABOVE" && (
-                        <FaCheckCircle size={14} />
-                      )}
+                      isLastRow={index === materialCategories.length - 1}>
+                      {category.name}
                     </Td>
                     <Td
-                      align="center"
                       position="end"
-                      isLastRow={index === plots.length - 1}>
+                      align="center"
+                      isLastRow={index === materialCategories.length - 1}>
                       <Dropdown
                         className="w-fit"
                         contentClassName={
@@ -99,9 +84,9 @@ const PlotsSection = ({
                           </>
                         }>
                         <button
-                          title="Edit plot"
-                          data-plot-id={plot.id}
-                          onClick={editPlotClickHandler}
+                          title="Edit category"
+                          data-material-category-id={category.id}
+                          onClick={editMaterialCategoryClickHandler}
                           className="hover:bg-accent-1-extra-light p-2 rounded-full">
                           <Image
                             src={editIcon}
@@ -110,9 +95,9 @@ const PlotsSection = ({
                           />
                         </button>
                         <button
-                          title="Delete plot"
-                          data-plot-id={plot.id}
-                          onClick={deletePlotClickHandler}
+                          title="Delete category"
+                          data-material-category-id={category.id}
+                          onClick={deleteMaterialCategoryClickHandler}
                           className="hover:bg-accent-1-extra-light p-2 rounded-full">
                           <Image
                             src={deleteIcon}
@@ -128,24 +113,24 @@ const PlotsSection = ({
             </Table>
           ) : (
             <div className="flex-1 font-medium flex items-center justify-center">
-              <p>No plots added yet.</p>
+              <p>No categories added yet.</p>
             </div>
           )
         ) : (
           <div className="flex-1 flex items-center justify-center">
-            <Spinner size={"sm"} text="Loading plots..." />
+            <Spinner size={"sm"} text="Loading categories..." />
           </div>
         )}
-
         <Button
-          text="add plot"
-          onClick={addPlotClickHandler}
+          text="add material category"
           className="mr-auto ml-4"
+          type="button"
           size="xs"
+          onClick={addMaterialCategoryClickHandler}
         />
-      </div>
+      </FreeProjectContainer>
     </>
   );
 };
 
-export default PlotsSection;
+export default MaterialCategoriesSection;

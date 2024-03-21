@@ -24,6 +24,10 @@ export { default as MultiFileDisplay } from "./admin-side/MultiFileDisplay";
 export { default as AdminDashboardGroup } from "./admin-side/dashboard/AdminDashboardGroup";
 export { default as AdminDashboardDropdown } from "./admin-side/dashboard/AdminDashboardDropdown";
 export { default as AdminDashboardDropdowns } from "./admin-side/dashboard/AdminDashboardDropdowns";
+// Admin Side - Materials
+export { default as MaterialsClientPage } from "./admin-side/materials/MaterialsClientPage";
+export { default as MaterialCategoriesSection } from "./admin-side/materials/MaterialCategoriesSection";
+export { default as MaterialCategoryModal } from "./admin-side/materials/MaterialCategoryModal";
 // Admin Side - Projects
 export { default as ProjectDisplayBoxMob } from "./admin-side/projects/ProjectDisplayBoxMob";
 export { default as ProjectsDisplay } from "./admin-side/projects/ProjectsDisplay";

@@ -24,7 +24,9 @@ const FreeProjectS1 = ({
 
   return (
     <>
-      <form className="w-full max-w-7xl mx-auto py-4 pr-2 space-y-6 overflow-y-auto">
+      <form
+        className="w-full max-w-7xl mx-auto py-4 pr-2 space-y-6 overflow-y-auto"
+        onSubmit={e => e.preventDefault()}>
         <div className="w-full grid grid-cols-3 gap-6 lg:grid-cols-2 sm:grid-cols-1">
           <FreeProjectInputBox
             label="title"

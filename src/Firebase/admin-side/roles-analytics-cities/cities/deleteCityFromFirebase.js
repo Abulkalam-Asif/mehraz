@@ -3,7 +3,7 @@ import { revalidatePath } from "next/cache";
 import { db } from "../../../firebase";
 import { deleteDoc, doc, getDoc } from "firebase/firestore";
 
-const deleteCityFromDB = async (id) => {
+const deleteCityFromDB = async id => {
   try {
     const cityRef = doc(db, "CITIES", id);
     const docSnapshot = await getDoc(cityRef);
@@ -21,7 +21,7 @@ const deleteCityFromDB = async (id) => {
           type: "ERROR",
           message: `This city cannot be deleted. This is being used in ${usageCases.slice(
             0,
-            -2
+            -2,
           )}.`,
         };
       } else {

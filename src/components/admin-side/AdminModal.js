@@ -11,7 +11,7 @@ const AdminModal = ({
     <>
       <div className="relative">
         <H2 text={heading} className="py-3" />
-        <form>
+        <form onSubmit={e => e.preventDefault()}>
           <div className={`border-y p-6 border-y-accent-1-dark ${className}`}>
             {children}
           </div>

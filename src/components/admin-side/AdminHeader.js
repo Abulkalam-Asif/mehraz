@@ -15,7 +15,12 @@ const AdminHeader = () => {
             />
           </Link>
           <button className="p-2">
-            <Image src={bellIcon} alt="bell" className="w-8 lg:w-7" />
+            <Image
+              src={bellIcon}
+              alt="bell"
+              className="w-8 lg:w-7"
+              priority={true}
+            />
           </button>
         </div>
       </header>
