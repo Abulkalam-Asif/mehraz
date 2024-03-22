@@ -51,7 +51,6 @@ const addNewMaterialToDb = async ({
 
     const newDocRef = doc(materialsCollectionRef, id);
     await setDoc(newDocRef, {
-      isFixed,
       name,
       vendor,
       rate,
@@ -66,16 +65,6 @@ const addNewMaterialToDb = async ({
     // Update the category usage and fixedMaterial
     const categoryDocRef = doc(collection(db, "MATERIAL_CATEGORIES"), category);
     const categoryDoc = await getDoc(categoryDocRef);
-    if (isFixed) {
-      const fixedMaterialOfCategory = categoryDoc.data().fixedMaterial;
-      if (fixedMaterialOfCategory) {
-        await updateDoc(doc(materialsCollectionRef, fixedMaterialOfCategory), {
-          isFixed: false,
-        });
-      }
-    }
-
-    // Update the category usage and fixedMaterial
     await updateDoc(categoryDocRef, {
       usage: increment(1),
       fixedMaterial: isFixed ? id : categoryDoc.data().fixedMaterial,

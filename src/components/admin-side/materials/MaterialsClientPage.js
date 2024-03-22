@@ -13,7 +13,10 @@ import {
   deleteMaterialCategoryService,
   editMaterialCategoryService,
 } from "@/services/admin-side/materials/materialCategories";
-import { addNewMaterialService } from "@/services/admin-side/materials/materials";
+import {
+  addNewMaterialService,
+  editMaterialService,
+} from "@/services/admin-side/materials/materials";
 import { useContext, useEffect, useState } from "react";
 
 const MaterialsClientPage = ({ materials, materialCategories }) => {
@@ -55,6 +58,13 @@ const MaterialsClientPage = ({ materials, materialCategories }) => {
   };
   const editMaterialHandler = e => {
     e.preventDefault();
+    editMaterialService(
+      materials,
+      currentMaterial,
+      setShowModalSpinner,
+      showAlert,
+      hideModal,
+    );
   };
   const deleteMaterialHandler = e => {
     e.preventDefault();

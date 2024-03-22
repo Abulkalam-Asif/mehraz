@@ -84,7 +84,9 @@ const MaterialsSection = ({
                       align="center"
                       position="beginning"
                       isLastRow={index === materials.length - 1}>
-                      {material.isFixed ? (
+                      {materialCategories.find(
+                        category => category.fixedMaterial === material.id,
+                      ) ? (
                         <FaCheckCircle size={14} className="text-green-500" />
                       ) : (
                         <FaMinusCircle size={14} />
