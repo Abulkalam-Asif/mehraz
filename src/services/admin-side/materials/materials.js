@@ -1,4 +1,5 @@
 import addNewMaterialToDb from "@/Firebase/admin-side/materials/materials/addNewMaterialToDb";
+import deleteMaterialFromDb from "@/Firebase/admin-side/materials/materials/deleteMaterialFromDb";
 import updateMaterialFromDb from "@/Firebase/admin-side/materials/materials/updateMaterialFromDb";
 import fileToFormData from "@/utilities/admin-panel/fileToFormData";
 
@@ -131,4 +132,18 @@ const editMaterialService = (
   }
 };
 
-export { addNewMaterialService, editMaterialService };
+const deleteMaterialService = (
+  itemToDelete,
+  setShowModalSpinner,
+  showAlert,
+  hideModal,
+) => {
+  setShowModalSpinner(true);
+  deleteMaterialFromDb(itemToDelete.id).then(({ type, message }) => {
+    showAlert({ type, message });
+    hideModal();
+    setShowModalSpinner(false);
+  });
+};
+
+export { addNewMaterialService, editMaterialService, deleteMaterialService };

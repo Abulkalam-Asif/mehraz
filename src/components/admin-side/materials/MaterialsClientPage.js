@@ -15,6 +15,7 @@ import {
 } from "@/services/admin-side/materials/materialCategories";
 import {
   addNewMaterialService,
+  deleteMaterialService,
   editMaterialService,
 } from "@/services/admin-side/materials/materials";
 import { useContext, useEffect, useState } from "react";
@@ -68,6 +69,12 @@ const MaterialsClientPage = ({ materials, materialCategories }) => {
   };
   const deleteMaterialHandler = e => {
     e.preventDefault();
+    deleteMaterialService(
+      itemToDelete,
+      setShowModalSpinner,
+      showAlert,
+      hideModal,
+    );
   };
 
   // Material Category states and functions
