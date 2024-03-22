@@ -34,7 +34,7 @@ const updateMaterialFromDb = async ({
       query(materialsCollectionRef, where("name", "==", name)),
     );
     if (!queryResult.empty) {
-      const existingMaterial = queryResult.docs[0].data();
+      const existingMaterial = queryResult.docs[0];
       if (existingMaterial.id !== id) {
         return {
           type: "ERROR",
