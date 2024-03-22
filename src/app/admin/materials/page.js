@@ -13,7 +13,7 @@ const Materials = async () => {
     <>
       {/* for 1024px+, calc(100vh - (AdminHeader height + 1rem)) */}
       {/* for 0px-1024px, calc(100vh - (AdminHeader height + 3rem)) */}
-      <section className="px-8 h-[calc(100vh-6rem)] lg:h-[calc(100vh-4rem)] overflow-y-auto">
+      <section className="px-8 h-[calc(100vh-6rem)] lg:h-[calc(100vh-4rem)] overflow-y-auto sm:px-4">
         <div className="max-w-8xl mx-auto w-full flex items-center h-24 xl:h-20 lg:h-12">
           <div className="w-full flex justify-between items-center xs:items-start">
             <Link

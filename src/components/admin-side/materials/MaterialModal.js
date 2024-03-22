@@ -73,8 +73,8 @@ const MaterialModal = ({
             ? addNewMaterialHandler
             : editMaterialHandler
         }
-        className="grid grid-cols-3 gap-4">
-        <div className="col-span-2 grid grid-cols-2 gap-4">
+        className="grid grid-cols-3 gap-4 sm:grid-cols-1">
+        <div className="col-span-2 grid grid-cols-2 gap-4 sm:gap-2 sm:col-span-1">
           <AdminInputBox
             label="Enter material name"
             value={currentMaterial.name}
