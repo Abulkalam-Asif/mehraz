@@ -90,10 +90,10 @@ const RACClientPage = ({
     },
   };
   const [currentCity, setCurrentCity] = useState(defaultCity);
-  const currentCityInputHandler = e => {
+  const currentCityInputHandler = (name, value) => {
     setCurrentCity(prevState => ({
       ...prevState,
-      [e.target.name]: e.target.value,
+      [name]: value,
     }));
   };
   const addNewCityHandler = e => {
@@ -136,10 +136,10 @@ const RACClientPage = ({
   };
   const [currentCurrency, setCurrentCurrency] = useState(defaultCurrency);
 
-  const currentCurrencyInputHandler = (e, value = null) => {
+  const currentCurrencyInputHandler = (name, value) => {
     setCurrentCurrency(prevState => ({
       ...prevState,
-      [e.target.name]: value || e.target.value,
+      [name]: value,
     }));
   };
 
@@ -193,10 +193,10 @@ const RACClientPage = ({
   const [currentOfficeLocation, setCurrentOfficeLocation] = useState(
     defaultOfficeLocation,
   );
-  const currentOfficeLocationInputHandler = e => {
+  const currentOfficeLocationInputHandler = (name, value) => {
     setCurrentOfficeLocation(prevState => ({
       ...prevState,
-      [e.target.name]: e.target.value,
+      [name]: value,
     }));
   };
 
@@ -245,10 +245,10 @@ const RACClientPage = ({
     },
   };
   const [currentPlot, setCurrentPlot] = useState(deafultPlot);
-  const currentPlotInputHandler = e => {
+  const currentPlotInputHandler = (name, value) => {
     setCurrentPlot(prevState => ({
       ...prevState,
-      [e.target.name]: e.target.value,
+      [name]: value,
     }));
   };
 
@@ -294,10 +294,10 @@ const RACClientPage = ({
   };
   const [currentStyle, setCurrentStyle] = useState(defaultStyle);
 
-  const currentStyleInputHandler = e => {
+  const currentStyleInputHandler = (name, value) => {
     setCurrentStyle(prevState => ({
       ...prevState,
-      [e.target.name]: e.target.value,
+      [name]: value,
     }));
   };
 

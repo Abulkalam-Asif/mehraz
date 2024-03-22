@@ -27,10 +27,10 @@ const FreeProjectClientPage = ({ cities, plots }) => {
   };
   const [freeProjectS1, setFreeProjectS1] = useState(defaultFreeProjectS1);
 
-  const freeProjectS1InputHandler = (e, name = null, value = null) => {
+  const freeProjectS1InputHandler = (name, value) => {
     setFreeProjectS1({
       ...freeProjectS1,
-      [name || e?.target.name]: value || e?.target.value,
+      [name]: value,
     });
   };
 
@@ -69,10 +69,10 @@ const FreeProjectClientPage = ({ cities, plots }) => {
     materials: [],
   };
   const [freeProjectS2, setFreeProjectS2] = useState(defaultFreeProjectS2);
-  const freeProjectS2InputHandler = (e, name = null, value = null) => {
+  const freeProjectS2InputHandler = (name, value) => {
     setFreeProjectS2({
       ...freeProjectS2,
-      [name || e?.target.name]: value || e?.target.value,
+      [name]: value,
     });
   };
   const addFreeProjectS2Handler = () => {

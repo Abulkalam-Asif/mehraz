@@ -13,7 +13,6 @@ const ProgramModal = ({
     const currentSubcategoriesCount = currentProgram.subCategories?.length;
     const currentQuantity = Number(currentProgram.quantity);
     currentProgramInputHandler(
-      null,
       "subCategories",
       currentSubcategoriesCount < currentQuantity
         ? [...currentProgram.subCategories].concat(
@@ -72,7 +71,6 @@ const ProgramModal = ({
                     }
                     inputHandler={e =>
                       currentProgramInputHandler(
-                        null,
                         "subCategories",
                         [...currentProgram.subCategories].map(
                           (subCategory, index) => {
@@ -92,7 +90,6 @@ const ProgramModal = ({
                     value={currentProgram.subCategories[subCategoryIndex]?.size}
                     inputHandler={e =>
                       currentProgramInputHandler(
-                        null,
                         "subCategories",
                         [...currentProgram.subCategories].map(
                           (subCategory, index) => {

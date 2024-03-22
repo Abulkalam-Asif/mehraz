@@ -1,4 +1,4 @@
-import { AdminInputBox, AdminModal, AdminRadio, RACSelect } from "@/components";
+import { AdminInputBox, AdminModal, AdminRadio, AdminSelect } from "@/components";
 
 const PlotModal = ({
   currentPlot,
@@ -40,7 +40,7 @@ const PlotModal = ({
         </div>
         <div className="w-full">
           {units?.length > 0 ? (
-            <RACSelect
+            <AdminSelect
               idHtmlFor="unit"
               name="unit"
               label="Select unit"

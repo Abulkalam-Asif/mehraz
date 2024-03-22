@@ -1,10 +1,10 @@
-const RACSelect = ({
+const AdminSelect = ({
   label = "",
   idHtmlFor = "",
   name = "",
   value = "",
   options = [],
-  inputHandler = null,
+  inputHandler = () => {},
 }) => {
   return (
     <>
@@ -16,7 +16,9 @@ const RACSelect = ({
           name={name}
           id={idHtmlFor}
           value={value}
-          onChange={inputHandler}
+          onChange={e => {
+            inputHandler(e.target.name, e.target.value);
+          }}
           className="border-2 text-base border-accent-1-base rounded-md px-4 py-1">
           {options.map((option, index) => (
             <option key={index} value={option.value}>
@@ -29,4 +31,4 @@ const RACSelect = ({
   );
 };
 
-export default RACSelect;
+export default AdminSelect;

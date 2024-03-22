@@ -15,7 +15,7 @@ const MaterialCategoriesSection = ({
   materialCategories,
   setModalMetadata,
   toggleModal,
-  setCurrentMaterial,
+  setCurrentMaterialCategory,
   setItemToDelete,
 }) => {
   const addMaterialCategoryClickHandler = () => {
@@ -36,7 +36,7 @@ const MaterialCategoriesSection = ({
     const materialCategory = materialCategories.find(
       category => category.id === materialCategoryId,
     );
-    setCurrentMaterial(materialCategory);
+    setCurrentMaterialCategory(materialCategory);
   };
   const deleteMaterialCategoryClickHandler = e => {
     setModalMetadata({

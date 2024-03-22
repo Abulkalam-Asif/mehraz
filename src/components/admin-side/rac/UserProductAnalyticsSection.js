@@ -1,4 +1,4 @@
-import RACContainer from "./RACContainer";
+import { RACContainer } from "@/components";
 
 const UserProductAnalyticsSection = () => {
   return (

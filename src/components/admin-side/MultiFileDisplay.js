@@ -9,7 +9,7 @@ const MultiFileDisplay = ({
 }) => {
   const removeHandler = index => {
     const newFilesArray = filesArray.filter((_, i) => i !== index);
-    removeFileHandler(null, "images", newFilesArray);
+    removeFileHandler("images", newFilesArray);
   };
 
   return (

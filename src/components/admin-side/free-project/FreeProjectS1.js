@@ -10,7 +10,7 @@ import {
 
 const FreeProjectS1 = ({
   freeProjectS1,
-  freeProjectS1InputHandler,
+  freeProjectS1InputHandler = () => {},
   cities,
   plots,
   addFreeProjectS1Handler,

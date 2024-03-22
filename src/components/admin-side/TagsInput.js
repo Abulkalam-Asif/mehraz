@@ -1,6 +1,6 @@
 import { AlertContext } from "@/context/AlertContext";
 import { useContext } from "react";
-import Tag from "./Tag";
+import { Tag } from "@/components";
 
 const TagsInput = ({
   label = "",
@@ -11,12 +11,12 @@ const TagsInput = ({
 }) => {
   const { showAlert } = useContext(AlertContext);
 
-  const removeTagHandler = (value) => {
-    const updatedTagsArr = tagsArr.filter((tag) => tag !== value);
-    inputHandler(null, name, updatedTagsArr);
+  const removeTagHandler = value => {
+    const updatedTagsArr = tagsArr.filter(tag => tag !== value);
+    inputHandler(name, updatedTagsArr);
   };
 
-  const addTagHandler = (e) => {
+  const addTagHandler = e => {
     if (e.key === "Enter") {
       if (e.target.value.trim() === "") {
         showAlert({ type: "ERROR", message: "Please enter a keyword!" });
@@ -26,7 +26,7 @@ const TagsInput = ({
         return;
       }
       const updatedTagsArr = [...tagsArr, e.target.value.trim().toUpperCase()];
-      inputHandler(null, name, updatedTagsArr);
+      inputHandler(name, updatedTagsArr);
       e.target.value = "";
     }
   };

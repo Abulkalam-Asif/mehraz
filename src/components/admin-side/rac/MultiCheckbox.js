@@ -17,17 +17,17 @@ const MultiCheckbox = ({
                 id={id}
                 name={inputName}
                 checked={isChecked}
-                onChange={(e) => {
+                onChange={e => {
                   const { checked } = e.target;
                   let updatedCheckedBoxes;
                   if (checked) {
                     updatedCheckedBoxes = [...checkedBoxes, id];
                   } else {
                     updatedCheckedBoxes = checkedBoxes.filter(
-                      (checkedItem) => checkedItem !== id
+                      checkedItem => checkedItem !== id,
                     );
                   }
-                  onChange(e, updatedCheckedBoxes);
+                  onChange(e.target.name, updatedCheckedBoxes);
                 }}
               />
               <label htmlFor={id}>{name}</label>

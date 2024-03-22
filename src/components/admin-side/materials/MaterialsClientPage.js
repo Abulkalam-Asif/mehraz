@@ -3,6 +3,7 @@ import {
   DeleteModal,
   MaterialCategoriesSection,
   MaterialCategoryModal,
+  MaterialModal,
   MaterialsSection,
   Modal,
 } from "@/components";
@@ -12,6 +13,7 @@ import {
   deleteMaterialCategoryService,
   editMaterialCategoryService,
 } from "@/services/admin-side/materials/materialCategories";
+import { addNewMaterialService } from "@/services/admin-side/materials/materials";
 import { useContext, useEffect, useState } from "react";
 
 const MaterialsClientPage = ({ materials, materialCategories }) => {
@@ -19,12 +21,13 @@ const MaterialsClientPage = ({ materials, materialCategories }) => {
   // Materials states and functions
   const defaultMaterial = {
     id: null,
+    isFixed: false,
     name: "",
     vendor: "",
     rate: 0,
-    category: "",
+    category: materialCategories[0]?.id || "",
     description: "",
-    specs: [],
+    specs: ["", "", ""],
     orderedAs: "",
     image: null,
     cover: null,
@@ -34,14 +37,21 @@ const MaterialsClientPage = ({ materials, materialCategories }) => {
     },
   };
   const [currentMaterial, setCurrentMaterial] = useState(defaultMaterial);
-  const currentMaterialInputHandler = (e, name = null, value = null) => {
+  const currentMaterialInputHandler = (name, value) => {
     setCurrentMaterial(prevState => ({
       ...prevState,
-      [name || e.target.name]: value || e.target.value,
+      [name]: value,
     }));
   };
   const addNewMaterialHandler = e => {
     e.preventDefault();
+    addNewMaterialService(
+      materials,
+      currentMaterial,
+      setShowModalSpinner,
+      showAlert,
+      hideModal,
+    );
   };
   const editMaterialHandler = e => {
     e.preventDefault();
@@ -60,14 +70,10 @@ const MaterialsClientPage = ({ materials, materialCategories }) => {
   const [currentMaterialCategory, setCurrentMaterialCategory] = useState(
     defaultMaterialCategory,
   );
-  const currentMaterialCategoryInputHandler = (
-    e,
-    name = null,
-    value = null,
-  ) => {
+  const currentMaterialCategoryInputHandler = (name, value) => {
     setCurrentMaterialCategory(prevState => ({
       ...prevState,
-      [name || e.target.name]: value || e.target.value,
+      [name]: value,
     }));
   };
   const addNewMaterialCategoryHandler = e => {
@@ -123,6 +129,7 @@ const MaterialsClientPage = ({ materials, materialCategories }) => {
         type: null,
         action: null,
       });
+      setCurrentMaterial(defaultMaterial);
       setCurrentMaterialCategory(defaultMaterialCategory);
     }
   }, [isModalOpen]);
@@ -134,19 +141,26 @@ const MaterialsClientPage = ({ materials, materialCategories }) => {
         <MaterialsSection
           materials={materials}
           materialCategories={materialCategories}
+          setModalMetadata={setModalMetadata}
+          toggleModal={toggleModal}
+          setCurrentMaterial={setCurrentMaterial}
+          setItemToDelete={setItemToDelete}
         />
         <div className="grid grid-cols-3 row-span-2">
           <MaterialCategoriesSection
             materialCategories={materialCategories}
             setModalMetadata={setModalMetadata}
             toggleModal={toggleModal}
-            setCurrentMaterial={setCurrentMaterialCategory}
+            setCurrentMaterialCategory={setCurrentMaterialCategory}
             setItemToDelete={setItemToDelete}
           />
         </div>
       </div>
       {isModalOpen && (
         <Modal
+          maxWidth={
+            modalMetadata.type === "MATERIALS" ? "max-w-2xl" : "max-w-lg"
+          }
           toggleModal={toggleModal}
           isModalOpen={isModalOpen}
           showModalSpinner={showModalSpinner}>
@@ -161,14 +175,13 @@ const MaterialsClientPage = ({ materials, materialCategories }) => {
                     deleteMaterialCategoryHandler
               }
             />
-          ) : modalMetadata.type === "MATERIAL_CATEGORIES" ? (
-            <MaterialCategoryModal
-              addNewMaterialCategoryHandler={addNewMaterialCategoryHandler}
-              currentMaterialCategory={currentMaterialCategory}
-              currentMaterialCategoryInputHandler={
-                currentMaterialCategoryInputHandler
-              }
-              editMaterialCategoryHandler={editMaterialCategoryHandler}
+          ) : modalMetadata.type === "MATERIALS" ? (
+            <MaterialModal
+              addNewMaterialHandler={addNewMaterialHandler}
+              materialCategories={materialCategories}
+              currentMaterial={currentMaterial}
+              currentMaterialInputHandler={currentMaterialInputHandler}
+              editMaterialHandler={editMaterialHandler}
               modalMetadata={modalMetadata}
             />
           ) : (

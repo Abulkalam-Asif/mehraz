@@ -48,10 +48,10 @@ const FreeProjectS2 = ({
     subCategories: [],
   };
   const [currentProgram, setCurrentProgram] = useState(defaultProgram);
-  const currentProgramInputHandler = (e, name = null, value = null) => {
+  const currentProgramInputHandler = (name, value) => {
     setCurrentProgram({
       ...currentProgram,
-      [name || e.target.name]: value || e.target.value,
+      [name]: value,
     });
   };
   const addNewProgramHandler = e => {
@@ -59,7 +59,7 @@ const FreeProjectS2 = ({
     // Adding new program to the state
     const programToAdd = addEditProgramService(currentProgram, showAlert);
     if (programToAdd) {
-      freeProjectS2InputHandler(null, "programs", [
+      freeProjectS2InputHandler("programs", [
         ...freeProjectS2.programs,
         { ...programToAdd, id: ulid() },
       ]);
@@ -75,7 +75,7 @@ const FreeProjectS2 = ({
     // Editing exterior view in the state
     const programToEdit = addEditProgramService(currentProgram, showAlert);
     if (programToEdit) {
-      freeProjectS2InputHandler(null, "programs", [
+      freeProjectS2InputHandler("programs", [
         programToEdit,
         ...freeProjectS2.programs.filter(
           program => program.id !== programToEdit.id,
@@ -89,7 +89,7 @@ const FreeProjectS2 = ({
     }
   };
   const deleteProgramHandler = () => {
-    freeProjectS2InputHandler(null, "programs", [
+    freeProjectS2InputHandler("programs", [
       ...freeProjectS2.programs.filter(
         program => program.id !== itemToDelete.id,
       ),
@@ -110,10 +110,10 @@ const FreeProjectS2 = ({
   };
   const [currentExteriorView, setCurrentExteriorView] =
     useState(defaultExteriorView);
-  const currentExteriorViewInputHandler = (e, name = null, value = null) => {
+  const currentExteriorViewInputHandler = (name, value) => {
     setCurrentExteriorView({
       ...currentExteriorView,
-      [name || e.target.name]: value || e.target.value,
+      [name]: value,
     });
   };
   const addNewExteriorViewHandler = e => {
@@ -124,7 +124,7 @@ const FreeProjectS2 = ({
       showAlert,
     );
     if (exteriorViewToAdd) {
-      freeProjectS2InputHandler(null, "exteriorViews", [
+      freeProjectS2InputHandler("exteriorViews", [
         ...freeProjectS2.exteriorViews,
         { ...exteriorViewToAdd, id: ulid() },
       ]);
@@ -143,7 +143,7 @@ const FreeProjectS2 = ({
       showAlert,
     );
     if (exteriorViewToEdit) {
-      freeProjectS2InputHandler(null, "exteriorViews", [
+      freeProjectS2InputHandler("exteriorViews", [
         exteriorViewToEdit,
         ...freeProjectS2.exteriorViews.filter(
           view => view.id !== exteriorViewToEdit.id,
@@ -157,7 +157,7 @@ const FreeProjectS2 = ({
     }
   };
   const deleteExteriorViewHandler = () => {
-    freeProjectS2InputHandler(null, "exteriorViews", [
+    freeProjectS2InputHandler("exteriorViews", [
       ...freeProjectS2.exteriorViews.filter(
         view => view.id !== itemToDelete.id,
       ),
@@ -178,10 +178,10 @@ const FreeProjectS2 = ({
   };
   const [currentInteriorView, setCurrentInteriorView] =
     useState(defaultInteriorView);
-  const currentInteriorViewInputHandler = (e, name = null, value = null) => {
+  const currentInteriorViewInputHandler = (name, value) => {
     setCurrentInteriorView({
       ...currentInteriorView,
-      [name || e.target.name]: value || e.target.value,
+      [name]: value,
     });
   };
   const addNewInteriorViewHandler = e => {
@@ -192,7 +192,7 @@ const FreeProjectS2 = ({
       showAlert,
     );
     if (interiorViewToAdd) {
-      freeProjectS2InputHandler(null, "interiorViews", [
+      freeProjectS2InputHandler("interiorViews", [
         ...freeProjectS2.interiorViews,
         { ...interiorViewToAdd, id: ulid() },
       ]);
@@ -211,7 +211,7 @@ const FreeProjectS2 = ({
       showAlert,
     );
     if (interiorViewToEdit) {
-      freeProjectS2InputHandler(null, "interiorViews", [
+      freeProjectS2InputHandler("interiorViews", [
         interiorViewToEdit,
         ...freeProjectS2.interiorViews.filter(
           view => view.id !== interiorViewToEdit.id,
@@ -225,7 +225,7 @@ const FreeProjectS2 = ({
     }
   };
   const deleteInteriorViewHandler = () => {
-    freeProjectS2InputHandler(null, "interiorViews", [
+    freeProjectS2InputHandler("interiorViews", [
       ...freeProjectS2.interiorViews.filter(
         view => view.id !== itemToDelete.id,
       ),
@@ -246,10 +246,10 @@ const FreeProjectS2 = ({
     image: null,
   };
   const [currentMaterial, setCurrentMaterial] = useState(defaultMaterial);
-  const currentMaterialInputHandler = (e, name = null, value = null) => {
+  const currentMaterialInputHandler = (name, value) => {
     setCurrentMaterial({
       ...currentMaterial,
-      [name || e.target.name]: value || e.target.value,
+      [name]: value,
     });
   };
   const addNewMaterialHandler = e => {
@@ -257,7 +257,7 @@ const FreeProjectS2 = ({
     // Adding new material to the state
     const materialToAdd = addEditMaterialService(currentMaterial, showAlert);
     if (materialToAdd) {
-      freeProjectS2InputHandler(null, "materials", [
+      freeProjectS2InputHandler("materials", [
         ...freeProjectS2.materials,
         { ...materialToAdd, id: ulid() },
       ]);
@@ -273,7 +273,7 @@ const FreeProjectS2 = ({
     // Editing material in the state
     const materialToEdit = addEditMaterialService(currentMaterial, showAlert);
     if (materialToEdit) {
-      freeProjectS2InputHandler(null, "materials", [
+      freeProjectS2InputHandler("materials", [
         materialToEdit,
         ...freeProjectS2.materials.filter(
           material => material.id !== materialToEdit.id,
@@ -287,7 +287,7 @@ const FreeProjectS2 = ({
     }
   };
   const deleteMaterialHandler = () => {
-    freeProjectS2InputHandler(null, "materials", [
+    freeProjectS2InputHandler("materials", [
       ...freeProjectS2.materials.filter(
         material => material.id !== itemToDelete.id,
       ),

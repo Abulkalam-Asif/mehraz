@@ -1,7 +1,6 @@
 import Image from "next/image";
 import {
   Dropdown,
-  H2,
   Table,
   Td,
   Th,
@@ -11,6 +10,8 @@ import {
 } from "@/components/";
 import { deleteIcon, editIcon, ellipsisIcon } from "@/assets";
 import { FaCheckCircle, FaMinusCircle } from "react-icons/fa";
+import { useContext } from "react";
+import { AlertContext } from "@/context/AlertContext";
 
 const MaterialsSection = ({
   materials,
@@ -20,7 +21,15 @@ const MaterialsSection = ({
   setCurrentMaterial,
   setItemToDelete,
 }) => {
+  const { showAlert } = useContext(AlertContext);
   const addMaterialClickHandler = () => {
+    if (materialCategories.length === 0) {
+      showAlert({
+        type: "ERROR",
+        message: "Please add a material category first.",
+      });
+      return;
+    }
     setModalMetadata({
       type: "MATERIALS",
       action: "ADD",
@@ -52,7 +61,6 @@ const MaterialsSection = ({
   return (
     <>
       <FreeProjectContainer className="w-full row-span-3 flex flex-col gap-y-2">
-        <H2 text="Categories" />
         {materials ? (
           materials.length > 0 ? (
             <Table border={false} className="h-full overflow-y-auto">
@@ -76,9 +84,7 @@ const MaterialsSection = ({
                       align="center"
                       position="beginning"
                       isLastRow={index === materials.length - 1}>
-                      {materialCategories.find(
-                        category => category.fixedMaterial === material.id,
-                      ) ? (
+                      {material.isFixed ? (
                         <FaCheckCircle size={14} className="text-green-500" />
                       ) : (
                         <FaMinusCircle size={14} />

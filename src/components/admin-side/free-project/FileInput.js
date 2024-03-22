@@ -10,7 +10,8 @@ const FileInput = ({
   className = "",
   typeStartsWith,
   wrongFileTypeWarning = "",
-  inputHandler,
+  inputHandler = () => {},
+  classNameOuter = "",
 }) => {
   const { showAlert } = useContext(AlertContext);
 
@@ -33,12 +34,12 @@ const FileInput = ({
   };
 
   const imageStateSetter = currentfile => {
-    inputHandler(null, name, currentfile);
+    inputHandler(name, currentfile);
   };
 
   return (
     <>
-      <div className="flex">
+      <div className={`flex ${classNameOuter}`}>
         <input
           id={htmlFor}
           type="file"

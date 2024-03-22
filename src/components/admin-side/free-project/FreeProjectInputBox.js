@@ -4,7 +4,7 @@ const FreeProjectInputBox = ({
   name = "",
   value = "",
   type = "text",
-  inputHandler = null,
+  inputHandler = () => {},
   className = "",
 }) => {
   return (
@@ -22,17 +22,21 @@ const FreeProjectInputBox = ({
             id={idHtmlFor}
             name={name}
             value={value}
-            onChange={inputHandler}
+            onChange={e => {
+              inputHandler(name, e.target.value);
+            }}
             autoComplete="off"
           />
-        )}{" "}
+        )}
         {type === "textarea" && (
           <textarea
             className="flex-1 border-2 text-base border-accent-1-base rounded-md px-4 py-1"
             id={idHtmlFor}
             name={name}
             value={value}
-            onChange={inputHandler}
+            onChange={e => {
+              inputHandler(name, e.target.value);
+            }}
             autoComplete="off"
           />
         )}

@@ -3,7 +3,7 @@ import {
   AdminInputBox,
   AdminModal,
   RACImageInput,
-  RACSelect,
+  AdminSelect,
 } from "@/components";
 import checkIfValidUrl from "@/utilities/admin-panel/roles-analytics-cities/checkIfValidUrl";
 import Image from "next/image";
@@ -45,7 +45,7 @@ const StyleModal = ({
             idHtmlFor="name"
             name="name"
           />
-          <RACSelect
+          <AdminSelect
             label="Select budget"
             value={currentStyle.budget}
             name="budget"

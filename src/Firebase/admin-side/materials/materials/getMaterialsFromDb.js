@@ -14,6 +14,7 @@ const useMaterialsFromDb = async () => {
         dataQuery.forEach(doc => {
           const material = {
             id: doc.id,
+            isFixed: doc.data().isFixed,
             name: doc.data().name,
             vendor: doc.data().vendor,
             rate: doc.data().rate,

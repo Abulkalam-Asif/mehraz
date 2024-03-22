@@ -8,6 +8,7 @@ const Modal = ({
   children,
   className = "",
   showModalSpinner = false,
+  maxWidth = "max-w-lg",
 }) => {
   return (
     <>
@@ -19,7 +20,7 @@ const Modal = ({
             : "hidden"
         }`}></div>
       <div
-        className={`fixed z-[3] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-lg bg-white rounded-xl
+        className={`fixed z-[3] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full ${maxWidth} bg-white rounded-xl
          ${className}`}>
         <button
           onClick={toggleModal}

@@ -3,7 +3,7 @@ const AdminRadio = ({
   name = "",
   label = "",
   adminRadioValue = null,
-  inputHandler,
+  inputHandler = () => {},
 }) => {
   return (
     <>
@@ -17,7 +17,9 @@ const AdminRadio = ({
               value={value}
               name={name}
               checked={adminRadioValue === value}
-              onChange={inputHandler}
+              onChange={e => {
+                inputHandler(e.target.name, e.target.value);
+              }}
             />
             <label htmlFor={value} className="text-sm">
               {label}

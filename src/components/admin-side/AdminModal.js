@@ -12,7 +12,8 @@ const AdminModal = ({
       <div className="relative">
         <H2 text={heading} className="py-3" />
         <form onSubmit={e => e.preventDefault()}>
-          <div className={`border-y p-6 border-y-accent-1-dark ${className}`}>
+          <div
+            className={`border-y p-6 border-y-accent-1-dark ${className} max-h-[80vh] overflow-y-auto`}>
             {children}
           </div>
           <div className="p-3 flex justify-end">
