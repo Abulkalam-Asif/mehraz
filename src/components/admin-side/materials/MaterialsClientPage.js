@@ -6,6 +6,7 @@ import {
   MaterialModal,
   MaterialsSection,
   Modal,
+  RACButtonMobile,
 } from "@/components";
 import { AlertContext } from "@/context/AlertContext";
 import {
@@ -19,6 +20,11 @@ import {
   editMaterialService,
 } from "@/services/admin-side/materials/materials";
 import { useContext, useEffect, useState } from "react";
+
+const mobileButtonsData = [
+  { text: "materials", name: "materials" },
+  { text: "categories", name: "categories" },
+];
 
 const MaterialsClientPage = ({ materials, materialCategories }) => {
   const { showAlert } = useContext(AlertContext);
@@ -150,11 +156,14 @@ const MaterialsClientPage = ({ materials, materialCategories }) => {
       setCurrentMaterialCategory(defaultMaterialCategory);
     }
   }, [isModalOpen]);
+
+  // Expandable Section Button (for mobile) states and functions
+  const [expandedSection, setExpandedSection] = useState(null);
   return (
     <>
       {/* This div will be displayed for over 1024px width */}
       {/* for >1024 width, calc(100vh - (AdminHeader height + 1rem) - page header height) */}
-      <div className="max-w-8xl w-full mx-auto grid grid-rows-5 gap-4 h-[calc(100vh-6rem-6rem)] xl:h-[calc(100vh-6rem-5rem)]">
+      <div className="max-w-8xl w-full mx-auto grid grid-rows-5 gap-4 h-[calc(100vh-6rem-6rem)] xl:h-[calc(100vh-6rem-5rem)] lg:hidden">
         <MaterialsSection
           materials={materials}
           materialCategories={materialCategories}
@@ -172,6 +181,41 @@ const MaterialsClientPage = ({ materials, materialCategories }) => {
             setItemToDelete={setItemToDelete}
           />
         </div>
+      </div>
+      {/* for 0-1024 width, calc(100vh - (AdminHeader height + 3rem) - page header height) */}
+      {/* This div will be displayed for up to 1024px width */}
+      <div className="hidden lg:h-[calc(100vh-7rem-3rem)] lg:flex flex-col items-center justify-start gap-y-3 w-full mx-auto pt-4 sm:pt-2">
+        <div className="flex flex-wrap justify-center gap-2">
+          {mobileButtonsData?.map((buttonData, index) => (
+            <RACButtonMobile
+              key={index}
+              text={buttonData.text}
+              name={buttonData.name}
+              expandedSection={expandedSection}
+              setExpandedSection={setExpandedSection}
+            />
+          ))}
+        </div>
+        {expandedSection === "materials" ? (
+          <MaterialsSection
+            materials={materials}
+            materialCategories={materialCategories}
+            setModalMetadata={setModalMetadata}
+            toggleModal={toggleModal}
+            setCurrentMaterial={setCurrentMaterial}
+            setItemToDelete={setItemToDelete}
+          />
+        ) : (
+          expandedSection === "categories" && (
+            <MaterialCategoriesSection
+              materialCategories={materialCategories}
+              setModalMetadata={setModalMetadata}
+              toggleModal={toggleModal}
+              setCurrentMaterialCategory={setCurrentMaterialCategory}
+              setItemToDelete={setItemToDelete}
+            />
+          )
+        )}
       </div>
       {isModalOpen && (
         <Modal
