@@ -31,10 +31,9 @@ const addNewMaterialToDb = async ({
 }) => {
   try {
     const materialsCollectionRef = collection(db, "MATERIALS");
-    const queryResult = await getDocs(query(
-      materialsCollectionRef,
-      where("name", "==", name),
-    ));
+    const queryResult = await getDocs(
+      query(materialsCollectionRef, where("name", "==", name)),
+    );
     if (!queryResult.empty) {
       return {
         type: "ERROR",
@@ -64,9 +63,10 @@ const addNewMaterialToDb = async ({
       usage,
     });
 
+    // Update the category usage and fixedMaterial
+    const categoryDocRef = doc(collection(db, "MATERIAL_CATEGORIES"), category);
+    const categoryDoc = await getDoc(categoryDocRef);
     if (isFixed) {
-      const categoryDocRef = doc(collection(db, "MATERIAL_CATEGORIES"), category);
-      const categoryDoc = await getDoc(categoryDocRef);
       const fixedMaterialOfCategory = categoryDoc.data().fixedMaterial;
       if (fixedMaterialOfCategory) {
         await updateDoc(doc(materialsCollectionRef, fixedMaterialOfCategory), {
