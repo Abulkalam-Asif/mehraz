@@ -20,6 +20,7 @@ const useMaterialsFromDb = async () => {
             rate: doc.data().rate,
             category: doc.data().category,
             description: doc.data().description,
+            displayCover: doc.data().displayCover,
             specs: doc.data().specs,
             orderedAs: doc.data().orderedAs,
           };

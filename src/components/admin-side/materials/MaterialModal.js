@@ -25,23 +25,37 @@ const MaterialModal = ({
 
   useEffect(() => {
     if (currentMaterial?.image) {
-      const imageUrl = URL.createObjectURL(currentMaterial.image);
-      setPreviewSrc(prevState => ({
-        ...prevState,
-        image: imageUrl,
-      }));
-      return () => URL.revokeObjectURL(imageUrl);
+      if (currentMaterial?.image instanceof File) {
+        const imageUrl = URL.createObjectURL(currentMaterial.image);
+        setPreviewSrc(prevState => ({
+          ...prevState,
+          image: imageUrl,
+        }));
+        return () => URL.revokeObjectURL(imageUrl);
+      } else {
+        setPreviewSrc(prevState => ({
+          ...prevState,
+          image: currentMaterial.image,
+        }));
+      }
     }
   }, [currentMaterial?.image]);
 
   useEffect(() => {
     if (currentMaterial?.cover) {
-      const coverUrl = URL.createObjectURL(currentMaterial.cover);
-      setPreviewSrc(prevState => ({
-        ...prevState,
-        cover: coverUrl,
-      }));
-      return () => URL.revokeObjectURL(coverUrl);
+      if (currentMaterial?.cover instanceof File) {
+        const coverUrl = URL.createObjectURL(currentMaterial.cover);
+        setPreviewSrc(prevState => ({
+          ...prevState,
+          cover: coverUrl,
+        }));
+        return () => URL.revokeObjectURL(coverUrl);
+      } else {
+        setPreviewSrc(prevState => ({
+          ...prevState,
+          cover: currentMaterial.cover,
+        }));
+      }
     }
   }, [currentMaterial?.cover]);
 
@@ -121,14 +135,14 @@ const MaterialModal = ({
               label="Is material fixed?"
               idHtmlFor="isFixed"
               name="isFixed"
-              value={currentMaterial.isFixed}
+              checked={currentMaterial.isFixed}
               inputHandler={currentMaterialInputHandler}
             />
             <AdminCheckbox
               label="Display cover?"
               idHtmlFor="displayCover"
               name="displayCover"
-              value={currentMaterial.displayCover}
+              checked={currentMaterial.displayCover}
               inputHandler={currentMaterialInputHandler}
             />
           </div>

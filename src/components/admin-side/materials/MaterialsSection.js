@@ -113,9 +113,11 @@ const MaterialsSection = ({
                     </Td>
                     <Td isLastRow={index === materials.length - 1}>
                       <ul className="list-disc list-inside">
-                        {material.specs?.map((spec, index) => (
-                          <li key={index}>{spec}</li>
-                        ))}
+                        {material.specs
+                          ?.filter(spec => spec !== "")
+                          ?.map((spec, index) => (
+                            <li key={index}>{spec}</li>
+                          ))}
                       </ul>
                     </Td>
                     <Td isLastRow={index === materials.length - 1}>

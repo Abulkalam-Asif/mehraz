@@ -2,7 +2,7 @@ const AdminInputBox = ({
   label = "",
   idHtmlFor = "",
   name = "",
-  value = "",
+  checked = false,
   inputHandler = () => {},
 }) => {
   const onChangeHandler = e => {
@@ -16,7 +16,7 @@ const AdminInputBox = ({
           type={"checkbox"}
           id={idHtmlFor}
           name={name}
-          value={value}
+          checked={checked}
           onChange={onChangeHandler}
         />
         <label htmlFor={idHtmlFor} className="text-accent-1-dark">

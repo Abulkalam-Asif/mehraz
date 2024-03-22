@@ -8,6 +8,7 @@ const addNewMaterialService = (
   showAlert,
   hideModal,
 ) => {
+  const trimmedSpecs = currentMaterial.specs.map(spec => spec.trim());
   const formattedData = {
     isFixed: currentMaterial.isFixed,
     name: currentMaterial.name.trim().toUpperCase(),
@@ -15,7 +16,9 @@ const addNewMaterialService = (
     rate: Number(currentMaterial.rate),
     category: currentMaterial.category.trim(),
     description: currentMaterial.description.trim(),
-    specs: currentMaterial.specs.filter(spec => spec.trim() !== ""),
+    specs: trimmedSpecs
+      .filter(spec => spec !== "")
+      .concat(trimmedSpecs.filter(spec => spec === "")),
     orderedAs: currentMaterial.orderedAs.trim().toUpperCase(),
     image: currentMaterial.image,
     cover: currentMaterial.cover,
@@ -24,6 +27,7 @@ const addNewMaterialService = (
       projects: Number(currentMaterial.usage.projects),
     },
   };
+
   if (formattedData.name === "") {
     showAlert({ type: "WARNING", message: "Material name is required." });
   } else if (materials.some(material => material.name === formattedData.name)) {
