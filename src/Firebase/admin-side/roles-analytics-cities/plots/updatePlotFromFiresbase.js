@@ -1,47 +1,38 @@
 "use server";
 import { revalidatePath } from "next/cache";
 import { db } from "../../../firebase";
-import {
-  doc,
-  updateDoc,
-  getDocs,
-  query,
-  where,
-  collection,
-} from "firebase/firestore";
+import { doc, updateDoc, getDoc, increment } from "firebase/firestore";
 
 const updatePlotInDB = async ({ id, area, unit, category }) => {
   try {
-    const querySnapshot = await getDocs(
-      query(
-        collection(db, "PLOTS"),
-        where("area", "==", area),
-        where("unit", "==", unit),
-      ),
-    );
-    if (querySnapshot.docs.length !== 0) {
-      const duplicatePlot = querySnapshot.docs.find(doc => doc.id !== id);
-      if (duplicatePlot) {
-        return {
-          type: ERROR,
-          message: "Plot with this area and unit already exists.",
-        };
-      }
+    const plotRef = doc(db, "PLOTS", id);
+    const plotDoc = await getDoc(plotRef);
+    const previousUnit = plotDoc.data().unit;
+
+    if (unit !== previousUnit) {
+      const unitRef = doc(db, "UNITS", previousUnit);
+      await updateDoc(unitRef, {
+        [`usage.plots`]: increment(-1),
+      });
+
+      const newUnitRef = doc(db, "UNITS", unit);
+      await updateDoc(newUnitRef, {
+        [`usage.plots`]: increment(1),
+      });
     }
 
-    const cityRef = doc(db, "PLOTS", id);
-
-    await updateDoc(cityRef, {
+    await updateDoc(plotRef, {
       area: area,
       unit: unit,
       category: category,
     });
+
     revalidatePath("/admin/roles-analytics-cities", "page");
     return { type: "SUCCESS", message: "Plot updated successfully!" };
   } catch (error) {
     console.error("Error updating the plot:", error);
     return {
-      type: ERROR,
+      type: "ERROR",
       message: "Something went wrong, please try again later.",
     };
   }

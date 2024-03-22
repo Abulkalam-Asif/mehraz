@@ -1,7 +1,7 @@
 "use server";
 import { revalidatePath } from "next/cache";
 import { db } from "../../../firebase";
-import { deleteDoc, doc, getDoc } from "firebase/firestore";
+import { deleteDoc,  getDoc,doc,updateDoc,increment } from "firebase/firestore";
 
 const deletePlotFromDB = async id => {
   try {
@@ -26,6 +26,12 @@ const deletePlotFromDB = async id => {
         };
       } else {
         await deleteDoc(PlotRef);
+
+        const unitRef = doc(db, "UNITS", docSnapshot.data().unit);
+        await updateDoc(unitRef, {
+          [`usage.plots`]: increment(-1),
+        });
+
         revalidatePath("/admin/roles-analytics-cities", "page");
         return {
           type: "SUCCESS",

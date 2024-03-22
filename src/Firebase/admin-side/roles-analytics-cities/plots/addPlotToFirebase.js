@@ -1,7 +1,7 @@
 "use server";
 import { revalidatePath } from "next/cache";
 import { db } from "../../../firebase";
-import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
+import { addDoc, collection, getDocs, query, where,doc,updateDoc,increment } from "firebase/firestore";
 
 const addPlotToDB = async ({ area, unit, category, usage }) => {
   const querySnapshot = await getDocs(
@@ -24,6 +24,10 @@ const addPlotToDB = async ({ area, unit, category, usage }) => {
       unit,
       category,
       usage,
+    });
+    const unitRef = doc(db, "UNITS", unit);
+    await updateDoc(unitRef, {
+      [`usage.plots`]: increment(1),
     });
     revalidatePath("/admin/roles-analytics-cities", "page");
     return { type: "SUCCESS", message: "Plot added successfully!" };
