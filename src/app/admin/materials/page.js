@@ -7,7 +7,7 @@ import Link from "next/link";
 
 const Materials = async () => {
   const materials = await useMaterialsFromDb();
-  const materialCaterogies = await useMaterialCategoriesFromDb();
+  const materialCategories = await useMaterialCategoriesFromDb();
 
   return (
     <>
@@ -30,7 +30,7 @@ const Materials = async () => {
         </div>
         <MaterialsClientPage
           materials={materials}
-          materialCategories={materialCaterogies}
+          materialCategories={materialCategories}
         />
       </section>
     </>

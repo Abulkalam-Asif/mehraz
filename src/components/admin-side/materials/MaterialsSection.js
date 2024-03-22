@@ -45,7 +45,14 @@ const MaterialsSection = ({
     toggleModal();
     const materialId = e.currentTarget.dataset.materialId;
     const material = materials.find(material => material.id === materialId);
-    setCurrentMaterial(material);
+    setCurrentMaterial({
+      ...material,
+      isFixed: materialCategories.find(
+        category => category.fixedMaterial === material.id,
+      )
+        ? true
+        : false,
+    });
   };
   const deleteMaterialClickHandler = e => {
     setModalMetadata({
