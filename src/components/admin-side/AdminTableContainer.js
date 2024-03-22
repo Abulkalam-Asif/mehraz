@@ -1,4 +1,4 @@
-const FreeProjectContainer = ({ children, className = "" }) => {
+const AdminTableContainer = ({ children, className = "" }) => {
   return (
     <>
       <div
@@ -9,4 +9,4 @@ const FreeProjectContainer = ({ children, className = "" }) => {
   );
 };
 
-export default FreeProjectContainer;
+export default AdminTableContainer;

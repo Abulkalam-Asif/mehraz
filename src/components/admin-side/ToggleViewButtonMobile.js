@@ -1,7 +1,7 @@
 import { minusIcon, plusIcon } from "@/assets";
 import Image from "next/image";
 
-const RACButtonMobile = ({
+const ToggleViewButtonMobile = ({
   text,
   name,
   expandedSection,
@@ -31,4 +31,4 @@ const RACButtonMobile = ({
   );
 };
 
-export default RACButtonMobile;
+export default ToggleViewButtonMobile;

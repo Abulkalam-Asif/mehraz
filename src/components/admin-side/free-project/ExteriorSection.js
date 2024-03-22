@@ -5,7 +5,7 @@ import {
   Table,
   Td,
   Th,
-  FreeProjectContainer,
+  AdminTableContainer,
   Button,
   Spinner,
 } from "@/components/";
@@ -49,7 +49,7 @@ const ExteriorSection = ({
   };
   return (
     <>
-      <FreeProjectContainer className="w-full flex flex-col gap-y-2">
+      <AdminTableContainer className="w-full flex flex-col gap-y-2">
         <H2 text="Exterior 360 views" />
         {exteriorViews ? (
           exteriorViews.length > 0 ? (
@@ -135,7 +135,7 @@ const ExteriorSection = ({
           size="xs"
           onClick={addExteriorViewClickHandler}
         />
-      </FreeProjectContainer>
+      </AdminTableContainer>
     </>
   );
 };

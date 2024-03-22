@@ -23,6 +23,8 @@ export { default as MultiFileDisplay } from "./admin-side/MultiFileDisplay";
 export { default as AdminCheckbox } from "./admin-side/AdminCheckbox";
 export { default as AdminSelect } from "./admin-side/AdminSelect";
 export { default as ListInput } from "./admin-side/ListInput";
+export { default as AdminTableContainer } from "./admin-side/AdminTableContainer";
+export { default as ToggleViewButtonMobile } from "./admin-side/ToggleViewButtonMobile";
 // Admin Side - AdminDashboard
 export { default as AdminDashboardGroup } from "./admin-side/dashboard/AdminDashboardGroup";
 export { default as AdminDashboardDropdown } from "./admin-side/dashboard/AdminDashboardDropdown";
@@ -33,6 +35,7 @@ export { default as MaterialsSection } from "./admin-side/materials/MaterialsSec
 export { default as MaterialModal } from "./admin-side/materials/MaterialModal";
 export { default as MaterialCategoriesSection } from "./admin-side/materials/MaterialCategoriesSection";
 export { default as MaterialCategoryModal } from "./admin-side/materials/MaterialCategoryModal";
+export { default as PropertiesSection } from "./admin-side/materials/PropertiesSection";
 // Admin Side - Projects
 export { default as ProjectDisplayBoxMob } from "./admin-side/projects/ProjectDisplayBoxMob";
 export { default as ProjectsDisplay } from "./admin-side/projects/ProjectsDisplay";
@@ -43,7 +46,6 @@ export { default as FreeProjectS2 } from "./admin-side/free-project/FreeProjectS
 export { default as FreeProjectInputBox } from "./admin-side/free-project/FreeProjectInputBox";
 export { default as FreeProjectSelect } from "./admin-side/free-project/FreeProjectSelect";
 export { default as FileInput } from "./admin-side/free-project/FileInput";
-export { default as FreeProjectContainer } from "./admin-side/free-project/FreeProjectContainer";
 export { default as ExteriorSection } from "./admin-side/free-project/ExteriorSection";
 export { default as ExteriorModal } from "./admin-side/free-project/ExteriorModal";
 export { default as InteriorSection } from "./admin-side/free-project/InteriorSection";
@@ -57,7 +59,6 @@ export { default as RACClientPage } from "./admin-side/rac/RACClientPage";
 export { default as MultiCheckbox } from "./admin-side/rac/MultiCheckbox";
 export { default as RACImageInput } from "./admin-side/rac/RACImageInput";
 export { default as DeleteModal } from "./admin-side/rac/DeleteModal";
-export { default as RACButtonMobile } from "./admin-side/rac/RACButtonMobile";
 export { default as RACContainer } from "./admin-side/rac/RACContainer";
 export { default as RolesSection } from "./admin-side/rac/RolesSection";
 export { default as CurrenciesSection } from "./admin-side/rac/CurrenciesSection";

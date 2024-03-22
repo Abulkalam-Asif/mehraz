@@ -6,7 +6,8 @@ import {
   MaterialModal,
   MaterialsSection,
   Modal,
-  RACButtonMobile,
+  PropertiesSection,
+  ToggleViewButtonMobile,
 } from "@/components";
 import { AlertContext } from "@/context/AlertContext";
 import {
@@ -24,9 +25,15 @@ import { useContext, useEffect, useState } from "react";
 const mobileButtonsData = [
   { text: "materials", name: "materials" },
   { text: "categories", name: "categories" },
+  { text: "properties", name: "properties" },
 ];
 
-const MaterialsClientPage = ({ materials, materialCategories }) => {
+const MaterialsClientPage = ({
+  materials,
+  materialCategories,
+  cities,
+  properties,
+}) => {
   const { showAlert } = useContext(AlertContext);
   // Materials states and functions
   const defaultMaterial = {
@@ -129,6 +136,34 @@ const MaterialsClientPage = ({ materials, materialCategories }) => {
     );
   };
 
+  // Properties states and functions
+  const defaultProperty = {
+    id: null,
+    area: "",
+    description: "",
+    location: "",
+    demand: "",
+    city: cities[0]?.id || "",
+    type: "LAND . PLOT",
+  };
+  const [currentProperty, setCurrentProperty] = useState(defaultProperty);
+  const currentPropertyInputHandler = (name, value) => {
+    setCurrentProperty(prevState => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const addNewPropertyHandler = e => {
+    e.preventDefault();
+  };
+  const editPropertyHandler = e => {
+    e.preventDefault();
+  };
+  const deletePropertyHandler = e => {
+    e.preventDefault();
+  };
+
   // General state for deleting items
   const defaultItemToDelete = {
     name: null,
@@ -172,13 +207,21 @@ const MaterialsClientPage = ({ materials, materialCategories }) => {
           setCurrentMaterial={setCurrentMaterial}
           setItemToDelete={setItemToDelete}
         />
-        <div className="grid grid-cols-3 row-span-2">
+        <div className="grid grid-cols-3 row-span-2 gap-4">
           <MaterialCategoriesSection
             materialCategories={materialCategories}
             setModalMetadata={setModalMetadata}
             toggleModal={toggleModal}
             setCurrentMaterialCategory={setCurrentMaterialCategory}
             setItemToDelete={setItemToDelete}
+          />
+          <PropertiesSection
+            properties={properties}
+            setModalMetadata={setModalMetadata}
+            toggleModal={toggleModal}
+            setCurrentProperty={setCurrentProperty}
+            setItemToDelete={setItemToDelete}
+            cities={cities}
           />
         </div>
       </div>
@@ -187,7 +230,7 @@ const MaterialsClientPage = ({ materials, materialCategories }) => {
       <div className="hidden lg:h-[calc(100vh-7rem-3rem)] lg:flex flex-col items-center justify-start gap-y-3 w-full mx-auto pt-4 sm:pt-2">
         <div className="flex flex-wrap justify-center gap-2">
           {mobileButtonsData?.map((buttonData, index) => (
-            <RACButtonMobile
+            <ToggleViewButtonMobile
               key={index}
               text={buttonData.text}
               name={buttonData.name}
@@ -205,14 +248,23 @@ const MaterialsClientPage = ({ materials, materialCategories }) => {
             setCurrentMaterial={setCurrentMaterial}
             setItemToDelete={setItemToDelete}
           />
+        ) : expandedSection === "categories" ? (
+          <MaterialCategoriesSection
+            materialCategories={materialCategories}
+            setModalMetadata={setModalMetadata}
+            toggleModal={toggleModal}
+            setCurrentMaterialCategory={setCurrentMaterialCategory}
+            setItemToDelete={setItemToDelete}
+          />
         ) : (
-          expandedSection === "categories" && (
-            <MaterialCategoriesSection
-              materialCategories={materialCategories}
+          expandedSection === "properties" && (
+            <PropertiesSection
+              properties={properties}
               setModalMetadata={setModalMetadata}
               toggleModal={toggleModal}
-              setCurrentMaterialCategory={setCurrentMaterialCategory}
+              setCurrentProperty={setCurrentProperty}
               setItemToDelete={setItemToDelete}
+              cities={cities}
             />
           )
         )}

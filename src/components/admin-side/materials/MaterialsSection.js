@@ -4,7 +4,7 @@ import {
   Table,
   Td,
   Th,
-  FreeProjectContainer,
+  AdminTableContainer,
   Button,
   Spinner,
 } from "@/components/";
@@ -67,7 +67,7 @@ const MaterialsSection = ({
   };
   return (
     <>
-      <FreeProjectContainer className="w-full row-span-3 flex flex-col gap-y-2">
+      <AdminTableContainer className="w-full row-span-3 flex flex-col gap-y-2">
         {materials ? (
           materials.length > 0 ? (
             <Table border={false} className="h-full overflow-y-auto">
@@ -99,9 +99,7 @@ const MaterialsSection = ({
                         <FaMinusCircle size={14} />
                       )}
                     </Td>
-                    <Td
-                      position="beginning"
-                      isLastRow={index === materials.length - 1}>
+                    <Td isLastRow={index === materials.length - 1}>
                       {material.name}
                     </Td>
                     <Td isLastRow={index === materials.length - 1}>
@@ -205,7 +203,7 @@ const MaterialsSection = ({
           size="xs"
           onClick={addMaterialClickHandler}
         />
-      </FreeProjectContainer>
+      </AdminTableContainer>
     </>
   );
 };

@@ -5,7 +5,7 @@ import {
   Table,
   Td,
   Th,
-  FreeProjectContainer,
+  AdminTableContainer,
   Button,
   Spinner,
 } from "@/components/";
@@ -51,7 +51,7 @@ const MaterialCategoriesSection = ({
   };
   return (
     <>
-      <FreeProjectContainer className="w-full flex flex-col gap-y-2">
+      <AdminTableContainer className="w-full flex flex-col gap-y-2">
         <H2 text="Categories" />
         {materialCategories ? (
           materialCategories.length > 0 ? (
@@ -128,7 +128,7 @@ const MaterialCategoriesSection = ({
           size="xs"
           onClick={addMaterialCategoryClickHandler}
         />
-      </FreeProjectContainer>
+      </AdminTableContainer>
     </>
   );
 };

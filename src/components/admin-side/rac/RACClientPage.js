@@ -2,7 +2,7 @@
 import { useContext, useEffect, useState } from "react";
 import {
   Modal,
-  RACButtonMobile,
+  ToggleViewButtonMobile,
   CitiesSection,
   CityModal,
   CurrenciesSection,
@@ -87,6 +87,7 @@ const RACClientPage = ({
     usage: {
       currencies: 0,
       projects: 0,
+      properties: 0,
     },
   };
   const [currentCity, setCurrentCity] = useState(defaultCity);
@@ -422,7 +423,7 @@ const RACClientPage = ({
       <div className="hidden lg:h-[calc(100vh-7rem-3rem)] lg:flex flex-col items-center justify-start gap-y-3 w-full mx-auto pt-4 sm:pt-2">
         <div className="flex flex-wrap justify-center gap-2">
           {mobileButtonsData?.map((buttonData, index) => (
-            <RACButtonMobile
+            <ToggleViewButtonMobile
               key={index}
               text={buttonData.text}
               name={buttonData.name}

@@ -1,84 +1,110 @@
 import Image from "next/image";
 import {
   Dropdown,
-  H2,
   Table,
   Td,
   Th,
   AdminTableContainer,
   Button,
   Spinner,
+  H2,
 } from "@/components/";
 import { deleteIcon, editIcon, ellipsisIcon } from "@/assets";
+import { FaCheckCircle, FaMinusCircle } from "react-icons/fa";
+import { useContext } from "react";
+import { AlertContext } from "@/context/AlertContext";
 
-const FreeProjectMaterialsSection = ({
-  materials,
+const PropertiesSection = ({
+  properties,
   setModalMetadata,
   toggleModal,
-  setCurrentMaterial,
+  setCurrentProperty,
   setItemToDelete,
+  cities,
 }) => {
-  const addMaterialClickHandler = () => {
+  const { showAlert } = useContext(AlertContext);
+  const addPropertyClickHandler = () => {
+    if (cities.length === 0) {
+      showAlert({
+        type: "ERROR",
+        message: "Please add a city first.",
+      });
+      return;
+    }
     setModalMetadata({
-      type: "MATERIALS",
+      type: "PROPERTIES",
       action: "ADD",
     });
     toggleModal();
   };
 
-  const editMaterialClickHandler = e => {
+  const editPropertyClickHandler = e => {
     setModalMetadata({
-      type: "MATERIALS",
+      type: "PROPERTIES",
       action: "EDIT",
     });
     toggleModal();
-    const materialId = e.currentTarget.dataset.materialId;
-    const material = materials.find(material => material.id === materialId);
-    setCurrentMaterial(material);
+    const propertyId = e.currentTarget.dataset.propertyId;
+    const property = properties.find(property => property.id === propertyId);
+    setCurrentProperty(property);
   };
-  const deleteMaterialClickHandler = e => {
+  const deletePropertyClickHandler = e => {
     setModalMetadata({
-      type: "MATERIALS",
+      type: "PROPERTIES",
       action: "DELETE",
     });
     toggleModal();
     setItemToDelete({
-      name: "material",
-      id: e.currentTarget.dataset.materialId,
+      name: "property",
+      id: e.currentTarget.dataset.propertyId,
     });
   };
   return (
     <>
-      <AdminTableContainer className="w-full flex flex-col gap-y-2">
-        <H2 text="Materials" />
-        {materials ? (
-          materials.length > 0 ? (
+      <AdminTableContainer className="w-full flex flex-col gap-y-2 col-span-2">
+        <H2 text="Properties" />
+        {properties ? (
+          properties.length > 0 ? (
             <Table border={false} className="h-full overflow-y-auto">
-              <thead className="text-sm">
+              <thead className="bg-accent-1-base text-sm">
                 <tr>
-                  <Th position="beginning">name</Th>
-                  <Th>vendor</Th>
-                  <Th position="end">rate</Th>
+                  <Th position="beginning">area</Th>
+                  <Th>description</Th>
+                  <Th>location</Th>
+                  <Th>demand</Th>
+                  <Th>city</Th>
+                  <Th position="end">type</Th>
                 </tr>
               </thead>
               <tbody className="text-xs font-semibold">
-                {materials?.map((material, index) => (
+                {properties?.map((property, index) => (
                   <tr key={index}>
                     <Td
                       position="beginning"
-                      isLastRow={index === materials.length - 1}>
-                      {material.name}
+                      isLastRow={index === properties.length - 1}>
+                      {property.area}
                     </Td>
-                    <Td isLastRow={index === materials.length - 1}>
-                      {material.vendor}
+                    <Td
+                      position="beginning"
+                      isLastRow={index === properties.length - 1}>
+                      {property.description}
                     </Td>
-                    <Td isLastRow={index === materials.length - 1}>
-                      {material.rate}
+                    <Td isLastRow={index === properties.length - 1}>
+                      {property.location}
+                    </Td>
+                    <Td isLastRow={index === properties.length - 1}>
+                      {property.demand}
+                    </Td>
+                    <Td isLastRow={index === properties.length - 1}>
+                      {cities.find(city => city.id === property.city)?.name}
+                    </Td>
+                    <Td isLastRow={index === properties.length - 1}>
+                      {property.type}
                     </Td>
                     <Td
                       position="end"
                       align="center"
-                      isLastRow={index === materials.length - 1}>
+                      isLastRow={index === properties.length - 1}>
                       <Dropdown
                         className="w-fit"
                         contentClassName={
@@ -95,9 +121,9 @@ const FreeProjectMaterialsSection = ({
                           </>
                         }>
                         <button
-                          title="Edit material"
-                          data-material-id={material.id}
-                          onClick={editMaterialClickHandler}
+                          title="Edit property"
+                          data-property-id={property.id}
+                          onClick={editPropertyClickHandler}
                           className="hover:bg-accent-1-extra-light p-2 rounded-full">
                           <Image
                             src={editIcon}
@@ -106,9 +132,9 @@ const FreeProjectMaterialsSection = ({
                           />
                         </button>
                         <button
-                          title="Delete material"
-                          data-material-id={material.id}
-                          onClick={deleteMaterialClickHandler}
+                          title="Delete property"
+                          data-property-id={property.id}
+                          onClick={deletePropertyClickHandler}
                           className="hover:bg-accent-1-extra-light p-2 rounded-full">
                           <Image
                             src={deleteIcon}
@@ -124,24 +150,24 @@ const FreeProjectMaterialsSection = ({
             </Table>
           ) : (
             <div className="flex-1 font-medium flex items-center justify-center">
-              <p>No materials added yet.</p>
+              <p>No properties added yet.</p>
             </div>
           )
         ) : (
           <div className="flex-1 flex items-center justify-center">
-            <Spinner size={"sm"} text="Loading materials..." />
+            <Spinner size={"sm"} text="Loading properties..." />
           </div>
         )}
         <Button
-          text="add material"
+          text="add property"
           className="mr-auto ml-4"
           type="button"
           size="xs"
-          onClick={addMaterialClickHandler}
+          onClick={addPropertyClickHandler}
         />
       </AdminTableContainer>
     </>
   );
 };
 
-export default FreeProjectMaterialsSection;
+export default PropertiesSection;

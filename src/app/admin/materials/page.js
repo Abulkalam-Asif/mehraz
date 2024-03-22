@@ -1,5 +1,7 @@
 import useMaterialCategoriesFromDb from "@/Firebase/admin-side/materials/material-categories/getMaterialCategoriesFromDb";
 import useMaterialsFromDb from "@/Firebase/admin-side/materials/materials/getMaterialsFromDb";
+import usePropertiesFromDb from "@/Firebase/admin-side/materials/properties/getPropertiesFromDb";
+import useCitiesFromDB from "@/Firebase/admin-side/roles-analytics-cities/cities/getCitiesFromFirebase";
 import { chevronLeftIcon } from "@/assets";
 import { H1, MaterialsClientPage } from "@/components";
 import Image from "next/image";
@@ -8,6 +10,8 @@ import Link from "next/link";
 const Materials = async () => {
   const materials = await useMaterialsFromDb();
   const materialCategories = await useMaterialCategoriesFromDb();
+  const properties = await usePropertiesFromDb();
+  const cities = await useCitiesFromDB();
 
   return (
     <>
@@ -31,6 +35,8 @@ const Materials = async () => {
         <MaterialsClientPage
           materials={materials}
           materialCategories={materialCategories}
+          properties={properties}
+          cities={cities}
         />
       </section>
     </>

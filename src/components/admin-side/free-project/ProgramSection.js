@@ -5,7 +5,7 @@ import {
   Table,
   Td,
   Th,
-  FreeProjectContainer,
+  AdminTableContainer,
   Button,
   Spinner,
 } from "@/components/";
@@ -51,7 +51,7 @@ const ProgramSection = ({
 
   return (
     <>
-      <FreeProjectContainer className="w-full flex flex-col gap-y-2">
+      <AdminTableContainer className="w-full flex flex-col gap-y-2">
         <H2 text="Programs" />
         {programs ? (
           programs.length > 0 ? (
@@ -170,7 +170,7 @@ const ProgramSection = ({
           size="xs"
           onClick={addProgramClickHandler}
         />
-      </FreeProjectContainer>
+      </AdminTableContainer>
     </>
   );
 };

@@ -14,7 +14,7 @@ import {
   MaterialsModal,
   ProgramSection,
   ProgramModal,
-  RACButtonMobile,
+  ToggleViewButtonMobile,
 } from "@/components";
 import { useContext, useEffect, useState } from "react";
 import { addEditExteriorViewService } from "@/services/admin-side/free-project/exteriorViews";
@@ -405,7 +405,7 @@ const FreeProjectS2 = ({
           <div className="flex gap-4">
             <div className="flex flex-wrap justify-center gap-2">
               {mobileButtonsData?.map((buttonData, index) => (
-                <RACButtonMobile
+                <ToggleViewButtonMobile
                   key={index}
                   text={buttonData.text}
                   name={buttonData.name}
