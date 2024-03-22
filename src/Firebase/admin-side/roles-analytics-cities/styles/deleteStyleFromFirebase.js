@@ -22,7 +22,7 @@ const deleteStyleFromDB = async (styleId) => {
           type: "ERROR",
           message: `This style cannot be deleted. This is being used in ${usageCases.slice(
             0,
-            -2
+            -2,
           )}.`,
         };
       } else {
