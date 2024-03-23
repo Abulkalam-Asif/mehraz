@@ -36,6 +36,7 @@ export { default as MaterialModal } from "./admin-side/materials/MaterialModal";
 export { default as MaterialCategoriesSection } from "./admin-side/materials/MaterialCategoriesSection";
 export { default as MaterialCategoryModal } from "./admin-side/materials/MaterialCategoryModal";
 export { default as PropertiesSection } from "./admin-side/materials/PropertiesSection";
+export { default as PropertyModal } from "./admin-side/materials/PropertyModal";
 // Admin Side - Projects
 export { default as ProjectDisplayBoxMob } from "./admin-side/projects/ProjectDisplayBoxMob";
 export { default as ProjectsDisplay } from "./admin-side/projects/ProjectsDisplay";

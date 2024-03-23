@@ -1,13 +1,8 @@
 "use server";
 import { db, storage } from "@/Firebase/firebase";
-import { deleteObject, ref, uploadBytes } from "firebase/storage";
+import { deleteObject, ref } from "firebase/storage";
 import { revalidatePath } from "next/cache";
 import {
-  collection,
-  getDocs,
-  where,
-  query,
-  setDoc,
   doc,
   increment,
   updateDoc,
@@ -49,4 +44,3 @@ const deleteMaterialFromDb = async id => {
 };
 
 export default deleteMaterialFromDb;
-

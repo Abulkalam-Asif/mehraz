@@ -1,3 +1,4 @@
+"use server";
 import { collection, onSnapshot } from "firebase/firestore";
 import { db, storage } from "../../../firebase";
 import { getDownloadURL, ref } from "firebase/storage";

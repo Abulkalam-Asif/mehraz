@@ -7,6 +7,7 @@ import {
   MaterialsSection,
   Modal,
   PropertiesSection,
+  PropertyModal,
   ToggleViewButtonMobile,
 } from "@/components";
 import { AlertContext } from "@/context/AlertContext";
@@ -20,6 +21,11 @@ import {
   deleteMaterialService,
   editMaterialService,
 } from "@/services/admin-side/materials/materials";
+import {
+  addNewPropertyService,
+  deletePropertyService,
+  editPropertyService,
+} from "@/services/admin-side/materials/properties";
 import { useContext, useEffect, useState } from "react";
 
 const mobileButtonsData = [
@@ -156,12 +162,30 @@ const MaterialsClientPage = ({
 
   const addNewPropertyHandler = e => {
     e.preventDefault();
+    addNewPropertyService(
+      currentProperty,
+      setShowModalSpinner,
+      showAlert,
+      hideModal,
+    );
   };
   const editPropertyHandler = e => {
     e.preventDefault();
+    editPropertyService(
+      currentProperty,
+      setShowModalSpinner,
+      showAlert,
+      hideModal,
+    );
   };
   const deletePropertyHandler = e => {
     e.preventDefault();
+    deletePropertyService(
+      itemToDelete,
+      setShowModalSpinner,
+      showAlert,
+      hideModal,
+    );
   };
 
   // General state for deleting items
@@ -189,6 +213,7 @@ const MaterialsClientPage = ({
       });
       setCurrentMaterial(defaultMaterial);
       setCurrentMaterialCategory(defaultMaterialCategory);
+      setCurrentProperty(defaultProperty);
     }
   }, [isModalOpen]);
 
@@ -284,8 +309,9 @@ const MaterialsClientPage = ({
               deleteHandler={
                 modalMetadata.type === "MATERIALS"
                   ? deleteMaterialHandler
-                  : modalMetadata.type === "MATERIAL_CATEGORIES" &&
-                    deleteMaterialCategoryHandler
+                  : modalMetadata.type === "MATERIAL_CATEGORIES"
+                  ? deleteMaterialCategoryHandler
+                  : modalMetadata.type === "PROPERTIES" && deletePropertyHandler
               }
             />
           ) : modalMetadata.type === "MATERIALS" ? (
@@ -297,15 +323,24 @@ const MaterialsClientPage = ({
               editMaterialHandler={editMaterialHandler}
               modalMetadata={modalMetadata}
             />
+          ) : modalMetadata.type === "MATERIAL_CATEGORIES" ? (
+            <MaterialCategoryModal
+              addNewMaterialCategoryHandler={addNewMaterialCategoryHandler}
+              currentMaterialCategory={currentMaterialCategory}
+              currentMaterialCategoryInputHandler={
+                currentMaterialCategoryInputHandler
+              }
+              editMaterialCategoryHandler={editMaterialCategoryHandler}
+              modalMetadata={modalMetadata}
+            />
           ) : (
-            modalMetadata.type === "MATERIAL_CATEGORIES" && (
-              <MaterialCategoryModal
-                addNewMaterialCategoryHandler={addNewMaterialCategoryHandler}
-                currentMaterialCategory={currentMaterialCategory}
-                currentMaterialCategoryInputHandler={
-                  currentMaterialCategoryInputHandler
-                }
-                editMaterialCategoryHandler={editMaterialCategoryHandler}
+            modalMetadata.type === "PROPERTIES" && (
+              <PropertyModal
+                addNewPropertyHandler={addNewPropertyHandler}
+                cities={cities}
+                currentProperty={currentProperty}
+                currentPropertyInputHandler={currentPropertyInputHandler}
+                editPropertyHandler={editPropertyHandler}
                 modalMetadata={modalMetadata}
               />
             )

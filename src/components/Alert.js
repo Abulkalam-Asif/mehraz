@@ -20,10 +20,10 @@ const Alert = ({ message, type }) => {
   return (
     <>
       <div
-        className={`fixed z-50 top-4 right-4 bg-white border border-accent-1-base shadow-xl rounded-lg flex items-center gap-4 overflow-hidden`}>
-        <span className="pl-4 py-2">{message}</span>
+        className={`fixed z-50 top-4 right-4 bg-white border-2 border-accent-1-base shadow-xl rounded-lg flex items-center gap-4 overflow-hidden`}>
+        <span className="pl-4 py-3">{message}</span>
         <button className="p-4" onClick={hideAlert}>
-          <Image src={closeIcon} alt="close" />
+          <Image src={closeIcon} alt="close" width={14} />
         </button>
         <div
           className={`${
@@ -34,7 +34,7 @@ const Alert = ({ message, type }) => {
               : type === "WARNING"
               ? "bg-yellow-500"
               : "bg-blue-500"
-          } h-1 absolute bottom-0 left-0 right-0 animate-alert`}></div>
+          } h-1.5 absolute bottom-0 left-0 right-0 animate-alert`}></div>
       </div>
     </>
   );

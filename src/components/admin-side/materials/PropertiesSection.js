@@ -10,7 +10,6 @@ import {
   H2,
 } from "@/components/";
 import { deleteIcon, editIcon, ellipsisIcon } from "@/assets";
-import { FaCheckCircle, FaMinusCircle } from "react-icons/fa";
 import { useContext } from "react";
 import { AlertContext } from "@/context/AlertContext";
 

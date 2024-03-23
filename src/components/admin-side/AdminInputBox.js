@@ -9,12 +9,13 @@ const AdminInputBox = ({
   type = "text",
   inputHandler = () => {},
   max = 0,
+  className = "",
 }) => {
   const { showAlert } = useContext(AlertContext);
 
   return (
     <>
-      <div className="flex flex-col space-y-1">
+      <div className={`flex flex-col space-y-1 ${className}`}>
         <label htmlFor={idHtmlFor} className="text-accent-1-dark">
           {label}
         </label>
