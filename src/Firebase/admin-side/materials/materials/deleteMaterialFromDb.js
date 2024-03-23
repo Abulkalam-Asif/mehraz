@@ -32,7 +32,7 @@ const deleteMaterialFromDb = async id => {
     }
     await Promise.all([
       image && deleteObject(ref(storage, `MATERIALS/${id}/image`)),
-      cover && deleteObject(ref(storage, `MATERIALS/${id}/cover`)),
+      cover && deleteObject(ref(storage, `MATERIALS/${id}/cover`)), 
     ]);
 
     revalidatePath("/admin/materials", "page");
