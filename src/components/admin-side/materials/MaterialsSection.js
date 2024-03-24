@@ -48,7 +48,7 @@ const MaterialsSection = ({
     setCurrentMaterial({
       ...material,
       isFixed: materialCategories.find(
-        category => category.fixedMaterial === material.id,
+        category => category.fixedMaterialId === material.id,
       )
         ? true
         : false,
@@ -80,8 +80,7 @@ const MaterialsSection = ({
                   <Th>category</Th>
                   <Th>description</Th>
                   <Th>specs</Th>
-                  <Th>ordered as</Th>
-                  <Th position="end">cover</Th>
+                  <Th position="end">ordered as</Th>
                 </tr>
               </thead>
               <tbody className="text-xs font-semibold">
@@ -92,7 +91,7 @@ const MaterialsSection = ({
                       position="beginning"
                       isLastRow={index === materials.length - 1}>
                       {materialCategories.find(
-                        category => category.fixedMaterial === material.id,
+                        category => category.fixedMaterialId === material.id,
                       ) ? (
                         <FaCheckCircle size={14} className="text-green-500" />
                       ) : (
@@ -129,15 +128,6 @@ const MaterialsSection = ({
                     </Td>
                     <Td isLastRow={index === materials.length - 1}>
                       {material.orderedAs}
-                    </Td>
-                    <Td
-                      isLastRow={index === materials.length - 1}
-                      align="center">
-                      {material.displayCover ? (
-                        <FaCheckCircle size={14} className="text-green-500" />
-                      ) : (
-                        <FaMinusCircle size={14} />
-                      )}
                     </Td>
                     <Td
                       position="end"

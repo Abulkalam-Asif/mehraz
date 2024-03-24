@@ -19,45 +19,45 @@ const MaterialModal = ({
   modalMetadata,
 }) => {
   const [previewSrc, setPreviewSrc] = useState({
-    image: null,
-    cover: null,
+    image1: null,
+    image2: null,
   });
 
   useEffect(() => {
-    if (currentMaterial?.image) {
-      if (currentMaterial?.image instanceof File) {
-        const imageUrl = URL.createObjectURL(currentMaterial.image);
+    if (currentMaterial?.image1) {
+      if (currentMaterial?.image1 instanceof File) {
+        const image1Url = URL.createObjectURL(currentMaterial.image1);
         setPreviewSrc(prevState => ({
           ...prevState,
-          image: imageUrl,
+          image1: image1Url,
         }));
-        return () => URL.revokeObjectURL(imageUrl);
+        return () => URL.revokeObjectURL(image1Url);
       } else {
         setPreviewSrc(prevState => ({
           ...prevState,
-          image: currentMaterial.image,
+          image1: currentMaterial.image1,
         }));
       }
     }
-  }, [currentMaterial?.image]);
+  }, [currentMaterial?.image1]);
 
   useEffect(() => {
-    if (currentMaterial?.cover) {
-      if (currentMaterial?.cover instanceof File) {
-        const coverUrl = URL.createObjectURL(currentMaterial.cover);
+    if (currentMaterial?.image2) {
+      if (currentMaterial?.image2 instanceof File) {
+        const image2Url = URL.createObjectURL(currentMaterial.image2);
         setPreviewSrc(prevState => ({
           ...prevState,
-          cover: coverUrl,
+          image2: image2Url,
         }));
-        return () => URL.revokeObjectURL(coverUrl);
+        return () => URL.revokeObjectURL(image2Url);
       } else {
         setPreviewSrc(prevState => ({
           ...prevState,
-          cover: currentMaterial.cover,
+          image2: currentMaterial.image2,
         }));
       }
     }
-  }, [currentMaterial?.cover]);
+  }, [currentMaterial?.image2]);
 
   return (
     <>
@@ -81,6 +81,8 @@ const MaterialModal = ({
             inputHandler={currentMaterialInputHandler}
             idHtmlFor="name"
             name="name"
+            required={true}
+            maxLength={40}
           />
           <AdminInputBox
             label="Enter vendor name"
@@ -88,6 +90,8 @@ const MaterialModal = ({
             inputHandler={currentMaterialInputHandler}
             idHtmlFor="vendor"
             name="vendor"
+            required={true}
+            maxLength={40}
           />
           <AdminInputBox
             label="Enter rate"
@@ -96,6 +100,7 @@ const MaterialModal = ({
             idHtmlFor="rate"
             name="rate"
             type="number"
+            required={true}
             max={99999}
           />
           <AdminSelect
@@ -104,6 +109,7 @@ const MaterialModal = ({
             inputHandler={currentMaterialInputHandler}
             name="category"
             value={currentMaterial.category}
+            required={true}
             options={materialCategories.map(category => ({
               label: category.name,
               value: category.id,
@@ -116,12 +122,16 @@ const MaterialModal = ({
             idHtmlFor="description"
             name="description"
             type="textarea"
+            required={true}
+            maxLength={150}
           />
           <ListInput
             label="Enter specs"
             values={currentMaterial.specs}
             inputHandler={currentMaterialInputHandler}
             name="specs"
+            required={true}
+            maxLength={20}
           />
           <AdminInputBox
             label="Material ordered as"
@@ -129,41 +139,34 @@ const MaterialModal = ({
             inputHandler={currentMaterialInputHandler}
             idHtmlFor="orderedAs"
             name="orderedAs"
+            required={true}
+            maxLength={15}
           />
-          <div>
-            <AdminCheckbox
-              label="Is material fixed?"
-              idHtmlFor="isFixed"
-              name="isFixed"
-              checked={currentMaterial.isFixed}
-              inputHandler={currentMaterialInputHandler}
-            />
-            <AdminCheckbox
-              label="Display cover?"
-              idHtmlFor="displayCover"
-              name="displayCover"
-              checked={currentMaterial.displayCover}
-              inputHandler={currentMaterialInputHandler}
-            />
-          </div>
+          <AdminCheckbox
+            label="Is material fixed?"
+            idHtmlFor="isFixed"
+            name="isFixed"
+            checked={currentMaterial.isFixed}
+            inputHandler={currentMaterialInputHandler}
+          />
         </div>
         <div className="flex flex-col gap-2">
           <FileInput
             accept={"image/*"}
-            htmlFor={"image"}
-            name="image"
+            htmlFor={"image1"}
+            name="image1"
             inputHandler={currentMaterialInputHandler}
-            message={"Attach image"}
+            message={"Attach image 1 (required)"}
             typeStartsWith={"image"}
-            file={currentMaterial.image}
+            file={currentMaterial.image1}
             wrongFileTypeWarning="Please select an image file"
           />
           <div className="flex flex-col justify-center">
-            {previewSrc?.image ? (
+            {previewSrc?.image1 ? (
               <>
-                <p className="text-accent-1-dark mb-1">Attached image</p>
+                <p className="text-accent-1-dark mb-1">Attached image 1</p>
                 <Image
-                  src={previewSrc.image}
+                  src={previewSrc.image1}
                   alt="attached image preview"
                   className="w-auto h-full max-h-32 object-contain"
                   width={500}
@@ -172,26 +175,26 @@ const MaterialModal = ({
               </>
             ) : (
               <div className="w-full h-full p-4 flex items-center justify-center text-center text-accent-1-dark border-dashed border-2 border-accent-1-dark rounded-xl">
-                <p>Image will be displayed here</p>
+                <p>Image 1 will be displayed here</p>
               </div>
             )}
           </div>
           <FileInput
             accept={"image/*"}
-            htmlFor={"cover"}
-            name="cover"
+            htmlFor={"image2"}
+            name="image2"
             inputHandler={currentMaterialInputHandler}
-            message={"Attach cover image"}
+            message={"Attach image 2 (required)"}
             typeStartsWith={"image"}
-            file={currentMaterial.cover}
+            file={currentMaterial.image2}
             wrongFileTypeWarning="Please select an image file"
           />
           <div className="flex flex-col justify-center">
-            {previewSrc?.cover ? (
+            {previewSrc?.image2 ? (
               <>
-                <p className="text-accent-1-dark mb-1">Attached cover image</p>
+                <p className="text-accent-1-dark mb-1">Attached image 2</p>
                 <Image
-                  src={previewSrc.cover}
+                  src={previewSrc.image2}
                   alt="attached image preview"
                   className="w-auto h-full max-h-32 object-contain"
                   width={500}
@@ -200,7 +203,7 @@ const MaterialModal = ({
               </>
             ) : (
               <div className="w-full h-full p-4 flex items-center justify-center text-center text-accent-1-dark border-dashed border-2 border-accent-1-dark rounded-xl">
-                <p>Cover image will be displayed here</p>
+                <p>Image 2 will be displayed here</p>
               </div>
             )}
           </div>

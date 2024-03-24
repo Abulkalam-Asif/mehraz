@@ -20,15 +20,14 @@ const useMaterialsFromDb = async () => {
             rate: doc.data().rate,
             category: doc.data().category,
             description: doc.data().description,
-            displayCover: doc.data().displayCover,
             specs: doc.data().specs,
             orderedAs: doc.data().orderedAs,
           };
-          const imageRef = ref(storage, `MATERIALS/${doc.id}/image`);
-          const coverRef = ref(storage, `MATERIALS/${doc.id}/cover`);
+          const image1Ref = ref(storage, `MATERIALS/${doc.id}/image1`);
+          const image2Ref = ref(storage, `MATERIALS/${doc.id}/image2`);
           promises.push(
-            getDownloadURL(imageRef).then(url => (material.image = url)),
-            getDownloadURL(coverRef).then(url => (material.cover = url)),
+            getDownloadURL(image1Ref).then(url => (material.image1 = url)),
+            getDownloadURL(image2Ref).then(url => (material.image2 = url)),
           );
           arr.push(material);
         });

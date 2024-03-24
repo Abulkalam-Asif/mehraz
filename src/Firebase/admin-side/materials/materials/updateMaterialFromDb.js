@@ -1,13 +1,12 @@
 "use server";
 import { db, storage } from "@/Firebase/firebase";
-import { deleteObject, ref, uploadBytes } from "firebase/storage";
+import { ref, uploadBytes } from "firebase/storage";
 import { revalidatePath } from "next/cache";
 import {
   collection,
   getDocs,
   where,
   query,
-  setDoc,
   doc,
   increment,
   updateDoc,
@@ -22,11 +21,10 @@ const updateMaterialFromDb = async ({
   rate,
   category,
   description,
-  displayCover,
   specs,
   orderedAs,
-  image,
-  cover,
+  image1,
+  image2,
 }) => {
   try {
     const materialsCollectionRef = collection(db, "MATERIALS");
@@ -43,16 +41,14 @@ const updateMaterialFromDb = async ({
       }
     }
 
-    // Update images
-    if (image instanceof FormData) {
-      const imageRef = ref(storage, `MATERIALS/${id}/image`);
-      await deleteObject(imageRef);
-      await uploadBytes(imageRef, image.get("image"));
+    // Updating images
+    if (image1 instanceof FormData) {
+      const image1Ref = ref(storage, `MATERIALS/${id}/image1`);
+      await uploadBytes(image1Ref, image1.get("image1"));
     }
-    if (cover instanceof FormData) {
-      const coverRef = ref(storage, `MATERIALS/${id}/cover`);
-      await deleteObject(coverRef);
-      await uploadBytes(coverRef, cover.get("cover"));
+    if (image2 instanceof FormData) {
+      const image2Ref = ref(storage, `MATERIALS/${id}/image2`);
+      await uploadBytes(image2Ref, image2.get("image2"));
     }
 
     // Get some of the previous values
@@ -66,7 +62,6 @@ const updateMaterialFromDb = async ({
       rate,
       category,
       description,
-      displayCover,
       specs,
       orderedAs,
     });
@@ -75,16 +70,16 @@ const updateMaterialFromDb = async ({
     if (category === previousCategory) {
       const categoryRef = doc(collection(db, "MATERIAL_CATEGORIES"), category);
       const categoryDoc = await getDoc(categoryRef);
-      const previouslyFixedMaterial = categoryDoc.data().fixedMaterial;
+      const previouslyFixedMaterial = categoryDoc.data().fixedMaterialId;
       if (previouslyFixedMaterial === id && !isFixed) {
         // If the material was previously fixed and is no longer fixed
         await updateDoc(categoryRef, {
-          fixedMaterial: null,
+          fixedMaterialId: null,
         });
       } else if (previouslyFixedMaterial !== id && isFixed) {
         // If the material was not fixed and is now fixed
         await updateDoc(categoryRef, {
-          fixedMaterial: id,
+          fixedMaterialId: id,
         });
       }
     } else {
@@ -102,15 +97,15 @@ const updateMaterialFromDb = async ({
       });
       const previousCategoryDoc = await getDoc(previousCategoryRef);
       // If the previous category had this material as fixed, update it
-      if (previousCategoryDoc.data().fixedMaterial === id) {
+      if (previousCategoryDoc.data().fixedMaterialId === id) {
         await updateDoc(previousCategoryRef, {
-          fixedMaterial: null,
+          fixedMaterialId: null,
         });
       }
       // If the new category has this material as fixed, update it
       if (isFixed) {
         await updateDoc(categoryRef, {
-          fixedMaterial: id,
+          fixedMaterialId: id,
         });
       }
     }

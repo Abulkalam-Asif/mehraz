@@ -9,16 +9,27 @@ const AdminInputBox = ({
   type = "text",
   inputHandler = () => {},
   max = 0,
+  min = 0,
+  maxLength = 0,
   className = "",
+  required = false,
 }) => {
   const { showAlert } = useContext(AlertContext);
 
   return (
     <>
       <div className={`flex flex-col space-y-1 ${className}`}>
-        <label htmlFor={idHtmlFor} className="text-accent-1-dark">
-          {label}
-        </label>
+        <div className="flex items-center gap-2 justify-between">
+          <label htmlFor={idHtmlFor} className="text-accent-1-dark">
+            {label}
+            {required && <span className="text-red-500"> *</span>}
+          </label>
+          {(type === "text" || type === "textarea") && (
+            <span className={`text-xs font-bold text-accent-2-base`}>
+              {maxLength - value.length}
+            </span>
+          )}
+        </div>
         {type === "text" ? (
           <input
             type={"text"}
@@ -26,8 +37,15 @@ const AdminInputBox = ({
             id={idHtmlFor}
             name={name}
             value={value}
+            maxLength={maxLength}
             onChange={e => {
               inputHandler(e.target.name, e.target.value);
+              if (e.target.value.length === maxLength) {
+                showAlert({
+                  type: "WARNING",
+                  message: `Maximum input length is ${maxLength} characters`,
+                });
+              }
             }}
             autoComplete="off"
           />
@@ -39,6 +57,7 @@ const AdminInputBox = ({
             name={name}
             value={value}
             max={max}
+            min={min}
             onChange={e => {
               if (e.target.value > max) {
                 e.target.value = max;
@@ -58,8 +77,15 @@ const AdminInputBox = ({
               id={idHtmlFor}
               name={name}
               value={value}
+              maxLength={maxLength}
               onChange={e => {
                 inputHandler(e.target.name, e.target.value);
+                if (e.target.value.length === maxLength) {
+                  showAlert({
+                    type: "WARNING",
+                    message: `Maximum input length is ${maxLength} characters`,
+                  });
+                }
               }}
               autoComplete="off"
             />

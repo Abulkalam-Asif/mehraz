@@ -52,12 +52,8 @@ const MaterialsClientPage = ({
     description: "",
     specs: ["", "", ""],
     orderedAs: "",
-    image: null,
-    cover: null,
-    displayCover: false,
-    usage: {
-      projects: 0,
-    },
+    image1: null,
+    image2: null,
   };
   const [currentMaterial, setCurrentMaterial] = useState(defaultMaterial);
   const currentMaterialInputHandler = (name, value) => {
@@ -100,8 +96,9 @@ const MaterialsClientPage = ({
   const defaultMaterialCategory = {
     id: null,
     name: "",
-    usage: 0,
-    fixedMaterial: null,
+    coverImage: null,
+    fixCoverImage: false,
+    fixedMaterialId: null,
   };
   const [currentMaterialCategory, setCurrentMaterialCategory] = useState(
     defaultMaterialCategory,

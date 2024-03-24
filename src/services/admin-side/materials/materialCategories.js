@@ -1,6 +1,7 @@
 import addMaterialCategoryToDb from "@/Firebase/admin-side/materials/material-categories/addMaterialCategoryToDb";
 import deleteMaterialCategoryFromDb from "@/Firebase/admin-side/materials/material-categories/deleteMaterialCategoryFromDb";
 import updateMaterialCategoryFromDb from "@/Firebase/admin-side/materials/material-categories/updateMaterialCategoryFromDb";
+import fileToFormData from "@/utilities/admin-panel/fileToFormData";
 
 const addNewMaterialCategoryService = (
   materialCategories,
@@ -11,6 +12,8 @@ const addNewMaterialCategoryService = (
 ) => {
   const formattedData = {
     name: currentMaterialCategory.name.trim().toUpperCase(),
+    coverImage: currentMaterialCategory.coverImage,
+    fixCoverImage: currentMaterialCategory.fixCoverImage,
   };
   if (formattedData.name === "") {
     showAlert({ type: "WARNING", message: "Please enter a category name" });
@@ -22,8 +25,17 @@ const addNewMaterialCategoryService = (
   ) {
     showAlert({ type: "ERROR", message: "This category already exists" });
     return;
+  } else if (formattedData.fixCoverImage && !formattedData.coverImage) {
+    showAlert({ type: "ERROR", message: "Please attach a cover image" });
+    return;
   } else {
     setShowModalSpinner(true);
+    if (formattedData.coverImage instanceof File) {
+      formattedData.coverImage = fileToFormData(
+        "coverImage",
+        formattedData.coverImage,
+      );
+    }
     addMaterialCategoryToDb(formattedData).then(({ type, message }) => {
       showAlert({ type, message });
       hideModal();
@@ -42,19 +54,35 @@ const editMaterialCategoryService = (
   const formattedData = {
     id: currentMaterialCategory.id,
     name: currentMaterialCategory.name.trim().toUpperCase(),
+    coverImage: currentMaterialCategory.coverImage,
+    fixCoverImage: currentMaterialCategory.fixCoverImage,
   };
   if (formattedData.name === "") {
     showAlert({ type: "WARNING", message: "Please enter a category name" });
     return;
   } else if (
     materialCategories.some(
-      materialCategory => materialCategory.name === formattedData.name,
+      materialCategory =>
+        materialCategory.name === formattedData.name &&
+        materialCategory.id !== formattedData.id,
     )
   ) {
     showAlert({ type: "ERROR", message: "This category already exists" });
     return;
+  } else if (
+    currentMaterialCategory.fixCoverImage &&
+    !currentMaterialCategory.coverImage
+  ) {
+    showAlert({ type: "ERROR", message: "Please attach a cover image" });
+    return;
   } else {
     setShowModalSpinner(true);
+    if (formattedData.coverImage instanceof File) {
+      formattedData.coverImage = fileToFormData(
+        "coverImage",
+        formattedData.coverImage,
+      );
+    }
     updateMaterialCategoryFromDb(formattedData).then(({ type, message }) => {
       showAlert({ type, message });
       hideModal();

@@ -11,6 +11,7 @@ const addNewMaterialService = (
   hideModal,
 ) => {
   const trimmedSpecs = currentMaterial.specs.map(spec => spec.trim());
+
   const formattedData = {
     isFixed: currentMaterial.isFixed,
     name: currentMaterial.name.trim().toUpperCase(),
@@ -22,12 +23,8 @@ const addNewMaterialService = (
       .filter(spec => spec !== "")
       .concat(trimmedSpecs.filter(spec => spec === "")),
     orderedAs: currentMaterial.orderedAs.trim().toUpperCase(),
-    image: currentMaterial.image,
-    cover: currentMaterial.cover,
-    displayCover: currentMaterial.displayCover,
-    usage: {
-      projects: Number(currentMaterial.usage.projects),
-    },
+    image1: currentMaterial.image1,
+    image2: currentMaterial.image2,
   };
 
   if (formattedData.name === "") {
@@ -42,19 +39,21 @@ const addNewMaterialService = (
     showAlert({ type: "WARNING", message: "Please select a category." });
   } else if (formattedData.description === "") {
     showAlert({ type: "WARNING", message: "Please enter description." });
-  } else if (formattedData.specs.length === 0) {
+  } else if (
+    formattedData.specs.filter(spec => spec.length !== 0).length === 0
+  ) {
     showAlert({ type: "WARNING", message: "Please enter at least one spec." });
   } else if (formattedData.orderedAs === "") {
     showAlert({ type: "WARNING", message: "Please enter ordered as." });
-  } else if (formattedData.image === null) {
-    showAlert({ type: "WARNING", message: "Please select an image." });
-  } else if (formattedData.cover === null) {
-    showAlert({ type: "WARNING", message: "Please select a cover image." });
+  } else if (formattedData.image1 === null) {
+    showAlert({ type: "WARNING", message: "Please attach image 1." });
+  } else if (formattedData.image2 === null) {
+    showAlert({ type: "WARNING", message: "Please attach image 2." });
   } else {
     setShowModalSpinner(true);
     // Converting image to FormData
-    formattedData.image = fileToFormData("image", formattedData.image);
-    formattedData.cover = fileToFormData("cover", formattedData.cover);
+    formattedData.image1 = fileToFormData("image1", formattedData.image1);
+    formattedData.image2 = fileToFormData("image2", formattedData.image2);
 
     addNewMaterialToDb(formattedData).then(({ type, message }) => {
       showAlert({ type, message });
@@ -80,13 +79,12 @@ const editMaterialService = (
     rate: Number(currentMaterial.rate),
     category: currentMaterial.category.trim(),
     description: currentMaterial.description.trim(),
-    displayCover: currentMaterial.displayCover,
     specs: trimmedSpecs
       .filter(spec => spec !== "")
       .concat(trimmedSpecs.filter(spec => spec === "")),
     orderedAs: currentMaterial.orderedAs.trim().toUpperCase(),
-    image: currentMaterial.image,
-    cover: currentMaterial.cover,
+    image1: currentMaterial.image1,
+    image2: currentMaterial.image2,
   };
 
   if (formattedData.name === "") {
@@ -107,22 +105,24 @@ const editMaterialService = (
     showAlert({ type: "WARNING", message: "Please select a category." });
   } else if (formattedData.description === "") {
     showAlert({ type: "WARNING", message: "Please enter description." });
-  } else if (formattedData.specs.length === 0) {
+  } else if (
+    formattedData.specs.filter(spec => spec.length !== 0).length === 0
+  ) {
     showAlert({ type: "WARNING", message: "Please enter at least one spec." });
   } else if (formattedData.orderedAs === "") {
     showAlert({ type: "WARNING", message: "Please enter ordered as." });
-  } else if (formattedData.image === null) {
-    showAlert({ type: "WARNING", message: "Please select an image." });
-  } else if (formattedData.cover === null) {
-    showAlert({ type: "WARNING", message: "Please select a cover image." });
+  } else if (formattedData.image1 === null) {
+    showAlert({ type: "WARNING", message: "Please attach image 1." });
+  } else if (formattedData.image2 === null) {
+    showAlert({ type: "WARNING", message: "Please attach image 2." });
   } else {
     setShowModalSpinner(true);
     // Converting image to FormData
-    if (formattedData.image instanceof File) {
-      formattedData.image = fileToFormData("image", formattedData.image);
+    if (formattedData.image1 instanceof File) {
+      formattedData.image1 = fileToFormData("image1", formattedData.image1);
     }
-    if (formattedData.cover instanceof File) {
-      formattedData.cover = fileToFormData("cover", formattedData.cover);
+    if (formattedData.image2 instanceof File) {
+      formattedData.image2 = fileToFormData("image2", formattedData.image2);
     }
     updateMaterialFromDb(formattedData).then(({ type, message }) => {
       showAlert({ type, message });

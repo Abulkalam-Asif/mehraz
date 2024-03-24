@@ -14,25 +14,25 @@ const deleteMaterialFromDb = async id => {
   try {
     const materialRef = doc(db, "MATERIALS", id);
     const materialDoc = await getDoc(materialRef);
-    const { image, cover, category } = materialDoc.data();
-    if (materialDoc.data() != {}) {
-      const categoryRef = doc(db, "MATERIAL_CATEGORIES", category);
-      const categoryDoc = await getDoc(categoryRef);
-      if (categoryDoc.data().fixedMaterial === id) {
-        await updateDoc(categoryRef, {
-          fixedMaterial: "",
-          usage: increment(-1),
-        });
-      } else {
-        await updateDoc(categoryRef, {
-          usage: increment(-1),
-        });
-      }
-      deleteDoc(materialRef);
+
+    const { category } = materialDoc.data();
+    const categoryRef = doc(db, "MATERIAL_CATEGORIES", category);
+    const categoryDoc = await getDoc(categoryRef);
+    if (categoryDoc.data().fixedMaterialId === id) {
+      await updateDoc(categoryRef, {
+        fixedMaterialId: null,
+        usage: increment(-1),
+      });
+    } else {
+      await updateDoc(categoryRef, {
+        usage: increment(-1),
+      });
     }
+    await deleteDoc(materialRef);
+
     await Promise.all([
-      image && deleteObject(ref(storage, `MATERIALS/${id}/image`)),
-      cover && deleteObject(ref(storage, `MATERIALS/${id}/cover`)), 
+      deleteObject(ref(storage, `MATERIALS/${id}/image1`)),
+      deleteObject(ref(storage, `MATERIALS/${id}/image2`)),
     ]);
 
     revalidatePath("/admin/materials", "page");

@@ -29,6 +29,8 @@ const PropertyModal = ({
           inputHandler={currentPropertyInputHandler}
           idHtmlFor="area"
           name="area"
+          required={true}
+          maxLength={15}
         />
         <AdminInputBox
           label="Enter description"
@@ -38,6 +40,8 @@ const PropertyModal = ({
           name="description"
           type="textarea"
           className="row-span-2"
+          required={true}
+          maxLength={150}
         />
         <AdminInputBox
           label="Enter location"
@@ -45,6 +49,8 @@ const PropertyModal = ({
           inputHandler={currentPropertyInputHandler}
           idHtmlFor="location"
           name="location"
+          required={true}
+          maxLength={50}
         />
         <AdminInputBox
           label="Enter demand"
@@ -52,6 +58,8 @@ const PropertyModal = ({
           inputHandler={currentPropertyInputHandler}
           idHtmlFor="demand"
           name="demand"
+          required={true}
+          maxLength={15}
         />
         <AdminSelect
           label="Select city"
@@ -59,6 +67,7 @@ const PropertyModal = ({
           inputHandler={currentPropertyInputHandler}
           idHtmlFor="city"
           name="city"
+          required={true}
           options={cities.map(city => ({ label: city.name, value: city.id }))}
         />
         <AdminSelect
@@ -67,6 +76,7 @@ const PropertyModal = ({
           inputHandler={currentPropertyInputHandler}
           idHtmlFor="type"
           name="type"
+          required={true}
           options={[
             {
               label: "LAND . PLOT",

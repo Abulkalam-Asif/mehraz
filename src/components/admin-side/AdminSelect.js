@@ -5,12 +5,14 @@ const AdminSelect = ({
   value = "",
   options = [],
   inputHandler = () => {},
+  required = false,
 }) => {
   return (
     <>
       <div className="w-full flex flex-col space-y-1">
         <label htmlFor={idHtmlFor} className="text-accent-1-dark">
           {label}
+          {required && <span className="text-red-500"> *</span>}
         </label>
         <select
           name={name}

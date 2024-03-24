@@ -10,6 +10,7 @@ import {
   Spinner,
 } from "@/components/";
 import { deleteIcon, editIcon, ellipsisIcon } from "@/assets";
+import { FaCheckCircle, FaMinusCircle } from "react-icons/fa";
 
 const MaterialCategoriesSection = ({
   materialCategories,
@@ -56,6 +57,13 @@ const MaterialCategoriesSection = ({
         {materialCategories ? (
           materialCategories.length > 0 ? (
             <Table border={false} className="h-full overflow-y-auto">
+              <thead className="bg-accent-1-base text-sm">
+                <tr>
+                  <Th position="beginning">name</Th>
+                  <Th>image</Th>
+                  <Th position="end">fix cover</Th>
+                </tr>
+              </thead>
               <tbody className="text-xs font-semibold">
                 {materialCategories?.map((category, index) => (
                   <tr key={index}>
@@ -63,6 +71,24 @@ const MaterialCategoriesSection = ({
                       position="beginning"
                       isLastRow={index === materialCategories.length - 1}>
                       {category.name}
+                    </Td>
+                    <Td
+                      align="center"
+                      isLastRow={index === materialCategories.length - 1}>
+                      {category.coverImage ? (
+                        <FaCheckCircle size={14} className="text-green-500" />
+                      ) : (
+                        <FaMinusCircle size={14} />
+                      )}
+                    </Td>
+                    <Td
+                      align="center"
+                      isLastRow={index === materialCategories.length - 1}>
+                      {category.fixCoverImage ? (
+                        <FaCheckCircle size={14} className="text-green-500" />
+                      ) : (
+                        <FaMinusCircle size={14} />
+                      )}
                     </Td>
                     <Td
                       position="end"

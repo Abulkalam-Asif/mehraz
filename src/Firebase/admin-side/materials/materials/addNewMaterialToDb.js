@@ -13,7 +13,7 @@ import {
   updateDoc,
   getDoc,
 } from "firebase/firestore";
-const { ulid } = require("ulid");
+import { ulid } from "ulid";
 
 const addNewMaterialToDb = async ({
   isFixed,
@@ -24,10 +24,8 @@ const addNewMaterialToDb = async ({
   description,
   specs,
   orderedAs,
-  image,
-  cover,
-  displayCover,
-  usage,
+  image1,
+  image2,
 }) => {
   try {
     const materialsCollectionRef = collection(db, "MATERIALS");
@@ -42,11 +40,11 @@ const addNewMaterialToDb = async ({
     }
 
     const id = ulid();
-    const imageRef = ref(storage, `MATERIALS/${id}/image`);
-    const coverRef = ref(storage, `MATERIALS/${id}/cover`);
+    const image1Ref = ref(storage, `MATERIALS/${id}/image1`);
+    const image2Ref = ref(storage, `MATERIALS/${id}/image2`);
     await Promise.all([
-      uploadBytes(imageRef, image.get("image")),
-      uploadBytes(coverRef, cover.get("cover")),
+      uploadBytes(image1Ref, image1.get("image1")),
+      uploadBytes(image2Ref, image2.get("image2")),
     ]);
 
     const newDocRef = doc(materialsCollectionRef, id);
@@ -58,19 +56,18 @@ const addNewMaterialToDb = async ({
       description,
       specs,
       orderedAs,
-      displayCover,
-      usage,
+      usage: {
+        projects: 0,
+      },
     });
 
-    // Update the category usage and fixedMaterial
+    // Update the category usage and fixedMaterialId
     const categoryDocRef = doc(collection(db, "MATERIAL_CATEGORIES"), category);
     const categoryDoc = await getDoc(categoryDocRef);
     await updateDoc(categoryDocRef, {
       usage: increment(1),
-      fixedMaterial: isFixed ? id : categoryDoc.data().fixedMaterial,
+      fixedMaterialId: isFixed ? id : categoryDoc.data().fixedMaterialId,
     });
-
-    // Revalidate the cache
     revalidatePath("/admin/materials", "page");
 
     return {

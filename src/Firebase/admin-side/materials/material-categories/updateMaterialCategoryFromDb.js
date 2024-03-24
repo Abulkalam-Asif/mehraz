@@ -1,10 +1,16 @@
 "use server";
 import { revalidatePath } from "next/cache";
-import { db } from "../../../firebase";
-import { collection, doc, getDoc, updateDoc } from "firebase/firestore";
+import { db, storage } from "../../../firebase";
+import { collection, doc, updateDoc } from "firebase/firestore";
 import { query, where, getDocs } from "firebase/firestore";
+import { ref, uploadBytes } from "firebase/storage";
 
-const updateMaterialCategoryFromDb = async ({ id, name }) => {
+const updateMaterialCategoryFromDb = async ({
+  id,
+  name,
+  coverImage,
+  fixCoverImage,
+}) => {
   try {
     const categoryRef = doc(db, "MATERIAL_CATEGORIES", id);
 
@@ -18,20 +24,20 @@ const updateMaterialCategoryFromDb = async ({ id, name }) => {
         message: "Category with this name already exists.",
       };
     }
-    const docSnapshot = await getDoc(categoryRef);
 
-    if (docSnapshot.exists()) {
-      await updateDoc(categoryRef, {
-        name: name,
-      });
-      revalidatePath("/admin/materials", "page");
-      return { type: "SUCCESS", message: "Category updated successfully!" };
-    } else {
-      return {
-        type: "ERROR",
-        message: "Something went wrong, please try again later.",
-      };
+    // Update the cover image if it is provided
+    if (coverImage instanceof FormData) {
+      const coverImageRef = ref(storage, `MATERIAL_CATEGORIES/${id}`);
+      await uploadBytes(coverImageRef, coverImage.get("coverImage"));
     }
+
+    // Update the category in the database
+    await updateDoc(categoryRef, {
+      name,
+      fixCoverImage,
+    });
+    revalidatePath("/admin/materials", "page");
+    return { type: "SUCCESS", message: "Category updated successfully!" };
   } catch (error) {
     console.error("Error updating the category:", error);
     return {

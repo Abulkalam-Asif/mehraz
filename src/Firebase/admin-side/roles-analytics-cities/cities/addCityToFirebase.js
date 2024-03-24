@@ -22,7 +22,13 @@ const addCityToDB = async ({ name, usage }) => {
     });
     revalidatePath("/admin/roles-analytics-cities", "page");
     return { type: "SUCCESS", message: "City added successfully!" };
-  } catch (err) {}
+  } catch (err) {
+    console.error("Error adding city: ", err);
+    return {
+      type: "ERROR",
+      message: "Something went wrong, please try again later.",
+    };
+  }
 };
 
 export default addCityToDB;
