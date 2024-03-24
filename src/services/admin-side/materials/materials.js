@@ -125,7 +125,6 @@ const editMaterialService = (
       formattedData.image2 = fileToFormData("image2", formattedData.image2);
     }
     updateMaterialFromDb(formattedData).then(response => {
-      console.log(response);
       showAlert({ type: response.type, message: response.message });
       hideModal();
       setShowModalSpinner(false);

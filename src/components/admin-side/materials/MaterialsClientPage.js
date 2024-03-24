@@ -215,7 +215,7 @@ const MaterialsClientPage = ({
   }, [isModalOpen]);
 
   // Expandable Section Button (for mobile) states and functions
-  const [expandedSection, setExpandedSection] = useState(null);
+  const [expandedSection, setExpandedSection] = useState("materials");
   return (
     <>
       {/* This div will be displayed for over 1024px width */}
