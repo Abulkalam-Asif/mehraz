@@ -4,11 +4,15 @@ const AdminRadio = ({
   label = "",
   adminRadioValue = null,
   inputHandler = () => {},
+  required = false,
 }) => {
   return (
     <>
       <div>
-        <h3 className="text-accent-1-dark mb-1">{label}</h3>
+        <h3 className="text-accent-1-dark mb-1">
+          {label}
+          {required && <span className="text-red-500"> *</span>}
+        </h3>
         {radios.map(({ label, value }) => (
           <div key={value} className="space-x-2">
             <input

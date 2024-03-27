@@ -1,9 +1,7 @@
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "@/Firebase/firebase";
 
-const useUnitsFromDb = async (
-  fields = ["id", "name", "usage", "valueInSqFt"],
-) => {
+const useUnitsFromDb = async (fields = ["id", "name", "valueInSqFt"]) => {
   const ref = collection(db, "UNITS");
   return new Promise((resolve, reject) => {
     const unsubscribe = onSnapshot(

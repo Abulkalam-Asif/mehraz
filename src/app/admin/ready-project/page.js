@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import useCitiesFromDB from "@/Firebase/admin-side/roles-analytics-cities/cities/getCitiesFromFirebase";
 import usePlotsFromDB from "@/Firebase/admin-side/roles-analytics-cities/plots/getPlotsFromFirestore";
-import useUnitsFromDb from "@/Firebase/admin-side/roles-analytics-cities/units/getUnitsFromDb";
+import useUnitsFromDb from "@/Firebase/admin-side/teams-aboutus/units/getUnitsFromDb";
 import replacePlotUnitIdsByNames from "@/services/admin-side/replacePlotUnitIdsByNames";
 
 const CreateNew = async () => {

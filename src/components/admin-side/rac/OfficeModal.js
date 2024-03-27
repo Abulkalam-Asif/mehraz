@@ -1,6 +1,6 @@
 "use client";
 import { AdminInputBox, AdminModal, RACImageInput } from "@/components";
-import checkIfValidUrl from "@/utilities/admin-panel/roles-analytics-cities/checkIfValidUrl";
+import checkIfValidUrl from "@/utilities/admin-panel/checkIfValidUrl";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
@@ -44,6 +44,8 @@ const OfficeModal = ({
             inputHandler={currentOfficeLocationInputHandler}
             idHtmlFor="name"
             name="name"
+            required={true}
+            maxLength={20}
           />
           <AdminInputBox
             label="Enter office address"
@@ -51,6 +53,8 @@ const OfficeModal = ({
             inputHandler={currentOfficeLocationInputHandler}
             idHtmlFor="address"
             name="address"
+            required={true}
+            maxLength={70}
           />
           <AdminInputBox
             label="Enter maps link"
@@ -58,9 +62,11 @@ const OfficeModal = ({
             inputHandler={currentOfficeLocationInputHandler}
             idHtmlFor="mapsLink"
             name="mapsLink"
+            required={true}
+            maxLength={150}
           />
           <RACImageInput
-            message={"Attach an image."}
+            message={"Attach an image. (required)"}
             accept="image/*"
             file={currentOfficeLocation?.image}
             imageStateSetter={file =>

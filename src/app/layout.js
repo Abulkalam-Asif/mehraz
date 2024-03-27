@@ -1,6 +1,7 @@
 import { Roboto } from "next/font/google";
 import StoreProvider from "./StoreProvider";
 import "./globals.css";
+import { AlertProvider } from "@/context/AlertContext";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -16,9 +17,11 @@ export default function RootLayout({ children }) {
   return (
     <>
       <StoreProvider>
-        <html lang="en">
-          <body className={roboto.className}>{children}</body>
-        </html>
+        <AlertProvider>
+          <html lang="en">
+            <body className={roboto.className}>{children}</body>
+          </html>
+        </AlertProvider>
       </StoreProvider>
     </>
   );

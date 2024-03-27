@@ -1,27 +1,32 @@
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "../../../firebase";
 
-const useCitiesFromDB = async () => {
+const useCitiesFromDB = async (fields = ["id", "name"]) => {
   const ref = collection(db, "CITIES");
   return new Promise((resolve, reject) => {
     const unsubscribe = onSnapshot(
       ref,
-      (dataQuery) => {
+      dataQuery => {
         const arr = [];
-        dataQuery.forEach((doc) => {
-          const city = {
-            id: doc.id,
-            name: doc.data().name,
-          };
-          arr.push(city);
+        dataQuery.forEach(doc => {
+          const data = doc.data();
+          const docData = {};
+          fields.forEach(field => {
+            if (field === "id") {
+              docData[field] = doc.id;
+              return;
+            }
+            docData[field] = data[field];
+          });
+          arr.push(docData);
         });
         unsubscribe();
         resolve(arr);
       },
-      (error) => {
+      error => {
         unsubscribe();
         reject(error);
-      }
+      },
     );
   });
 };

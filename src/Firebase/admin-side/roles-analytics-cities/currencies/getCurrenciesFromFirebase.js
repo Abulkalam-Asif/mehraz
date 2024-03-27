@@ -1,46 +1,37 @@
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "../../../firebase";
-import useCitiesFromDB from "../cities/getCitiesFromFirebase";
 
-const useCurrenciesFromDB = async () => {
-  const cities = await useCitiesFromDB();
+const useCurrenciesFromDB = async (
+  fields = ["id", "name", "cities", "valueInPkr"],
+) => {
   const ref = collection(db, "CURRENCIES");
 
   const promise = new Promise((resolve, reject) => {
     const unsubscribe = onSnapshot(
       ref,
-      (dataQuery) => {
+      dataQuery => {
         const arr = [];
-        dataQuery.forEach((doc) => {
-          const docData = {
-            id: doc.id,
-            name: doc.data().name,
-            cities: mapCitiesWithNames(doc.data().cities, cities),
-            valueInPkr: doc.data().valueInPkr,
-          };
+        dataQuery.forEach(doc => {
+          const data = doc.data();
+          const docData = {};
+          fields.forEach(field => {
+            if (field === "id") {
+              docData[field] = doc.id;
+              return;
+            }
+            docData[field] = data[field];
+          });
           arr.push(docData);
         });
         unsubscribe();
         resolve(arr);
       },
-      (error) => {
+      error => {
         unsubscribe();
         reject(error);
-      }
+      },
     );
   });
-
-  const mapCitiesWithNames = (cityIds, citiesData) => {
-    return cityIds.map((cityId) => {
-      const city = citiesData
-        ? citiesData.find((city) => city.id === cityId)
-        : null;
-      return {
-        id: cityId,
-        name: city ? city.name : "Unnamed",
-      };
-    });
-  };
 
   return promise;
 };

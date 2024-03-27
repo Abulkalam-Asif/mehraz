@@ -7,15 +7,28 @@ import useCitiesFromDB from "@/Firebase/admin-side/roles-analytics-cities/cities
 import useOfficesFromDB from "@/Firebase/admin-side/roles-analytics-cities/offices/getOfficesFromDB";
 import useStylesFromDB from "@/Firebase/admin-side/roles-analytics-cities/styles/getStylesFromFirebase";
 import usePlotsFromDB from "@/Firebase/admin-side/roles-analytics-cities/plots/getPlotsFromFirestore";
-import useFetchUnitsFromDb from "@/Firebase/admin-side/teams-aboutus/units/fetchUnitsFromDb";
+import mapCurrencyCitiesWithNames from "@/utilities/admin-panel/roles-analytics-cities/mapCurrencyCitiesWithNames";
+import useUnitsFromDb from "@/Firebase/admin-side/teams-aboutus/units/getUnitsFromDb";
 
 const RAC = async () => {
-  const cities = await useCitiesFromDB();
-  const currencies = await useCurrenciesFromDB();
-  const officeLocations = await useOfficesFromDB();
-  const plots = await usePlotsFromDB();
+  const cities = await useCitiesFromDB(["id", "name"]);
+  let currencies = await useCurrenciesFromDB([
+    "id",
+    "name",
+    "cities",
+    "valueInPkr",
+  ]);
+  currencies = mapCurrencyCitiesWithNames(currencies, cities);
+  const officeLocations = await useOfficesFromDB([
+    "id",
+    "name",
+    "address",
+    "mapsLink",
+    "image",
+  ]);
+  const plots = await usePlotsFromDB(["id", "area", "unit", "category"]);
   const styles = await useStylesFromDB();
-  const units = await useFetchUnitsFromDb();
+  const units = await useUnitsFromDb(["id", "name"]);
 
   return (
     <>

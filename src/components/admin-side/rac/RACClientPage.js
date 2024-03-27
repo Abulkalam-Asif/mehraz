@@ -18,8 +18,7 @@ import {
   DeleteModal,
   UserProductAnalyticsSection,
 } from "@/components";
-import { AlertContext } from "@/context/AlertContext";
-import { convertRolesToRows } from "@/utilities/admin-panel/roles-analytics-cities/roles";
+import { convertRolesToRows } from "@/utilities/admin-panel/roles-analytics-cities/convertRolesToRows";
 import {
   addNewCityService,
   deleteCityService,
@@ -45,6 +44,7 @@ import {
   deleteStyleService,
   editStyleService,
 } from "@/services/admin-side/roles-analytics-cities/styles";
+import { AlertContext } from "@/context/AlertContext";
 
 const roles = {
   admins: ["ali", "bilal", "ahmad"],

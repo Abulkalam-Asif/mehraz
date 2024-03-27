@@ -21,6 +21,8 @@ const CityModal = ({
           inputHandler={currentCityInputHandler}
           name="name"
           idHtmlFor="city"
+          required={true}
+          maxLength={20}
         />
       </AdminModal>
     </>

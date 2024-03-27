@@ -1,4 +1,9 @@
-import { AdminInputBox, AdminModal, AdminRadio, AdminSelect } from "@/components";
+import {
+  AdminInputBox,
+  AdminModal,
+  AdminRadio,
+  AdminSelect,
+} from "@/components";
 
 const PlotModal = ({
   currentPlot,
@@ -16,47 +21,47 @@ const PlotModal = ({
         onButtonClick={
           modalMetadata.action === "ADD" ? addNewPlotHandler : editPlotHandler
         }
-        className={"flex items-start gap-8"}>
-        <div className="space-y-4">
-          <AdminInputBox
-            label="Enter area value"
-            value={currentPlot.area}
+        className={"grid grid-cols-2 gap-4"}>
+        <AdminInputBox
+          label="Enter area value"
+          value={currentPlot.area}
+          inputHandler={currentPlotInputHandler}
+          idHtmlFor="area"
+          name="area"
+          type="number"
+          required={true}
+          max={9999999}
+        />
+
+        {units?.length > 0 ? (
+          <AdminSelect
+            idHtmlFor="unit"
+            name="unit"
+            label="Select unit"
+            options={units?.map(unit => ({
+              label: unit.name,
+              value: unit.id,
+            }))}
+            value={currentPlot.unit}
             inputHandler={currentPlotInputHandler}
-            idHtmlFor="area"
-            name="area"
-            type="number"
-            max={9999999}
+            required={true}
           />
-          <AdminRadio
-            label="Select Category"
-            adminRadioValue={currentPlot.category}
-            inputHandler={currentPlotInputHandler}
-            name="category"
-            radios={[
-              { label: "Below 1 KANAL", value: "BELOW_1_KANAL" },
-              { label: "1 KANAL & above", value: "1_KANAL_AND_ABOVE" },
-            ]}
-          />
-        </div>
-        <div className="w-full">
-          {units?.length > 0 ? (
-            <AdminSelect
-              idHtmlFor="unit"
-              name="unit"
-              label="Select unit"
-              options={units?.map(unit => ({
-                label: unit.name,
-                value: unit.id,
-              }))}
-              value={currentPlot.unit}
-              inputHandler={currentPlotInputHandler}
-            />
-          ) : (
-            <div className="text-center text-balance">
-              No units found. Please add one first.
-            </div>
-          )}
-        </div>
+        ) : (
+          <div className="text-center text-balance">
+            No units found. Please add one first.
+          </div>
+        )}
+        <AdminRadio
+          label="Select Category"
+          adminRadioValue={currentPlot.category}
+          inputHandler={currentPlotInputHandler}
+          name="category"
+          required={true}
+          radios={[
+            { label: "Below 1 KANAL", value: "BELOW_1_KANAL" },
+            { label: "1 KANAL & above", value: "1_KANAL_AND_ABOVE" },
+          ]}
+        />
       </AdminModal>
     </>
   );

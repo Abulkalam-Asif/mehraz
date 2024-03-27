@@ -2,7 +2,7 @@ import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "../../../firebase";
 
 const usePlotsFromDB = async (
-  fields = ["id", "area", "unit", "category", "usage"],
+  fields = ["id", "area", "unit", "category"],
 ) => {
   const ref = collection(db, "PLOTS");
   return new Promise((resolve, reject) => {

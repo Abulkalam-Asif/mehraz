@@ -30,6 +30,8 @@ const CurrencyModal = ({
             inputHandler={currentCurrencyInputHandler}
             idHtmlFor="name"
             name="name"
+            required={true}
+            maxLength={20}
           />
           <AdminInputBox
             type="number"
@@ -38,19 +40,20 @@ const CurrencyModal = ({
             inputHandler={currentCurrencyInputHandler}
             idHtmlFor="valueInPkr"
             name="valueInPkr"
+            required={true}
             max={9999}
           />
         </div>
-        <div className="w-1/2 space-y-1">
-          <span className="text-accent-1-dark">Select cities</span>
-          <MultiCheckbox
-            className={"max-h-24 pl-2 overflow-y-auto"}
-            options={cities}
-            inputName="cities"
-            checkedBoxes={currentCurrency?.cities}
-            onChange={currentCurrencyInputHandler}
-          />
-        </div>
+        <MultiCheckbox
+          outerClassName={"w-1/2 space-y-1"}
+          className={"max-h-24 pl-2 overflow-y-auto"}
+          options={cities}
+          inputName="cities"
+          checkedBoxes={currentCurrency?.cities}
+          onChange={currentCurrencyInputHandler}
+          title="Select cities"
+          required={true}
+        />
       </AdminModal>
     </>
   );
