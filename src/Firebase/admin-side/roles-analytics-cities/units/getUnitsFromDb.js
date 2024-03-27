@@ -1,10 +1,10 @@
 import { collection, onSnapshot } from "firebase/firestore";
-import { db } from "../../../firebase";
+import { db } from "@/Firebase/firebase";
 
-const usePlotsFromDB = async (
-  fields = ["id", "area", "unit", "category", "usage"],
+const useUnitsFromDb = async (
+  fields = ["id", "name", "usage", "valueInSqFt"],
 ) => {
-  const ref = collection(db, "PLOTS");
+  const ref = collection(db, "UNITS");
   return new Promise((resolve, reject) => {
     const unsubscribe = onSnapshot(
       ref,
@@ -33,4 +33,4 @@ const usePlotsFromDB = async (
   });
 };
 
-export default usePlotsFromDB;
+export default useUnitsFromDb;

@@ -1,4 +1,4 @@
-const FreeProjectSelect = ({
+const AdminSelect2 = ({
   label = "",
   idHtmlFor = "",
   name = "",
@@ -33,4 +33,4 @@ const FreeProjectSelect = ({
   );
 };
 
-export default FreeProjectSelect;
+export default AdminSelect2;

@@ -1,4 +1,4 @@
-const FreeProjectInputBox = ({
+const AdminInputBox2 = ({
   label = "",
   idHtmlFor = "",
   name = "",
@@ -45,4 +45,4 @@ const FreeProjectInputBox = ({
   );
 };
 
-export default FreeProjectInputBox;
+export default AdminInputBox2;
