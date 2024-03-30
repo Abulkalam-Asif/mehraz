@@ -25,6 +25,12 @@ const addMaterialCategoryToDb = async ({ name, coverImage, fixCoverImage }) => {
       const coverImageRef = ref(storage, `MATERIAL_CATEGORIES/${id}`);
       await uploadBytes(coverImageRef, coverImage.get("coverImage"));
     }
+    else{
+      return {
+        type: "ERROR",
+        message: "Cover image is required.",
+      };
+    }
 
     // Add the category to the database
     const newDocRef = doc(collectionRef, id);

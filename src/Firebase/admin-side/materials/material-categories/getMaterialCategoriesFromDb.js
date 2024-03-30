@@ -3,7 +3,9 @@ import { collection, onSnapshot } from "firebase/firestore";
 import { db, storage } from "../../../firebase";
 import { getDownloadURL, ref } from "firebase/storage";
 
-const useMaterialCategoriesFromDb = async () => {
+const useMaterialCategoriesFromDb = async (
+  fields = ["id", "name", "fixCoverImage", "fixedMaterialId"],
+) => {
   try {
     const categoriesRef = collection(db, "MATERIAL_CATEGORIES");
     return new Promise((resolve, reject) => {
@@ -13,22 +15,28 @@ const useMaterialCategoriesFromDb = async () => {
           const arr = [];
           const promises = [];
           dataQuery.forEach(doc => {
-            const materialCategory = {
-              id: doc.id,
-              name: doc.data().name,
-              fixCoverImage: doc.data().fixCoverImage,
-              fixedMaterialId: doc.data().fixedMaterialId,
-            };
-            const coverImageRef = ref(storage, `MATERIAL_CATEGORIES/${doc.id}`);
-            promises.push(
-              getDownloadURL(coverImageRef)
-                .then(url => {
-                  materialCategory.coverImage = url;
-                })
-                .catch(error => {
-                  materialCategory.coverImage = null;
-                }),
-            );
+            const materialCategory = {};
+            fields.forEach(field => {
+              if (field === "id") {
+                materialCategory[field] = doc.id;
+              } else if (field === "coverImage") {
+                const coverImageRef = ref(
+                  storage,
+                  `MATERIAL_CATEGORIES/${doc.id}`,
+                );
+                promises.push(
+                  getDownloadURL(coverImageRef)
+                    .then(url => {
+                      materialCategory[field] = url;
+                    })
+                    .catch(error => {
+                      materialCategory[field] = null;
+                    }),
+                );
+              } else {
+                materialCategory[field] = doc.data()[field];
+              }
+            });
             arr.push(materialCategory);
           });
           unsubscribe();
