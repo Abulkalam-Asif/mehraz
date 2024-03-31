@@ -1,3 +1,4 @@
+"use server";
 import { db, storage } from "@/Firebase/firebase";
 import {
   Timestamp,
@@ -31,7 +32,11 @@ const addReadyProjectS1ToDB = async ({
       const cityDocRef = doc(collection(db, "CITIES"), city);
       const cityDoc = await getDoc(cityDocRef);
       if (!cityDoc.exists) {
-        throw new Error("The selected city does not exist in the database.");
+        return {
+          data: null,
+          type: "ERROR",
+          message: "Something went wrong, please try again later.",
+        };
       }
     }
 
@@ -39,7 +44,11 @@ const addReadyProjectS1ToDB = async ({
       const areaDocRef = doc(collection(db, "PLOTS"), area);
       const areaDoc = await getDoc(areaDocRef);
       if (!areaDoc.exists) {
-        throw new Error("The selected area does not exist in the database.");
+        return {
+          data: null,
+          type: "ERROR",
+          message: "Something went wrong, please try again later.",
+        };
       }
     }
 
@@ -50,7 +59,11 @@ const addReadyProjectS1ToDB = async ({
     );
     const readyProjectsDoc = await getDocs(readyProjectQuery);
     if (!readyProjectsDoc.empty) {
-      throw new Error("The ready project with the same title already exists.");
+      return {
+        data: null,
+        type: "ERROR",
+        message: "A project with this name already exists.",
+      };
     }
 
     const response = await addDoc(readyProjectsRef, {
@@ -79,9 +92,11 @@ const addReadyProjectS1ToDB = async ({
     const videoUrl = await storage.ref(videoRef.fullPath).getDownloadURL();
 
     return {
-      project_id: response.id,
-      image_url: imageUrl,
-      video_url: videoUrl,
+      data: {
+        id: response.id,
+        image: imageUrl,
+        video: videoUrl,
+      },
       type: "SUCCESS",
       message: "Ready project screen 1 added successfully!",
     };
@@ -90,7 +105,7 @@ const addReadyProjectS1ToDB = async ({
     return {
       data: null,
       type: "ERROR",
-      message: error.message || "Something went wrong, please try again later.",
+      message: "Something went wrong, please try again later.",
     };
   }
 };

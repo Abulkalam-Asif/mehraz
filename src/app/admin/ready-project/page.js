@@ -7,10 +7,16 @@ import useCitiesFromDB from "@/Firebase/admin-side/roles-analytics-cities/cities
 import usePlotsFromDB from "@/Firebase/admin-side/roles-analytics-cities/plots/getPlotsFromFirestore";
 import useUnitsFromDb from "@/Firebase/admin-side/teams-aboutus/units/getUnitsFromDb";
 import replacePlotUnitIdsByNames from "@/services/admin-side/replacePlotUnitIdsByNames";
+import useGetFamilyUnitsFromDb from "@/Firebase/admin-side/teams-aboutus/familyUnits/getFamilyUnitsFromDb";
+import useGetFloorsFromDb from "@/Firebase/admin-side/teams-aboutus/floors/getFloorsFromDb";
+import useStylesFromDB from "@/Firebase/admin-side/roles-analytics-cities/styles/getStylesFromFirebase";
 
-const CreateNew = async () => {
+const ReadyProject = async () => {
+  const floors = await useGetFloorsFromDb(["id", "name"]);
+  const familyUnits = await useGetFamilyUnitsFromDb(["id", "name"]);
   const cities = await useCitiesFromDB(["id", "name"]);
   const units = await useUnitsFromDb(["id", "name"]);
+  const styles = await useStylesFromDB(["id", "name", "budget"]);
   let plots = await usePlotsFromDB(["id", "area", "unit"]);
   plots = replacePlotUnitIdsByNames(plots, units);
 
@@ -31,10 +37,17 @@ const CreateNew = async () => {
             <H1 text="Project upload" className="mx-auto xl:text-2xl" />
           </div>
         </div>
-        <ReadyProjectClientPage cities={cities} plots={plots} />
+        <ReadyProjectClientPage
+          cities={cities}
+          plots={plots}
+          floors={floors}
+          units={units}
+          familyUnits={familyUnits}
+          styles={styles}
+        />
       </section>
     </>
   );
 };
 
-export default CreateNew;
+export default ReadyProject;

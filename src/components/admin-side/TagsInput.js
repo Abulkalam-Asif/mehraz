@@ -8,6 +8,7 @@ const TagsInput = ({
   tagsArr = [],
   name = "",
   inputHandler = () => {},
+  required = false,
 }) => {
   const { showAlert } = useContext(AlertContext);
 
@@ -38,6 +39,7 @@ const TagsInput = ({
           htmlFor={idHtmlFor}
           className="text-lg font-medium uppercase text-accent-1-extra-dark lg:text-base">
           {label}
+          {required && <span className="text-red-500"> *</span>}
         </label>
         <input
           type="text"

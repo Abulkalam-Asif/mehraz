@@ -39,12 +39,13 @@ const AdminInputBox = ({
             value={value}
             maxLength={maxLength}
             onChange={e => {
-              inputHandler(e.target.name, e.target.value);
               if (e.target.value.length === maxLength) {
                 showAlert({
                   type: "WARNING",
                   message: `Maximum input length is ${maxLength} characters`,
                 });
+              } else {
+                inputHandler(e.target.name, e.target.value);
               }
             }}
             autoComplete="off"
@@ -65,8 +66,15 @@ const AdminInputBox = ({
                   type: "WARNING",
                   message: `Maximum value is ${max}`,
                 });
+              } else if (e.target.value < min) {
+                e.target.value = min;
+                showAlert({
+                  type: "WARNING",
+                  message: `Minimum value is ${min}`,
+                });
+              } else {
+                inputHandler(e.target.name, e.target.value);
               }
-              inputHandler(e.target.name, e.target.value);
             }}
             autoComplete="off"
           />
@@ -79,12 +87,13 @@ const AdminInputBox = ({
               value={value}
               maxLength={maxLength}
               onChange={e => {
-                inputHandler(e.target.name, e.target.value);
                 if (e.target.value.length === maxLength) {
                   showAlert({
                     type: "WARNING",
                     message: `Maximum input length is ${maxLength} characters`,
                   });
+                } else {
+                  inputHandler(e.target.name, e.target.value);
                 }
               }}
               autoComplete="off"

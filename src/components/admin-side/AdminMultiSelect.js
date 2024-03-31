@@ -8,6 +8,7 @@ const AdminMultiSelect = ({
   options = [],
   selectedOptions = [],
   inputHandler = () => {},
+  required = false,
 }) => {
   const [expanded, setExpanded] = useState(false);
 
@@ -33,6 +34,7 @@ const AdminMultiSelect = ({
       <div className="flex flex-col space-y-1">
         <h3 className="text-lg font-medium uppercase text-accent-1-extra-dark lg:text-base">
           {title}
+          {required && <span className="text-red-500"> *</span>}
         </h3>
         <div className="relative">
           <button
@@ -43,7 +45,7 @@ const AdminMultiSelect = ({
           </button>
           {expanded && (
             <div
-              className="absolute bottom-0 translate-y-full left-0 bg-white shadow-2xl rounded-md border-2 border-accent-1-base px-4 py-2 grid grid-cols-2 gap-x-2 gap-y-1"
+              className="absolute bottom-0 translate-y-full left-0 bg-white shadow-2xl rounded-md border-2 border-accent-1-base px-6 py-4 grid grid-cols-2 gap-x-3 gap-y-2 z-10"
               ref={dropdownRef}>
               {options.map(({ label, value }, index) => (
                 <div key={index} className="flex items-center space-x-2">

@@ -2,7 +2,7 @@
 import { useState } from "react";
 import ReadyProjectScreen1 from "./ReadyProjectScreen1";
 
-const ReadyProjectClientPage = ({ cities, plots }) => {
+const ReadyProjectClientPage = ({ cities, plots, floors, units, styles }) => {
   const [currentScreen, setCurrentScreen] = useState(1);
   // Screen 1 states and handlers
   const defaultReadyProjectS1 = {
@@ -12,9 +12,10 @@ const ReadyProjectClientPage = ({ cities, plots }) => {
     cities: [],
     areas: [],
     floors: [],
+    units: [],
     style: "",
-    constructionRates: [],
-    productRates: [],
+    constructionRates: ["", "", ""],
+    productRates: ["", "", ""],
     keywords: [],
   };
   const [readyProjectS1, setReadyProjectS1] = useState(defaultReadyProjectS1);
@@ -33,7 +34,10 @@ const ReadyProjectClientPage = ({ cities, plots }) => {
             readyProjectS1={readyProjectS1}
             readyProjectS1InputHandler={readyProjectS1InputHandler}
             plots={plots}
+            floors={floors}
+            units={units}
             cities={cities}
+            styles={styles}
           />
         ) : currentScreen === 2 ? (
           <div>step 2</div>

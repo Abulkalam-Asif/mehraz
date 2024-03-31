@@ -6,6 +6,7 @@ import {
   AdminInputBox2,
   AdminSelect2,
   AdminMultiSelect,
+  ReadyProjectRatesInput,
 } from "@/components";
 
 const ReadyProjectS1 = ({
@@ -13,6 +14,9 @@ const ReadyProjectS1 = ({
   readyProjectS1InputHandler = () => {},
   cities,
   plots,
+  floors,
+  units,
+  styles,
 }) => {
   const [citiesOptions, setCitiesOptions] = useState(cities);
   useEffect(() => {
@@ -37,25 +41,8 @@ const ReadyProjectS1 = ({
             idHtmlFor="title"
             value={readyProjectS1.title}
             inputHandler={readyProjectS1InputHandler}
-          />
-          <AdminMultiSelect
-            title="cities"
-            name="cities"
-            options={citiesOptions}
-            selectedOptions={readyProjectS1.cities}
-            inputHandler={readyProjectS1InputHandler}
-            message="Select cities"
-          />
-          <AdminMultiSelect
-            title="areas"
-            name="areas"
-            options={plots?.map(({ id, area, unit }) => ({
-              value: id,
-              label: `${area} ${unit}`,
-            }))}
-            selectedOptions={readyProjectS1.areas}
-            inputHandler={readyProjectS1InputHandler}
-            message="Select areas"
+            required={true}
+            maxLength={100}
           />
           <AdminSelect2
             label="budget"
@@ -68,6 +55,68 @@ const ReadyProjectS1 = ({
               { value: "HIGH", label: "HIGH" },
             ]}
             inputHandler={readyProjectS1InputHandler}
+            required={true}
+          />
+          <ReadyProjectRatesInput
+            label={"construction rate"}
+            rates={readyProjectS1.constructionRates}
+            inputHandler={readyProjectS1InputHandler}
+            required={true}
+            maxLength={15}
+            name={"constructionRates"}
+          />
+          <ReadyProjectRatesInput
+            label={"product rate"}
+            rates={readyProjectS1.productRates}
+            inputHandler={readyProjectS1InputHandler}
+            name={"productRates"}
+            required={true}
+            maxLength={15}
+          />
+          <AdminMultiSelect
+            title="cities"
+            name="cities"
+            options={citiesOptions}
+            selectedOptions={readyProjectS1.cities}
+            inputHandler={readyProjectS1InputHandler}
+            message="Select cities"
+            required={true}
+          />
+          <AdminMultiSelect
+            title="areas"
+            name="areas"
+            options={plots?.map(({ id, area, unit }) => ({
+              value: id,
+              label: `${area} ${unit}`,
+            }))}
+            selectedOptions={readyProjectS1.areas}
+            inputHandler={readyProjectS1InputHandler}
+            message="Select areas"
+            required={true}
+          />
+          <AdminMultiSelect
+            title="floors"
+            name="floors"
+            options={floors?.map(({ id, name }) => ({
+              value: id,
+              label: name,
+            }))}
+            selectedOptions={readyProjectS1.floors}
+            inputHandler={readyProjectS1InputHandler}
+            message="Select floors"
+            required={true}
+          />
+          <AdminMultiSelect
+            title="other units"
+            name="units"
+            options={units?.map(({ id, name }) => ({
+              value: id,
+              label: name,
+            }))}
+            selectedOptions={readyProjectS1.units}
+            inputHandler={readyProjectS1InputHandler}
+            message="Select other units"
+            required={true}
           />
           <AdminInputBox2
             label="description"
@@ -77,14 +126,20 @@ const ReadyProjectS1 = ({
             value={readyProjectS1.description}
             inputHandler={readyProjectS1InputHandler}
             className="row-start-1 col-start-3 row-span-2 lg:row-start-auto lg:col-start-auto"
+            required={true}
+            maxLength={500}
           />
-          <AdminInputBox2
-            label="construction cost"
-            type="text"
-            name="construction_cost"
-            idHtmlFor="construction_cost"
-            value={readyProjectS1.construction_cost}
+          <AdminSelect2
+            label="style"
+            idHtmlFor="style"
+            name="style"
+            value={readyProjectS1.style}
             inputHandler={readyProjectS1InputHandler}
+            options={styles.map(({ id, name, budget }) => ({
+              value: id,
+              label: `${name} (${budget})`,
+            }))}
+            required={true}
           />
           <TagsInput
             label="keywords"
@@ -92,25 +147,30 @@ const ReadyProjectS1 = ({
             name="keywords"
             idHtmlFor="keywords"
             inputHandler={readyProjectS1InputHandler}
+            required={true}
           />
           <div className="flex gap-4">
             <FileInput
               accept={"image/*"}
               name="image"
               typeStartsWith={"image/"}
-              message={"Attach an image."}
+              message={"Attach an image. (required)"}
               wrongFileTypeWarning={"Please select an image to upload."}
               inputHandler={readyProjectS1InputHandler}
               idHtmlFor={"image"}
+              file={readyProjectS1.image}
+              classNameOuter="w-full"
             />
             <FileInput
               accept={"video/*"}
               typeStartsWith={"video/"}
               name="video"
-              message={"Attach a video."}
+              file={readyProjectS1.video}
+              message={"Attach a video. (required)"}
               wrongFileTypeWarning={"Please select a video to upload."}
               inputHandler={readyProjectS1InputHandler}
               idHtmlFor={"video"}
+              classNameOuter="w-full"
             />
           </div>
         </div>

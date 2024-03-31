@@ -5,6 +5,7 @@ const AdminSelect2 = ({
   value = "",
   options = [],
   inputHandler = () => {},
+  required = false,
 }) => {
   return (
     <>
@@ -13,6 +14,7 @@ const AdminSelect2 = ({
           htmlFor={idHtmlFor}
           className="text-lg font-medium uppercase text-accent-1-extra-dark lg:text-base">
           {label}
+          {required && <span className="text-red-500"> *</span>}
         </label>
         <select
           name={name}
