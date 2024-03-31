@@ -12,6 +12,7 @@ import { deleteIcon, editIcon } from "@/assets";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { FaCheckCircle, FaMinusCircle } from "react-icons/fa";
 
 const ProjectsDisplay = ({ freeProjects, readyProjects }) => {
   const projects = [...freeProjects, ...readyProjects];
@@ -30,7 +31,7 @@ const ProjectsDisplay = ({ freeProjects, readyProjects }) => {
     }
   }, []);
 
-  const deleteProjectHandler = (e) => {
+  const deleteProjectHandler = e => {
     const projectId = e.currentTarget.dataset.projectId;
     // TODO (Will be done later) (backend): delete project from database
   };
@@ -51,6 +52,7 @@ const ProjectsDisplay = ({ freeProjects, readyProjects }) => {
                   </Th>
                   <Th className="w-2/3 py-3 px-5">description</Th>
                   <Th className="w-1/12 py-3 px-5">date created</Th>
+                  <Th className="w-1/12 py-3 px-5">completed</Th>
                   <Th position="end" className="w-1/12 py-3 px-5">
                     action
                   </Th>
@@ -58,7 +60,10 @@ const ProjectsDisplay = ({ freeProjects, readyProjects }) => {
               </thead>
               <tbody className="text-base">
                 {projects?.map(
-                  ({ id, title, description, date_created }, index) => (
+                  (
+                    { id, title, description, isCompleted, dateCreated },
+                    index,
+                  ) => (
                     <tr key={index}>
                       <Td
                         position="beginning"
@@ -74,11 +79,20 @@ const ProjectsDisplay = ({ freeProjects, readyProjects }) => {
                       <Td
                         isLastRow={index === projectsCount - 1}
                         className="text-center py-3 px-5">
-                        {new Date(date_created).toLocaleString("en-US", {
+                        {new Date(dateCreated).toLocaleString("en-US", {
                           month: "short",
                           day: "2-digit",
                           year: "numeric",
                         })}
+                      </Td>
+                      <Td
+                        align="center"
+                        isLastRow={index === projectsCount - 1}>
+                        {isCompleted ? (
+                          <FaCheckCircle size={14} className="text-green-500" />
+                        ) : (
+                          <FaMinusCircle size={14} />
+                        )}
                       </Td>
                       <Td
                         position="end"
@@ -100,7 +114,7 @@ const ProjectsDisplay = ({ freeProjects, readyProjects }) => {
                         </div>
                       </Td>
                     </tr>
-                  )
+                  ),
                 )}
               </tbody>
             </Table>
@@ -109,18 +123,16 @@ const ProjectsDisplay = ({ freeProjects, readyProjects }) => {
                 {projectsGroupsArr?.map((group, arrIndex) => (
                   <div key={arrIndex}>
                     <div className="flex flex-col gap-3">
-                      {group?.map(
-                        ({ id, title, description, date_created }) => (
-                          <ProjectDisplayBoxMob
-                            key={id}
-                            id={id}
-                            title={title}
-                            description={description}
-                            date_created={date_created}
-                            deleteProjectHandler={deleteProjectHandler}
-                          />
-                        )
-                      )}
+                      {group?.map(({ id, title, description, dateCreated }) => (
+                        <ProjectDisplayBoxMob
+                          key={id}
+                          id={id}
+                          title={title}
+                          description={description}
+                          dateCreated={dateCreated}
+                          deleteProjectHandler={deleteProjectHandler}
+                        />
+                      ))}
                     </div>
                   </div>
                 ))}

@@ -10,7 +10,7 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import { ref, uploadBytes } from "firebase/storage";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 const addReadyProjectS1ToDB = async ({
   title,
@@ -21,13 +21,27 @@ const addReadyProjectS1ToDB = async ({
   floors,
   units,
   style,
-  construction_rates,
-  production_rates,
+  constructionRates,
+  productRates,
   keywords,
   image,
   video,
 }) => {
   try {
+    const readyProjectsRef = collection(db, "READY_PROJECTS");
+    const readyProjectQuery = query(
+      readyProjectsRef,
+      where("title", "==", title),
+    );
+    const readyProjectsDoc = await getDocs(readyProjectQuery);
+    if (!readyProjectsDoc.empty) {
+      return {
+        data: null,
+        type: "ERROR",
+        message: "A project with this name already exists.",
+      };
+    }
+
     for (const city of cities) {
       const cityDocRef = doc(collection(db, "CITIES"), city);
       const cityDoc = await getDoc(cityDocRef);
@@ -52,17 +66,37 @@ const addReadyProjectS1ToDB = async ({
       }
     }
 
-    const readyProjectsRef = collection(db, "READY_PROJECTS");
-    const readyProjectQuery = query(
-      readyProjectsRef,
-      where("title", "==", title),
-    );
-    const readyProjectsDoc = await getDocs(readyProjectQuery);
-    if (!readyProjectsDoc.empty) {
+    for (const floor of floors) {
+      const floorDocRef = doc(collection(db, "FLOORS"), floor);
+      const floorDoc = await getDoc(floorDocRef);
+      if (!floorDoc.exists) {
+        return {
+          data: null,
+          type: "ERROR",
+          message: "Something went wrong, please try again later.",
+        };
+      }
+    }
+
+    for (const unit of units) {
+      const unitDocRef = doc(collection(db, "UNITS"), unit);
+      const unitDoc = await getDoc(unitDocRef);
+      if (!unitDoc.exists) {
+        return {
+          data: null,
+          type: "ERROR",
+          message: "Something went wrong, please try again later.",
+        };
+      }
+    }
+
+    const styleRef = doc(collection(db, "STYLES"), style);
+    const styleDoc = await getDoc(styleRef);
+    if (!styleDoc.exists) {
       return {
         data: null,
         type: "ERROR",
-        message: "A project with this name already exists.",
+        message: "Something went wrong, please try again later.",
       };
     }
 
@@ -75,21 +109,21 @@ const addReadyProjectS1ToDB = async ({
       floors,
       units,
       style,
-      construction_rates,
-      production_rates,
+      constructionRates,
+      productRates,
       keywords,
       isComplete: false,
-      date_created: Timestamp.now(),
+      dateCreated: Timestamp.now(),
     });
 
     const imageRef = ref(storage, `READY_PROJECTS/${response.id}/image`);
-    await uploadBytes(imageRef, image);
+    await uploadBytes(imageRef, image.get("image"));
 
     const videoRef = ref(storage, `READY_PROJECTS/${response.id}/video`);
-    await uploadBytes(videoRef, video);
+    await uploadBytes(videoRef, video.get("video"));
 
-    const imageUrl = await storage.ref(imageRef.fullPath).getDownloadURL();
-    const videoUrl = await storage.ref(videoRef.fullPath).getDownloadURL();
+    const imageUrl = await getDownloadURL(imageRef);
+    const videoUrl = await getDownloadURL(videoRef);
 
     return {
       data: {

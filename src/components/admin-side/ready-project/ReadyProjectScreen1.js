@@ -7,11 +7,13 @@ import {
   AdminSelect2,
   AdminMultiSelect,
   ReadyProjectRatesInput,
+  Button,
 } from "@/components";
 
 const ReadyProjectS1 = ({
   readyProjectS1,
   readyProjectS1InputHandler = () => {},
+  addReadyProjectS1Handler = () => {},
   cities,
   plots,
   floors,
@@ -33,7 +35,7 @@ const ReadyProjectS1 = ({
       <form
         className="w-full max-w-7xl mx-auto py-4 pr-2 space-y-6"
         onSubmit={e => e.preventDefault()}>
-        <div className="w-full grid grid-cols-3 gap-6 lg:grid-cols-2 sm:grid-cols-1">
+        <div className="w-full grid grid-cols-3 gap-4 lg:grid-cols-2 sm:grid-cols-1">
           <AdminInputBox2
             label="title"
             type="text"
@@ -57,22 +59,7 @@ const ReadyProjectS1 = ({
             inputHandler={readyProjectS1InputHandler}
             required={true}
           />
-          <ReadyProjectRatesInput
-            label={"construction rate"}
-            rates={readyProjectS1.constructionRates}
-            inputHandler={readyProjectS1InputHandler}
-            required={true}
-            maxLength={15}
-            name={"constructionRates"}
-          />
-          <ReadyProjectRatesInput
-            label={"product rate"}
-            rates={readyProjectS1.productRates}
-            inputHandler={readyProjectS1InputHandler}
-            name={"productRates"}
-            required={true}
-            maxLength={15}
-          />
+
           <AdminMultiSelect
             title="cities"
             name="cities"
@@ -93,6 +80,17 @@ const ReadyProjectS1 = ({
             inputHandler={readyProjectS1InputHandler}
             message="Select areas"
             required={true}
+          />
+          <AdminInputBox2
+            label="description"
+            type="textarea"
+            name="description"
+            idHtmlFor="description"
+            value={readyProjectS1.description}
+            inputHandler={readyProjectS1InputHandler}
+            className="row-start-1 col-start-3 row-span-2 lg:row-start-auto lg:col-start-auto"
+            required={true}
+            maxLength={250}
           />
           <AdminMultiSelect
             title="floors"
@@ -118,17 +116,7 @@ const ReadyProjectS1 = ({
             message="Select other units"
             required={true}
           />
-          <AdminInputBox2
-            label="description"
-            type="textarea"
-            name="description"
-            idHtmlFor="description"
-            value={readyProjectS1.description}
-            inputHandler={readyProjectS1InputHandler}
-            className="row-start-1 col-start-3 row-span-2 lg:row-start-auto lg:col-start-auto"
-            required={true}
-            maxLength={500}
-          />
+
           <AdminSelect2
             label="style"
             idHtmlFor="style"
@@ -141,13 +129,21 @@ const ReadyProjectS1 = ({
             }))}
             required={true}
           />
-          <TagsInput
-            label="keywords"
-            tagsArr={readyProjectS1.keywords}
-            name="keywords"
-            idHtmlFor="keywords"
+          <ReadyProjectRatesInput
+            label={"construction rate"}
+            rates={readyProjectS1.constructionRates}
             inputHandler={readyProjectS1InputHandler}
             required={true}
+            maxLength={15}
+            name={"constructionRates"}
+          />
+          <ReadyProjectRatesInput
+            label={"product rate"}
+            rates={readyProjectS1.productRates}
+            inputHandler={readyProjectS1InputHandler}
+            name={"productRates"}
+            required={true}
+            maxLength={15}
           />
           <div className="flex gap-4">
             <FileInput
@@ -173,14 +169,30 @@ const ReadyProjectS1 = ({
               classNameOuter="w-full"
             />
           </div>
+          <TagsInput
+            label="keywords"
+            tagsArr={readyProjectS1.keywords}
+            name="keywords"
+            idHtmlFor="keywords"
+            inputHandler={readyProjectS1InputHandler}
+            required={true}
+          />
         </div>
-        {/* <Button
-          type="button"
-          text="Next"
-          isTransitioned={true}
-          className="block ml-auto"
-          onClick={addFreeProjectS1Handler}
-        /> */}
+        <div className="flex items-center justify-end gap-4">
+          <Button
+            type="button"
+            text="Next step"
+            isTransitioned={true}
+            onClick={addReadyProjectS1Handler}
+          />
+          <Button
+            type="button"
+            text="skip and finish"
+            color="accent-2-outlined"
+            isTransitioned={true}
+            onClick={addReadyProjectS1Handler}
+          />
+        </div>
       </form>
     </>
   );

@@ -42,8 +42,8 @@ const addFreeProjectS2ToDb = async ({
     //   description,
     //   construction_cost,
     //   keywords,
-    //   is_complete: false,
-    //   date_created: Timestamp.now(),
+    //   isCompleted: false,
+    //   dateCreated: Timestamp.now(),
     // });
 
     // Uploading the design file to the storage

@@ -1,5 +1,4 @@
-import { AlertContext } from "@/context/AlertContext";
-import { useContext } from "react";
+import { useShowAlert } from "@/hooks/useShowAlert";
 
 const AdminInputBox = ({
   label = "",
@@ -14,7 +13,7 @@ const AdminInputBox = ({
   className = "",
   required = false,
 }) => {
-  const { showAlert } = useContext(AlertContext);
+  const showAlert = useShowAlert();
 
   return (
     <>
@@ -39,13 +38,12 @@ const AdminInputBox = ({
             value={value}
             maxLength={maxLength}
             onChange={e => {
+              inputHandler(e.target.name, e.target.value);
               if (e.target.value.length === maxLength) {
                 showAlert({
                   type: "WARNING",
                   message: `Maximum input length is ${maxLength} characters`,
                 });
-              } else {
-                inputHandler(e.target.name, e.target.value);
               }
             }}
             autoComplete="off"
@@ -87,13 +85,12 @@ const AdminInputBox = ({
               value={value}
               maxLength={maxLength}
               onChange={e => {
+                inputHandler(e.target.name, e.target.value);
                 if (e.target.value.length === maxLength) {
                   showAlert({
                     type: "WARNING",
                     message: `Maximum input length is ${maxLength} characters`,
                   });
-                } else {
-                  inputHandler(e.target.name, e.target.value);
                 }
               }}
               autoComplete="off"

@@ -1,3 +1,5 @@
+import { useShowAlert } from "@/hooks/useShowAlert";
+
 const AdminInputBox2 = ({
   label = "",
   idHtmlFor = "",
@@ -11,6 +13,7 @@ const AdminInputBox2 = ({
   max = 100,
   maxLength = 100,
 }) => {
+  const showAlert = useShowAlert();
   return (
     <>
       <div className={`flex flex-col space-y-1 ${className}`}>
@@ -36,13 +39,12 @@ const AdminInputBox2 = ({
             value={value}
             maxLength={maxLength}
             onChange={e => {
+              inputHandler(e.target.name, e.target.value);
               if (e.target.value.length === maxLength) {
                 showAlert({
                   type: "WARNING",
                   message: `Maximum input length is ${maxLength} characters`,
                 });
-              } else {
-                inputHandler(e.target.name, e.target.value);
               }
             }}
             autoComplete="off"
@@ -84,13 +86,12 @@ const AdminInputBox2 = ({
               value={value}
               maxLength={maxLength}
               onChange={e => {
+                inputHandler(e.target.name, e.target.value);
                 if (e.target.value.length === maxLength) {
                   showAlert({
                     type: "WARNING",
                     message: `Maximum input length is ${maxLength} characters`,
                   });
-                } else {
-                  inputHandler(e.target.name, e.target.value);
                 }
               }}
               autoComplete="off"

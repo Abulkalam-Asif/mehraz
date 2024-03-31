@@ -10,6 +10,8 @@ const Button = ({
 }) => {
   const colorStyles = {
     "accent-2": "bg-accent-2-base text-white",
+    "accent-2-outlined":
+      "bg-transparent text-accent-2-base border-2 border-accent-2-base",
     red: "bg-red-500 text-white",
   };
   const sizeStyles = {

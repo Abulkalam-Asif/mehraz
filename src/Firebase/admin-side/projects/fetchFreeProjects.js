@@ -1,22 +1,20 @@
 import { getDocs, collection } from "firebase/firestore";
-import { db } from "../../firebase";
+import { db } from "@/Firebase/firebase";
 
-const fetchFreeProjects = async (fields = ["id", "date_created"]) => {
+const fetchFreeProjects = async () => {
   try {
     const querySnapshot = await getDocs(collection(db, "FREE_PROJECTS"));
     if (!querySnapshot.empty) {
       const projects = [];
       querySnapshot.forEach(doc => {
-        const project = {};
-        fields.forEach(field => {
-          if (field === "id") {
-            project[field] = doc.id;
-          } else if (field === "date_created") {
-            project[field] = doc.data().date_created.toDate();
-          } else {
-            project[field] = doc.data()[field];
-          }
-        });
+        const project = {
+          id: doc.id,
+          title: doc.data().title,
+          description: doc.data().description,
+          isCompleted: doc.data().isCompleted,
+          type: "FREE_PROJECT",
+          dateCreated: doc.data().dateCreated.toDate(),
+        };
         projects.push(project);
       });
       return projects;

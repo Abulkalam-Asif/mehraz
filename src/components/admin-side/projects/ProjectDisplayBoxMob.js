@@ -7,7 +7,7 @@ const ProjectDisplayBoxMob = ({
   id = "",
   title = "",
   description = "",
-  date_created = new Date(),
+  dateCreated = new Date(),
   deleteProjectHandler = () => {},
 }) => {
   return (
@@ -16,7 +16,7 @@ const ProjectDisplayBoxMob = ({
         <h2 className="font-bold uppercase">{title}</h2>
         <p className="text-sm">{stringEllipsis(description, 120)}</p>
         <h3 className="text-lg font-bold my-2">
-          {new Date(date_created).toLocaleString("en-US", {
+          {new Date(dateCreated).toLocaleString("en-US", {
             month: "short",
             day: "2-digit",
             year: "numeric",

@@ -72,8 +72,8 @@ const addFreeProjectS1ToDb = async ({
       description,
       construction_cost,
       keywords,
-      is_complete: false,
-      date_created: Timestamp.now(),
+      isCompleted: false,
+      dateCreated: Timestamp.now(),
     });
     // Uploading the image and video to the storage
     const imageRef = ref(storage, `FREE_PROJECTS/${response.id}/image`);

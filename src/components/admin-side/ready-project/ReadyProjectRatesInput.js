@@ -1,3 +1,6 @@
+"use client";
+import { useShowAlert } from "@/hooks/useShowAlert";
+
 const ReadyProjectRatesInput = ({
   label,
   name,
@@ -7,6 +10,8 @@ const ReadyProjectRatesInput = ({
   className = "",
   maxLength,
 }) => {
+  const showAlert = useShowAlert();
+
   return (
     <div className={`flex flex-col space-y-1 ${className}`}>
       <h3 className="text-lg font-medium uppercase text-accent-1-extra-dark lg:text-base">
@@ -25,8 +30,15 @@ const ReadyProjectRatesInput = ({
             type="text"
             className="w-full border-2 text-base border-accent-1-base rounded-md px-4 py-1"
             value={rates[0]}
+            maxLength={maxLength}
             onChange={e => {
               inputHandler(name, [e.target.value, rates[1], rates[2]]);
+              if (e.target.value.length === maxLength) {
+                showAlert({
+                  type: "WARNING",
+                  message: `Maximum input length is ${maxLength} characters`,
+                });
+              }
             }}
           />
         </div>
@@ -45,16 +57,30 @@ const ReadyProjectRatesInput = ({
               type="text"
               className="w-full border-2 text-base border-accent-1-base rounded-md px-4 py-1"
               value={rates[1]}
+              maxLength={maxLength}
               onChange={e => {
                 inputHandler(name, [rates[0], e.target.value, rates[2]]);
+                if (e.target.value.length === maxLength) {
+                  showAlert({
+                    type: "WARNING",
+                    message: `Maximum input length is ${maxLength} characters`,
+                  });
+                }
               }}
             />
             <input
               type="text"
               className="w-full border-2 text-base border-accent-1-base rounded-md px-4 py-1"
               value={rates[2]}
+              maxLength={maxLength}
               onChange={e => {
                 inputHandler(name, [rates[0], rates[1], e.target.value]);
+                if (e.target.value.length === maxLength) {
+                  showAlert({
+                    type: "WARNING",
+                    message: `Maximum input length is ${maxLength} characters`,
+                  });
+                }
               }}
             />
           </div>
