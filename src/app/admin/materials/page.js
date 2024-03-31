@@ -8,10 +8,35 @@ import Image from "next/image";
 import Link from "next/link";
 
 const Materials = async () => {
-  const materials = await useMaterialsFromDb();
-  const materialCategories = await useMaterialCategoriesFromDb();
-  const properties = await usePropertiesFromDb();
-  const cities = await useCitiesFromDB();
+  const materials = await useMaterialsFromDb([
+    "id",
+    "name",
+    "vendor",
+    "rate",
+    "category",
+    "description",
+    "specs",
+    "orderedAs",
+    "image1",
+    "image2",
+  ]);
+  const materialCategories = await useMaterialCategoriesFromDb([
+    "id",
+    "name",
+    "coverImage",
+    "fixCoverImage",
+    "fixedMaterialId",
+  ]);
+  const properties = await usePropertiesFromDb([
+    "id",
+    "area",
+    "description",
+    "location",
+    "demand",
+    "city",
+    "type",
+  ]);
+  const cities = await useCitiesFromDB(["id", "name"]);
 
   return (
     <>

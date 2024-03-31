@@ -3,7 +3,20 @@ import { collection, onSnapshot } from "firebase/firestore";
 import { db, storage } from "../../../firebase";
 import { getDownloadURL, ref } from "firebase/storage";
 
-const useMaterialsFromDb = async () => {
+const useMaterialsFromDb = async (
+  fields = [
+    "id",
+    "name",
+    "vendor",
+    "rate",
+    "category",
+    "description",
+    "specs",
+    "orderedAs",
+    "image1",
+    "image2",
+  ],
+) => {
   const materialsRef = collection(db, "MATERIALS");
   return new Promise((resolve, reject) => {
     const unsubscribe = onSnapshot(
@@ -13,23 +26,23 @@ const useMaterialsFromDb = async () => {
         const promises = [];
 
         dataQuery.forEach(doc => {
-          const material = {
-            id: doc.id,
-            name: doc.data().name,
-            vendor: doc.data().vendor,
-            rate: doc.data().rate,
-            category: doc.data().category,
-            description: doc.data().description,
-            specs: doc.data().specs,
-            orderedAs: doc.data().orderedAs,
-          };
-          const image1Ref = ref(storage, `MATERIALS/${doc.id}/image1`);
-          const image2Ref = ref(storage, `MATERIALS/${doc.id}/image2`);
-          promises.push(
-            getDownloadURL(image1Ref).then(url => (material.image1 = url)),
-            getDownloadURL(image2Ref).then(url => (material.image2 = url)),
-          );
-          arr.push(material);
+          const materialData = {};
+          fields.forEach(field => {
+            if (field === "id") {
+              materialData[field] = doc.id;
+            } else if (field === "image1" || field === "image2") {
+              const imageName = `${doc.id}/${field}`;
+              const imageRef = ref(storage, `MATERIALS/${imageName}`);
+              promises.push(
+                getDownloadURL(imageRef).then(url => {
+                  materialData[field] = url;
+                }),
+              );
+            } else {
+              materialData[field] = doc.data()[field];
+            }
+          });
+          arr.push(materialData);
         });
         unsubscribe();
         Promise.all(promises).then(() => resolve(arr));

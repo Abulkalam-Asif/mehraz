@@ -27,7 +27,7 @@ const RAC = async () => {
     "image",
   ]);
   const plots = await usePlotsFromDB(["id", "area", "unit", "category"]);
-  const styles = await useStylesFromDB();
+  const styles = await useStylesFromDB(["id", "name", "budget"]);
   const units = await useUnitsFromDb(["id", "name"]);
 
   return (

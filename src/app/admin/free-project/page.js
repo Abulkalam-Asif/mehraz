@@ -6,8 +6,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 const FreeProject = async () => {
-  const cities = await useCitiesFromDB();
-  const plots = await usePlotsFromDB();
+  const cities = await useCitiesFromDB(["id", "name"]);
+  const plots = await usePlotsFromDB(["id", "area", "unit", "category"]);
 
   return (
     <>

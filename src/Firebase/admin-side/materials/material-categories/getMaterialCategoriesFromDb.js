@@ -4,7 +4,7 @@ import { db, storage } from "../../../firebase";
 import { getDownloadURL, ref } from "firebase/storage";
 
 const useMaterialCategoriesFromDb = async (
-  fields = ["id", "name", "fixCoverImage", "fixedMaterialId"],
+  fields = ["id", "name", "fixCoverImage", "fixedMaterialId", "coverImage"],
 ) => {
   try {
     const categoriesRef = collection(db, "MATERIAL_CATEGORIES");

@@ -9,7 +9,7 @@ import useUnitsFromDb from "@/Firebase/admin-side/teams-aboutus/units/getUnitsFr
 import replacePlotUnitIdsByNames from "@/services/admin-side/replacePlotUnitIdsByNames";
 
 const CreateNew = async () => {
-  const cities = await useCitiesFromDB();
+  const cities = await useCitiesFromDB(["id", "name"]);
   const units = await useUnitsFromDb(["id", "name"]);
   let plots = await usePlotsFromDB(["id", "area", "unit"]);
   plots = replacePlotUnitIdsByNames(plots, units);

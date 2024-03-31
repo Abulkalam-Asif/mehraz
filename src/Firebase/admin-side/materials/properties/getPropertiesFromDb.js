@@ -2,7 +2,9 @@
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "../../../firebase";
 
-const usePropertiesFromDb = async () => {
+const usePropertiesFromDb = async (
+  fields = ["id", "area", "description", "location", "demand", "city", "type"],
+) => {
   const propertiesRef = collection(db, "PROPERTIES");
   return new Promise((resolve, reject) => {
     const unsubscribe = onSnapshot(
@@ -11,16 +13,15 @@ const usePropertiesFromDb = async () => {
         const arr = [];
 
         dataQuery.forEach(doc => {
-          const property = {
-            id: doc.id,
-            area: doc.data().area,
-            description: doc.data().description,
-            location: doc.data().location,
-            demand: doc.data().demand,
-            city: doc.data().city,
-            type: doc.data().type,
-          };
-          arr.push(property);
+          const propertyData = {};
+          fields.forEach(field => {
+            if (field === "id") {
+              propertyData[field] = doc.id;
+            } else {
+              propertyData[field] = doc.data()[field];
+            }
+          });
+          arr.push(propertyData);
         });
         unsubscribe();
         resolve(arr);
