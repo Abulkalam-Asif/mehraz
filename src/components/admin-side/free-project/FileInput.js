@@ -6,7 +6,7 @@ const FileInput = ({
   file = null,
   message,
   name = "",
-  htmlFor,
+  idHtmlFor,
   className = "",
   typeStartsWith,
   wrongFileTypeWarning = "",
@@ -41,14 +41,14 @@ const FileInput = ({
     <>
       <div className={`flex ${classNameOuter}`}>
         <input
-          id={htmlFor}
+          id={idHtmlFor}
           type="file"
           className="peer w-0 h-0 focus:outline-none"
           onChange={handleFileChange}
           accept={accept}
         />
         <label
-          htmlFor={htmlFor}
+          htmlFor={idHtmlFor}
           className={`${className} flex items-center justify-center p-2 w-full border-2 border-accent-1-base rounded-md cursor-pointer bg-white text-center text-accent-1-dark hover:shadow-lg outline-2 peer-focus:outline-accent-2-base peer-focus:outline-dashed`}>
           {file ? (
             <span className="text-green-500">File attached.</span>

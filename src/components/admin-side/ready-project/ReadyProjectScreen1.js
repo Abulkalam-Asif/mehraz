@@ -101,6 +101,7 @@ const ReadyProjectS1 = ({
               message={"Attach an image."}
               wrongFileTypeWarning={"Please select an image to upload."}
               inputHandler={readyProjectS1InputHandler}
+              idHtmlFor={"image"}
             />
             <FileInput
               accept={"video/*"}
@@ -109,6 +110,7 @@ const ReadyProjectS1 = ({
               message={"Attach a video."}
               wrongFileTypeWarning={"Please select a video to upload."}
               inputHandler={readyProjectS1InputHandler}
+              idHtmlFor={"video"}
             />
           </div>
         </div>
