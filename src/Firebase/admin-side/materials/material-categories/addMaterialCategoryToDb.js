@@ -6,7 +6,12 @@ import { query, where, getDocs } from "firebase/firestore";
 import { ulid } from "ulid";
 import { ref, uploadBytes } from "firebase/storage";
 
-const addMaterialCategoryToDb = async ({ name, coverImage, fixCoverImage }) => {
+const addMaterialCategoryToDb = async ({
+  name,
+  image,
+  coverImage,
+  fixCoverImage,
+}) => {
   try {
     // Check if the category already exists
     const collectionRef = collection(db, "MATERIAL_CATEGORIES");
@@ -19,17 +24,14 @@ const addMaterialCategoryToDb = async ({ name, coverImage, fixCoverImage }) => {
       };
     }
 
-    // Upload the cover image if it exists
     const id = ulid();
+    // Upload the image
+    const imageRef = ref(storage, `MATERIAL_CATEGORIES/${id}/image`);
+    await uploadBytes(imageRef, image.get("image"));
+    // Upload the cover image if it exists
     if (coverImage) {
-      const coverImageRef = ref(storage, `MATERIAL_CATEGORIES/${id}`);
+      const coverImageRef = ref(storage, `MATERIAL_CATEGORIES/${id}/cover`);
       await uploadBytes(coverImageRef, coverImage.get("coverImage"));
-    }
-    else{
-      return {
-        type: "ERROR",
-        message: "Cover image is required.",
-      };
     }
 
     // Add the category to the database

@@ -19,10 +19,12 @@ const Materials = async () => {
     "orderedAs",
     "image1",
     "image2",
+    "cities",
   ]);
   const materialCategories = await useMaterialCategoriesFromDb([
     "id",
     "name",
+    "image",
     "coverImage",
     "fixCoverImage",
     "fixedMaterialId",

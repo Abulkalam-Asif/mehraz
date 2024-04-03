@@ -25,6 +25,7 @@ const updateMaterialFromDb = async ({
   orderedAs,
   image1,
   image2,
+  cities
 }) => {
   try {
     const materialsCollectionRef = collection(db, "MATERIALS");
@@ -64,6 +65,7 @@ const updateMaterialFromDb = async ({
       description,
       specs,
       orderedAs,
+      cities,
     });
 
     // Update fixed material

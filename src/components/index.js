@@ -27,6 +27,7 @@ export { default as AdminSelect2 } from "./admin-side/free-project/AdminSelect2"
 export { default as ListInput } from "./admin-side/ListInput";
 export { default as AdminTableContainer } from "./admin-side/AdminTableContainer";
 export { default as AdminMultiSelect } from "./admin-side/AdminMultiSelect";
+export { default as AdminMultiSelect2 } from "./admin-side/AdminMultiSelect2";
 export { default as ToggleViewButtonMobile } from "./admin-side/ToggleViewButtonMobile";
 // Admin Side - AdminDashboard
 export { default as AdminDashboardGroup } from "./admin-side/dashboard/AdminDashboardGroup";

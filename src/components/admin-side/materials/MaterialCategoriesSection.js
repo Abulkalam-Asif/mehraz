@@ -61,6 +61,7 @@ const MaterialCategoriesSection = ({
                 <tr>
                   <Th position="beginning">name</Th>
                   <Th>image</Th>
+                  <Th>cover</Th>
                   <Th position="end">fix cover</Th>
                 </tr>
               </thead>
@@ -71,6 +72,15 @@ const MaterialCategoriesSection = ({
                       position="beginning"
                       isLastRow={index === materialCategories.length - 1}>
                       {category.name}
+                    </Td>
+                    <Td
+                      align="center"
+                      isLastRow={index === materialCategories.length - 1}>
+                      {category.image ? (
+                        <FaCheckCircle size={14} className="text-green-500" />
+                      ) : (
+                        <FaMinusCircle size={14} />
+                      )}
                     </Td>
                     <Td
                       align="center"

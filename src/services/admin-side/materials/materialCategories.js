@@ -12,6 +12,7 @@ const addNewMaterialCategoryService = (
 ) => {
   const formattedData = {
     name: currentMaterialCategory.name.trim().toUpperCase(),
+    image: currentMaterialCategory.image,
     coverImage: currentMaterialCategory.coverImage,
     fixCoverImage: currentMaterialCategory.fixCoverImage,
   };
@@ -25,11 +26,17 @@ const addNewMaterialCategoryService = (
   ) {
     showAlert({ type: "ERROR", message: "This category already exists" });
     return;
+  } else if (!formattedData.image) {
+    showAlert({ type: "ERROR", message: "Please attach an image" });
+    return;
   } else if (formattedData.fixCoverImage && !formattedData.coverImage) {
     showAlert({ type: "ERROR", message: "Please attach a cover image" });
     return;
   } else {
     setShowModalSpinner(true);
+    if (formattedData.image instanceof File) {
+      formattedData.image = fileToFormData("image", formattedData.image);
+    }
     if (formattedData.coverImage instanceof File) {
       formattedData.coverImage = fileToFormData(
         "coverImage",
@@ -54,6 +61,7 @@ const editMaterialCategoryService = (
   const formattedData = {
     id: currentMaterialCategory.id,
     name: currentMaterialCategory.name.trim().toUpperCase(),
+    image: currentMaterialCategory.image,
     coverImage: currentMaterialCategory.coverImage,
     fixCoverImage: currentMaterialCategory.fixCoverImage,
   };
@@ -69,14 +77,17 @@ const editMaterialCategoryService = (
   ) {
     showAlert({ type: "ERROR", message: "This category already exists" });
     return;
-  } else if (
-    currentMaterialCategory.fixCoverImage &&
-    !currentMaterialCategory.coverImage
-  ) {
+  } else if (!formattedData.image) {
+    showAlert({ type: "ERROR", message: "Please attach an image" });
+    return;
+  } else if (formattedData.fixCoverImage && !formattedData.coverImage) {
     showAlert({ type: "ERROR", message: "Please attach a cover image" });
     return;
   } else {
     setShowModalSpinner(true);
+    if (formattedData.image instanceof File) {
+      formattedData.image = fileToFormData("image", formattedData.image);
+    }
     if (formattedData.coverImage instanceof File) {
       formattedData.coverImage = fileToFormData(
         "coverImage",

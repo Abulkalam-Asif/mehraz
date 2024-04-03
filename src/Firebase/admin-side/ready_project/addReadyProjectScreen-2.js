@@ -1,6 +1,6 @@
 "use server";
 import { db } from "@/Firebase/firebase";
-import { collection, doc, getDoc, setDoc } from "firebase/firestore";
+import { collection, doc, getDoc, updateDoc } from "firebase/firestore";
 
 const addReadyProjectS2ToDB = async ({ id, designs, budgetRanges }) => {
   try {
@@ -17,7 +17,7 @@ const addReadyProjectS2ToDB = async ({ id, designs, budgetRanges }) => {
       };
     }
 
-    await setDoc(readyProjectDocRef, {
+    await updateDoc(readyProjectDocRef, {
       designs,
       budgetRanges,
     });

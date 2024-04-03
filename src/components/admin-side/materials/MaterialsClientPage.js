@@ -54,6 +54,7 @@ const MaterialsClientPage = ({
     orderedAs: "",
     image1: null,
     image2: null,
+    cities: [],
   };
   const [currentMaterial, setCurrentMaterial] = useState(defaultMaterial);
   const currentMaterialInputHandler = (name, value) => {
@@ -96,6 +97,7 @@ const MaterialsClientPage = ({
   const defaultMaterialCategory = {
     id: null,
     name: "",
+    image: null,
     coverImage: null,
     fixCoverImage: false,
     fixedMaterialId: null,
@@ -228,6 +230,7 @@ const MaterialsClientPage = ({
           toggleModal={toggleModal}
           setCurrentMaterial={setCurrentMaterial}
           setItemToDelete={setItemToDelete}
+          cities={cities}
         />
         <div className="grid grid-cols-3 row-span-2 gap-4">
           <MaterialCategoriesSection
@@ -269,6 +272,7 @@ const MaterialsClientPage = ({
             toggleModal={toggleModal}
             setCurrentMaterial={setCurrentMaterial}
             setItemToDelete={setItemToDelete}
+            cities={cities}
           />
         ) : expandedSection === "categories" ? (
           <MaterialCategoriesSection
@@ -319,6 +323,7 @@ const MaterialsClientPage = ({
               currentMaterialInputHandler={currentMaterialInputHandler}
               editMaterialHandler={editMaterialHandler}
               modalMetadata={modalMetadata}
+              cities={cities}
             />
           ) : modalMetadata.type === "MATERIAL_CATEGORIES" ? (
             <MaterialCategoryModal

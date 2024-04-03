@@ -19,6 +19,7 @@ const MaterialsSection = ({
   toggleModal,
   setCurrentMaterial,
   setItemToDelete,
+  cities,
 }) => {
   const showAlert = useShowAlert();
   const addMaterialClickHandler = () => {
@@ -79,6 +80,7 @@ const MaterialsSection = ({
                   <Th>category</Th>
                   <Th>description</Th>
                   <Th>specs</Th>
+                  <Th>cities</Th>
                   <Th position="end">ordered as</Th>
                 </tr>
               </thead>
@@ -122,6 +124,19 @@ const MaterialsSection = ({
                           ?.filter(spec => spec !== "")
                           ?.map((spec, index) => (
                             <li key={index}>{spec}</li>
+                          ))}
+                      </ul>
+                    </Td>
+
+                    <Td isLastRow={index === materials.length - 1}>
+                      <ul className="list-disc list-inside">
+                        {material.cities
+                          ?.map(
+                            cityId =>
+                              cities.find(city => city.id === cityId)?.name,
+                          )
+                          ?.map((city, index) => (
+                            <li key={index}>{city}</li>
                           ))}
                       </ul>
                     </Td>

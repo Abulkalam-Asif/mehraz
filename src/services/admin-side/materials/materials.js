@@ -25,6 +25,7 @@ const addNewMaterialService = (
     orderedAs: currentMaterial.orderedAs.trim().toUpperCase(),
     image1: currentMaterial.image1,
     image2: currentMaterial.image2,
+    cities: currentMaterial.cities,
   };
 
   if (formattedData.name === "") {
@@ -49,6 +50,8 @@ const addNewMaterialService = (
     showAlert({ type: "WARNING", message: "Please attach image 1." });
   } else if (formattedData.image2 === null) {
     showAlert({ type: "WARNING", message: "Please attach image 2." });
+  } else if (formattedData.cities.length === 0) {
+    showAlert({ type: "WARNING", message: "Please select at least one city." });
   } else {
     setShowModalSpinner(true);
     // Converting image to FormData
@@ -85,6 +88,7 @@ const editMaterialService = (
     orderedAs: currentMaterial.orderedAs.trim().toUpperCase(),
     image1: currentMaterial.image1,
     image2: currentMaterial.image2,
+    cities: currentMaterial.cities,
   };
 
   if (formattedData.name === "") {
@@ -115,6 +119,8 @@ const editMaterialService = (
     showAlert({ type: "WARNING", message: "Please attach image 1." });
   } else if (formattedData.image2 === null) {
     showAlert({ type: "WARNING", message: "Please attach image 2." });
+  } else if (formattedData.cities.length === 0) {
+    showAlert({ type: "WARNING", message: "Please select at least one city." });
   } else {
     setShowModalSpinner(true);
     // Converting image to FormData

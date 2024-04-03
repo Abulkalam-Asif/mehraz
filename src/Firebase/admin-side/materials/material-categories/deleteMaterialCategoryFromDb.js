@@ -18,8 +18,10 @@ const deleteMaterialCategoryFromDb = async id => {
         };
       } else {
         // Delete the cover image from storage
-        const coverImageRef = ref(storage, `MATERIAL_CATEGORIES/${id}`);
+        const imageRef = ref(storage, `MATERIAL_CATEGORIES/${id}/image`);
+        const coverImageRef = ref(storage, `MATERIAL_CATEGORIES/${id}/cover`);
         try {
+          await deleteObject(imageRef);
           await deleteObject(coverImageRef);
         } catch (error) {}
         await deleteDoc(categoryRef);

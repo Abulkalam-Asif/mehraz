@@ -104,14 +104,15 @@ const ReadyProjectClientPage = ({
 
   const addReadyProjectS2Handler = async e => {
     e.preventDefault();
-    const data = await addReadyProjectS2Service(
+    const isSuccessful = await addReadyProjectS2Service(
       readyProjectS2,
       showAlert,
       setShowSpinner,
       readyProjectS1.areas,
       readyProjectS1.floors,
     );
-    if (data) {
+    console.log(isSuccessful);
+    if (isSuccessful) {
       setCurrentScreen(3);
       setUploadedScreensCount(2);
     }

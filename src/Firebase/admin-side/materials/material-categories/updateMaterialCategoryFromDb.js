@@ -8,6 +8,7 @@ import { ref, uploadBytes } from "firebase/storage";
 const updateMaterialCategoryFromDb = async ({
   id,
   name,
+  image,
   coverImage,
   fixCoverImage,
 }) => {
@@ -25,9 +26,14 @@ const updateMaterialCategoryFromDb = async ({
       };
     }
 
+    // Update the image if it is provided
+    if (image instanceof FormData) {
+      const imageRef = ref(storage, `MATERIAL_CATEGORIES/${id}/image`);
+      await uploadBytes(imageRef, image.get("image"));
+    }
     // Update the cover image if it is provided
     if (coverImage instanceof FormData) {
-      const coverImageRef = ref(storage, `MATERIAL_CATEGORIES/${id}`);
+      const coverImageRef = ref(storage, `MATERIAL_CATEGORIES/${id}/cover`);
       await uploadBytes(coverImageRef, coverImage.get("coverImage"));
     }
 

@@ -26,6 +26,7 @@ const addNewMaterialToDb = async ({
   orderedAs,
   image1,
   image2,
+  cities
 }) => {
   try {
     const materialsCollectionRef = collection(db, "MATERIALS");
@@ -56,6 +57,7 @@ const addNewMaterialToDb = async ({
       description,
       specs,
       orderedAs,
+      cities,
       usage: {
         projects: 0,
       },

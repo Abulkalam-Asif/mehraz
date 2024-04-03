@@ -3,6 +3,7 @@ import {
   AdminCheckbox,
   AdminInputBox,
   AdminModal,
+  AdminMultiSelect2,
   AdminSelect,
   FileInput,
   ListInput,
@@ -17,6 +18,7 @@ const MaterialModal = ({
   currentMaterialInputHandler,
   editMaterialHandler,
   modalMetadata,
+  cities,
 }) => {
   const [previewSrc, setPreviewSrc] = useState({
     image1: null,
@@ -103,17 +105,16 @@ const MaterialModal = ({
             required={true}
             max={99999}
           />
-          <AdminSelect
-            label="Select category"
-            idHtmlFor="category"
+          <AdminMultiSelect2
+            title="Cities"
+            message="Select cities"
             inputHandler={currentMaterialInputHandler}
-            name="category"
-            value={currentMaterial.category}
-            required={true}
-            options={materialCategories.map(category => ({
-              label: category.name,
-              value: category.id,
+            name="cities"
+            options={cities.map(city => ({
+              label: city.name,
+              value: city.id,
             }))}
+            selectedOptions={currentMaterial.cities}
           />
           <AdminInputBox
             label="Enter description"
@@ -132,6 +133,18 @@ const MaterialModal = ({
             name="specs"
             required={true}
             maxLength={20}
+          />
+          <AdminSelect
+            label="Select category"
+            idHtmlFor="category"
+            inputHandler={currentMaterialInputHandler}
+            name="category"
+            value={currentMaterial.category}
+            required={true}
+            options={materialCategories.map(category => ({
+              label: category.name,
+              value: category.id,
+            }))}
           />
           <AdminInputBox
             label="Material ordered as"

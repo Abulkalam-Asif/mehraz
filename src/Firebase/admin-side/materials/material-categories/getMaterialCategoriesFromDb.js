@@ -19,10 +19,24 @@ const useMaterialCategoriesFromDb = async (
             fields.forEach(field => {
               if (field === "id") {
                 materialCategory[field] = doc.id;
-              } else if (field === "coverImage") {
+              } else if (field === "image") {
+                const imageRef = ref(
+                  storage,
+                  `MATERIAL_CATEGORIES/${doc.id}/image`,
+                );
+                promises.push(
+                  getDownloadURL(imageRef)
+                    .then(url => {
+                      materialCategory[field] = url;
+                    })
+                    .catch(error => {
+                      materialCategory[field] = null;
+                    }),
+                );
+              } else if (field === "coverImage" || field === "image") {
                 const coverImageRef = ref(
                   storage,
-                  `MATERIAL_CATEGORIES/${doc.id}`,
+                  `MATERIAL_CATEGORIES/${doc.id}/cover`,
                 );
                 promises.push(
                   getDownloadURL(coverImageRef)
