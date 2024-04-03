@@ -5,6 +5,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { useRef } from "react";
 import { chevronLeftIcon, chevronRightIcon } from "@/assets";
 import Image from "next/image";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 
 const Carousel = ({ children, childrenCount }) => {
   const sliderRef = useRef(null);
@@ -55,17 +56,17 @@ const Carousel = ({ children, childrenCount }) => {
             {children}
           </Slider>
         </div>
-        {childrenCount > 2 && (
+        {childrenCount > 1 && (
           <>
             <button
               onClick={previousSlide}
-              className="absolute top-1/2 -translate-y-1/2 left-0 -translate-x-2/3 bg-accent-1-base p-4 rounded-full">
-              <Image src={chevronLeftIcon} alt="chevron left" />
+              className="absolute top-1/2 -translate-y-1/2 left-0 -translate-x-2/3 bg-accent-2-base p-3 rounded-full">
+              <FaChevronLeft className="text-white" size={24} />
             </button>
             <button
               onClick={nextSlide}
-              className="absolute top-1/2 -translate-y-1/2 right-0 translate-x-2/3 bg-accent-1-base p-4 rounded-full">
-              <Image src={chevronRightIcon} alt="chevron right" />
+              className="absolute top-1/2 -translate-y-1/2 right-0 translate-x-2/3 bg-accent-2-base p-3 rounded-full">
+              <FaChevronRight className="text-white" size={24} />
             </button>
           </>
         )}

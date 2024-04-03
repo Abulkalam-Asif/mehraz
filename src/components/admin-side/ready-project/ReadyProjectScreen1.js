@@ -14,6 +14,8 @@ const ReadyProjectS1 = ({
   readyProjectS1,
   readyProjectS1InputHandler = () => {},
   addReadyProjectS1Handler = () => {},
+  updateReadyProjectS1Handler = () => {},
+  uploadedScreensCount,
   cities,
   plots,
   floors,
@@ -59,7 +61,6 @@ const ReadyProjectS1 = ({
             inputHandler={readyProjectS1InputHandler}
             required={true}
           />
-
           <AdminMultiSelect
             title="cities"
             name="cities"
@@ -95,7 +96,7 @@ const ReadyProjectS1 = ({
           <AdminMultiSelect
             title="floors"
             name="floors"
-            options={floors?.map(({ id, name }) => ({
+            options={floors.map(({ id, name }) => ({
               value: id,
               label: name,
             }))}
@@ -183,7 +184,11 @@ const ReadyProjectS1 = ({
             type="button"
             text="Next step"
             isTransitioned={true}
-            onClick={addReadyProjectS1Handler}
+            onClick={
+              uploadedScreensCount === 0
+                ? addReadyProjectS1Handler
+                : updateReadyProjectS1Handler
+            }
           />
           <Button
             type="button"

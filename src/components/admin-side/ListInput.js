@@ -1,6 +1,5 @@
 "use client";
-import { AlertContext } from "@/context/AlertContext";
-import { useContext } from "react";
+import { useShowAlert } from "@/hooks/useShowAlert";
 
 const ListInput = ({
   label = "",
@@ -11,7 +10,7 @@ const ListInput = ({
   maxLength = 0,
   required = false,
 }) => {
-  const { showAlert } = useContext(AlertContext);
+  const showAlert = useShowAlert();
   return (
     <>
       <div className={`flex flex-col space-y-1 overflow-y-auto ${className}`}>

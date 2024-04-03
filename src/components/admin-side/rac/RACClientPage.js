@@ -1,5 +1,5 @@
 "use client";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Modal,
   ToggleViewButtonMobile,
@@ -44,7 +44,7 @@ import {
   deleteStyleService,
   editStyleService,
 } from "@/services/admin-side/roles-analytics-cities/styles";
-import { AlertContext } from "@/context/AlertContext";
+import { useShowAlert } from "@/hooks/useShowAlert";
 
 const roles = {
   admins: ["ali", "bilal", "ahmad"],
@@ -70,7 +70,7 @@ const RACClientPage = ({
   styles,
   units,
 }) => {
-  const { showAlert } = useContext(AlertContext);
+  const showAlert = useShowAlert();
   const [showModalSpinner, setShowModalSpinner] = useState(false);
 
   // Roles states and functions

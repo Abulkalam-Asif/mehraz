@@ -16,13 +16,13 @@ import {
   ProgramModal,
   ToggleViewButtonMobile,
 } from "@/components";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { addEditExteriorViewService } from "@/services/admin-side/free-project/exteriorViews";
 import { addEditInteriorViewService } from "@/services/admin-side/free-project/interiorViews";
-import { AlertContext } from "@/context/AlertContext";
 import { ulid } from "ulid";
 import { addEditMaterialService } from "@/services/admin-side/free-project/materials";
 import { addEditProgramService } from "@/services/admin-side/free-project/programs";
+import { useShowAlert } from "@/hooks/useShowAlert";
 
 const mobileButtonsData = [
   { text: "design and images", name: "files" },
@@ -37,7 +37,7 @@ const FreeProjectS2 = ({
   addFreeProjectS2Handler,
   freeProjectS2,
 }) => {
-  const { showAlert } = useContext(AlertContext);
+  const showAlert = useShowAlert();
   const [expandedSection, setExpandedSection] = useState(null);
 
   // Program states and functions

@@ -1,6 +1,5 @@
 "use client";
-import { useContext } from "react";
-import { AlertContext } from "@/context/AlertContext";
+import { useShowAlert } from "@/hooks/useShowAlert";
 
 const MultiFileInput = ({
   accept,
@@ -13,7 +12,7 @@ const MultiFileInput = ({
   wrongFileTypeWarning = "",
   inputHandler,
 }) => {
-  const { showAlert } = useContext(AlertContext);
+  const showAlert = useShowAlert();
 
   const handleFileChange = e => {
     if (e.target.files) {

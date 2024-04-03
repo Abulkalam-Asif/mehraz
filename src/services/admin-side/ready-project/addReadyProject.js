@@ -1,4 +1,5 @@
 import addReadyProjectS1ToDB from "@/Firebase/admin-side/ready_project/addReadyProjectScreen-1";
+import addReadyProjectS2ToDB from "@/Firebase/admin-side/ready_project/addReadyProjectScreen-2";
 import fileToFormData from "@/utilities/admin-panel/fileToFormData";
 
 const addReadyProjectS1Service = (
@@ -83,4 +84,60 @@ const addReadyProjectS1Service = (
   }
 };
 
-export { addReadyProjectS1Service };
+const addReadyProjectS2Service = (
+  readyProjectS2,
+  showAlert,
+  setShowSpinner,
+  areas,
+  floors,
+) => {
+  let exists = true;
+  for (const area of areas) {
+    for (const floor of floors) {
+      if (
+        !readyProjectS2.designs.some(
+          design => design.areaId === area && design.floorId === floor,
+        )
+      ) {
+        exists = false;
+      }
+    }
+  }
+  if (!exists) {
+    showAlert({
+      type: "WARNING",
+      message: "Please select family units for all combinations",
+    });
+    return;
+  } else if (
+    readyProjectS2.budgetRanges.some(
+      range => range.min === 0 || range.max === 0,
+    )
+  ) {
+    showAlert({
+      type: "WARNING",
+      message: "Please enter budget ranges for all areas",
+    });
+    return;
+  } else if (
+    readyProjectS2.budgetRanges.some(range => range.min >= range.max)
+  ) {
+    showAlert({
+      type: "WARNING",
+      message: "Minimum budget should be less than maximum budget",
+    });
+    return;
+  } else {
+    setShowSpinner(true);
+    return new Promise(resolve => {
+      addReadyProjectS2ToDB(readyProjectS2).then(({ type, message }) => {
+        showAlert({ type, message });
+        setShowSpinner(false);
+        if (type === "SUCCESS") resolve(true);
+        else resolve(false);
+      });
+    });
+  }
+};
+
+export { addReadyProjectS1Service, addReadyProjectS2Service };

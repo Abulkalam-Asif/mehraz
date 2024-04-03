@@ -59,7 +59,10 @@ export { default as ProgramModal } from "./admin-side/free-project/ProgramModal"
 // Admin Side - ReadyProject
 export { default as ReadyProjectClientPage } from "./admin-side/ready-project/ReadyProjectClientPage";
 export { default as ReadyProjectScreen1 } from "./admin-side/ready-project/ReadyProjectScreen1";
+export { default as ReadyProjectScreen2 } from "./admin-side/ready-project/ReadyProjectScreen2";
 export { default as ReadyProjectRatesInput } from "./admin-side/ready-project/ReadyProjectRatesInput";
+export { default as ReadyProjectMultiSelect } from "./admin-side/ready-project/ReadyProjectMultiSelect";
+export { default as ReadyProjectInputBox } from "./admin-side/ready-project/ReadyProjectInputBox";
 // Admin Side - RAC
 export { default as RACClientPage } from "./admin-side/rac/RACClientPage";
 export { default as MultiCheckbox } from "./admin-side/rac/MultiCheckbox";

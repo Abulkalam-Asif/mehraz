@@ -1,6 +1,10 @@
 "use client";
 import { createContext, useState } from "react";
-const AlertContext = createContext();
+const AlertContext = createContext({
+  alerts: [],
+  showAlert: () => {},
+  hideAlert: () => {},
+});
 
 const AlertProvider = ({ children }) => {
   const [alerts, setAlerts] = useState([]);

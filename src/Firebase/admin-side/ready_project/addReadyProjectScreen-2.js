@@ -1,46 +1,34 @@
 "use server";
-import { db, storage } from "@/Firebase/firebase"; 
-import {
-  Timestamp,
-  addDoc,
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  where,
-  setDoc,
-} from "firebase/firestore";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage"; 
+import { db } from "@/Firebase/firebase";
+import { collection, doc, getDoc, setDoc } from "firebase/firestore";
 
-const addReadyProjectS2ToDB = async ({ project_id, designs, budgetRange }) => {
+const addReadyProjectS2ToDB = async ({ id, designs, budgetRanges }) => {
   try {
     const readyProjectsRef = collection(db, "READY_PROJECTS");
 
-    const readyProjectDocRef = doc(readyProjectsRef, project_id);
+    const readyProjectDocRef = doc(readyProjectsRef, id);
 
     const docSnapshot = await getDoc(readyProjectDocRef);
     if (!docSnapshot.exists()) {
+      console.error("No document found!");
       return {
-        data: null,
         type: "ERROR",
-        message: "A project with this ID does not exist.",
+        message: "Something went wrong, please try again later.",
       };
     }
 
-    const response=await setDoc(readyProjectDocRef, {
-      designs: designs,
-      budgetRange: budgetRange,
+    await setDoc(readyProjectDocRef, {
+      designs,
+      budgetRanges,
     });
- 
+
     return {
       type: "SUCCESS",
-      message: "Ready project screen 1 added successfully!",
+      message: "Ready project screen 2 added successfully!",
     };
   } catch (error) {
     console.error("Error adding the ready project: ", error.message);
     return {
-      data: null,
       type: "ERROR",
       message: "Something went wrong, please try again later.",
     };

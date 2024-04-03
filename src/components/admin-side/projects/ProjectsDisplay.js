@@ -13,20 +13,17 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { FaCheckCircle, FaMinusCircle } from "react-icons/fa";
+import createProjectGroupsArr from "@/utilities/admin-panel/projects/createProjectGroupsArr";
 
 const ProjectsDisplay = ({ freeProjects, readyProjects }) => {
   const projects = [...freeProjects, ...readyProjects];
   const projectsCount = projects?.length;
 
   const [projectsGroupsArr, setProjectsGroupsArr] = useState(null);
-  // Converting the projects array into array of groups of 2
+  // Converting the projects array into array of arrays of 2
   useEffect(() => {
     if (projects) {
-      const projectsGroupsArr = projects.reduce((acc, project, index) => {
-        const arrayIndex = Math.floor(index / 2);
-        acc[arrayIndex] = [...(acc[arrayIndex] || []), project];
-        return acc;
-      }, []);
+      const projectsGroupsArr = createProjectGroupsArr(projects);
       setProjectsGroupsArr(projectsGroupsArr);
     }
   }, []);
@@ -121,7 +118,7 @@ const ProjectsDisplay = ({ freeProjects, readyProjects }) => {
             <div className={"hidden lg:block px-20 md:px-12 sm:px-4 xs:px-0"}>
               <Carousel childrenCount={projectsGroupsArr?.length}>
                 {projectsGroupsArr?.map((group, arrIndex) => (
-                  <div key={arrIndex}>
+                  <div key={arrIndex} className="px-2">
                     <div className="flex flex-col gap-3">
                       {group?.map(({ id, title, description, dateCreated }) => (
                         <ProjectDisplayBoxMob

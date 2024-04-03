@@ -10,8 +10,7 @@ import {
   H2,
 } from "@/components/";
 import { deleteIcon, editIcon, ellipsisIcon } from "@/assets";
-import { useContext } from "react";
-import { AlertContext } from "@/context/AlertContext";
+import { useShowAlert } from "@/hooks/useShowAlert";
 
 const PropertiesSection = ({
   properties,
@@ -21,7 +20,7 @@ const PropertiesSection = ({
   setItemToDelete,
   cities,
 }) => {
-  const { showAlert } = useContext(AlertContext);
+  const showAlert = useShowAlert();
   const addPropertyClickHandler = () => {
     if (cities.length === 0) {
       showAlert({

@@ -1,8 +1,8 @@
 "use client";
+import { useContext, useEffect } from "react";
 import { AlertContext } from "@/context/AlertContext";
 import { closeIcon } from "@/assets";
 import Image from "next/image";
-import { useContext, useEffect } from "react";
 
 const Alert = ({ message, type }) => {
   const { hideAlert } = useContext(AlertContext);

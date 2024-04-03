@@ -10,8 +10,7 @@ import {
 } from "@/components";
 import Image from "next/image";
 import { deleteIcon, editIcon, ellipsisIcon } from "@/assets";
-import { useContext } from "react";
-import { AlertContext } from "@/context/AlertContext";
+import { useShowAlert } from "@/hooks/useShowAlert";
 
 const CurrenciesSection = ({
   currencies,
@@ -21,7 +20,7 @@ const CurrenciesSection = ({
   setItemToDelete,
   citiesCount,
 }) => {
-  const { showAlert } = useContext(AlertContext);
+  const showAlert = useShowAlert();
   const addCurrencyClickHandler = () => {
     if (citiesCount === 0) {
       showAlert({
