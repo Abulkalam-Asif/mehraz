@@ -31,8 +31,8 @@ const ReadyProjectClientPage = ({
   const showAlert = useShowAlert();
   const router = useRouter();
   const [showSpinner, setShowSpinner] = useState(false);
-  const [currentScreen, setCurrentScreen] = useState(3);
-  const [uploadedScreensCount, setUploadedScreensCount] = useState(2);
+  const [currentScreen, setCurrentScreen] = useState(1);
+  const [uploadedScreensCount, setUploadedScreensCount] = useState(0);
   const [projectId, setProjectId] = useState("");
   const [rpDesigns, setRpDesigns] = useState([]);
 
