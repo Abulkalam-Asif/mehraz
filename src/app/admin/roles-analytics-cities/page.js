@@ -36,7 +36,7 @@ const RAC = async () => {
       {/* for 0px-1024px, calc(100vh - (AdminHeader height + 3rem)) */}
       <section className="px-8 flex flex-col h-[calc(100vh-6rem)] lg:h-[calc(100vh-7rem)] sm:px-4">
         <div className="max-w-8xl mx-auto w-full flex items-center h-24 xl:h-20 lg:h-12">
-          <div className="w-full flex justify-between items-center xs:items-start">
+          <div className="w-full flex justify-between items-center">
             <Link
               href={"/admin"}
               className="bg-accent-1-base rounded-full p-5 xl:p-4 md:hidden">

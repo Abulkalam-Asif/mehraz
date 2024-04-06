@@ -33,7 +33,6 @@ const MultiFileInput = ({
   };
 
   const imageStateSetter = newFiles => {
-    console.log(filesArray, newFiles);
     const resultantFiles = [...filesArray, ...newFiles];
     inputHandler(name, resultantFiles);
   };

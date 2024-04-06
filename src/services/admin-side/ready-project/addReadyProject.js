@@ -135,11 +135,11 @@ const addReadyProjectS2Service = (
       addReadyProjectS2ToDB({
         id: projectId,
         ...readyProjectS2,
-      }).then(({ type, message }) => {
+      }).then(({ data, type, message }) => {
         showAlert({ type, message });
         setShowSpinner(false);
-        if (type === "SUCCESS") resolve(true);
-        else resolve(false);
+        if (type === "SUCCESS") resolve(data);
+        else resolve(null);
       });
     });
   }
@@ -208,7 +208,6 @@ const addReadyProjectS3Service = (
         materials: readyProjectS3.materials,
       }).then(({ type, message }) => {
         showAlert({ type, message });
-        setShowSpinner(false);
         if (type === "SUCCESS") resolve(true);
         else resolve(false);
       });

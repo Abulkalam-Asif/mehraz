@@ -17,6 +17,7 @@ import {
   ReadyProjectScreen3,
   Spinner,
 } from "@/components";
+import getRPDesignsScreen4DataFromDb from "@/Firebase/admin-side/ready_project/getRPDesignsScreen4DataFromDb";
 
 const ReadyProjectClientPage = ({
   cities,
@@ -32,7 +33,8 @@ const ReadyProjectClientPage = ({
   const [showSpinner, setShowSpinner] = useState(false);
   const [currentScreen, setCurrentScreen] = useState(3);
   const [uploadedScreensCount, setUploadedScreensCount] = useState(2);
-  const [projectId, setProjectId] = useState("2WRYN0g1y6xrOy7NIjDX");
+  const [projectId, setProjectId] = useState("");
+  const [rpDesigns, setRpDesigns] = useState([]);
 
   useEffect(() => {
     if (cities?.length === 0) {
@@ -144,7 +146,7 @@ const ReadyProjectClientPage = ({
         max: 0,
       })),
     }));
-  }, [readyProjectS1]);
+  }, [readyProjectS1.areas]);
 
   const readyProjectS2InputHandler = (name, value) => {
     setReadyProjectS2(prevState => ({
@@ -155,7 +157,7 @@ const ReadyProjectClientPage = ({
 
   const addReadyProjectS2Handler = async e => {
     e.preventDefault();
-    const isSuccessful = await addReadyProjectS2Service(
+    const data = await addReadyProjectS2Service(
       projectId,
       readyProjectS2,
       showAlert,
@@ -163,9 +165,10 @@ const ReadyProjectClientPage = ({
       readyProjectS1.areas,
       readyProjectS1.floors,
     );
-    if (isSuccessful) {
+    if (data) {
       setCurrentScreen(3);
       setUploadedScreensCount(2);
+      setRpDesigns(data);
     }
   };
 
@@ -198,8 +201,26 @@ const ReadyProjectClientPage = ({
       showAlert,
       setShowSpinner,
     );
-    console.log(isSuccessful);
     if (isSuccessful) {
+      const designs = [];
+      try {
+        await Promise.all(
+          rpDesigns.map(async designId => {
+            const designFromDb = await getRPDesignsScreen4DataFromDb(designId);
+            if (designFromDb) {
+              designs.push(designFromDb);
+            }
+          }),
+        );
+        console.log(designs);
+        setRpDesigns(designs);
+      } catch (error) {
+        showAlert({
+          type: "ERROR",
+          message: "An error occurred. Please try again later.",
+        });
+      }
+      setShowSpinner(false);
       setCurrentScreen(4);
       setUploadedScreensCount(3);
     }
@@ -211,7 +232,7 @@ const ReadyProjectClientPage = ({
   return (
     <>
       <div className="max-w-8xl mx-auto w-full flex items-center h-24 xl:h-20">
-        <div className="w-full flex justify-between items-center xs:items-start">
+        <div className="w-full flex justify-between items-center">
           {currentScreen === 1 ? (
             <Link
               href={"/admin/projects"}

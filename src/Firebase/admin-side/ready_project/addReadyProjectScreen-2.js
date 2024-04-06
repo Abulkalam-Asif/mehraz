@@ -1,5 +1,6 @@
 "use server";
 import { db } from "@/Firebase/firebase";
+import { data } from "autoprefixer";
 import { addDoc, collection, doc, getDoc, updateDoc } from "firebase/firestore";
 
 const addReadyProjectS2ToDB = async ({ id, designs, budgetRanges }) => {
@@ -12,6 +13,7 @@ const addReadyProjectS2ToDB = async ({ id, designs, budgetRanges }) => {
     if (!docSnapshot.exists()) {
       console.error("No document found!");
       return {
+        data: null,
         type: "ERROR",
         message: "Something went wrong, please try again later.",
       };
@@ -37,12 +39,14 @@ const addReadyProjectS2ToDB = async ({ id, designs, budgetRanges }) => {
     });
 
     return {
+      data: rpDesignsIds,
       type: "SUCCESS",
       message: "Ready project screen 2 added successfully!",
     };
   } catch (error) {
     console.error("Error adding the ready project: ", error.message);
     return {
+      data: null,
       type: "ERROR",
       message: "Something went wrong, please try again later.",
     };

@@ -196,57 +196,59 @@ const ReadyProjectScreen3 = ({
   return (
     <>
       <form
-        className="h-full w-full max-w-7xl mx-auto py-4 pr-2 space-y-6"
+        className="h-full w-full max-w-7xl mx-auto py-4 pr-2 space-y-6 lg:h-auto"
         onSubmit={e => e.preventDefault()}>
-        <div className="h-full w-full grid grid-cols-2 gap-4">
-          <div className="h-full overflow-hidden grid grid-rows-3 gap-4">
-            <div className="h-full flex flex-col gap-2">
-              <MultiFileInput
-                message={"Attach images (option 1)"}
-                filesArray={readyProjectS3.imagesOp1}
-                accept={"image/*"}
-                typeStartsWith={"image"}
-                name="imagesOp1"
-                htmlFor={"imagesOp1"}
-                inputHandler={readyProjectS3InputHandler}
-                wrongFileTypeWarning="Some of the files were not images and were not attached."
-              />
-              {readyProjectS3.imagesOp1?.length > 0 ? (
-                <MultiFileDisplay
-                  className="overflow-y-auto p-2"
+        <div className="h-full w-full grid grid-cols-2 gap-4 lg:grid-cols-1 lg:h-auto">
+          <div className="h-full overflow-hidden grid grid-rows-2 gap-4 lg:flex lg:flex-col lg:h-auto">
+            <div className="grid grid-cols-2 gap-4 lg:grid-cols-1">
+              <div className="h-full flex flex-col gap-2 lg:h-auto">
+                <MultiFileInput
+                  message={"Attach images (option 1)"}
                   filesArray={readyProjectS3.imagesOp1}
-                  removeFileHandler={readyProjectS3InputHandler}
-                  name={"imagesOp1"}
+                  accept={"image/*"}
+                  typeStartsWith={"image"}
+                  name="imagesOp1"
+                  htmlFor={"imagesOp1"}
+                  inputHandler={readyProjectS3InputHandler}
+                  wrongFileTypeWarning="Some of the files were not images and were not attached."
                 />
-              ) : (
-                <div className="w-full h-full p-4 flex items-center justify-center text-center text-accent-1-dark border-dashed border-2 border-accent-1-dark rounded-xl">
-                  <p>Option 1 images will be listed here</p>
-                </div>
-              )}
-            </div>
-            <div className="h-full flex flex-col gap-2">
-              <MultiFileInput
-                message={"Attach images (option 2)"}
-                filesArray={readyProjectS3.imagesOp2}
-                accept={"image/*"}
-                typeStartsWith={"image"}
-                name="imagesOp2"
-                htmlFor={"imagesOp2"}
-                inputHandler={readyProjectS3InputHandler}
-                wrongFileTypeWarning="Some of the files were not images and were not attached."
-              />
-              {readyProjectS3.imagesOp2?.length > 0 ? (
-                <MultiFileDisplay
-                  className="overflow-y-auto p-2"
+                {readyProjectS3.imagesOp1?.length > 0 ? (
+                  <MultiFileDisplay
+                    className="overflow-y-auto p-2"
+                    filesArray={readyProjectS3.imagesOp1}
+                    removeFileHandler={readyProjectS3InputHandler}
+                    name={"imagesOp1"}
+                  />
+                ) : (
+                  <div className="w-full h-full p-4 flex items-center justify-center text-center text-accent-1-dark border-dashed border-2 border-accent-1-dark rounded-xl">
+                    <p>Option 1 images will be listed here</p>
+                  </div>
+                )}
+              </div>
+              <div className="h-full flex flex-col gap-2 lg:h-auto">
+                <MultiFileInput
+                  message={"Attach images (option 2)"}
                   filesArray={readyProjectS3.imagesOp2}
-                  removeFileHandler={readyProjectS3InputHandler}
-                  name={"imagesOp2"}
+                  accept={"image/*"}
+                  typeStartsWith={"image"}
+                  name="imagesOp2"
+                  htmlFor={"imagesOp2"}
+                  inputHandler={readyProjectS3InputHandler}
+                  wrongFileTypeWarning="Some of the files were not images and were not attached."
                 />
-              ) : (
-                <div className="w-full h-full p-4 flex items-center justify-center text-center text-accent-1-dark border-dashed border-2 border-accent-1-dark rounded-xl">
-                  <p>Option 2 images will be listed here</p>
-                </div>
-              )}
+                {readyProjectS3.imagesOp2?.length > 0 ? (
+                  <MultiFileDisplay
+                    className="overflow-y-auto p-2"
+                    filesArray={readyProjectS3.imagesOp2}
+                    removeFileHandler={readyProjectS3InputHandler}
+                    name={"imagesOp2"}
+                  />
+                ) : (
+                  <div className="w-full h-full p-4 flex items-center justify-center text-center text-accent-1-dark border-dashed border-2 border-accent-1-dark rounded-xl">
+                    <p>Option 2 images will be listed here</p>
+                  </div>
+                )}
+              </div>
             </div>
             <RPMaterialsSection
               materials={materials}
@@ -254,7 +256,7 @@ const ReadyProjectScreen3 = ({
               inputHandler={readyProjectS3InputHandler}
             />
           </div>
-          <div className="h-full overflow-hidden grid grid-rows-3 gap-4">
+          <div className="h-full overflow-hidden grid grid-rows-3 gap-4 lg:flex lg:flex-col lg:h-auto">
             <RPExteriorSection
               exteriorViews={readyProjectS3.exteriorViews}
               setModalMetadata={setModalMetadata}
