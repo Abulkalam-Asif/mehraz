@@ -6,6 +6,7 @@ import replacePlotUnitIdsByNames from "@/services/admin-side/replacePlotUnitIdsB
 import useGetFamilyUnitsFromDb from "@/Firebase/admin-side/teams-aboutus/familyUnits/getFamilyUnitsFromDb";
 import useGetFloorsFromDb from "@/Firebase/admin-side/teams-aboutus/floors/getFloorsFromDb";
 import useStylesFromDB from "@/Firebase/admin-side/roles-analytics-cities/styles/getStylesFromFirebase";
+import useMaterialsFromDb from "@/Firebase/admin-side/materials/materials/getMaterialsFromDb";
 
 const ReadyProject = async () => {
   const floors = await useGetFloorsFromDb(["id", "name"]);
@@ -13,6 +14,7 @@ const ReadyProject = async () => {
   const cities = await useCitiesFromDB(["id", "name"]);
   const units = await useUnitsFromDb(["id", "name"]);
   const styles = await useStylesFromDB(["id", "name", "budget"]);
+  const materials = await useMaterialsFromDb(["id", "name", "vendor"]);
   let plots = await usePlotsFromDB(["id", "area", "unit"]);
   plots = replacePlotUnitIdsByNames(plots, units);
 
@@ -26,6 +28,7 @@ const ReadyProject = async () => {
           units={units}
           familyUnits={familyUnits}
           styles={styles}
+          materials={materials}
         />
       </section>
     </>

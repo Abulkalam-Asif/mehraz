@@ -1,6 +1,6 @@
 "use server";
 import { db } from "@/Firebase/firebase";
-import { collection, doc, getDoc, updateDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, updateDoc } from "firebase/firestore";
 
 const addReadyProjectS2ToDB = async ({ id, designs, budgetRanges }) => {
   try {
@@ -17,8 +17,22 @@ const addReadyProjectS2ToDB = async ({ id, designs, budgetRanges }) => {
       };
     }
 
+    // Add designs to RP_DESIGNS collection
+    const rpDesignsRef = collection(db, "RP_DESIGNS");
+    const rpDesignsIds = [];
+
+    await Promise.all(
+      designs.map(async design => {
+        const response = await addDoc(rpDesignsRef, {
+          ...design,
+        });
+        rpDesignsIds.push(response.id);
+      }),
+    );
+
+    // Update the ready project document
     await updateDoc(readyProjectDocRef, {
-      designs,
+      designs: rpDesignsIds,
       budgetRanges,
     });
 

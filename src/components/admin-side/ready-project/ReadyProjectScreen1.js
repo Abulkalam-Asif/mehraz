@@ -98,7 +98,15 @@ const ReadyProjectS1 = ({
             name="floors"
             options={floors.map(({ id, name }) => ({
               value: id,
-              label: name,
+              label: (
+                <>
+                  {name.split(",").map((floor, index) => (
+                    <span key={index} className="block">
+                      {floor.trim()}
+                    </span>
+                  ))}
+                </>
+              ),
             }))}
             selectedOptions={readyProjectS1.floors}
             inputHandler={readyProjectS1InputHandler}

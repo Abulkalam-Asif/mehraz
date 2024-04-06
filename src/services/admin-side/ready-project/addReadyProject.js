@@ -1,5 +1,6 @@
 import addReadyProjectS1ToDB from "@/Firebase/admin-side/ready_project/addReadyProjectScreen-1";
 import addReadyProjectS2ToDB from "@/Firebase/admin-side/ready_project/addReadyProjectScreen-2";
+import addReadyProjectS3ToDB from "@/Firebase/admin-side/ready_project/addReadyProjectScreen-3";
 import fileToFormData from "@/utilities/admin-panel/fileToFormData";
 
 const addReadyProjectS1Service = (
@@ -85,6 +86,7 @@ const addReadyProjectS1Service = (
 };
 
 const addReadyProjectS2Service = (
+  projectId,
   readyProjectS2,
   showAlert,
   setShowSpinner,
@@ -130,7 +132,10 @@ const addReadyProjectS2Service = (
   } else {
     setShowSpinner(true);
     return new Promise(resolve => {
-      addReadyProjectS2ToDB(readyProjectS2).then(({ type, message }) => {
+      addReadyProjectS2ToDB({
+        id: projectId,
+        ...readyProjectS2,
+      }).then(({ type, message }) => {
         showAlert({ type, message });
         setShowSpinner(false);
         if (type === "SUCCESS") resolve(true);
@@ -140,4 +145,79 @@ const addReadyProjectS2Service = (
   }
 };
 
-export { addReadyProjectS1Service, addReadyProjectS2Service };
+const addReadyProjectS3Service = (
+  projectId,
+  readyProjectS3,
+  showAlert,
+  setShowSpinner,
+) => {
+  if (readyProjectS3.exteriorViews.length === 0) {
+    showAlert({
+      type: "WARNING",
+      message: "Please add at least one exterior view",
+    });
+    return;
+  } else if (readyProjectS3.interiorViews.length === 0) {
+    showAlert({
+      type: "WARNING",
+      message: "Please add at least one interior view",
+    });
+    return;
+  } else if (readyProjectS3.materials.length === 0) {
+    showAlert({
+      type: "WARNING",
+      message: "Please select at least one material",
+    });
+    return;
+  } else if (readyProjectS3.imagesOp1.length === 0) {
+    showAlert({
+      type: "WARNING",
+      message: "Please attach at least one image for option 1",
+    });
+    return;
+  } else if (readyProjectS3.imagesOp2.length === 0) {
+    showAlert({
+      type: "WARNING",
+      message: "Please attach at least one image for option 2",
+    });
+    return;
+  } else {
+    setShowSpinner(true);
+    // Convert images to FormData
+    const imagesOp1 = readyProjectS3.imagesOp1.map((image, index) =>
+      fileToFormData(`image${index}`, image),
+    );
+    const imagesOp2 = readyProjectS3.imagesOp2.map((image, index) =>
+      fileToFormData(`image${index}`, image),
+    );
+    const interiorViews = readyProjectS3.interiorViews.map(view => ({
+      ...view,
+      video: fileToFormData("video", view.video),
+    }));
+    const exteriorViews = readyProjectS3.exteriorViews.map(view => ({
+      ...view,
+      video: fileToFormData("video", view.video),
+    }));
+    return new Promise(resolve => {
+      addReadyProjectS3ToDB({
+        id: projectId,
+        interiorViews,
+        exteriorViews,
+        imagesOp1,
+        imagesOp2,
+        materials: readyProjectS3.materials,
+      }).then(({ type, message }) => {
+        showAlert({ type, message });
+        setShowSpinner(false);
+        if (type === "SUCCESS") resolve(true);
+        else resolve(false);
+      });
+    });
+  }
+};
+
+export {
+  addReadyProjectS1Service,
+  addReadyProjectS2Service,
+  addReadyProjectS3Service,
+};

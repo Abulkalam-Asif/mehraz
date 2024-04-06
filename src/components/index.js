@@ -61,9 +61,15 @@ export { default as ProgramModal } from "./admin-side/free-project/ProgramModal"
 export { default as ReadyProjectClientPage } from "./admin-side/ready-project/ReadyProjectClientPage";
 export { default as ReadyProjectScreen1 } from "./admin-side/ready-project/ReadyProjectScreen1";
 export { default as ReadyProjectScreen2 } from "./admin-side/ready-project/ReadyProjectScreen2";
+export { default as ReadyProjectScreen3 } from "./admin-side/ready-project/ReadyProjectScreen3";
 export { default as ReadyProjectRatesInput } from "./admin-side/ready-project/ReadyProjectRatesInput";
 export { default as ReadyProjectMultiSelect } from "./admin-side/ready-project/ReadyProjectMultiSelect";
 export { default as ReadyProjectInputBox } from "./admin-side/ready-project/ReadyProjectInputBox";
+export { default as RPExteriorSection } from "./admin-side/ready-project/RPExteriorSection";
+export { default as RPInteriorSection } from "./admin-side/ready-project/RPInteriorSection";
+export { default as RPExteriorModal } from "./admin-side/ready-project/RPExteriorModal";
+export { default as RPInteriorModal } from "./admin-side/ready-project/RPInteriorModal";
+export { default as RPMaterialsSection } from "./admin-side/ready-project/RPMaterialsSection";
 // Admin Side - RAC
 export { default as RACClientPage } from "./admin-side/rac/RACClientPage";
 export { default as MultiCheckbox } from "./admin-side/rac/MultiCheckbox";

@@ -361,6 +361,7 @@ const FreeProjectS2 = ({
                   className="overflow-y-auto p-2"
                   filesArray={freeProjectS2.images}
                   removeFileHandler={freeProjectS2InputHandler}
+                  name={"images"}
                 />
               ) : (
                 <div className="w-full h-full p-4 flex items-center justify-center text-center text-accent-1-dark border-dashed border-2 border-accent-1-dark rounded-xl">

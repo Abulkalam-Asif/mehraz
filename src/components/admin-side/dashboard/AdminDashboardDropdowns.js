@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import AdminDashboardDropdown from "./AdminDashboardDropdown";
+import { AdminDashboardDropdown } from "@/components";
 
 const AdminDashboardDropdowns = ({ linksCategories, linksData }) => {
   const [expandedDropdown, setExpandedDropdown] = useState(null);

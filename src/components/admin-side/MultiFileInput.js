@@ -26,13 +26,14 @@ const MultiFileInput = ({
       } else {
         showAlert({
           type: "SUCCESS",
-          message: "File(s) attached successfully.",
+          message: "File(s) attached.",
         });
       }
     }
   };
 
   const imageStateSetter = newFiles => {
+    console.log(filesArray, newFiles);
     const resultantFiles = [...filesArray, ...newFiles];
     inputHandler(name, resultantFiles);
   };
