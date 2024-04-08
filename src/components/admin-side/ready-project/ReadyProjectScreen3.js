@@ -11,7 +11,7 @@ import {
   Modal,
   DeleteModal,
   MultiFileInput,
-  MultiFileDisplay,
+  MultiImagesDisplay,
   RPMaterialsSection,
 } from "@/components";
 import { useShowAlert } from "@/hooks/useShowAlert";
@@ -186,10 +186,8 @@ const ReadyProjectScreen3 = ({
         type: null,
         action: null,
       });
-      // setCurrentProgram(defaultProgram);
       setCurrentExteriorView(defaultExteriorView);
       setCurrentInteriorView(defaultInteriorView);
-      // setCurrentMaterial(defaultMaterial);
     }
   }, [isModalOpen]);
 
@@ -201,7 +199,7 @@ const ReadyProjectScreen3 = ({
         <div className="h-full w-full grid grid-cols-2 gap-4 lg:grid-cols-1 lg:h-auto">
           <div className="h-full overflow-hidden grid grid-rows-2 gap-4 lg:flex lg:flex-col lg:h-auto">
             <div className="grid grid-cols-2 gap-4 lg:grid-cols-1">
-              <div className="h-full flex flex-col gap-2 lg:h-auto">
+              <div className="h-full overflow-y-hidden flex flex-col gap-2 lg:h-auto">
                 <MultiFileInput
                   message={"Attach images (option 1)"}
                   filesArray={readyProjectS3.imagesOp1}
@@ -213,19 +211,19 @@ const ReadyProjectScreen3 = ({
                   wrongFileTypeWarning="Some of the files were not images and were not attached."
                 />
                 {readyProjectS3.imagesOp1?.length > 0 ? (
-                  <MultiFileDisplay
+                  <MultiImagesDisplay
                     className="overflow-y-auto p-2"
-                    filesArray={readyProjectS3.imagesOp1}
-                    removeFileHandler={readyProjectS3InputHandler}
+                    imagesArray={readyProjectS3.imagesOp1}
+                    removeImageHandler={readyProjectS3InputHandler}
                     name={"imagesOp1"}
                   />
                 ) : (
                   <div className="w-full h-full p-4 flex items-center justify-center text-center text-accent-1-dark border-dashed border-2 border-accent-1-dark rounded-xl">
-                    <p>Option 1 images will be listed here</p>
+                    <p>Option 1 images will be displayed here</p>
                   </div>
                 )}
               </div>
-              <div className="h-full flex flex-col gap-2 lg:h-auto">
+              <div className="h-full overflow-y-hidden flex flex-col gap-2 lg:h-auto">
                 <MultiFileInput
                   message={"Attach images (option 2)"}
                   filesArray={readyProjectS3.imagesOp2}
@@ -237,15 +235,15 @@ const ReadyProjectScreen3 = ({
                   wrongFileTypeWarning="Some of the files were not images and were not attached."
                 />
                 {readyProjectS3.imagesOp2?.length > 0 ? (
-                  <MultiFileDisplay
+                  <MultiImagesDisplay
                     className="overflow-y-auto p-2"
-                    filesArray={readyProjectS3.imagesOp2}
-                    removeFileHandler={readyProjectS3InputHandler}
+                    imagesArray={readyProjectS3.imagesOp2}
+                    removeImageHandler={readyProjectS3InputHandler}
                     name={"imagesOp2"}
                   />
                 ) : (
                   <div className="w-full h-full p-4 flex items-center justify-center text-center text-accent-1-dark border-dashed border-2 border-accent-1-dark rounded-xl">
-                    <p>Option 2 images will be listed here</p>
+                    <p>Option 2 images will be displayed here</p>
                   </div>
                 )}
               </div>
@@ -284,7 +282,7 @@ const ReadyProjectScreen3 = ({
               />
               <Button
                 type="button"
-                text="skip and finish"
+                text="finish"
                 color="accent-2-outlined"
                 isTransitioned={true}
                 onClick={addReadyProjectS3Handler}

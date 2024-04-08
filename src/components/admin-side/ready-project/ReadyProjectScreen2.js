@@ -221,7 +221,7 @@ const ReadyProjectScreen2 = ({
             />
             <Button
               type="button"
-              text="skip and finish"
+              text="finish"
               color="accent-2-outlined"
               isTransitioned={true}
               onClick={addReadyProjectS2Handler}

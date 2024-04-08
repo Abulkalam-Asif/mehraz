@@ -5,7 +5,7 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { monotonicFactory } from "ulid";
 const ulid = monotonicFactory();
 
-const addReadyProjectS3ToDB = async ({
+const updateReadyProjectS3ToDB = async ({
   id,
   interiorViews,
   exteriorViews,
@@ -108,4 +108,4 @@ const addReadyProjectS3ToDB = async ({
   }
 };
 
-export default addReadyProjectS3ToDB;
+export default updateReadyProjectS3ToDB;

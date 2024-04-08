@@ -207,10 +207,9 @@ const addReadyProjectS3Service = (
         imagesOp1,
         imagesOp2,
         materials: readyProjectS3.materials,
-      }).then(({ type, message }) => {
+      }).then(({ type, message, data }) => {
         showAlert({ type, message });
-        if (type === "SUCCESS") resolve(true);
-        else resolve(false);
+        resolve(data);
       });
     });
   }

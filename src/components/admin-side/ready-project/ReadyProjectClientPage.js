@@ -23,6 +23,7 @@ import getRPDesignsScreen4DataFromDb from "@/Firebase/admin-side/ready_project/g
 import {
   updateReadyProjectS1Service,
   updateReadyProjectS2Service,
+  updateReadyProjectS3Service,
 } from "@/services/admin-side/ready-project/updateReadyProject";
 
 const ReadyProjectClientPage = ({
@@ -37,9 +38,12 @@ const ReadyProjectClientPage = ({
   const showAlert = useShowAlert();
   const router = useRouter();
   const [showSpinner, setShowSpinner] = useState(false);
-  const [currentScreen, setCurrentScreen] = useState(1);
-  const [uploadedScreensCount, setUploadedScreensCount] = useState(0);
-  const [projectId, setProjectId] = useState();
+  const [currentScreen, setCurrentScreen] = useState(3);
+  const [uploadedScreensCount, setUploadedScreensCount] = useState(2);
+  // const [currentScreen, setCurrentScreen] = useState(1);
+  // const [uploadedScreensCount, setUploadedScreensCount] = useState(0);
+  const [projectId, setProjectId] = useState("5Yo3DSe62VGsw5nEzVkW");
+  // const [projectId, setProjectId] = useState("");
   const [rpDesigns, setRpDesigns] = useState([]);
 
   // Confirmation modal states and handlers
@@ -310,13 +314,19 @@ const ReadyProjectClientPage = ({
 
   const addReadyProjectS3Handler = async e => {
     e.preventDefault();
-    const isSuccessful = await addReadyProjectS3Service(
+    const data = await addReadyProjectS3Service(
       projectId,
       readyProjectS3,
       showAlert,
       setShowSpinner,
     );
-    if (isSuccessful) {
+    if (data) {
+      // Replacing image files with urls
+      setReadyProjectS3(prevState => ({
+        ...prevState,
+        imagesOp1: data.op1ImageUrls,
+        imagesOp2: data.op2ImageUrls,
+      }));
       const designs = [];
       try {
         await Promise.all(
@@ -327,7 +337,6 @@ const ReadyProjectClientPage = ({
             }
           }),
         );
-        console.log(designs);
         setRpDesigns(designs);
       } catch (error) {
         showAlert({
@@ -342,6 +351,39 @@ const ReadyProjectClientPage = ({
   };
   const updateReadyProjectS3Handler = async e => {
     e.preventDefault();
+    const data = await updateReadyProjectS3Service(
+      projectId,
+      readyProjectS3,
+      showAlert,
+      setShowSpinner,
+    );
+    if (data) {
+      // Replacing image files with urls
+      setReadyProjectS3(prevState => ({
+        ...prevState,
+        imagesOp1: data.op1ImageUrls,
+        imagesOp2: data.op2ImageUrls,
+      }));
+      const designs = [];
+      try {
+        await Promise.all(
+          rpDesigns.map(async designId => {
+            const designFromDb = await getRPDesignsScreen4DataFromDb(designId);
+            if (designFromDb) {
+              designs.push(designFromDb);
+            }
+          }),
+        );
+        setRpDesigns(designs);
+      } catch (error) {
+        showAlert({
+          type: "ERROR",
+          message: "An error occurred. Please try again later.",
+        });
+      }
+      setShowSpinner(false);
+      setCurrentScreen(4);
+    }
   };
 
   return (
