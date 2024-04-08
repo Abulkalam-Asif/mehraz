@@ -50,9 +50,9 @@ const ReadyProjectMultiSelect = ({
                     value={value}
                     checked={selectedOptions.some(
                       option =>
-                        option.areaId === areaId &&
-                        option.floorId === floorId &&
-                        option.familyUnitId === value,
+                        option.area.id === areaId &&
+                        option.floor.id === floorId &&
+                        option.familyUnits.includes(value),
                     )}
                     onChange={e => {
                       if (e.target.checked) {

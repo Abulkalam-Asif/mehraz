@@ -14,7 +14,7 @@ const ReadyProjectS1 = ({
   readyProjectS1,
   readyProjectS1InputHandler = () => {},
   addReadyProjectS1Handler = () => {},
-  updateReadyProjectS1Handler = () => {},
+  updateReadyProjectS1HandlerCheck = () => {},
   uploadedScreensCount,
   cities,
   plots,
@@ -195,7 +195,7 @@ const ReadyProjectS1 = ({
             onClick={
               uploadedScreensCount === 0
                 ? addReadyProjectS1Handler
-                : updateReadyProjectS1Handler
+                : updateReadyProjectS1HandlerCheck
             }
           />
           <Button

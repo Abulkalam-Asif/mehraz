@@ -11,13 +11,19 @@ import Link from "next/link";
 import Image from "next/image";
 import { chevronLeftIcon } from "@/assets";
 import {
+  ConfirmationModal,
   H1,
+  Modal,
   ReadyProjectScreen1,
   ReadyProjectScreen2,
   ReadyProjectScreen3,
   Spinner,
 } from "@/components";
 import getRPDesignsScreen4DataFromDb from "@/Firebase/admin-side/ready_project/getRPDesignsScreen4DataFromDb";
+import {
+  updateReadyProjectS1Service,
+  updateReadyProjectS2Service,
+} from "@/services/admin-side/ready-project/updateReadyProject";
 
 const ReadyProjectClientPage = ({
   cities,
@@ -33,8 +39,16 @@ const ReadyProjectClientPage = ({
   const [showSpinner, setShowSpinner] = useState(false);
   const [currentScreen, setCurrentScreen] = useState(1);
   const [uploadedScreensCount, setUploadedScreensCount] = useState(0);
-  const [projectId, setProjectId] = useState("");
+  const [projectId, setProjectId] = useState();
   const [rpDesigns, setRpDesigns] = useState([]);
+
+  // Confirmation modal states and handlers
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const toggleModal = () => setIsModalOpen(prevState => !prevState);
+  const [confirmationModalMetadata, setConfirmationModalMetadata] = useState({
+    confirmationMessage: "",
+    confirmationHandler: () => {},
+  });
 
   useEffect(() => {
     if (cities?.length === 0) {
@@ -88,6 +102,8 @@ const ReadyProjectClientPage = ({
     budget: "MEDIUM",
     description: "",
     cities: [],
+    // areas: ["FoelXqMpuaUUeNz1rNzt", "cTNSiUIDjdUksVNbgs6D"],
+    // floors: ["B2q7f6fbEHSP78XQY9w3", "T8uSw1LVhxHyMts2UdFa"],
     areas: [],
     floors: [],
     units: [],
@@ -99,12 +115,19 @@ const ReadyProjectClientPage = ({
     video: null,
   };
   const [readyProjectS1, setReadyProjectS1] = useState(defaultReadyProjectS1);
+  // Keeping track of the previous areas and floors selection to check if the user has changed the selection
+  const [screen1PrevData, setScreen1PrevData] = useState({
+    areas: [],
+    floors: [],
+  });
+
   const readyProjectS1InputHandler = (name, value) => {
     setReadyProjectS1(prevState => ({
       ...prevState,
       [name]: value,
     }));
   };
+
   const addReadyProjectS1Handler = async e => {
     e.preventDefault();
     const data = await addReadyProjectS1Service(
@@ -113,29 +136,66 @@ const ReadyProjectClientPage = ({
       setShowSpinner,
     );
     if (data) {
-      const { id, image, video } = data;
-      setProjectId(id);
-      setReadyProjectS1(prevState => ({
-        ...prevState,
-        image,
-        video,
-      }));
+      setProjectId(data);
       setCurrentScreen(2);
       setUploadedScreensCount(1);
+      setScreen1PrevData({
+        areas: readyProjectS1.areas,
+        floors: readyProjectS1.floors,
+      });
     }
   };
 
-  const updateReadyProjectS1Handler = async e => {
+  const updateReadyProjectS1HandlerCheck = e => {
     e.preventDefault();
+    if (
+      screen1PrevData.areas.every(area =>
+        readyProjectS1.areas.includes(area),
+      ) &&
+      screen1PrevData.floors.every(floor =>
+        readyProjectS1.floors.includes(floor),
+      )
+    ) {
+      updateReadyProjectS1Handler();
+    } else {
+      setConfirmationModalMetadata({
+        confirmationMessage:
+          "You have changed the areas or floors selection. Are you sure you want to update?",
+        confirmationHandler: updateReadyProjectS1Handler,
+      });
+      toggleModal();
+    }
+  };
+
+  const updateReadyProjectS1Handler = async () => {
+    const response = await updateReadyProjectS1Service(
+      projectId,
+      readyProjectS1,
+      showAlert,
+      setShowSpinner,
+    );
+    if (response) {
+      setCurrentScreen(2);
+      setScreen1PrevData({
+        areas: readyProjectS1.areas,
+        floors: readyProjectS1.floors,
+      });
+    }
   };
 
   // Screen 2 states and handlers
   const defaultReadyProjectS2 = {
-    designs: [],
+    combinations: [],
     budgetRanges: [],
   };
 
   const [readyProjectS2, setReadyProjectS2] = useState(defaultReadyProjectS2);
+
+  // Keeping the track of previous combinations
+  const [screen2PrevData, setScreen2PrevData] = useState({
+    combinations: [],
+    budgetRanges: [],
+  });
 
   useEffect(() => {
     setReadyProjectS2(prevState => ({
@@ -162,18 +222,62 @@ const ReadyProjectClientPage = ({
       readyProjectS2,
       showAlert,
       setShowSpinner,
-      readyProjectS1.areas,
-      readyProjectS1.floors,
     );
     if (data) {
       setCurrentScreen(3);
       setUploadedScreensCount(2);
       setRpDesigns(data);
+      setScreen2PrevData({
+        combinations: readyProjectS2.combinations,
+        budgetRanges: readyProjectS2.budgetRanges,
+      });
     }
   };
 
-  const updateReadyProjectS2Handler = async e => {
+  const updateReadyProjectS2HandlerCheck = e => {
     e.preventDefault();
+    if (
+      screen2PrevData.combinations.every(prevCombination => {
+        const newCombination = readyProjectS2.combinations.find(
+          ({ area, floor }) =>
+            area.id === prevCombination.area.id &&
+            floor.id === prevCombination.floor.id,
+        );
+        if (newCombination) {
+          return prevCombination.familyUnits.every(familyUnit =>
+            newCombination.familyUnits.includes(familyUnit),
+          );
+        } else {
+          return true;
+        }
+      })
+    ) {
+      updateReadyProjectS2Handler();
+    } else {
+      setConfirmationModalMetadata({
+        confirmationMessage:
+          "You have changed the family units selection. Are you sure you want to update?",
+        confirmationHandler: updateReadyProjectS2Handler,
+      });
+      toggleModal();
+    }
+  };
+
+  const updateReadyProjectS2Handler = async () => {
+    const data = await updateReadyProjectS2Service(
+      projectId,
+      readyProjectS2,
+      showAlert,
+      setShowSpinner,
+    );
+    if (data) {
+      setCurrentScreen(3);
+      setRpDesigns(data);
+      setScreen2PrevData({
+        combinations: readyProjectS2.combinations,
+        budgetRanges: readyProjectS2.budgetRanges,
+      });
+    }
   };
 
   // Screen 3 states and handlers
@@ -264,7 +368,7 @@ const ReadyProjectClientPage = ({
             readyProjectS1={readyProjectS1}
             readyProjectS1InputHandler={readyProjectS1InputHandler}
             addReadyProjectS1Handler={addReadyProjectS1Handler}
-            updateReadyProjectS1Handler={updateReadyProjectS1Handler}
+            updateReadyProjectS1HandlerCheck={updateReadyProjectS1HandlerCheck}
             uploadedScreensCount={uploadedScreensCount}
             plots={plots}
             floors={floors}
@@ -279,11 +383,13 @@ const ReadyProjectClientPage = ({
             floors={floors.filter(floor =>
               readyProjectS1.floors.includes(floor.id),
             )}
+            setReadyProjectS2={setReadyProjectS2}
             uploadedScreensCount={uploadedScreensCount}
             readyProjectS2InputHandler={readyProjectS2InputHandler}
             familyUnits={familyUnits}
             addReadyProjectS2Handler={addReadyProjectS2Handler}
-            updateReadyProjectS2Handler={updateReadyProjectS2Handler}
+            screen2PrevData={screen2PrevData}
+            updateReadyProjectS2HandlerCheck={updateReadyProjectS2HandlerCheck}
           />
         ) : currentScreen === 3 ? (
           <ReadyProjectScreen3
@@ -304,6 +410,15 @@ const ReadyProjectClientPage = ({
         <div className="z-[4] bg-black bg-opacity-20 fixed top-0 left-0 bottom-0 right-0 flex items-center justify-center">
           <Spinner size={"lg"} />
         </div>
+      )}
+      {isModalOpen && (
+        <Modal toggleModal={toggleModal} isModalOpen={isModalOpen}>
+          <ConfirmationModal
+            toggleModal={toggleModal}
+            confirmationMessage={confirmationModalMetadata.confirmationMessage}
+            confirmationHandler={confirmationModalMetadata.confirmationHandler}
+          />
+        </Modal>
       )}
     </>
   );

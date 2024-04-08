@@ -1,6 +1,5 @@
 "use server";
 import { db } from "@/Firebase/firebase";
-import { data } from "autoprefixer";
 import { addDoc, collection, doc, getDoc, updateDoc } from "firebase/firestore";
 
 const addReadyProjectS2ToDB = async ({ id, designs, budgetRanges }) => {

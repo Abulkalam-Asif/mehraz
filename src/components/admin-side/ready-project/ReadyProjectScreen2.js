@@ -15,20 +15,44 @@ const ReadyProjectScreen2 = ({
   floors,
   readyProjectS2InputHandler,
   uploadedScreensCount,
+  setReadyProjectS2,
+  screen2PrevData,
   addReadyProjectS2Handler,
-  updateReadyProjectS2Handler,
+  updateReadyProjectS2HandlerCheck,
   familyUnits,
 }) => {
-  const [initialCombinations, setInitialCombinations] = useState([]);
   useEffect(() => {
     const combinations = [];
-    areas.forEach(area => {
-      floors.forEach(floor => {
-        combinations.push({ area, floor });
+    areas.forEach(newArea => {
+      floors.forEach(newFloor => {
+        combinations.push({
+          area: newArea,
+          floor: newFloor,
+          familyUnits:
+            screen2PrevData.combinations.find(
+              ({ area, floor }) =>
+                area.id === newArea.id && floor.id === newFloor.id,
+            )?.familyUnits || [],
+        });
       });
     });
-    setInitialCombinations(combinations);
-  }, [areas, floors]);
+
+    setReadyProjectS2(prevState => ({
+      ...prevState,
+      budgetRanges: areas.map(newArea => ({
+        areaId: newArea.id,
+        min:
+          screen2PrevData.budgetRanges.find(
+            ({ areaId }) => areaId === newArea.id,
+          )?.min || 0,
+        max:
+          screen2PrevData.budgetRanges.find(
+            ({ areaId }) => areaId === newArea.id,
+          )?.max || 0,
+      })),
+      combinations,
+    }));
+  }, []);
 
   const familyUnitsInputHandler = (
     areaId,
@@ -37,23 +61,38 @@ const ReadyProjectScreen2 = ({
     isChecked,
   ) => {
     if (isChecked) {
-      readyProjectS2InputHandler("designs", [
-        {
-          areaId,
-          floorId,
-          familyUnitId,
-        },
-        ...readyProjectS2.designs,
-      ]);
+      readyProjectS2InputHandler(
+        "combinations",
+        readyProjectS2.combinations.map(combination => {
+          if (
+            combination.area.id === areaId &&
+            combination.floor.id === floorId
+          ) {
+            return {
+              ...combination,
+              familyUnits: [...combination.familyUnits, familyUnitId],
+            };
+          }
+          return combination;
+        }),
+      );
     } else {
       readyProjectS2InputHandler(
-        "designs",
-        readyProjectS2.designs.filter(
-          design =>
-            design.areaId !== areaId ||
-            design.floorId !== floorId ||
-            design.familyUnitId !== familyUnitId,
-        ),
+        "combinations",
+        readyProjectS2.combinations.map(combination => {
+          if (
+            combination.area.id === areaId &&
+            combination.floor.id === floorId
+          ) {
+            return {
+              ...combination,
+              familyUnits: combination.familyUnits.filter(
+                unit => unit !== familyUnitId,
+              ),
+            };
+          }
+          return combination;
+        }),
       );
     }
   };
@@ -65,7 +104,7 @@ const ReadyProjectScreen2 = ({
         if (range.areaId === areaId) {
           return {
             ...range,
-            [budgetType]: Number(value),
+            [budgetType]: value,
           };
         }
         return range;
@@ -87,28 +126,28 @@ const ReadyProjectScreen2 = ({
             </tr>
           </thead>
           <tbody>
-            {initialCombinations.map(({ area, floor }, index) => (
+            {readyProjectS2.combinations.map(({ area, floor }, index) => (
               <tr key={`${area.id}_${floor.id}`}>
                 <Td
                   align="center"
                   position="beginning"
-                  isLastRow={index === initialCombinations.length - 1}>
+                  isLastRow={index === readyProjectS2.combinations.length - 1}>
                   {`${area.area} ${area.unit}`}
                 </Td>
                 <Td
                   align="center"
-                  isLastRow={index === initialCombinations.length - 1}>
+                  isLastRow={index === readyProjectS2.combinations.length - 1}>
                   {floor.name}
                 </Td>
                 <Td
                   position="end"
-                  isLastRow={index === initialCombinations.length - 1}>
+                  isLastRow={index === readyProjectS2.combinations.length - 1}>
                   <ReadyProjectMultiSelect
                     inputHandler={familyUnitsInputHandler}
                     message="Select family units"
                     areaId={area.id}
                     floorId={floor.id}
-                    selectedOptions={readyProjectS2.designs}
+                    selectedOptions={readyProjectS2.combinations}
                     options={familyUnits.map(familyUnit => ({
                       value: familyUnit.id,
                       label: familyUnit.name,
@@ -177,7 +216,7 @@ const ReadyProjectScreen2 = ({
               onClick={
                 uploadedScreensCount === 1
                   ? addReadyProjectS2Handler
-                  : updateReadyProjectS2Handler
+                  : updateReadyProjectS2HandlerCheck
               }
             />
             <Button

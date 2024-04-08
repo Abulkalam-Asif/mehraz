@@ -3,6 +3,7 @@ export { default as Alert } from "./Alert";
 export { default as Carousel } from "./Carousel";
 export { default as AlertContainer } from "./AlertContainer";
 // Admin Side
+export { default as ConfirmationModal } from "./admin-side/ConfirmationModal";
 export { default as AdminInputBox } from "./admin-side/AdminInputBox";
 export { default as AdminInputBox2 } from "./admin-side/AdminInputBox2";
 export { default as AdminModal } from "./admin-side/AdminModal";

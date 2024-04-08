@@ -1,9 +1,9 @@
-import addReadyProjectS1ToDB from "@/Firebase/admin-side/ready_project/addReadyProjectScreen-1";
-import addReadyProjectS2ToDB from "@/Firebase/admin-side/ready_project/addReadyProjectScreen-2";
-import addReadyProjectS3ToDB from "@/Firebase/admin-side/ready_project/addReadyProjectScreen-3";
+import updateReadyProjectS1ToDB from "@/Firebase/admin-side/ready_project/updateReadyProjectScreen-1";
+import updateReadyProjectS2ToDB from "@/Firebase/admin-side/ready_project/updateReadyProjectScreen-2";
 import fileToFormData from "@/utilities/admin-panel/fileToFormData";
 
-const addReadyProjectS1Service = (
+const updateReadyProjectS1Service = (
+  projectId,
   readyProjectS1,
   showAlert,
   setShowSpinner,
@@ -25,6 +25,7 @@ const addReadyProjectS1Service = (
     image: readyProjectS1.image,
     video: readyProjectS1.video,
   };
+
   if (formattedData.title.length === 0) {
     showAlert({ type: "WARNING", message: "Title is required" });
     return;
@@ -73,19 +74,29 @@ const addReadyProjectS1Service = (
   } else {
     setShowSpinner(true);
     // Convert image and video to FormData
-    formattedData.image = fileToFormData("image", formattedData.image);
-    formattedData.video = fileToFormData("video", formattedData.video);
+    if (formattedData.image instanceof File) {
+      formattedData.image = fileToFormData("image", formattedData.image);
+    }
+    if (formattedData.video instanceof File) {
+      formattedData.video = fileToFormData("video", formattedData.video);
+    }
     return new Promise(resolve => {
-      addReadyProjectS1ToDB(formattedData).then(({ type, message, data }) => {
-        showAlert({ type, message });
-        setShowSpinner(false);
-        resolve(data);
-      });
+      updateReadyProjectS1ToDB({ id: projectId, ...formattedData }).then(
+        ({ type, message }) => {
+          showAlert({ type, message });
+          setShowSpinner(false);
+          if (type === "SUCCESS") {
+            resolve(true);
+          } else {
+            resolve(false);
+          }
+        },
+      );
     });
   }
 };
 
-const addReadyProjectS2Service = (
+const updateReadyProjectS2Service = (
   projectId,
   readyProjectS2,
   showAlert,
@@ -132,7 +143,7 @@ const addReadyProjectS2Service = (
     });
     setShowSpinner(true);
     return new Promise(resolve => {
-      addReadyProjectS2ToDB({
+      updateReadyProjectS2ToDB({
         id: projectId,
         designs,
         budgetRanges: readyProjectS2.budgetRanges,
@@ -146,78 +157,4 @@ const addReadyProjectS2Service = (
   }
 };
 
-const addReadyProjectS3Service = (
-  projectId,
-  readyProjectS3,
-  showAlert,
-  setShowSpinner,
-) => {
-  if (readyProjectS3.exteriorViews.length === 0) {
-    showAlert({
-      type: "WARNING",
-      message: "Please add at least one exterior view",
-    });
-    return;
-  } else if (readyProjectS3.interiorViews.length === 0) {
-    showAlert({
-      type: "WARNING",
-      message: "Please add at least one interior view",
-    });
-    return;
-  } else if (readyProjectS3.materials.length === 0) {
-    showAlert({
-      type: "WARNING",
-      message: "Please select at least one material",
-    });
-    return;
-  } else if (readyProjectS3.imagesOp1.length === 0) {
-    showAlert({
-      type: "WARNING",
-      message: "Please attach at least one image for option 1",
-    });
-    return;
-  } else if (readyProjectS3.imagesOp2.length === 0) {
-    showAlert({
-      type: "WARNING",
-      message: "Please attach at least one image for option 2",
-    });
-    return;
-  } else {
-    setShowSpinner(true);
-    // Convert images to FormData
-    const imagesOp1 = readyProjectS3.imagesOp1.map((image, index) =>
-      fileToFormData(`image${index}`, image),
-    );
-    const imagesOp2 = readyProjectS3.imagesOp2.map((image, index) =>
-      fileToFormData(`image${index}`, image),
-    );
-    const interiorViews = readyProjectS3.interiorViews.map(view => ({
-      ...view,
-      video: fileToFormData("video", view.video),
-    }));
-    const exteriorViews = readyProjectS3.exteriorViews.map(view => ({
-      ...view,
-      video: fileToFormData("video", view.video),
-    }));
-    return new Promise(resolve => {
-      addReadyProjectS3ToDB({
-        id: projectId,
-        interiorViews,
-        exteriorViews,
-        imagesOp1,
-        imagesOp2,
-        materials: readyProjectS3.materials,
-      }).then(({ type, message }) => {
-        showAlert({ type, message });
-        if (type === "SUCCESS") resolve(true);
-        else resolve(false);
-      });
-    });
-  }
-};
-
-export {
-  addReadyProjectS1Service,
-  addReadyProjectS2Service,
-  addReadyProjectS3Service,
-};
+export { updateReadyProjectS1Service, updateReadyProjectS2Service };
