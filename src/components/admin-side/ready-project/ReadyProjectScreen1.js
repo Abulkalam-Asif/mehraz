@@ -69,6 +69,7 @@ const ReadyProjectS1 = ({
             inputHandler={readyProjectS1InputHandler}
             message="Select cities"
             required={true}
+            generalOption={"GENERAL"}
           />
           <AdminMultiSelect
             title="areas"

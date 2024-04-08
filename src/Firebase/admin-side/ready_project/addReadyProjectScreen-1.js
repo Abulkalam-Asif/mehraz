@@ -118,12 +118,18 @@ const addReadyProjectS1ToDB = async ({
 
     const imageRef = ref(storage, `READY_PROJECTS/${response.id}/image`);
     await uploadBytes(imageRef, image.get("image"));
+    const imageUrl = await getDownloadURL(imageRef);
 
     const videoRef = ref(storage, `READY_PROJECTS/${response.id}/video`);
     await uploadBytes(videoRef, video.get("video"));
+    const videoUrl = await getDownloadURL(videoRef);
 
     return {
-      data: response.id,
+      data: {
+        id: response.id,
+        imageUrl,
+        videoUrl,
+      },
       type: "SUCCESS",
       message: "Ready project screen 1 added successfully!",
     };

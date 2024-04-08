@@ -82,14 +82,10 @@ const updateReadyProjectS1Service = (
     }
     return new Promise(resolve => {
       updateReadyProjectS1ToDB({ id: projectId, ...formattedData }).then(
-        ({ type, message }) => {
+        ({ type, message, data }) => {
           showAlert({ type, message });
           setShowSpinner(false);
-          if (type === "SUCCESS") {
-            resolve(true);
-          } else {
-            resolve(false);
-          }
+          resolve(data);
         },
       );
     });

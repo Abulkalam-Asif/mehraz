@@ -136,13 +136,19 @@ const ReadyProjectClientPage = ({
       setShowSpinner,
     );
     if (data) {
-      setProjectId(data);
-      setCurrentScreen(2);
-      setUploadedScreensCount(1);
+      const { id, imageUrl, videoUrl } = data;
+      setProjectId(id);
+      setReadyProjectS1(prevState => ({
+        ...prevState,
+        image: imageUrl,
+        video: videoUrl,
+      }));
       setScreen1PrevData({
         areas: readyProjectS1.areas,
         floors: readyProjectS1.floors,
       });
+      setCurrentScreen(2);
+      setUploadedScreensCount(1);
     }
   };
 
@@ -168,18 +174,23 @@ const ReadyProjectClientPage = ({
   };
 
   const updateReadyProjectS1Handler = async () => {
-    const response = await updateReadyProjectS1Service(
+    const data = await updateReadyProjectS1Service(
       projectId,
       readyProjectS1,
       showAlert,
       setShowSpinner,
     );
-    if (response) {
-      setCurrentScreen(2);
+    if (data) {
+      setReadyProjectS1(prevState => ({
+        ...prevState,
+        image: data.imageUrl,
+        video: data.videoUrl,
+      }));
       setScreen1PrevData({
         areas: readyProjectS1.areas,
         floors: readyProjectS1.floors,
       });
+      setCurrentScreen(2);
     }
   };
 

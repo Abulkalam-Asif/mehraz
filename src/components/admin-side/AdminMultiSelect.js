@@ -9,6 +9,7 @@ const AdminMultiSelect = ({
   selectedOptions = [],
   inputHandler = () => {},
   required = false,
+  generalOption = null,
 }) => {
   const [expanded, setExpanded] = useState(false);
 
@@ -53,9 +54,18 @@ const AdminMultiSelect = ({
                     id={`option${index}`}
                     type="checkbox"
                     value={value}
+                    disabled={
+                      generalOption &&
+                      selectedOptions.includes(generalOption) &&
+                      generalOption !== value
+                    }
                     checked={selectedOptions.some(o => o === value)}
                     onChange={e => {
                       if (e.target.checked) {
+                        if (generalOption && e.target.value === generalOption) {
+                          inputHandler(name, [generalOption]);
+                          return;
+                        }
                         inputHandler(name, [...selectedOptions, value]);
                       } else {
                         inputHandler(
