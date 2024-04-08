@@ -17,6 +17,7 @@ const ProgramSection = ({
   toggleModal,
   setCurrentProgram,
   setItemToDelete,
+  className = "",
 }) => {
   const addProgramClickHandler = () => {
     setModalMetadata({
@@ -51,7 +52,8 @@ const ProgramSection = ({
 
   return (
     <>
-      <AdminTableContainer className="w-full flex flex-col gap-y-2">
+      <AdminTableContainer
+        className={`w-full flex flex-col gap-y-2 ${className}`}>
         <H2 text="Programs" />
         {programs ? (
           programs.length > 0 ? (

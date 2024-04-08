@@ -2,7 +2,7 @@ import { db } from "@/Firebase/firebase";
 
 import { collection, onSnapshot } from "firebase/firestore";
 
-const useGetFamilyUnitsFromDb = async (fields = ["id", "name"]) => {
+const getFamilyUnitsFromDb = async (fields = ["id", "name"]) => {
   const familyUnitsRef = collection(db, "FAMILY_UNITS");
   return new Promise((resolve, reject) => {
     const unsubscribe = onSnapshot(
@@ -32,4 +32,4 @@ const useGetFamilyUnitsFromDb = async (fields = ["id", "name"]) => {
   });
 };
 
-export default useGetFamilyUnitsFromDb;
+export default getFamilyUnitsFromDb;

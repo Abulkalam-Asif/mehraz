@@ -1,6 +1,6 @@
 import { Roboto } from "next/font/google";
 import StoreProvider from "./StoreProvider";
-import "./globals.css";
+import "@/app/globals.css";
 import { AlertProvider } from "@/context/AlertContext";
 
 const roboto = Roboto({

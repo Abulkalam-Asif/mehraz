@@ -7,7 +7,7 @@ import {
   Button,
   ReadyProjectInputBox,
 } from "@/components";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 const ReadyProjectScreen2 = ({
   readyProjectS2,

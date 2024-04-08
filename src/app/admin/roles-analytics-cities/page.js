@@ -2,33 +2,33 @@ import { chevronLeftIcon } from "@/assets";
 import { H1, RACClientPage } from "@/components";
 import Image from "next/image";
 import Link from "next/link";
-import useCurrenciesFromDB from "@/Firebase/admin-side/roles-analytics-cities/currencies/getCurrenciesFromFirebase";
-import useCitiesFromDB from "@/Firebase/admin-side/roles-analytics-cities/cities/getCitiesFromFirebase";
-import useOfficesFromDB from "@/Firebase/admin-side/roles-analytics-cities/offices/getOfficesFromDB";
-import useStylesFromDB from "@/Firebase/admin-side/roles-analytics-cities/styles/getStylesFromFirebase";
-import usePlotsFromDB from "@/Firebase/admin-side/roles-analytics-cities/plots/getPlotsFromFirestore";
+import getCurrenciesFromDB from "@/Firebase/admin-side/roles-analytics-cities/currencies/getCurrenciesFromFirebase";
+import getCitiesFromDB from "@/Firebase/admin-side/roles-analytics-cities/cities/getCitiesFromFirebase";
+import getOfficesFromDB from "@/Firebase/admin-side/roles-analytics-cities/offices/getOfficesFromDB";
+import getStylesFromDB from "@/Firebase/admin-side/roles-analytics-cities/styles/getStylesFromFirebase";
+import getPlotsFromDB from "@/Firebase/admin-side/roles-analytics-cities/plots/getPlotsFromFirestore";
 import mapCurrencyCitiesWithNames from "@/utilities/admin-panel/roles-analytics-cities/mapCurrencyCitiesWithNames";
-import useUnitsFromDb from "@/Firebase/admin-side/teams-aboutus/units/getUnitsFromDb";
+import getUnitsFromDb from "@/Firebase/admin-side/teams-aboutus/units/getUnitsFromDb";
 
 const RAC = async () => {
-  const cities = await useCitiesFromDB(["id", "name"]);
-  let currencies = await useCurrenciesFromDB([
+  const cities = await getCitiesFromDB(["id", "name"]);
+  let currencies = await getCurrenciesFromDB([
     "id",
     "name",
     "cities",
     "valueInPkr",
   ]);
   currencies = mapCurrencyCitiesWithNames(currencies, cities);
-  const officeLocations = await useOfficesFromDB([
+  const officeLocations = await getOfficesFromDB([
     "id",
     "name",
     "address",
     "mapsLink",
     "image",
   ]);
-  const plots = await usePlotsFromDB(["id", "area", "unit", "category"]);
-  const styles = await useStylesFromDB(["id", "name", "budget"]);
-  const units = await useUnitsFromDb(["id", "name"]);
+  const plots = await getPlotsFromDB(["id", "area", "unit", "category"]);
+  const styles = await getStylesFromDB(["id", "name", "budget"]);
+  const units = await getUnitsFromDb(["id", "name"]);
 
   return (
     <>

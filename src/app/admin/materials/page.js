@@ -1,14 +1,14 @@
-import useMaterialCategoriesFromDb from "@/Firebase/admin-side/materials/material-categories/getMaterialCategoriesFromDb";
-import useMaterialsFromDb from "@/Firebase/admin-side/materials/materials/getMaterialsFromDb";
-import usePropertiesFromDb from "@/Firebase/admin-side/materials/properties/getPropertiesFromDb";
-import useCitiesFromDB from "@/Firebase/admin-side/roles-analytics-cities/cities/getCitiesFromFirebase";
+import getMaterialCategoriesFromDb from "@/Firebase/admin-side/materials/material-categories/getMaterialCategoriesFromDb";
+import getMaterialsFromDb from "@/Firebase/admin-side/materials/materials/getMaterialsFromDb";
+import getPropertiesFromDb from "@/Firebase/admin-side/materials/properties/getPropertiesFromDb";
+import getCitiesFromDB from "@/Firebase/admin-side/roles-analytics-cities/cities/getCitiesFromFirebase";
 import { chevronLeftIcon } from "@/assets";
 import { H1, MaterialsClientPage } from "@/components";
 import Image from "next/image";
 import Link from "next/link";
 
 const Materials = async () => {
-  const materials = await useMaterialsFromDb([
+  const materials = await getMaterialsFromDb([
     "id",
     "name",
     "vendor",
@@ -21,7 +21,7 @@ const Materials = async () => {
     "image2",
     "cities",
   ]);
-  const materialCategories = await useMaterialCategoriesFromDb([
+  const materialCategories = await getMaterialCategoriesFromDb([
     "id",
     "name",
     "image",
@@ -29,7 +29,7 @@ const Materials = async () => {
     "fixCoverImage",
     "fixedMaterialId",
   ]);
-  const properties = await usePropertiesFromDb([
+  const properties = await getPropertiesFromDb([
     "id",
     "area",
     "description",
@@ -38,7 +38,7 @@ const Materials = async () => {
     "city",
     "type",
   ]);
-  const cities = await useCitiesFromDB(["id", "name"]);
+  const cities = await getCitiesFromDB(["id", "name"]);
 
   return (
     <>

@@ -46,6 +46,8 @@ const ProgramModal = ({
             inputHandler={currentProgramInputHandler}
             idHtmlFor="category"
             name="category"
+            maxLength={15}
+            required={true}
           />
           <AdminInputBox
             label="Enter quantity"
@@ -55,6 +57,7 @@ const ProgramModal = ({
             name="quantity"
             type="number"
             max={99}
+            required={true}
           />
         </div>
         <div className="max-h-32 w-1/2 flex flex-col overflow-y-auto">
@@ -65,36 +68,40 @@ const ProgramModal = ({
                   key={subCategoryIndex}
                   className="flex flex-col gap-2 items-center">
                   <AdminInputBox
+                    maxLength={15}
+                    required={true}
                     label={`Enter space ${subCategoryIndex + 1}`}
                     value={
                       currentProgram.subCategories[subCategoryIndex]?.space
                     }
-                    inputHandler={e =>
+                    inputHandler={(_, value) => {
                       currentProgramInputHandler(
                         "subCategories",
                         [...currentProgram.subCategories].map(
                           (subCategory, index) => {
                             if (index === subCategoryIndex) {
-                              return { ...subCategory, space: e.target.value };
+                              return { ...subCategory, space: value };
                             }
                             return subCategory;
                           },
                         ),
-                      )
-                    }
+                      );
+                    }}
                     idHtmlFor={`space${subCategoryIndex}`}
                     name={`space${subCategoryIndex}`}
                   />
                   <AdminInputBox
+                    maxLength={15}
+                    required={true}
                     label={`Enter size ${subCategoryIndex + 1}`}
                     value={currentProgram.subCategories[subCategoryIndex]?.size}
-                    inputHandler={e =>
+                    inputHandler={(_, value) =>
                       currentProgramInputHandler(
                         "subCategories",
                         [...currentProgram.subCategories].map(
                           (subCategory, index) => {
                             if (index === subCategoryIndex) {
-                              return { ...subCategory, size: e.target.value };
+                              return { ...subCategory, size: value };
                             }
                             return subCategory;
                           },

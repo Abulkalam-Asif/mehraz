@@ -2,7 +2,7 @@ import { collection, onSnapshot } from "firebase/firestore";
 import { db, storage } from "../../../firebase";
 import { getDownloadURL, ref } from "firebase/storage";
 
-const useStylesFromDB = async (fields = ["id", "name", "budget"]) => {
+const getStylesFromDB = async (fields = ["id", "name", "budget"]) => {
   return new Promise((resolve, reject) => {
     const unsubscribe = onSnapshot(
       collection(db, "STYLES"),
@@ -42,4 +42,4 @@ const useStylesFromDB = async (fields = ["id", "name", "budget"]) => {
   });
 };
 
-export default useStylesFromDB;
+export default getStylesFromDB;

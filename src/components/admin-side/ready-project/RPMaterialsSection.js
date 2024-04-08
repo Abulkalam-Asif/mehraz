@@ -1,12 +1,17 @@
 import { Spinner, AdminTableContainer, H2, Table, Td, Th } from "@/components";
 
-const RPMaterialsSection = ({ materials, selectedMaterials, inputHandler }) => {
+const RPMaterialsSection = ({
+  title,
+  materials,
+  selectedMaterials,
+  inputHandler,
+}) => {
   return (
     <>
       <AdminTableContainer className="w-full flex flex-col gap-y-2">
-        <H2 text="common materials" />
+        <H2 text={title} />
         {materials ? (
-          materials.length > 0 ? (
+          materials?.length > 0 ? (
             <Table border={false} className="h-full overflow-y-auto">
               <thead className="text-sm">
                 <tr>
@@ -16,7 +21,7 @@ const RPMaterialsSection = ({ materials, selectedMaterials, inputHandler }) => {
                 </tr>
               </thead>
               <tbody className="text-xs font-semibold">
-                {materials.map(({ id, name, vendor }, index) => (
+                {materials?.map(({ id, name, vendor }, index) => (
                   <tr key={id}>
                     <Td
                       align="center"
@@ -25,7 +30,7 @@ const RPMaterialsSection = ({ materials, selectedMaterials, inputHandler }) => {
                       isLastRow={index === materials.length - 1}>
                       <input
                         type="checkbox"
-                        checked={selectedMaterials.includes(id)}
+                        checked={selectedMaterials?.includes(id) || false}
                         onChange={e => {
                           if (e.target.checked) {
                             inputHandler("materials", [
@@ -35,7 +40,7 @@ const RPMaterialsSection = ({ materials, selectedMaterials, inputHandler }) => {
                           } else {
                             inputHandler(
                               "materials",
-                              selectedMaterials.filter(
+                              selectedMaterials?.filter(
                                 material => material !== id,
                               ),
                             );

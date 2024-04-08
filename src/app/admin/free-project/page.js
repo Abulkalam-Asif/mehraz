@@ -1,13 +1,13 @@
-import useCitiesFromDB from "@/Firebase/admin-side/roles-analytics-cities/cities/getCitiesFromFirebase";
-import usePlotsFromDB from "@/Firebase/admin-side/roles-analytics-cities/plots/getPlotsFromFirestore";
+import getCitiesFromDB from "@/Firebase/admin-side/roles-analytics-cities/cities/getCitiesFromFirebase";
+import getPlotsFromDB from "@/Firebase/admin-side/roles-analytics-cities/plots/getPlotsFromFirestore";
 import { chevronLeftIcon } from "@/assets";
 import { FreeProjectClientPage, H1 } from "@/components";
 import Image from "next/image";
 import Link from "next/link";
 
 const FreeProject = async () => {
-  const cities = await useCitiesFromDB(["id", "name"]);
-  const plots = await usePlotsFromDB(["id", "area", "unit", "category"]);
+  const cities = await getCitiesFromDB(["id", "name"]);
+  const plots = await getPlotsFromDB(["id", "area", "unit", "category"]);
 
   return (
     <>

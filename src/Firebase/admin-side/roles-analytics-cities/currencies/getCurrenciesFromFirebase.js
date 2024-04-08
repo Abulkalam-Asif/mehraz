@@ -1,7 +1,7 @@
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "../../../firebase";
 
-const useCurrenciesFromDB = async (
+const getCurrenciesFromDB = async (
   fields = ["id", "name", "cities", "valueInPkr"],
 ) => {
   const ref = collection(db, "CURRENCIES");
@@ -36,4 +36,4 @@ const useCurrenciesFromDB = async (
   return promise;
 };
 
-export default useCurrenciesFromDB;
+export default getCurrenciesFromDB;

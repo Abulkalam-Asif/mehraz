@@ -13,6 +13,7 @@ import { deleteIcon, editIcon, ellipsisIcon } from "@/assets";
 import { FaCheckCircle, FaMinusCircle } from "react-icons/fa";
 
 const RPInteriorSection = ({
+  title,
   interiorViews,
   setModalMetadata,
   toggleModal,
@@ -51,7 +52,7 @@ const RPInteriorSection = ({
   return (
     <>
       <AdminTableContainer className="w-full flex flex-col gap-y-2">
-        <H2 text="Common Interior 360 views" />
+        <H2 text={title} />
         {interiorViews ? (
           interiorViews.length > 0 ? (
             <Table border={false} className="h-full overflow-y-auto">

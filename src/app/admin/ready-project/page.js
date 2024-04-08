@@ -1,21 +1,21 @@
 import { ReadyProjectClientPage } from "@/components";
-import useCitiesFromDB from "@/Firebase/admin-side/roles-analytics-cities/cities/getCitiesFromFirebase";
-import usePlotsFromDB from "@/Firebase/admin-side/roles-analytics-cities/plots/getPlotsFromFirestore";
-import useUnitsFromDb from "@/Firebase/admin-side/teams-aboutus/units/getUnitsFromDb";
+import getCitiesFromDB from "@/Firebase/admin-side/roles-analytics-cities/cities/getCitiesFromFirebase";
+import getPlotsFromDB from "@/Firebase/admin-side/roles-analytics-cities/plots/getPlotsFromFirestore";
+import getUnitsFromDb from "@/Firebase/admin-side/teams-aboutus/units/getUnitsFromDb";
 import replacePlotUnitIdsByNames from "@/services/admin-side/replacePlotUnitIdsByNames";
-import useGetFamilyUnitsFromDb from "@/Firebase/admin-side/teams-aboutus/familyUnits/getFamilyUnitsFromDb";
-import useGetFloorsFromDb from "@/Firebase/admin-side/teams-aboutus/floors/getFloorsFromDb";
-import useStylesFromDB from "@/Firebase/admin-side/roles-analytics-cities/styles/getStylesFromFirebase";
-import useMaterialsFromDb from "@/Firebase/admin-side/materials/materials/getMaterialsFromDb";
+import getFamilyUnitsFromDb from "@/Firebase/admin-side/teams-aboutus/familyUnits/getFamilyUnitsFromDb";
+import getFloorsFromDb from "@/Firebase/admin-side/teams-aboutus/floors/getFloorsFromDb";
+import getStylesFromDB from "@/Firebase/admin-side/roles-analytics-cities/styles/getStylesFromFirebase";
+import getMaterialsFromDb from "@/Firebase/admin-side/materials/materials/getMaterialsFromDb";
 
 const ReadyProject = async () => {
-  const floors = await useGetFloorsFromDb(["id", "name"]);
-  const familyUnits = await useGetFamilyUnitsFromDb(["id", "name"]);
-  const cities = await useCitiesFromDB(["id", "name"]);
-  const units = await useUnitsFromDb(["id", "name"]);
-  const styles = await useStylesFromDB(["id", "name", "budget"]);
-  const materials = await useMaterialsFromDb(["id", "name", "vendor"]);
-  let plots = await usePlotsFromDB(["id", "area", "unit"]);
+  const floors = await getFloorsFromDb(["id", "name"]);
+  const familyUnits = await getFamilyUnitsFromDb(["id", "name"]);
+  const cities = await getCitiesFromDB(["id", "name"]);
+  const units = await getUnitsFromDb(["id", "name"]);
+  const styles = await getStylesFromDB(["id", "name", "budget"]);
+  const materials = await getMaterialsFromDb(["id", "name", "vendor"]);
+  let plots = await getPlotsFromDB(["id", "area", "unit"]);
   plots = replacePlotUnitIdsByNames(plots, units);
 
   return (

@@ -5,7 +5,8 @@ import { closeIcon } from "@/assets";
 import Image from "next/image";
 
 const Alert = ({ message, type }) => {
-  const { hideAlert } = useContext(AlertContext);
+  const AlertContextObj = useContext(AlertContext);
+  const hideAlert = AlertContextObj?.hideAlert;
 
   useEffect(() => {
     const alertTimeout = setTimeout(() => {

@@ -202,14 +202,14 @@ const updateReadyProjectS3Service = (
     const interiorViews = readyProjectS3.interiorViews.map(view => ({
       ...view,
       video:
-        video instanceof File
+        view.video instanceof File
           ? fileToFormData("video", view.video)
           : view.video,
     }));
     const exteriorViews = readyProjectS3.exteriorViews.map(view => ({
       ...view,
       video:
-        video instanceof File
+      view.video instanceof File
           ? fileToFormData("video", view.video)
           : view.video,
     }));

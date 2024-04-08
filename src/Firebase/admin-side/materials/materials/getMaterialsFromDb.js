@@ -3,7 +3,7 @@ import { collection, onSnapshot } from "firebase/firestore";
 import { db, storage } from "../../../firebase";
 import { getDownloadURL, ref } from "firebase/storage";
 
-const useMaterialsFromDb = async (
+const getMaterialsFromDb = async (
   fields = [
     "id",
     "name",
@@ -55,4 +55,4 @@ const useMaterialsFromDb = async (
   });
 };
 
-export default useMaterialsFromDb;
+export default getMaterialsFromDb;

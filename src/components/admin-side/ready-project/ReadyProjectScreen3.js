@@ -249,6 +249,7 @@ const ReadyProjectScreen3 = ({
               </div>
             </div>
             <RPMaterialsSection
+              title={"Common materials"}
               materials={materials}
               selectedMaterials={readyProjectS3.materials}
               inputHandler={readyProjectS3InputHandler}
@@ -256,6 +257,7 @@ const ReadyProjectScreen3 = ({
           </div>
           <div className="h-full overflow-hidden grid grid-rows-3 gap-4 lg:flex lg:flex-col lg:h-auto">
             <RPExteriorSection
+              title={"Common Exterior 360 views"}
               exteriorViews={readyProjectS3.exteriorViews}
               setModalMetadata={setModalMetadata}
               toggleModal={toggleModal}
@@ -263,6 +265,7 @@ const ReadyProjectScreen3 = ({
               setItemToDelete={setItemToDelete}
             />
             <RPInteriorSection
+              title={"Common Interior 360 views"}
               interiorViews={readyProjectS3.interiorViews}
               setModalMetadata={setModalMetadata}
               toggleModal={toggleModal}

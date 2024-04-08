@@ -4,7 +4,8 @@ import { Alert } from "@/components";
 import { useContext } from "react";
 
 const AlertContainer = () => {
-  const { alerts } = useContext(AlertContext);
+  const AlertContextObj = useContext(AlertContext);
+  const alerts = AlertContextObj?.alerts;
 
   return (
     <div>

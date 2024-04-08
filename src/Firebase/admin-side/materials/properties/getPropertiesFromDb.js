@@ -2,7 +2,7 @@
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "../../../firebase";
 
-const usePropertiesFromDb = async (
+const getPropertiesFromDb = async (
   fields = ["id", "area", "description", "location", "demand", "city", "type"],
 ) => {
   const propertiesRef = collection(db, "PROPERTIES");
@@ -34,4 +34,4 @@ const usePropertiesFromDb = async (
   });
 };
 
-export default usePropertiesFromDb;
+export default getPropertiesFromDb;

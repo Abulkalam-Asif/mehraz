@@ -13,6 +13,7 @@ import { deleteIcon, editIcon, ellipsisIcon } from "@/assets";
 import { FaCheckCircle, FaMinusCircle } from "react-icons/fa";
 
 const RPExteriorSection = ({
+  title,
   exteriorViews,
   setModalMetadata,
   toggleModal,
@@ -51,7 +52,7 @@ const RPExteriorSection = ({
   return (
     <>
       <AdminTableContainer className="w-full flex flex-col gap-y-2">
-        <H2 text="Common Exterior 360 views" />
+        <H2 text={title} />
         {exteriorViews ? (
           exteriorViews.length > 0 ? (
             <Table border={false} className="h-full overflow-y-auto">

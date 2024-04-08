@@ -2,7 +2,7 @@ import { collection, onSnapshot } from "firebase/firestore";
 import { db, storage } from "../../../firebase";
 import { getDownloadURL, ref } from "firebase/storage";
 
-const useOfficesFromDB = async (
+const getOfficesFromDB = async (
   fields = ["id", "name", "address", "mapsLink", "image"],
 ) => {
   const officeRef = collection(db, "OFFICES");
@@ -47,4 +47,4 @@ const useOfficesFromDB = async (
   });
 };
 
-export default useOfficesFromDB;
+export default getOfficesFromDB;

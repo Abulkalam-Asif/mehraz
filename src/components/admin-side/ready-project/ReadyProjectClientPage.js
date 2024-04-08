@@ -17,6 +17,7 @@ import {
   ReadyProjectScreen1,
   ReadyProjectScreen2,
   ReadyProjectScreen3,
+  ReadyProjectScreen4,
   Spinner,
 } from "@/components";
 import getRPDesignsScreen4DataFromDb from "@/Firebase/admin-side/ready_project/getRPDesignsScreen4DataFromDb";
@@ -38,13 +39,53 @@ const ReadyProjectClientPage = ({
   const showAlert = useShowAlert();
   const router = useRouter();
   const [showSpinner, setShowSpinner] = useState(false);
-  const [currentScreen, setCurrentScreen] = useState(3);
-  const [uploadedScreensCount, setUploadedScreensCount] = useState(2);
   // const [currentScreen, setCurrentScreen] = useState(1);
+  const [currentScreen, setCurrentScreen] = useState(4);
   // const [uploadedScreensCount, setUploadedScreensCount] = useState(0);
-  const [projectId, setProjectId] = useState("5Yo3DSe62VGsw5nEzVkW");
+  const [uploadedScreensCount, setUploadedScreensCount] = useState(3);
   // const [projectId, setProjectId] = useState("");
-  const [rpDesigns, setRpDesigns] = useState([]);
+  const [projectId, setProjectId] = useState("5Yo3DSe62VGsw5nEzVkW");
+  // const [rpDesignIds, setRpDesignIds] = useState([]);
+  const [rpDesignIds, setRpDesignIds] = useState([
+    "DZofpKhb6uwnXgZ7jWup",
+    "Nl9c7jBT0zZ4dDpgHQ7E",
+    "eCqHwbPxRcnez7KBHimN",
+    "mCA6PfKYRuuxwiovvNCH",
+    "rglLyEXSqmncPyUbiUXg",
+  ]);
+  // const [rpDesignsData, setRpDesignsData] = useState([]);
+  const [rpDesignsData, setRpDesignsData] = useState([
+    {
+      id: "DZofpKhb6uwnXgZ7jWup",
+      area: "10 MARLA",
+      floor: "GROUND FLOOR, FIRST FLOOR",
+      familyUnit: "TWO UNITS",
+    },
+    {
+      id: "Nl9c7jBT0zZ4dDpgHQ7E",
+      area: "5 MARLA",
+      floor: "GROUND FLOOR, FIRST FLOOR",
+      familyUnit: "ONE UNIT",
+    },
+    {
+      id: "eCqHwbPxRcnez7KBHimN",
+      area: "10 MARLA",
+      floor: "GROUND FLOOR, FIRST FLOOR",
+      familyUnit: "ONE UNIT",
+    },
+    {
+      id: "mCA6PfKYRuuxwiovvNCH",
+      area: "5 MARLA",
+      floor: "GROUND FLOOR, FIRST FLOOR",
+      familyUnit: "THREE UNITS",
+    },
+    {
+      id: "rglLyEXSqmncPyUbiUXg",
+      area: "10 MARLA",
+      floor: "GROUND FLOOR, FIRST FLOOR",
+      familyUnit: "THREE UNITS",
+    },
+  ]);
 
   // Confirmation modal states and handlers
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -107,8 +148,8 @@ const ReadyProjectClientPage = ({
     description: "",
     cities: [],
     // areas: ["FoelXqMpuaUUeNz1rNzt", "cTNSiUIDjdUksVNbgs6D"],
-    // floors: ["B2q7f6fbEHSP78XQY9w3", "T8uSw1LVhxHyMts2UdFa"],
     areas: [],
+    // floors: ["B2q7f6fbEHSP78XQY9w3", "T8uSw1LVhxHyMts2UdFa"],
     floors: [],
     units: [],
     style: styles[0]?.id || "",
@@ -241,7 +282,7 @@ const ReadyProjectClientPage = ({
     if (data) {
       setCurrentScreen(3);
       setUploadedScreensCount(2);
-      setRpDesigns(data);
+      setRpDesignIds(data);
       setScreen2PrevData({
         combinations: readyProjectS2.combinations,
         budgetRanges: readyProjectS2.budgetRanges,
@@ -287,7 +328,7 @@ const ReadyProjectClientPage = ({
     );
     if (data) {
       setCurrentScreen(3);
-      setRpDesigns(data);
+      setRpDesignIds(data);
       setScreen2PrevData({
         combinations: readyProjectS2.combinations,
         budgetRanges: readyProjectS2.budgetRanges,
@@ -330,14 +371,14 @@ const ReadyProjectClientPage = ({
       const designs = [];
       try {
         await Promise.all(
-          rpDesigns.map(async designId => {
+          rpDesignIds.map(async designId => {
             const designFromDb = await getRPDesignsScreen4DataFromDb(designId);
             if (designFromDb) {
               designs.push(designFromDb);
             }
           }),
         );
-        setRpDesigns(designs);
+        setRpDesignsData(designs);
       } catch (error) {
         showAlert({
           type: "ERROR",
@@ -367,14 +408,14 @@ const ReadyProjectClientPage = ({
       const designs = [];
       try {
         await Promise.all(
-          rpDesigns.map(async designId => {
+          rpDesignIds.map(async designId => {
             const designFromDb = await getRPDesignsScreen4DataFromDb(designId);
             if (designFromDb) {
               designs.push(designFromDb);
             }
           }),
         );
-        setRpDesigns(designs);
+        setRpDesignsData(designs);
       } catch (error) {
         showAlert({
           type: "ERROR",
@@ -384,6 +425,37 @@ const ReadyProjectClientPage = ({
       setShowSpinner(false);
       setCurrentScreen(4);
     }
+  };
+
+  // Screen 4 states and handlers
+  const defaultReadyProjectS4 = {};
+  rpDesignIds.map(
+    id =>
+      (defaultReadyProjectS4[id] = {
+        video: null,
+        designCost: 0,
+        constructionCost: 0,
+        imagesOp1: [],
+        imagesOp2: [],
+        keywords: [],
+        description: "",
+        option1Desc: "",
+        option2Desc: "",
+        exteriorViews: [],
+        interiorViews: [],
+        materials: [],
+        programs: [],
+      }),
+  );
+  const [readyProjectS4, setReadyProjectS4] = useState(defaultReadyProjectS4);
+  const readyProjectS4InputHandler = (id, name, value) => {
+    setReadyProjectS4(prevState => ({
+      ...prevState,
+      [id]: {
+        ...prevState[id],
+        [name]: value,
+      },
+    }));
   };
 
   return (
@@ -454,7 +526,12 @@ const ReadyProjectClientPage = ({
             uploadedScreensCount={uploadedScreensCount}
           />
         ) : currentScreen === 4 ? (
-          <div>step 4</div>
+          <ReadyProjectScreen4
+            materials={materials}
+            rpDesignsData={rpDesignsData}
+            readyProjectS4={readyProjectS4}
+            readyProjectS4InputHandler={readyProjectS4InputHandler}
+          />
         ) : (
           currentScreen === 5 && <div>step 5</div>
         )}

@@ -1,7 +1,7 @@
 import { db } from "@/Firebase/firebase";
 import { collection, onSnapshot } from "firebase/firestore";
 
-const useGetFloorsFromDb = async (fields = ["id", "name"]) => {
+const getFloorsFromDb = async (fields = ["id", "name"]) => {
   const floorsRef = collection(db, "FLOORS");
   return new Promise((resolve, reject) => {
     const unsubscribe = onSnapshot(
@@ -31,4 +31,4 @@ const useGetFloorsFromDb = async (fields = ["id", "name"]) => {
   });
 };
 
-export default useGetFloorsFromDb;
+export default getFloorsFromDb;

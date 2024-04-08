@@ -3,7 +3,7 @@ import { collection, onSnapshot } from "firebase/firestore";
 import { db, storage } from "../../../firebase";
 import { getDownloadURL, ref } from "firebase/storage";
 
-const useMaterialCategoriesFromDb = async (
+const getMaterialCategoriesFromDb = async (
   fields = ["id", "name", "fixCoverImage", "fixedMaterialId", "coverImage"],
 ) => {
   try {
@@ -68,4 +68,4 @@ const useMaterialCategoriesFromDb = async (
   }
 };
 
-export default useMaterialCategoriesFromDb;
+export default getMaterialCategoriesFromDb;
