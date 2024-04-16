@@ -6,7 +6,8 @@ import {
   addReadyProjectS2Service,
   addReadyProjectS3Service,
 } from "@/services/admin-side/ready-project/addReadyProject";
-import { useShowAlert } from "@/hooks/useShowAlert";
+import { AlertContext } from "@/context/AlertContext";
+import { useContext } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { chevronLeftIcon } from "@/assets";
@@ -20,7 +21,7 @@ import {
   ReadyProjectScreen4,
   Spinner,
 } from "@/components";
-import getRPDesignsScreen4DataFromDb from "@/Firebase/admin-side/ready_project/getRPDesignsScreen4DataFromDb";
+import getRPDesignData from "@/Firebase/admin-side/ready_project/getRPDesignData";
 import {
   updateReadyProjectS1Service,
   updateReadyProjectS2Service,
@@ -36,7 +37,7 @@ const ReadyProjectClientPage = ({
   familyUnits,
   materials,
 }) => {
-  const showAlert = useShowAlert();
+  const { showAlert } = useContext(AlertContext);
   const router = useRouter();
   const [showSpinner, setShowSpinner] = useState(false);
   // const [currentScreen, setCurrentScreen] = useState(1);
@@ -70,7 +71,7 @@ const ReadyProjectClientPage = ({
     {
       id: "eCqHwbPxRcnez7KBHimN",
       area: "10 MARLA",
-      floor: "GROUND FLOOR, FIRST FLOOR",
+      floor: "GROUND FLOOR, FIRST FLOOR,SECOND FLOOR",
       familyUnit: "ONE UNIT",
     },
     {
@@ -86,6 +87,7 @@ const ReadyProjectClientPage = ({
       familyUnit: "THREE UNITS",
     },
   ]);
+  const [productRatesData, setProductRatesData] = useState([]);
 
   // Confirmation modal states and handlers
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -370,15 +372,18 @@ const ReadyProjectClientPage = ({
       }));
       const designs = [];
       try {
+        // Fetching designs data from db to show on screen 4
         await Promise.all(
           rpDesignIds.map(async designId => {
-            const designFromDb = await getRPDesignsScreen4DataFromDb(designId);
+            const designFromDb = await getRPDesignData(designId);
             if (designFromDb) {
               designs.push(designFromDb);
             }
           }),
         );
         setRpDesignsData(designs);
+        const productRates = await getRPDesignsProductRates();
+        setProductRatesData(productRates);
       } catch (error) {
         showAlert({
           type: "ERROR",
@@ -409,7 +414,7 @@ const ReadyProjectClientPage = ({
       try {
         await Promise.all(
           rpDesignIds.map(async designId => {
-            const designFromDb = await getRPDesignsScreen4DataFromDb(designId);
+            const designFromDb = await getRPDesignData(designId);
             if (designFromDb) {
               designs.push(designFromDb);
             }
@@ -439,8 +444,8 @@ const ReadyProjectClientPage = ({
         imagesOp2: [],
         keywords: [],
         description: "",
-        option1Desc: "",
-        option2Desc: "",
+        descriptionOp1: "",
+        descriptionOp2: "",
         exteriorViews: [],
         interiorViews: [],
         materials: [],
@@ -529,6 +534,7 @@ const ReadyProjectClientPage = ({
           <ReadyProjectScreen4
             materials={materials}
             rpDesignsData={rpDesignsData}
+            productRatesData={productRatesData}
             readyProjectS4={readyProjectS4}
             readyProjectS4InputHandler={readyProjectS4InputHandler}
           />

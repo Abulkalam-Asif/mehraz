@@ -44,7 +44,8 @@ import {
   deleteStyleService,
   editStyleService,
 } from "@/services/admin-side/roles-analytics-cities/styles";
-import { useShowAlert } from "@/hooks/useShowAlert";
+import { AlertContext } from "@/context/AlertContext";
+import { useContext } from "react";
 
 const roles = {
   admins: ["ali", "bilal", "ahmad"],
@@ -70,7 +71,7 @@ const RACClientPage = ({
   styles,
   units,
 }) => {
-  const showAlert = useShowAlert();
+  const { showAlert } = useContext(AlertContext);
   const [showModalSpinner, setShowModalSpinner] = useState(false);
 
   // Roles states and functions

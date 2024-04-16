@@ -2,7 +2,7 @@
 import { db } from "@/Firebase/firebase";
 import { doc, getDoc } from "firebase/firestore";
 
-const getRPDesignsScreen4DataFromDb = async id => {
+const getRPDesignData = async id => {
   try {
     const rpDesignRef = doc(db, "RP_DESIGNS", id);
     const rpDesignDoc = await getDoc(rpDesignRef);
@@ -42,4 +42,4 @@ const getRPDesignsScreen4DataFromDb = async id => {
   }
 };
 
-export default getRPDesignsScreen4DataFromDb;
+export default getRPDesignData;

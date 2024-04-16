@@ -10,7 +10,8 @@ import {
   PropertyModal,
   ToggleViewButtonMobile,
 } from "@/components";
-import { useShowAlert } from "@/hooks/useShowAlert";
+import { AlertContext } from "@/context/AlertContext";
+import { useContext } from "react";
 import {
   addNewMaterialCategoryService,
   deleteMaterialCategoryService,
@@ -40,7 +41,7 @@ const MaterialsClientPage = ({
   cities,
   properties,
 }) => {
-  const showAlert = useShowAlert();
+  const { showAlert } = useContext(AlertContext);
   // Materials states and functions
   const defaultMaterial = {
     id: null,

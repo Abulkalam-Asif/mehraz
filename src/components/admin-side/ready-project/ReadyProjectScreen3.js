@@ -14,7 +14,8 @@ import {
   MultiImagesDisplay,
   RPMaterialsSection,
 } from "@/components";
-import { useShowAlert } from "@/hooks/useShowAlert";
+import { AlertContext } from "@/context/AlertContext";
+import { useContext } from "react";
 import { ulid } from "ulid";
 
 const ReadyProjectScreen3 = ({
@@ -25,7 +26,7 @@ const ReadyProjectScreen3 = ({
   uploadedScreensCount,
   materials,
 }) => {
-  const showAlert = useShowAlert();
+  const { showAlert } = useContext(AlertContext);
 
   // Exterior states and functions
   const defaultExteriorView = {

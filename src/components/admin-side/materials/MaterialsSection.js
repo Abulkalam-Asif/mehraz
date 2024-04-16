@@ -10,7 +10,8 @@ import {
 } from "@/components/";
 import { deleteIcon, editIcon, ellipsisIcon } from "@/assets";
 import { FaCheckCircle, FaMinusCircle } from "react-icons/fa";
-import { useShowAlert } from "@/hooks/useShowAlert";
+import { AlertContext } from "@/context/AlertContext";
+import { useContext } from "react";
 
 const MaterialsSection = ({
   materials,
@@ -21,7 +22,7 @@ const MaterialsSection = ({
   setItemToDelete,
   cities,
 }) => {
-  const showAlert = useShowAlert();
+  const { showAlert } = useContext(AlertContext);
   const addMaterialClickHandler = () => {
     if (materialCategories.length === 0) {
       showAlert({

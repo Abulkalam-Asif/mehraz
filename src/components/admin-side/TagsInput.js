@@ -1,5 +1,6 @@
 import { Tag } from "@/components";
-import { useShowAlert } from "@/hooks/useShowAlert";
+import { AlertContext } from "@/context/AlertContext";
+import { useContext } from "react";
 
 const TagsInput = ({
   label = "",
@@ -9,7 +10,7 @@ const TagsInput = ({
   inputHandler = () => {},
   required = false,
 }) => {
-  const showAlert = useShowAlert();
+  const { showAlert } = useContext(AlertContext);
 
   const removeTagHandler = value => {
     const updatedTagsArr = tagsArr.filter(tag => tag !== value);

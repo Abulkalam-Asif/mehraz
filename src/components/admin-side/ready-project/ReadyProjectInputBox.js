@@ -1,5 +1,6 @@
 "use client";
-import { useShowAlert } from "@/hooks/useShowAlert";
+import { AlertContext } from "@/context/AlertContext";
+import { useContext } from "react";
 
 const ReadyProjectInputBox = ({
   value = "",
@@ -9,7 +10,7 @@ const ReadyProjectInputBox = ({
   max = 0,
   inputHandler,
 }) => {
-  const showAlert = useShowAlert();
+  const { showAlert } = useContext(AlertContext);
   return (
     <>
       <input

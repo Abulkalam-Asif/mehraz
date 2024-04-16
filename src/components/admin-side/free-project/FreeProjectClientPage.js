@@ -6,11 +6,12 @@ import {
   addFreeProjectS1Service,
   addFreeProjectS2Service,
 } from "@/services/admin-side/free-project/addFreeProject";
-import { useShowAlert } from "@/hooks/useShowAlert";
+import { AlertContext } from "@/context/AlertContext";
+import { useContext } from "react";
 
 const FreeProjectClientPage = ({ cities, plots }) => {
   const router = useRouter();
-  const showAlert = useShowAlert();
+  const { showAlert } = useContext(AlertContext);
   const [showSpinner, setShowSpinner] = useState(false);
   const [projectId, setProjectId] = useState(null);
   // Screen 1 states and handlers

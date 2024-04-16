@@ -5,10 +5,12 @@ const RPMaterialsSection = ({
   materials,
   selectedMaterials,
   inputHandler,
+  className = "",
 }) => {
   return (
     <>
-      <AdminTableContainer className="w-full flex flex-col gap-y-2">
+      <AdminTableContainer
+        className={`w-full flex flex-col gap-y-2 ${className}`}>
         <H2 text={title} />
         {materials ? (
           materials?.length > 0 ? (

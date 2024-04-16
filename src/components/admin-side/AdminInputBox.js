@@ -1,4 +1,5 @@
-import { useShowAlert } from "@/hooks/useShowAlert";
+import { AlertContext } from "@/context/AlertContext";
+import { useContext } from "react";
 
 const AdminInputBox = ({
   label = "",
@@ -13,7 +14,7 @@ const AdminInputBox = ({
   className = "",
   required = false,
 }) => {
-  const showAlert = useShowAlert();
+  const { showAlert } = useContext(AlertContext);
 
   return (
     <>

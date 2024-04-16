@@ -1,5 +1,6 @@
 "use client";
-import { useShowAlert } from "@/hooks/useShowAlert";
+import { AlertContext } from "@/context/AlertContext";
+import { useContext } from "react";
 
 const RACImageInput = ({
   message,
@@ -8,7 +9,7 @@ const RACImageInput = ({
   accept,
   file,
 }) => {
-  const showAlert = useShowAlert();
+  const { showAlert } = useContext(AlertContext);
 
   const handleFileChange = event => {
     if (event.target.files && event.target.files[0]) {

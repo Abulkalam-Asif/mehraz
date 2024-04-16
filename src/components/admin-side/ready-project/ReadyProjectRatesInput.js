@@ -1,5 +1,6 @@
 "use client";
-import { useShowAlert } from "@/hooks/useShowAlert";
+import { AlertContext } from "@/context/AlertContext";
+import { useContext } from "react";
 
 const ReadyProjectRatesInput = ({
   label,
@@ -10,7 +11,7 @@ const ReadyProjectRatesInput = ({
   className = "",
   maxLength,
 }) => {
-  const showAlert = useShowAlert();
+  const { showAlert } = useContext(AlertContext);
 
   return (
     <div className={`flex flex-col space-y-1 ${className}`}>

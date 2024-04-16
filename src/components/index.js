@@ -74,6 +74,7 @@ export { default as RPInteriorSection } from "./admin-side/ready-project/RPInter
 export { default as RPExteriorModal } from "./admin-side/ready-project/RPExteriorModal";
 export { default as RPInteriorModal } from "./admin-side/ready-project/RPInteriorModal";
 export { default as RPMaterialsSection } from "./admin-side/ready-project/RPMaterialsSection";
+export { default as ProductRatesSection } from "./admin-side/ready-project/ProductRatesSection";
 // Admin Side - RAC
 export { default as RACClientPage } from "./admin-side/rac/RACClientPage";
 export { default as MultiCheckbox } from "./admin-side/rac/MultiCheckbox";

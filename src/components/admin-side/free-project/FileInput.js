@@ -1,4 +1,9 @@
-import { useShowAlert } from "@/hooks/useShowAlert";
+"use client";
+import { AlertContext } from "@/context/AlertContext";
+import { useContext } from "react";
+import { Button, Modal } from "@/components";
+import Image from "next/image";
+import { useEffect, useState } from "react";
 
 const FileInput = ({
   accept,
@@ -11,8 +16,21 @@ const FileInput = ({
   wrongFileTypeWarning = "",
   inputHandler = () => {},
   classNameOuter = "",
+  showPreview = false,
 }) => {
-  const showAlert = useShowAlert();
+  const { showAlert } = useContext(AlertContext);
+  const [previewSrc, setPreviewSrc] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    if (file) {
+      if (file instanceof File) {
+        setPreviewSrc(URL.createObjectURL(file));
+      } else {
+        setPreviewSrc(file);
+      }
+    }
+  }, [file]);
 
   const handleFileChange = event => {
     if (event.target.files && event.target.files[0]) {
@@ -38,7 +56,7 @@ const FileInput = ({
 
   return (
     <>
-      <div className={`flex ${classNameOuter}`}>
+      <div className={`flex items-center ${classNameOuter}`}>
         <input
           id={idHtmlFor}
           type="file"
@@ -55,7 +73,41 @@ const FileInput = ({
             <span>{message}</span>
           )}
         </label>
+        {showPreview && previewSrc && (
+          <Button
+            className="ml-2"
+            text="preview"
+            size="sm"
+            color="accent-2"
+            onClick={() => {
+              setShowModal(prevState => !prevState);
+            }}
+          />
+        )}
       </div>
+      {showModal && (
+        <Modal
+          isModalOpen={showModal}
+          className="h-full max-h-[80vh] flex items-center justify-center"
+          toggleModal={() => setShowModal(prevState => !prevState)}>
+          {typeStartsWith === "image" ? (
+            <Image
+              className="h-full w-auto"
+              src={previewSrc}
+              alt="file"
+              width={300}
+              height={300}
+            />
+          ) : (
+            typeStartsWith === "video" && (
+              <video
+                src={previewSrc}
+                controls={true}
+                className="h-full w-auto"></video>
+            )
+          )}
+        </Modal>
+      )}
     </>
   );
 };
