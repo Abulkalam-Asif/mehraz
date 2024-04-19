@@ -32,6 +32,7 @@ const RPServicesInput = ({
         }}
         className="w-full border-2 text-sm border-accent-1-base rounded-md px-2 py-0.5"
         min={0}
+        step={"any"}
       />
     </>
   );

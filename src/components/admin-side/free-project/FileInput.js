@@ -78,6 +78,7 @@ const FileInput = ({
             className="ml-2"
             text="preview"
             size="sm"
+            type="button"
             color="accent-2"
             onClick={() => {
               setShowModal(prevState => !prevState);
