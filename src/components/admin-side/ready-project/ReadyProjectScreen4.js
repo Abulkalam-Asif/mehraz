@@ -43,11 +43,7 @@ const ReadyProjectScreen4 = ({
     getRPDesignsProductRates().then(productRates => {
       const updatedProductRates = productRates.map(productRate => ({
         ...productRate,
-        cost: Math.round(
-          productRate.rate *
-            currentDesign.areaValue *
-            currentDesign.unitValueInSqFt,
-        ),
+        cost: Math.round(productRate.rate * currentDesign.areaInSqFt),
       }));
       setReadyProjectS4Design(prevState => ({
         ...prevState,
@@ -439,8 +435,7 @@ const ReadyProjectScreen4 = ({
           designRates={readyProjectS4Design.designRates}
           constructionRates={readyProjectS4Design.constructionRates}
           readyProjectS4InputHandler={readyProjectS4InputHandler}
-          currentDesignAreaValue={currentDesign.areaValue}
-          currentDesignUnitValueInSqFt={currentDesign.unitValueInSqFt}
+          currentDesignAreaInSqFt={currentDesign.areaInSqFt}
         />
         <div className="h-[calc(100vh-6rem-6rem-2rem)] grid grid-rows-3 gap-4">
           <AdminInputBox2

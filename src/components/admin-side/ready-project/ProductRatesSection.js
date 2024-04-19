@@ -13,8 +13,7 @@ const ProductRatesSection = ({
   constructionRates,
   readyProjectS4InputHandler,
   className = "",
-  currentDesignAreaValue,
-  currentDesignUnitValueInSqFt,
+  currentDesignAreaInSqFt,
 }) => {
   return (
     <>
@@ -49,6 +48,7 @@ const ProductRatesSection = ({
                           inputHandler={readyProjectS4InputHandler}
                           rateId={designRate.id}
                           rates={designRates}
+                          currentDesignAreaInSqFt={currentDesignAreaInSqFt}
                         />
                       </Td>
                       <Td
@@ -61,6 +61,7 @@ const ProductRatesSection = ({
                           inputHandler={readyProjectS4InputHandler}
                           rateId={designRate.id}
                           rates={designRates}
+                          currentDesignAreaInSqFt={currentDesignAreaInSqFt}
                         />
                       </Td>
                     </tr>
@@ -107,6 +108,7 @@ const ProductRatesSection = ({
                           rateId={constructionRate.id}
                           inputHandler={readyProjectS4InputHandler}
                           rates={constructionRates}
+                          currentDesignAreaInSqFt={currentDesignAreaInSqFt}
                         />
                       </Td>
                       <Td
@@ -119,6 +121,7 @@ const ProductRatesSection = ({
                           rateId={constructionRate.id}
                           inputHandler={readyProjectS4InputHandler}
                           rates={constructionRates}
+                          currentDesignAreaInSqFt={currentDesignAreaInSqFt}
                         />
                       </Td>
                     </tr>
