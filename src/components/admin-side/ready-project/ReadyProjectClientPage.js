@@ -59,35 +59,45 @@ const ReadyProjectClientPage = ({
     {
       id: "DZofpKhb6uwnXgZ7jWup",
       area: "10 MARLA",
+      areaValue: 10,
+      unitValueInSqFt: 272.251,
       floor: "GROUND FLOOR, FIRST FLOOR",
       familyUnit: "TWO UNITS",
     },
     {
       id: "Nl9c7jBT0zZ4dDpgHQ7E",
       area: "5 MARLA",
+      areaValue: 5,
+      unitValueInSqFt: 272.251,
       floor: "GROUND FLOOR, FIRST FLOOR",
       familyUnit: "ONE UNIT",
     },
     {
       id: "eCqHwbPxRcnez7KBHimN",
       area: "10 MARLA",
+      areaValue: 10,
+      unitValueInSqFt: 272.251,
       floor: "GROUND FLOOR, FIRST FLOOR,SECOND FLOOR",
       familyUnit: "ONE UNIT",
     },
     {
       id: "mCA6PfKYRuuxwiovvNCH",
       area: "5 MARLA",
+      areaValue: 5,
+      unitValueInSqFt: 272.251,
       floor: "GROUND FLOOR, FIRST FLOOR",
       familyUnit: "THREE UNITS",
     },
     {
       id: "rglLyEXSqmncPyUbiUXg",
       area: "10 MARLA",
+      areaValue: 5,
+      unitValueInSqFt: 272.251,
       floor: "GROUND FLOOR, FIRST FLOOR",
       familyUnit: "THREE UNITS",
     },
   ]);
-  const [productRatesData, setProductRatesData] = useState([]);
+  const [productRates, setProductRates] = useState([]);
 
   // Confirmation modal states and handlers
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -382,8 +392,9 @@ const ReadyProjectClientPage = ({
           }),
         );
         setRpDesignsData(designs);
+        // Fetching product rates data
         const productRates = await getRPDesignsProductRates();
-        setProductRatesData(productRates);
+        setProductRates(productRates);
       } catch (error) {
         showAlert({
           type: "ERROR",
@@ -433,33 +444,32 @@ const ReadyProjectClientPage = ({
   };
 
   // Screen 4 states and handlers
-  const defaultReadyProjectS4 = {};
-  rpDesignIds.map(
-    id =>
-      (defaultReadyProjectS4[id] = {
-        video: null,
-        designCost: 0,
-        constructionCost: 0,
-        imagesOp1: [],
-        imagesOp2: [],
-        keywords: [],
-        description: "",
-        descriptionOp1: "",
-        descriptionOp2: "",
-        exteriorViews: [],
-        interiorViews: [],
-        materials: [],
-        programs: [],
-      }),
+  const defaultReadyProjectS4Design = {
+    video: null,
+    designCost: 0,
+    constructionCost: 0,
+    imagesOp1: [],
+    imagesOp2: [],
+    keywords: [],
+    description: "",
+    descriptionOp1: "",
+    descriptionOp2: "",
+    exteriorViews: [],
+    interiorViews: [],
+    materials: [],
+    programs: [],
+    designRates: null,
+    constructionRates: null,
+  };
+
+  const [readyProjectS4Design, setReadyProjectS4Design] = useState(
+    defaultReadyProjectS4Design,
   );
-  const [readyProjectS4, setReadyProjectS4] = useState(defaultReadyProjectS4);
-  const readyProjectS4InputHandler = (id, name, value) => {
-    setReadyProjectS4(prevState => ({
+  const [uploadedDesigns, setUploadedDesigns] = useState([]);
+  const readyProjectS4InputHandler = (name, value) => {
+    setReadyProjectS4Design(prevState => ({
       ...prevState,
-      [id]: {
-        ...prevState[id],
-        [name]: value,
-      },
+      [name]: value,
     }));
   };
 
@@ -534,9 +544,11 @@ const ReadyProjectClientPage = ({
           <ReadyProjectScreen4
             materials={materials}
             rpDesignsData={rpDesignsData}
-            productRatesData={productRatesData}
-            readyProjectS4={readyProjectS4}
+            readyProjectS4Design={readyProjectS4Design}
             readyProjectS4InputHandler={readyProjectS4InputHandler}
+            setReadyProjectS4Design={setReadyProjectS4Design}
+            productRates={productRates}
+            uploadedDesigns={uploadedDesigns}
           />
         ) : (
           currentScreen === 5 && <div>step 5</div>

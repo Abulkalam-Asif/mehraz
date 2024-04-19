@@ -20,6 +20,8 @@ const getRPDesignData = async id => {
         const unitDoc = await getDoc(unitRef);
         if (unitDoc.exists()) {
           rpDesign.area = `${areaDoc.data().area} ${unitDoc.data().name}`;
+          rpDesign.areaValue = areaDoc.data().area;
+          rpDesign.unitValueInSqFt = unitDoc.data().valueInSqFt;
         }
       }
       // Get floors of the design

@@ -29,23 +29,35 @@ import getRPDesignsProductRates from "@/Firebase/admin-side/ready_project/getRPD
 const ReadyProjectScreen4 = ({
   materials,
   rpDesignsData,
-  readyProjectS4,
+  readyProjectS4Design,
   readyProjectS4InputHandler,
-  // productRatesData,
+  setReadyProjectS4Design,
+  uploadedDesigns,
+  productRates,
 }) => {
-  // UNDO
-  const [productRatesData, setProductRatesData] = useState(null);
-  useEffect(() => {
-    getRPDesignsProductRates().then(data => setProductRatesData(data));
-  }, []);
-
   const { showAlert } = useContext(AlertContext);
-  const [currentDesignId, setCurrentDesignId] = useState(rpDesignsData[0].id);
-  const [currentDesignState, setCurrentDesignState] = useState(null);
+  const [currentDesign, setCurrentDesign] = useState(rpDesignsData[0]);
 
+  // UNDO
   useEffect(() => {
-    setCurrentDesignState(readyProjectS4[currentDesignId]);
-  }, [currentDesignId, readyProjectS4]);
+    getRPDesignsProductRates().then(productRates => {
+      const updatedProductRates = productRates.map(productRate => ({
+        ...productRate,
+        cost: Math.round(
+          productRate.rate *
+            currentDesign.areaValue *
+            currentDesign.unitValueInSqFt,
+        ),
+      }));
+      setReadyProjectS4Design(prevState => ({
+        ...prevState,
+        designRates: updatedProductRates.filter(rate => rate.type === "DESIGN"),
+        constructionRates: updatedProductRates.filter(
+          rate => rate.type === "CONSTRUCTION",
+        ),
+      }));
+    });
+  }, []);
 
   // Exterior states and functions
   const defaultExteriorView = {
@@ -71,8 +83,8 @@ const ReadyProjectScreen4 = ({
       showAlert,
     );
     if (exteriorViewToAdd) {
-      readyProjectS4InputHandler(currentDesignId, "exteriorViews", [
-        ...currentDesignState?.exteriorViews,
+      readyProjectS4InputHandler("exteriorViews", [
+        ...readyProjectS4Design?.exteriorViews,
         { ...exteriorViewToAdd, id: ulid() },
       ]);
       showAlert({
@@ -90,9 +102,9 @@ const ReadyProjectScreen4 = ({
       showAlert,
     );
     if (exteriorViewToEdit) {
-      readyProjectS4InputHandler(currentDesignId, "exteriorViews", [
+      readyProjectS4InputHandler("exteriorViews", [
         exteriorViewToEdit,
-        ...currentDesignState?.exteriorViews.filter(
+        ...readyProjectS4Design?.exteriorViews.filter(
           view => view.id !== exteriorViewToEdit.id,
         ),
       ]);
@@ -104,8 +116,8 @@ const ReadyProjectScreen4 = ({
     }
   };
   const deleteExteriorViewHandler = () => {
-    readyProjectS4InputHandler(currentDesignId, "exteriorViews", [
-      ...currentDesignState?.exteriorViews.filter(
+    readyProjectS4InputHandler("exteriorViews", [
+      ...readyProjectS4Design?.exteriorViews.filter(
         view => view.id !== itemToDelete.id,
       ),
     ]);
@@ -140,8 +152,8 @@ const ReadyProjectScreen4 = ({
       showAlert,
     );
     if (interiorViewToAdd) {
-      readyProjectS4InputHandler(currentDesignId, "interiorViews", [
-        ...currentDesignState?.interiorViews,
+      readyProjectS4InputHandler("interiorViews", [
+        ...readyProjectS4Design?.interiorViews,
         { ...interiorViewToAdd, id: ulid() },
       ]);
       showAlert({
@@ -159,9 +171,9 @@ const ReadyProjectScreen4 = ({
       showAlert,
     );
     if (interiorViewToEdit) {
-      readyProjectS4InputHandler(currentDesignId, "interiorViews", [
+      readyProjectS4InputHandler("interiorViews", [
         interiorViewToEdit,
-        ...currentDesignState?.interiorViews.filter(
+        ...readyProjectS4Design?.interiorViews.filter(
           view => view.id !== interiorViewToEdit.id,
         ),
       ]);
@@ -173,8 +185,8 @@ const ReadyProjectScreen4 = ({
     }
   };
   const deleteInteriorViewHandler = () => {
-    readyProjectS4InputHandler(currentDesignId, "interiorViews", [
-      ...currentDesignState?.interiorViews.filter(
+    readyProjectS4InputHandler("interiorViews", [
+      ...readyProjectS4Design?.interiorViews.filter(
         view => view.id !== itemToDelete.id,
       ),
     ]);
@@ -204,8 +216,8 @@ const ReadyProjectScreen4 = ({
     // Adding new program to the state
     const programToAdd = addEditProgramService(currentProgram, showAlert);
     if (programToAdd) {
-      readyProjectS4InputHandler(currentDesignId, "programs", [
-        ...currentDesignState?.programs,
+      readyProjectS4InputHandler("programs", [
+        ...readyProjectS4Design?.programs,
         { ...programToAdd, id: ulid() },
       ]);
       showAlert({
@@ -220,9 +232,9 @@ const ReadyProjectScreen4 = ({
     // Editing exterior view in the state
     const programToEdit = addEditProgramService(currentProgram, showAlert);
     if (programToEdit) {
-      readyProjectS4InputHandler(currentDesignId, "programs", [
+      readyProjectS4InputHandler("programs", [
         programToEdit,
-        ...currentDesignState?.programs.filter(
+        ...readyProjectS4Design?.programs.filter(
           program => program.id !== programToEdit.id,
         ),
       ]);
@@ -234,8 +246,8 @@ const ReadyProjectScreen4 = ({
     }
   };
   const deleteProgramHandler = () => {
-    readyProjectS4InputHandler(currentDesignId, "programs", [
-      ...currentDesignState?.programs.filter(
+    readyProjectS4InputHandler("programs", [
+      ...readyProjectS4Design?.programs.filter(
         program => program.id !== itemToDelete.id,
       ),
     ]);
@@ -285,9 +297,11 @@ const ReadyProjectScreen4 = ({
             idHtmlFor="design"
             name="design"
             inputHandler={(_, value) => {
-              setCurrentDesignId(value);
+              setCurrentDesign(
+                rpDesignsData.find(design => design.id === value),
+              );
             }}
-            selectedOption={currentDesignId}
+            selectedOption={currentDesign.id}
             options={rpDesignsData.map(design => ({
               value: design.id,
               label: (
@@ -311,10 +325,10 @@ const ReadyProjectScreen4 = ({
             message={"Attach a video"}
             typeStartsWith={"video"}
             inputHandler={(name, value) =>
-              readyProjectS4InputHandler(currentDesignId, name, value)
+              readyProjectS4InputHandler(name, value)
             }
             wrongFileTypeWarning="Please attach a video."
-            file={currentDesignState?.video}
+            file={readyProjectS4Design?.video}
             showPreview={true}
           />
           <AdminInputBox2
@@ -322,9 +336,9 @@ const ReadyProjectScreen4 = ({
             type="number"
             idHtmlFor="designCost"
             name="designCost"
-            value={currentDesignState?.designCost}
+            value={readyProjectS4Design?.designCost}
             inputHandler={(name, value) =>
-              readyProjectS4InputHandler(currentDesignId, name, value)
+              readyProjectS4InputHandler(name, value)
             }
             max={999999}
             required={true}
@@ -334,9 +348,9 @@ const ReadyProjectScreen4 = ({
             type="number"
             idHtmlFor="constructionCost"
             name="constructionCost"
-            value={currentDesignState?.constructionCost}
+            value={readyProjectS4Design?.constructionCost}
             inputHandler={(name, value) =>
-              readyProjectS4InputHandler(currentDesignId, name, value)
+              readyProjectS4InputHandler(name, value)
             }
             max={9999999}
             required={true}
@@ -345,10 +359,10 @@ const ReadyProjectScreen4 = ({
             label="Keywords"
             idHtmlFor="keywords"
             inputHandler={(name, value) =>
-              readyProjectS4InputHandler(currentDesignId, name, value)
+              readyProjectS4InputHandler(name, value)
             }
             name="keywords"
-            tagsArr={currentDesignState?.keywords}
+            tagsArr={readyProjectS4Design?.keywords}
             required={true}
           />
         </div>
@@ -358,22 +372,22 @@ const ReadyProjectScreen4 = ({
               <MultiFileInput
                 className="h-full"
                 message={"Attach images (option 1)"}
-                filesArray={currentDesignState?.imagesOp1}
+                filesArray={readyProjectS4Design?.imagesOp1}
                 accept={"image/*"}
                 typeStartsWith={"image"}
                 name="imagesOp1"
                 htmlFor={"imagesOp1"}
                 inputHandler={(name, value) =>
-                  readyProjectS4InputHandler(currentDesignId, name, value)
+                  readyProjectS4InputHandler(name, value)
                 }
                 wrongFileTypeWarning="Some of the files were not images and were not attached."
               />
-              {currentDesignState?.imagesOp1?.length > 0 ? (
+              {readyProjectS4Design?.imagesOp1?.length > 0 ? (
                 <MultiImagesDisplay
                   className="h-full overflow-y-auto p-2"
-                  imagesArray={currentDesignState?.imagesOp1}
+                  imagesArray={readyProjectS4Design?.imagesOp1}
                   removeImageHandler={(name, value) =>
-                    readyProjectS4InputHandler(currentDesignId, name, value)
+                    readyProjectS4InputHandler(name, value)
                   }
                   name={"imagesOp1"}
                 />
@@ -386,22 +400,22 @@ const ReadyProjectScreen4 = ({
             <div className="h-full overflow-y-hidden flex flex-col gap-2 lg:h-auto">
               <MultiFileInput
                 message={"Attach images (option 2)"}
-                filesArray={currentDesignState?.imagesOp2}
+                filesArray={readyProjectS4Design?.imagesOp2}
                 accept={"image/*"}
                 typeStartsWith={"image"}
                 name="imagesOp2"
                 htmlFor={"imagesOp2"}
                 inputHandler={(name, value) =>
-                  readyProjectS4InputHandler(currentDesignId, name, value)
+                  readyProjectS4InputHandler(name, value)
                 }
                 wrongFileTypeWarning="Some of the files were not images and were not attached."
               />
-              {currentDesignState?.imagesOp2?.length > 0 ? (
+              {readyProjectS4Design?.imagesOp2?.length > 0 ? (
                 <MultiImagesDisplay
                   className="overflow-y-auto p-2"
-                  imagesArray={currentDesignState?.imagesOp2}
+                  imagesArray={readyProjectS4Design?.imagesOp2}
                   removeImageHandler={(name, value) =>
-                    readyProjectS4InputHandler(currentDesignId, name, value)
+                    readyProjectS4InputHandler(name, value)
                   }
                   name={"imagesOp2"}
                 />
@@ -414,23 +428,29 @@ const ReadyProjectScreen4 = ({
           </div>
           <ProgramSection
             className="h-full"
-            programs={currentDesignState?.programs}
+            programs={readyProjectS4Design?.programs}
             setModalMetadata={setModalMetadata}
             toggleModal={toggleModal}
             setCurrentProgram={setCurrentProgram}
             setItemToDelete={setItemToDelete}
           />
         </div>
-        <ProductRatesSection productRatesData={productRatesData} />
+        <ProductRatesSection
+          designRates={readyProjectS4Design.designRates}
+          constructionRates={readyProjectS4Design.constructionRates}
+          readyProjectS4InputHandler={readyProjectS4InputHandler}
+          currentDesignAreaValue={currentDesign.areaValue}
+          currentDesignUnitValueInSqFt={currentDesign.unitValueInSqFt}
+        />
         <div className="h-[calc(100vh-6rem-6rem-2rem)] grid grid-rows-3 gap-4">
           <AdminInputBox2
             type="textarea"
             label="Description"
             idHtmlFor="description"
             name="description"
-            value={currentDesignState?.description}
+            value={readyProjectS4Design?.description}
             inputHandler={(name, value) =>
-              readyProjectS4InputHandler(currentDesignId, name, value)
+              readyProjectS4InputHandler(name, value)
             }
             required={true}
             maxLength={150}
@@ -440,9 +460,9 @@ const ReadyProjectScreen4 = ({
             label="option 1 description"
             idHtmlFor="descriptionOp1"
             name="descriptionOp1"
-            value={currentDesignState?.descriptionOp1}
+            value={readyProjectS4Design?.descriptionOp1}
             inputHandler={(name, value) =>
-              readyProjectS4InputHandler(currentDesignId, name, value)
+              readyProjectS4InputHandler(name, value)
             }
             required={true}
             maxLength={150}
@@ -452,9 +472,9 @@ const ReadyProjectScreen4 = ({
             label="option 2 description"
             idHtmlFor="descriptionOp2"
             name="descriptionOp2"
-            value={currentDesignState?.descriptionOp2}
+            value={readyProjectS4Design?.descriptionOp2}
             inputHandler={(name, value) =>
-              readyProjectS4InputHandler(currentDesignId, name, value)
+              readyProjectS4InputHandler(name, value)
             }
             required={true}
             maxLength={150}
@@ -463,7 +483,7 @@ const ReadyProjectScreen4 = ({
         <div className="h-[calc(100vh-6rem-6rem-2rem)] grid grid-rows-2 gap-4">
           <RPExteriorSection
             title={"Exterior Views"}
-            exteriorViews={currentDesignState?.exteriorViews}
+            exteriorViews={readyProjectS4Design?.exteriorViews}
             setModalMetadata={setModalMetadata}
             toggleModal={toggleModal}
             setCurrentExteriorView={setCurrentExteriorView}
@@ -471,7 +491,7 @@ const ReadyProjectScreen4 = ({
           />
           <RPInteriorSection
             title={"Interior Views"}
-            interiorViews={currentDesignState?.interiorViews}
+            interiorViews={readyProjectS4Design?.interiorViews}
             setModalMetadata={setModalMetadata}
             toggleModal={toggleModal}
             setCurrentInteriorView={setCurrentInteriorView}
@@ -482,9 +502,9 @@ const ReadyProjectScreen4 = ({
           className="h-[calc(100vh-6rem-6rem-2rem)]"
           title={"materials"}
           materials={materials}
-          selectedMaterials={currentDesignState?.materials}
+          selectedMaterials={readyProjectS4Design?.materials}
           inputHandler={(name, value) => {
-            readyProjectS4InputHandler(currentDesignId, name, value);
+            readyProjectS4InputHandler(name, value);
           }}
         />
       </form>

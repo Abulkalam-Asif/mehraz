@@ -11,7 +11,9 @@ const getRPDesignsProductRates = async () => {
     }
     return productRatesSnapshot.docs.map(doc => ({
       id: doc.id,
-      ...doc.data(),
+      service: doc.data().service,
+      type: doc.data().type,
+      rate: doc.data().rate,
     }));
   } catch (error) {
     console.error("Error getting product rates: ", error);

@@ -5,7 +5,7 @@ import {
   Td,
   ReadyProjectMultiSelect,
   Button,
-  ReadyProjectInputBox,
+  RPBudgetRangeInput,
 } from "@/components";
 import { useEffect } from "react";
 
@@ -177,7 +177,7 @@ const ReadyProjectScreen2 = ({
                       index === areas.length - 1
                     }>{`${area} ${unit}`}</Td>
                   <Td isLastRow={index === areas.length - 1}>
-                    <ReadyProjectInputBox
+                    <RPBudgetRangeInput
                       areaId={id}
                       budgetType="min"
                       min={0}
@@ -191,7 +191,7 @@ const ReadyProjectScreen2 = ({
                     />
                   </Td>
                   <Td position="end" isLastRow={index === areas.length - 1}>
-                    <ReadyProjectInputBox
+                    <RPBudgetRangeInput
                       areaId={id}
                       budgetType="max"
                       min={0}
