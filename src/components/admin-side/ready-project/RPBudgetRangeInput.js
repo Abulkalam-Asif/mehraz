@@ -2,7 +2,7 @@
 import { AlertContext } from "@/context/AlertContext";
 import { useContext } from "react";
 
-const ReadyProjectInputBox = ({
+const RPBudgetRangeInput = ({
   value = "",
   areaId,
   budgetType = "",
@@ -40,4 +40,4 @@ const ReadyProjectInputBox = ({
   );
 };
 
-export default ReadyProjectInputBox;
+export default RPBudgetRangeInput;

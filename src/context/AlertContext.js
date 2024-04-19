@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 const AlertContext = createContext({
   alerts: [],
   showAlert: () => {},
@@ -16,15 +16,6 @@ const AlertProvider = ({ children }) => {
   const hideAlert = () => {
     setAlerts([]);
   };
-
-  // UNDO
-  useEffect(() => {
-    if (!AlertContext) {
-      console.log(
-        "AlertContext is not available. Did you forget to wrap your component with AlertProvider?",
-      );
-    }
-  }, [AlertContext]);
 
   return (
     <AlertContext.Provider value={{ alerts, showAlert, hideAlert }}>

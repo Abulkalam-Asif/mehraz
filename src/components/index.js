@@ -68,7 +68,8 @@ export { default as ReadyProjectScreen3 } from "./admin-side/ready-project/Ready
 export { default as ReadyProjectScreen4 } from "./admin-side/ready-project/ReadyProjectScreen4";
 export { default as ReadyProjectRatesInput } from "./admin-side/ready-project/ReadyProjectRatesInput";
 export { default as ReadyProjectMultiSelect } from "./admin-side/ready-project/ReadyProjectMultiSelect";
-export { default as ReadyProjectInputBox } from "./admin-side/ready-project/ReadyProjectInputBox";
+export { default as RPBudgetRangeInput } from "./admin-side/ready-project/RPBudgetRangeInput";
+export { default as RPServicesInput } from "./admin-side/ready-project/RPServicesInput";
 export { default as RPExteriorSection } from "./admin-side/ready-project/RPExteriorSection";
 export { default as RPInteriorSection } from "./admin-side/ready-project/RPInteriorSection";
 export { default as RPExteriorModal } from "./admin-side/ready-project/RPExteriorModal";

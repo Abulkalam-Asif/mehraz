@@ -10,8 +10,8 @@ import { AlertContext } from "@/context/AlertContext";
 import { useContext } from "react";
 
 const FreeProjectClientPage = ({ cities, plots }) => {
-  const router = useRouter();
   const { showAlert } = useContext(AlertContext);
+  const router = useRouter();
   const [showSpinner, setShowSpinner] = useState(false);
   const [projectId, setProjectId] = useState(null);
   // Screen 1 states and handlers
