@@ -37,8 +37,8 @@ const ReadyProjectClientPage = ({
   familyUnits,
   materials,
 }) => {
-  const { showAlert } = useContext(AlertContext);
   const router = useRouter();
+  const { showAlert } = useContext(AlertContext);
   const [showSpinner, setShowSpinner] = useState(false);
   // const [currentScreen, setCurrentScreen] = useState(1);
   const [currentScreen, setCurrentScreen] = useState(4);

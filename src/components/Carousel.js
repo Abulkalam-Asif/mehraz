@@ -3,8 +3,6 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useRef } from "react";
-import { chevronLeftIcon, chevronRightIcon } from "@/assets";
-import Image from "next/image";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 
 const Carousel = ({ children, childrenCount }) => {
