@@ -49,6 +49,8 @@ const ProductRatesSection = ({
                           rateId={designRate.id}
                           rates={designRates}
                           currentDesignAreaInSqFt={currentDesignAreaInSqFt}
+                          min={0}
+                          max={99999}
                         />
                       </Td>
                       <Td
@@ -62,6 +64,8 @@ const ProductRatesSection = ({
                           rateId={designRate.id}
                           rates={designRates}
                           currentDesignAreaInSqFt={currentDesignAreaInSqFt}
+                          min={0}
+                          max={99999999}
                         />
                       </Td>
                     </tr>
@@ -109,6 +113,8 @@ const ProductRatesSection = ({
                           inputHandler={readyProjectS4InputHandler}
                           rates={constructionRates}
                           currentDesignAreaInSqFt={currentDesignAreaInSqFt}
+                          min={0}
+                          max={99999}
                         />
                       </Td>
                       <Td
@@ -122,6 +128,8 @@ const ProductRatesSection = ({
                           inputHandler={readyProjectS4InputHandler}
                           rates={constructionRates}
                           currentDesignAreaInSqFt={currentDesignAreaInSqFt}
+                          min={0}
+                          max={99999999}
                         />
                       </Td>
                     </tr>

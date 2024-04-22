@@ -18,21 +18,25 @@ const RPBudgetRangeInput = ({
         max={max}
         value={value}
         type="number"
-        onChange={e => {
+        onBlur={e => {
           if (e.target.value < min) {
+            inputHandler(areaId, budgetType, min);
             showAlert({
               type: "WARNING",
               message: `Minimum value of this field is ${min}`,
             });
-            e.target.value = min;
-          } else if (e.target.value > max) {
+          }
+        }}
+        onChange={e => {
+          if (e.target.value > max) {
+            inputHandler(areaId, budgetType, max);
             showAlert({
               type: "WARNING",
               message: `Maximum value of this field is ${max}`,
             });
-            e.target.value = max;
+          } else {
+            inputHandler(areaId, budgetType, Number(e.target.value));
           }
-          inputHandler(areaId, budgetType, e.target.value);
         }}
         className="w-full border-2 text-sm border-accent-1-base rounded-md px-4 py-1"
       />

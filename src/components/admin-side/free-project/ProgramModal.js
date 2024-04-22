@@ -38,8 +38,8 @@ const ProgramModal = ({
             ? addNewProgramHandler
             : editProgramHandler
         }
-        className={"flex items-center gap-8"}>
-        <div className="w-1/2 space-y-2">
+        className={"flex items-center gap-8 sm:flex-col"}>
+        <div className="w-1/2 space-y-2 sm:w-full">
           <AdminInputBox
             label="Enter category"
             value={currentProgram.category}
@@ -57,10 +57,11 @@ const ProgramModal = ({
             name="quantity"
             type="number"
             max={99}
+            min={1}
             required={true}
           />
         </div>
-        <div className="max-h-32 w-1/2 flex flex-col overflow-y-auto">
+        <div className="max-h-32 w-1/2 flex flex-col overflow-y-auto pr-2 sm:w-full">
           {currentProgram.quantity > 0 ? (
             Array.from({ length: currentProgram.quantity }).map(
               (_, subCategoryIndex) => (
@@ -68,6 +69,7 @@ const ProgramModal = ({
                   key={subCategoryIndex}
                   className="flex flex-col gap-2 items-center">
                   <AdminInputBox
+                    className="w-full"
                     maxLength={15}
                     required={true}
                     label={`Enter space ${subCategoryIndex + 1}`}
@@ -93,6 +95,7 @@ const ProgramModal = ({
                   <AdminInputBox
                     maxLength={15}
                     required={true}
+                    className="w-full"
                     label={`Enter size ${subCategoryIndex + 1}`}
                     value={currentProgram.subCategories[subCategoryIndex]?.size}
                     inputHandler={(_, value) =>
@@ -118,7 +121,7 @@ const ProgramModal = ({
               ),
             )
           ) : (
-            <p className="text-center">Spaces and Sizes</p>
+            <p className="text-center">Enter valid quantity</p>
           )}
         </div>
       </AdminModal>

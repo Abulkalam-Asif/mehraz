@@ -24,6 +24,7 @@ import { addEditRPExteriorViewService } from "@/services/admin-side/ready-projec
 import { addEditRPInteriorViewService } from "@/services/admin-side/ready-project/interiorViews";
 import { useEffect, useState } from "react";
 import { ulid } from "ulid";
+// undo
 import getRPDesignsProductRates from "@/Firebase/admin-side/ready_project/getRPDesignsProductRates";
 
 const ReadyProjectScreen4 = ({
@@ -284,10 +285,9 @@ const ReadyProjectScreen4 = ({
   return (
     <>
       <form
-        className="h-full w-full max-w-8xl mx-auto py-4 pr-2 grid grid-cols-3 gap-8"
+        className="h-full w-full max-w-8xl mx-auto py-4 pr-2 grid grid-cols-3 lg:grid-cols-2 md:grid-cols-1 md:h-auto gap-8"
         onSubmit={e => e.preventDefault()}>
-        {/* for >1024 width, calc(100vh - (AdminHeader height + 1rem) - page header height - 2rem) */}
-        <div className="h-[calc(100vh-6rem-6rem-2rem)] flex flex-col gap-4">
+        <div className="h-page-container-admin-inner min-h-page-container-admin-inner md:h-auto md:min-h-0 flex flex-col gap-4">
           <AdminCustomSelect
             title="Select a Design"
             idHtmlFor="design"
@@ -362,7 +362,7 @@ const ReadyProjectScreen4 = ({
             required={true}
           />
         </div>
-        <div className="h-[calc(100vh-6rem-6rem-2rem)] grid grid-rows-2 gap-4">
+        <div className="h-page-container-admin-inner min-h-page-container-admin-inner md:h-auto md:min-h-0 grid grid-rows-2 gap-4">
           <div className="h-full grid grid-cols-2 gap-4 lg:grid-cols-1">
             <div className="h-full overflow-y-hidden flex flex-col gap-2 lg:h-auto">
               <MultiFileInput
@@ -380,7 +380,7 @@ const ReadyProjectScreen4 = ({
               />
               {readyProjectS4Design?.imagesOp1?.length > 0 ? (
                 <MultiImagesDisplay
-                  className="h-full overflow-y-auto p-2"
+                  className="md:h-32 overflow-y-auto p-2"
                   imagesArray={readyProjectS4Design?.imagesOp1}
                   removeImageHandler={(name, value) =>
                     readyProjectS4InputHandler(name, value)
@@ -388,7 +388,7 @@ const ReadyProjectScreen4 = ({
                   name={"imagesOp1"}
                 />
               ) : (
-                <div className="w-full h-full p-4 flex items-center justify-center text-center text-accent-1-dark border-dashed border-2 border-accent-1-dark rounded-xl">
+                <div className="w-full h-full p-4 flex items-center justify-center text-center text-accent-1-dark border-dashed border-2 border-accent-1-dark rounded-xl md:h-32">
                   <p>Option 1 images will be displayed here</p>
                 </div>
               )}
@@ -408,7 +408,7 @@ const ReadyProjectScreen4 = ({
               />
               {readyProjectS4Design?.imagesOp2?.length > 0 ? (
                 <MultiImagesDisplay
-                  className="overflow-y-auto p-2"
+                  className="md:h-32 overflow-y-auto p-2"
                   imagesArray={readyProjectS4Design?.imagesOp2}
                   removeImageHandler={(name, value) =>
                     readyProjectS4InputHandler(name, value)
@@ -416,7 +416,7 @@ const ReadyProjectScreen4 = ({
                   name={"imagesOp2"}
                 />
               ) : (
-                <div className="w-full h-full p-4 flex items-center justify-center text-center text-accent-1-dark border-dashed border-2 border-accent-1-dark rounded-xl">
+                <div className="w-full h-full p-4 flex items-center justify-center text-center text-accent-1-dark border-dashed border-2 border-accent-1-dark rounded-xl md:h-32">
                   <p>Option 2 images will be displayed here</p>
                 </div>
               )}
@@ -431,13 +431,7 @@ const ReadyProjectScreen4 = ({
             setItemToDelete={setItemToDelete}
           />
         </div>
-        <ProductRatesSection
-          designRates={readyProjectS4Design.designRates}
-          constructionRates={readyProjectS4Design.constructionRates}
-          readyProjectS4InputHandler={readyProjectS4InputHandler}
-          currentDesignAreaInSqFt={currentDesign.areaInSqFt}
-        />
-        <div className="h-[calc(100vh-6rem-6rem-2rem)] grid grid-rows-3 gap-4">
+        <div className="h-page-container-admin-inner min-h-page-container-admin-inner md:h-auto md:min-h-0 grid grid-rows-3 gap-4">
           <AdminInputBox2
             type="textarea"
             label="Description"
@@ -475,7 +469,7 @@ const ReadyProjectScreen4 = ({
             maxLength={150}
           />
         </div>
-        <div className="h-[calc(100vh-6rem-6rem-2rem)] grid grid-rows-2 gap-4">
+        <div className="h-page-container-admin-inner min-h-page-container-admin-inner md:h-auto md:min-h-0 grid grid-rows-2 gap-4">
           <RPExteriorSection
             title={"Exterior Views"}
             exteriorViews={readyProjectS4Design?.exteriorViews}
@@ -494,13 +488,20 @@ const ReadyProjectScreen4 = ({
           />
         </div>
         <RPMaterialsSection
-          className="h-[calc(100vh-6rem-6rem-2rem)]"
+          className="h-page-container-admin-inner min-h-page-container-admin-inner md:h-auto md:min-h-0"
           title={"materials"}
           materials={materials}
           selectedMaterials={readyProjectS4Design?.materials}
           inputHandler={(name, value) => {
             readyProjectS4InputHandler(name, value);
           }}
+        />
+        <ProductRatesSection
+          className="h-page-container-admin-inner min-h-page-container-admin-inner md:h-auto md:min-h-0"
+          designRates={readyProjectS4Design.designRates}
+          constructionRates={readyProjectS4Design.constructionRates}
+          readyProjectS4InputHandler={readyProjectS4InputHandler}
+          currentDesignAreaInSqFt={currentDesign.areaInSqFt}
         />
       </form>
       {isModalOpen && (

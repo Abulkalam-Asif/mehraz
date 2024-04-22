@@ -223,7 +223,7 @@ const MaterialsClientPage = ({
     <>
       {/* This div will be displayed for over 1024px width */}
       {/* for >1024 width, calc(100vh - (AdminHeader height + 1rem) - page header height) */}
-      <div className="max-w-8xl w-full mx-auto grid grid-rows-5 gap-4 h-[calc(100vh-6rem-6rem)] xl:h-[calc(100vh-6rem-5rem)] lg:hidden">
+      <div className="max-w-8xl w-full mx-auto grid grid-rows-5 gap-4 h-page-container-admin xl:h-page-container-admin-xl lg:hidden">
         <MaterialsSection
           materials={materials}
           materialCategories={materialCategories}
