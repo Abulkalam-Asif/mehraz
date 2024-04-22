@@ -60,21 +60,24 @@ const AdminInputBox2 = ({
             value={value}
             min={min}
             max={max}
+            onBlur={e => {
+              if (e.target.value < min) {
+                inputHandler(e.target.name, min);
+                showAlert({
+                  type: "WARNING",
+                  message: `Minimum value for this field is ${min}`,
+                });
+              }
+            }}
             onChange={e => {
               if (e.target.value > max) {
-                e.target.value = max;
+                inputHandler(e.target.name, max);
                 showAlert({
                   type: "WARNING",
-                  message: `Maximum value is ${max}`,
-                });
-              } else if (e.target.value < min) {
-                e.target.value = min;
-                showAlert({
-                  type: "WARNING",
-                  message: `Minimum value is ${min}`,
+                  message: `Maximum value for this field is ${max}`,
                 });
               } else {
-                inputHandler(e.target.name, e.target.value);
+                inputHandler(e.target.name, Number(e.target.value));
               }
             }}
             autoComplete="off"
