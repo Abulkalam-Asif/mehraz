@@ -41,7 +41,9 @@ const AdminMultiSelect = ({
           <button
             type="button"
             onClick={() => setExpanded(!expanded)}
-            className="w-full border-2 text-base border-accent-1-base rounded-md px-4 py-1">
+            className={`w-full border-2 text-base border-accent-1-base rounded-md px-4 py-1 ${
+              selectedOptions.length > 0 ? "font-bold" : ""
+            }`}>
             {message}
           </button>
           {expanded && (

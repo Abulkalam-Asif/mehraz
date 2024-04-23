@@ -32,7 +32,7 @@ const AdminMultiSelect = ({
   return (
     <>
       <div className="flex flex-col space-y-1">
-        <h3 className="text-accent-1-dark">
+        <h3>
           {title}
           {required && <span className="text-red-500"> *</span>}
         </h3>
@@ -40,7 +40,9 @@ const AdminMultiSelect = ({
           <button
             type="button"
             onClick={() => setExpanded(!expanded)}
-            className="text-sm w-full border-2 border-accent-1-base rounded-md px-4 py-1">
+            className={`text-sm w-full border-2 border-accent-1-base rounded-md px-4 py-1 ${
+              selectedOptions.length > 0 ? "font-bold" : ""
+            }`}>
             {message}
           </button>
           {expanded && (
