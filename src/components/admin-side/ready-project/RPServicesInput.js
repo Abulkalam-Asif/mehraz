@@ -8,6 +8,8 @@ const RPServicesInput = ({
   rateId,
   inputHandler,
   currentDesignAreaInSqFt,
+  min,
+  max,
 }) => {
   const serviceInputHandler = value => {
     const updatedRates = rates.map(rate => {
@@ -26,12 +28,21 @@ const RPServicesInput = ({
       <input
         value={value}
         type="number"
+        onBlur={e => {
+          if (e.target.value < min) {
+            serviceInputHandler(min);
+          }
+        }}
         onChange={e => {
-          if (e.target.value < 0) e.target.value = 0;
-          serviceInputHandler(e.target.value);
+          if (e.target.value > max) {
+            serviceInputHandler(max);
+          } else {
+            serviceInputHandler(Number(e.target.value));
+          }
         }}
         className="w-full border-2 text-sm border-accent-1-base rounded-md px-2 py-0.5"
-        min={0}
+        min={min}
+        max={max}
         step={"any"}
       />
     </>

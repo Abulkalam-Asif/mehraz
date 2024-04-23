@@ -497,7 +497,7 @@ const ReadyProjectClientPage = ({
         </div>
       </div>
       {/* for >1024 width, calc(100vh - (AdminHeader height + 1rem) - page header height) */}
-      <div className="max-w-8xl w-full mx-auto h-[calc(100vh-6rem-6rem)] xl:h-[calc(100vh-6rem-5rem)] overflow-y-auto">
+      <div className="max-w-8xl w-full mx-auto h-page-container-admin xl:h-page-container-admin-xl overflow-y-auto">
         {currentScreen === 1 ? (
           <ReadyProjectScreen1
             readyProjectS1={readyProjectS1}

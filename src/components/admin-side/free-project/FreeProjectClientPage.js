@@ -84,7 +84,7 @@ const FreeProjectClientPage = ({ cities, plots }) => {
   return (
     <>
       {/* for >1024 width, calc(100vh - (AdminHeader height + 1rem) - page header height) */}
-      <div className="max-w-8xl w-full mx-auto flex flex-row gap-x-4 h-[calc(100vh-6rem-6rem)] xl:h-[calc(100vh-6rem-5rem)]">
+      <div className="max-w-8xl w-full mx-auto flex flex-row gap-x-4 h-page-container-admin xl:h-page-container-admin-xl">
         {projectId ? (
           <FreeProjectS2
             freeProjectS2={freeProjectS2}
