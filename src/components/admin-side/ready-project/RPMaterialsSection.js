@@ -1,4 +1,12 @@
-import { Spinner, AdminTableContainer, H2, Table, Td, Th } from "@/components";
+import {
+  Spinner,
+  AdminTableContainer,
+  H2,
+  Table,
+  Td,
+  Th,
+  MaterialQtyInput,
+} from "@/components";
 
 const RPMaterialsSection = ({
   title,
@@ -33,7 +41,7 @@ const RPMaterialsSection = ({
                       isLastRow={index === materials.length - 1}>
                       <input
                         type="checkbox"
-                        checked={selectedMaterials?.includes(
+                        checked={selectedMaterials?.some(
                           material => material.id === id,
                         )}
                         onChange={e => {
@@ -58,13 +66,31 @@ const RPMaterialsSection = ({
                     <Td
                       position="end"
                       isLastRow={index === materials.length - 1}>
-                      {selectedMaterials?.find(
-                        material => material.id === id,
-                      ) ? (
-                        <input />
-                      ) : (
-                        <></>
-                      )}
+                      <MaterialQtyInput
+                        value={
+                          selectedMaterials?.find(
+                            material => material.id === id,
+                          )?.quantity || 1
+                        }
+                        disabled={
+                          !selectedMaterials?.some(
+                            material => material.id === id,
+                          )
+                        }
+                        min={1}
+                        max={999}
+                        inputHandler={value => {
+                          inputHandler(
+                            "materials",
+                            selectedMaterials?.map(material => {
+                              if (material.id === id) {
+                                return { ...material, quantity: value };
+                              }
+                              return material;
+                            }),
+                          );
+                        }}
+                      />
                     </Td>
                   </tr>
                 ))}

@@ -48,11 +48,9 @@ const MaterialsSection = ({
     const material = materials.find(material => material.id === materialId);
     setCurrentMaterial({
       ...material,
-      isFixed: materialCategories.find(
+      isFixed: materialCategories.some(
         category => category.fixedMaterialId === material.id,
-      )
-        ? true
-        : false,
+      ),
     });
   };
   const deleteMaterialClickHandler = e => {
@@ -92,7 +90,7 @@ const MaterialsSection = ({
                       align="center"
                       position="beginning"
                       isLastRow={index === materials.length - 1}>
-                      {materialCategories.find(
+                      {materialCategories.some(
                         category => category.fixedMaterialId === material.id,
                       ) ? (
                         <FaCheckCircle size={14} className="text-green-500" />

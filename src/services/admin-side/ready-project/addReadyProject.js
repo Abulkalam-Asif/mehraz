@@ -170,6 +170,16 @@ const addReadyProjectS3Service = (
       message: "Please select at least one material",
     });
     return;
+  } else if (
+    readyProjectS3.materials.some(
+      material => material.id === "" || material.quantity < 1,
+    )
+  ) {
+    showAlert({
+      type: "WARNING",
+      message: "Please enter valid quantity for all materials",
+    });
+    return;
   } else if (readyProjectS3.imagesOp1.length === 0) {
     showAlert({
       type: "WARNING",
