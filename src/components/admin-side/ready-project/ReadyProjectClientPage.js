@@ -443,6 +443,8 @@ const ReadyProjectClientPage = ({
     video: null,
     designCost: 0,
     constructionCost: 0,
+    op1Name: "",
+    op2Name: "",
     imagesOp1: [],
     imagesOp2: [],
     keywords: [],
@@ -455,6 +457,8 @@ const ReadyProjectClientPage = ({
     programs: [],
     designRates: null,
     constructionRates: null,
+    discount: 0,
+    totalAmount: 0,
   };
 
   const [readyProjectS4Design, setReadyProjectS4Design] = useState(

@@ -19,7 +19,8 @@ const RPMaterialsSection = ({
                 <tr>
                   <Th position="beginning">select</Th>
                   <Th>name</Th>
-                  <Th position="end">vendor</Th>
+                  <Th>vendor</Th>
+                  <Th position="end">qty</Th>
                 </tr>
               </thead>
               <tbody className="text-xs font-semibold">
@@ -32,18 +33,20 @@ const RPMaterialsSection = ({
                       isLastRow={index === materials.length - 1}>
                       <input
                         type="checkbox"
-                        checked={selectedMaterials?.includes(id) || false}
+                        checked={selectedMaterials?.includes(
+                          material => material.id === id,
+                        )}
                         onChange={e => {
                           if (e.target.checked) {
                             inputHandler("materials", [
                               ...selectedMaterials,
-                              id,
+                              { id, quantity: 1 },
                             ]);
                           } else {
                             inputHandler(
                               "materials",
                               selectedMaterials?.filter(
-                                material => material !== id,
+                                material => material.id !== id,
                               ),
                             );
                           }
@@ -51,10 +54,17 @@ const RPMaterialsSection = ({
                       />
                     </Td>
                     <Td isLastRow={index === materials.length - 1}>{name}</Td>
+                    <Td isLastRow={index === materials.length - 1}>{vendor}</Td>
                     <Td
                       position="end"
                       isLastRow={index === materials.length - 1}>
-                      {vendor}
+                      {selectedMaterials?.find(
+                        material => material.id === id,
+                      ) ? (
+                        <input />
+                      ) : (
+                        <></>
+                      )}
                     </Td>
                   </tr>
                 ))}

@@ -24,7 +24,6 @@ import { addEditRPExteriorViewService } from "@/services/admin-side/ready-projec
 import { addEditRPInteriorViewService } from "@/services/admin-side/ready-project/interiorViews";
 import { useEffect, useState } from "react";
 import { ulid } from "ulid";
-// undo
 import getRPDesignsProductRates from "@/Firebase/admin-side/ready_project/getRPDesignsProductRates";
 
 const ReadyProjectScreen4 = ({
@@ -39,15 +38,23 @@ const ReadyProjectScreen4 = ({
   const { showAlert } = useContext(AlertContext);
   const [currentDesign, setCurrentDesign] = useState(rpDesignsData[0]);
 
-  // UNDO
+  // UNDO just the function call
   useEffect(() => {
     getRPDesignsProductRates().then(productRates => {
       const updatedProductRates = productRates.map(productRate => ({
         ...productRate,
         cost: Math.round(productRate.rate * currentDesign.areaInSqFt),
       }));
+      const totalAmount = Math.round(
+        updatedProductRates.reduce((acc, rate) => {
+          return acc + rate.cost;
+        }, 0) *
+          (1 - readyProjectS4Design.discount / 100),
+      );
+
       setReadyProjectS4Design(prevState => ({
         ...prevState,
+        totalAmount,
         designRates: updatedProductRates.filter(rate => rate.type === "DESIGN"),
         constructionRates: updatedProductRates.filter(
           rate => rate.type === "CONSTRUCTION",
@@ -287,7 +294,7 @@ const ReadyProjectScreen4 = ({
       <form
         className="h-full w-full max-w-8xl mx-auto py-4 pr-2 grid grid-cols-3 lg:grid-cols-2 md:grid-cols-1 md:h-auto gap-8"
         onSubmit={e => e.preventDefault()}>
-        <div className="h-page-container-admin-inner min-h-page-container-admin-inner md:h-auto md:min-h-0 flex flex-col gap-4">
+        <div className="h-page-container-admin-inner min-h-page-container-admin-inner max-h-page-container-admin-inner md:h-auto md:min-h-0 flex flex-col gap-4">
           <AdminCustomSelect
             title="Select a Design"
             idHtmlFor="design"
@@ -320,9 +327,7 @@ const ReadyProjectScreen4 = ({
             idHtmlFor={"video"}
             message={"Attach a video"}
             typeStartsWith={"video"}
-            inputHandler={(name, value) =>
-              readyProjectS4InputHandler(name, value)
-            }
+            inputHandler={readyProjectS4InputHandler}
             wrongFileTypeWarning="Please attach a video."
             file={readyProjectS4Design?.video}
             showPreview={true}
@@ -333,36 +338,38 @@ const ReadyProjectScreen4 = ({
             idHtmlFor="designCost"
             name="designCost"
             value={readyProjectS4Design?.designCost}
-            inputHandler={(name, value) =>
-              readyProjectS4InputHandler(name, value)
-            }
+            inputHandler={readyProjectS4InputHandler}
             max={999999}
-            required={true}
-          />
-          <AdminInputBox2
-            label="construction cost"
-            type="number"
-            idHtmlFor="constructionCost"
-            name="constructionCost"
-            value={readyProjectS4Design?.constructionCost}
-            inputHandler={(name, value) =>
-              readyProjectS4InputHandler(name, value)
-            }
-            max={9999999}
             required={true}
           />
           <TagsInput
             label="Keywords"
             idHtmlFor="keywords"
-            inputHandler={(name, value) =>
-              readyProjectS4InputHandler(name, value)
-            }
+            inputHandler={readyProjectS4InputHandler}
             name="keywords"
             tagsArr={readyProjectS4Design?.keywords}
             required={true}
           />
+          <AdminInputBox2
+            label="option 1"
+            idHtmlFor="op1Name"
+            name="op1Name"
+            value={readyProjectS4Design?.op1Name}
+            inputHandler={readyProjectS4InputHandler}
+            maxLength={18}
+            required={true}
+          />
+          <AdminInputBox2
+            label="option 2"
+            idHtmlFor="op2Name"
+            name="op2Name"
+            value={readyProjectS4Design?.op2Name}
+            inputHandler={readyProjectS4InputHandler}
+            maxLength={18}
+            required={true}
+          />
         </div>
-        <div className="h-page-container-admin-inner min-h-page-container-admin-inner md:h-auto md:min-h-0 grid grid-rows-2 gap-4">
+        <div className="h-page-container-admin-inner min-h-page-container-admin-inner max-h-page-container-admin-inner md:h-auto md:min-h-0 grid grid-rows-2 gap-4">
           <div className="h-full grid grid-cols-2 gap-4 lg:grid-cols-1">
             <div className="h-full overflow-y-hidden flex flex-col gap-2 lg:h-auto">
               <MultiFileInput
@@ -431,16 +438,14 @@ const ReadyProjectScreen4 = ({
             setItemToDelete={setItemToDelete}
           />
         </div>
-        <div className="h-page-container-admin-inner min-h-page-container-admin-inner md:h-auto md:min-h-0 grid grid-rows-3 gap-4">
+        <div className="h-page-container-admin-inner min-h-page-container-admin-inner max-h-page-container-admin-inner md:h-auto md:min-h-0 grid grid-rows-3 gap-4">
           <AdminInputBox2
             type="textarea"
             label="Description"
             idHtmlFor="description"
             name="description"
             value={readyProjectS4Design?.description}
-            inputHandler={(name, value) =>
-              readyProjectS4InputHandler(name, value)
-            }
+            inputHandler={readyProjectS4InputHandler}
             required={true}
             maxLength={150}
           />
@@ -450,9 +455,7 @@ const ReadyProjectScreen4 = ({
             idHtmlFor="descriptionOp1"
             name="descriptionOp1"
             value={readyProjectS4Design?.descriptionOp1}
-            inputHandler={(name, value) =>
-              readyProjectS4InputHandler(name, value)
-            }
+            inputHandler={readyProjectS4InputHandler}
             required={true}
             maxLength={150}
           />
@@ -462,14 +465,12 @@ const ReadyProjectScreen4 = ({
             idHtmlFor="descriptionOp2"
             name="descriptionOp2"
             value={readyProjectS4Design?.descriptionOp2}
-            inputHandler={(name, value) =>
-              readyProjectS4InputHandler(name, value)
-            }
+            inputHandler={readyProjectS4InputHandler}
             required={true}
             maxLength={150}
           />
         </div>
-        <div className="h-page-container-admin-inner min-h-page-container-admin-inner md:h-auto md:min-h-0 grid grid-rows-2 gap-4">
+        <div className="h-page-container-admin-inner min-h-page-container-admin-inner max-h-page-container-admin-inner md:h-auto md:min-h-0 grid grid-rows-2 gap-4">
           <RPExteriorSection
             title={"Exterior Views"}
             exteriorViews={readyProjectS4Design?.exteriorViews}
@@ -488,7 +489,7 @@ const ReadyProjectScreen4 = ({
           />
         </div>
         <RPMaterialsSection
-          className="h-page-container-admin-inner min-h-page-container-admin-inner md:h-auto md:min-h-0"
+          className="h-page-container-admin-inner min-h-page-container-admin-inner max-h-page-container-admin-inner md:h-auto md:min-h-0"
           title={"materials"}
           materials={materials}
           selectedMaterials={readyProjectS4Design?.materials}
@@ -497,11 +498,13 @@ const ReadyProjectScreen4 = ({
           }}
         />
         <ProductRatesSection
-          className="h-page-container-admin-inner min-h-page-container-admin-inner md:h-auto md:min-h-0"
+          className="h-page-container-admin-inner min-h-page-container-admin-inner max-h-page-container-admin-inner md:h-auto md:min-h-0"
           designRates={readyProjectS4Design.designRates}
           constructionRates={readyProjectS4Design.constructionRates}
           readyProjectS4InputHandler={readyProjectS4InputHandler}
           currentDesignAreaInSqFt={currentDesign.areaInSqFt}
+          discount={readyProjectS4Design.discount}
+          totalAmount={readyProjectS4Design.totalAmount}
         />
       </form>
       {isModalOpen && (

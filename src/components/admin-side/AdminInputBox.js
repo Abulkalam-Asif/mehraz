@@ -13,6 +13,7 @@ const AdminInputBox = ({
   maxLength = 0,
   className = "",
   required = false,
+  disabled = false,
 }) => {
   const { showAlert } = useContext(AlertContext);
 
@@ -38,6 +39,7 @@ const AdminInputBox = ({
             name={name}
             value={value}
             maxLength={maxLength}
+            disabled={disabled}
             onChange={e => {
               inputHandler(e.target.name, e.target.value);
               if (e.target.value.length === maxLength) {
@@ -58,6 +60,7 @@ const AdminInputBox = ({
             value={value}
             max={max}
             min={min}
+            disabled={disabled}
             onBlur={e => {
               if (e.target.value < min) {
                 inputHandler(e.target.name, min);
@@ -88,6 +91,7 @@ const AdminInputBox = ({
               name={name}
               value={value}
               maxLength={maxLength}
+              disabled={disabled}
               onChange={e => {
                 inputHandler(e.target.name, e.target.value);
                 if (e.target.value.length === maxLength) {

@@ -46,12 +46,14 @@ module.exports = {
         "page-container-admin": "calc(100vh - 6rem - 6rem)",
         // 100vh - 6rem (admin header + 3rem spacing from bottom) - 5rem (page header)
         "page-container-admin-xl": "calc(100vh - 6rem - 5rem)",
+        // 100vh - 6rem (admin header + 1rem spacing from bottom) - 6rem (page header) - 2rem
         "page-container-admin-inner": "calc(100vh - 6rem - 6rem - 2rem)",
       },
       minHeight: {
         "page-container-admin-inner": "600px",
       },
       maxHeight: {
+        "page-container-admin-inner": "800px",
         "2/3": "66%",
         "1/3": "33%",
         "1/2": "50%",
