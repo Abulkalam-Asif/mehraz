@@ -22,7 +22,7 @@ const addReadyProjectS3ToDB = async ({
       return {
         data: null,
         type: "ERROR",
-        message: "Something went wrong. Please try again later.",
+        message: "Something went wrong. Please try again.",
       };
     }
 
@@ -89,6 +89,7 @@ const addReadyProjectS3ToDB = async ({
       interiorViews: interiorViewsIds,
       exteriorViews: exteriorViewsIds,
       materials,
+      uploadedScreensCount: 3,
     });
     return {
       data: {
@@ -103,7 +104,7 @@ const addReadyProjectS3ToDB = async ({
     return {
       data: null,
       type: "ERROR",
-      message: "An error occurred. Please try again later.",
+      message: "An error occurred. Please try again.",
     };
   }
 };

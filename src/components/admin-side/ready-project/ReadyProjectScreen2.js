@@ -30,27 +30,26 @@ const ReadyProjectScreen2 = ({
           floor: newFloor,
           familyUnits:
             screen2PrevData.combinations.find(
-              ({ area, floor }) =>
-                area.id === newArea.id && floor.id === newFloor.id,
+              ({ areaId, floorId }) =>
+                areaId === newArea.id && floorId === newFloor.id,
             )?.familyUnits || [],
         });
       });
     });
+    const budgetRanges = areas.map(newArea => ({
+      areaId: newArea.id,
+      min:
+        screen2PrevData.budgetRanges.find(({ areaId }) => areaId === newArea.id)
+          ?.min || 0,
+      max:
+        screen2PrevData.budgetRanges.find(({ areaId }) => areaId === newArea.id)
+          ?.max || 0,
+    }));
 
     setReadyProjectS2(prevState => ({
       ...prevState,
-      budgetRanges: areas.map(newArea => ({
-        areaId: newArea.id,
-        min:
-          screen2PrevData.budgetRanges.find(
-            ({ areaId }) => areaId === newArea.id,
-          )?.min || 0,
-        max:
-          screen2PrevData.budgetRanges.find(
-            ({ areaId }) => areaId === newArea.id,
-          )?.max || 0,
-      })),
       combinations,
+      budgetRanges,
     }));
   }, []);
 
@@ -112,124 +111,124 @@ const ReadyProjectScreen2 = ({
     );
   };
 
-  return (
-    <>
-      <form
-        className="w-full max-w-7xl mx-auto py-4 pr-2 flex gap-4 lg:flex-col"
-        onSubmit={e => e.preventDefault()}>
-        <Table className="self-start w-2/3 lg:w-full">
-          <thead>
-            <tr>
-              <Th position="beginning">areas</Th>
-              <Th>floors</Th>
-              <Th position="end">family units</Th>
-            </tr>
-          </thead>
-          <tbody>
-            {readyProjectS2.combinations.map(({ area, floor }, index) => (
-              <tr key={`${area.id}_${floor.id}`}>
-                <Td
-                  align="center"
-                  position="beginning"
-                  isLastRow={index === readyProjectS2.combinations.length - 1}>
-                  {`${area.area} ${area.unit}`}
-                </Td>
-                <Td
-                  align="center"
-                  isLastRow={index === readyProjectS2.combinations.length - 1}>
-                  {floor.name}
-                </Td>
-                <Td
-                  position="end"
-                  isLastRow={index === readyProjectS2.combinations.length - 1}>
-                  <ReadyProjectMultiSelect
-                    inputHandler={familyUnitsInputHandler}
-                    message="Select family units"
-                    areaId={area.id}
-                    floorId={floor.id}
-                    selectedOptions={readyProjectS2.combinations}
-                    options={familyUnits.map(familyUnit => ({
-                      value: familyUnit.id,
-                      label: familyUnit.name,
-                    }))}
-                  />
-                </Td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
-        <div className="space-y-8 w-1/3 lg:w-full">
-          <Table>
-            <thead>
-              <tr>
-                <Th position="beginning">Areas</Th>
-                <Th>Min budget</Th>
-                <Th position="end">Max budget</Th>
-              </tr>
-            </thead>
-            <tbody>
-              {areas.map(({ id, area, unit }, index) => (
-                <tr key={id}>
-                  <Td
-                    align="center"
-                    position="beginning"
-                    isLastRow={
-                      index === areas.length - 1
-                    }>{`${area} ${unit}`}</Td>
-                  <Td isLastRow={index === areas.length - 1}>
-                    <RPBudgetRangeInput
-                      areaId={id}
-                      budgetType="min"
-                      min={0}
-                      max={9999999}
-                      inputHandler={budgetRangesInputHandler}
-                      value={
-                        readyProjectS2.budgetRanges.find(
-                          range => range.areaId === id,
-                        )?.min
-                      }
-                    />
-                  </Td>
-                  <Td position="end" isLastRow={index === areas.length - 1}>
-                    <RPBudgetRangeInput
-                      areaId={id}
-                      budgetType="max"
-                      min={0}
-                      max={9999999}
-                      value={
-                        readyProjectS2.budgetRanges.find(
-                          range => range.areaId === id,
-                        )?.max
-                      }
-                      inputHandler={budgetRangesInputHandler}
-                    />
-                  </Td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-          <div className="flex items-center justify-end gap-4">
-            <Button
-              type="button"
-              text="Next step"
-              isTransitioned={true}
-              onClick={
-                uploadedScreensCount === 1
-                  ? addReadyProjectS2Handler
-                  : updateReadyProjectS2HandlerCheck
-              }
-            />
-            <Button
-              type="button"
-              text="finish"
-              color="accent-2-outlined"
-              isTransitioned={true}
-              onClick={addReadyProjectS2Handler}
-            />
-          </div>
-        </div>
-      </form>
-    </>
+  return (<></>
+    // <>
+    //   <form
+    //     className="w-full max-w-7xl mx-auto py-4 pr-2 flex gap-4 lg:flex-col"
+    //     onSubmit={e => e.preventDefault()}>
+    //     <Table className="self-start w-2/3 lg:w-full">
+    //       <thead>
+    //         <tr>
+    //           <Th position="beginning">areas</Th>
+    //           <Th>floors</Th>
+    //           <Th position="end">family units</Th>
+    //         </tr>
+    //       </thead>
+    //       <tbody>
+    //         {readyProjectS2.combinations?.map(({ area, floor }, index) => (
+    //           <tr key={`${area.id}_${floor.id}`}>
+    //             <Td
+    //               align="center"
+    //               position="beginning"
+    //               isLastRow={index === readyProjectS2.combinations.length - 1}>
+    //               {`${area.area} ${area.unit}`}
+    //             </Td>
+    //             <Td
+    //               align="center"
+    //               isLastRow={index === readyProjectS2.combinations.length - 1}>
+    //               {floor.name}
+    //             </Td>
+    //             <Td
+    //               position="end"
+    //               isLastRow={index === readyProjectS2.combinations.length - 1}>
+    //               <ReadyProjectMultiSelect
+    //                 inputHandler={familyUnitsInputHandler}
+    //                 message="Select family units"
+    //                 areaId={area.id}
+    //                 floorId={floor.id}
+    //                 selectedOptions={readyProjectS2.combinations}
+    //                 options={familyUnits.map(familyUnit => ({
+    //                   value: familyUnit.id,
+    //                   label: familyUnit.name,
+    //                 }))}
+    //               />
+    //             </Td>
+    //           </tr>
+    //         ))}
+    //       </tbody>
+    //     </Table>
+    //     <div className="space-y-8 w-1/3 lg:w-full">
+    //       <Table>
+    //         <thead>
+    //           <tr>
+    //             <Th position="beginning">Areas</Th>
+    //             <Th>Min budget</Th>
+    //             <Th position="end">Max budget</Th>
+    //           </tr>
+    //         </thead>
+    //         <tbody>
+    //           {areas.map(({ id, area, unit }, index) => (
+    //             <tr key={id}>
+    //               <Td
+    //                 align="center"
+    //                 position="beginning"
+    //                 isLastRow={
+    //                   index === areas.length - 1
+    //                 }>{`${area} ${unit}`}</Td>
+    //               <Td isLastRow={index === areas.length - 1}>
+    //                 <RPBudgetRangeInput
+    //                   areaId={id}
+    //                   budgetType="min"
+    //                   min={0}
+    //                   max={9999999}
+    //                   inputHandler={budgetRangesInputHandler}
+    //                   value={
+    //                     readyProjectS2.budgetRanges.find(
+    //                       range => range.areaId === id,
+    //                     )?.min
+    //                   }
+    //                 />
+    //               </Td>
+    //               <Td position="end" isLastRow={index === areas.length - 1}>
+    //                 <RPBudgetRangeInput
+    //                   areaId={id}
+    //                   budgetType="max"
+    //                   min={0}
+    //                   max={9999999}
+    //                   value={
+    //                     readyProjectS2.budgetRanges.find(
+    //                       range => range.areaId === id,
+    //                     )?.max
+    //                   }
+    //                   inputHandler={budgetRangesInputHandler}
+    //                 />
+    //               </Td>
+    //             </tr>
+    //           ))}
+    //         </tbody>
+    //       </Table>
+    //       <div className="flex items-center justify-end gap-4">
+    //         <Button
+    //           type="button"
+    //           text="Next step"
+    //           isTransitioned={true}
+    //           onClick={
+    //             uploadedScreensCount === 1
+    //               ? addReadyProjectS2Handler
+    //               : updateReadyProjectS2HandlerCheck
+    //           }
+    //         />
+    //         <Button
+    //           type="button"
+    //           text="finish"
+    //           color="accent-2-outlined"
+    //           isTransitioned={true}
+    //           onClick={addReadyProjectS2Handler}
+    //         />
+    //       </div>
+    //     </div>
+    //   </form>
+    // </>
   );
 };
 

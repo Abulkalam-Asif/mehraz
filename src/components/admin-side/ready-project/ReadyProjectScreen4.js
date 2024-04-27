@@ -24,7 +24,6 @@ import { addEditRPExteriorViewService } from "@/services/admin-side/ready-projec
 import { addEditRPInteriorViewService } from "@/services/admin-side/ready-project/interiorViews";
 import { useEffect, useState } from "react";
 import { ulid } from "ulid";
-import getRPDesignsProductRates from "@/Firebase/admin-side/ready_project/getRPDesignsProductRates";
 
 const ReadyProjectScreen4 = ({
   materials,
@@ -38,29 +37,26 @@ const ReadyProjectScreen4 = ({
   const { showAlert } = useContext(AlertContext);
   const [currentDesign, setCurrentDesign] = useState(rpDesignsData[0]);
 
-  // UNDO just the function call
   useEffect(() => {
-    getRPDesignsProductRates().then(productRates => {
-      const updatedProductRates = productRates.map(productRate => ({
-        ...productRate,
-        cost: Math.round(productRate.rate * currentDesign.areaInSqFt),
-      }));
-      const totalAmount = Math.round(
-        updatedProductRates.reduce((acc, rate) => {
-          return acc + rate.cost;
-        }, 0) *
-          (1 - readyProjectS4Design.discount / 100),
-      );
+    const updatedProductRates = productRates.map(productRate => ({
+      ...productRate,
+      cost: Math.round(productRate.rate * currentDesign.areaInSqFt),
+    }));
+    const totalAmount = Math.round(
+      updatedProductRates.reduce((acc, rate) => {
+        return acc + rate.cost;
+      }, 0) *
+        (1 - readyProjectS4Design.discount / 100),
+    );
 
-      setReadyProjectS4Design(prevState => ({
-        ...prevState,
-        totalAmount,
-        designRates: updatedProductRates.filter(rate => rate.type === "DESIGN"),
-        constructionRates: updatedProductRates.filter(
-          rate => rate.type === "CONSTRUCTION",
-        ),
-      }));
-    });
+    setReadyProjectS4Design(prevState => ({
+      ...prevState,
+      totalAmount,
+      designRates: updatedProductRates.filter(rate => rate.type === "DESIGN"),
+      constructionRates: updatedProductRates.filter(
+        rate => rate.type === "CONSTRUCTION",
+      ),
+    }));
   }, []);
 
   // Exterior states and functions

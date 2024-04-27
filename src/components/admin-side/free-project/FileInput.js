@@ -23,11 +23,13 @@ const FileInput = ({
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    if (file) {
-      if (file instanceof File) {
-        setPreviewSrc(URL.createObjectURL(file));
-      } else {
-        setPreviewSrc(file);
+    if (showPreview) {
+      if (file) {
+        if (file instanceof File) {
+          setPreviewSrc(URL.createObjectURL(file));
+        } else {
+          setPreviewSrc(file);
+        }
       }
     }
   }, [file]);
@@ -93,11 +95,11 @@ const FileInput = ({
           toggleModal={() => setShowModal(prevState => !prevState)}>
           {typeStartsWith === "image" ? (
             <Image
-              className="h-full w-auto"
+              className="w-full h-full object-contain"
               src={previewSrc}
               alt="file"
-              width={300}
-              height={300}
+              width={500}
+              height={500}
             />
           ) : (
             typeStartsWith === "video" && (

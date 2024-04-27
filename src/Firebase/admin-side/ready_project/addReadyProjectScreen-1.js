@@ -114,6 +114,7 @@ const addReadyProjectS1ToDB = async ({
       keywords,
       isComplete: false,
       dateCreated: Timestamp.now(),
+      uploadedScreensCount: 1,
     });
 
     const imageRef = ref(storage, `READY_PROJECTS/${response.id}/image`);

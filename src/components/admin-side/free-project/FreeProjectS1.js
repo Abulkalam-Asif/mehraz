@@ -98,14 +98,14 @@ const FreeProjectS1 = ({
             <FileInput
               accept={"image/*"}
               name="image"
-              typeStartsWith={"image/"}
+              typeStartsWith={"image"}
               message={"Attach an image."}
               wrongFileTypeWarning={"Please select an image to upload."}
               inputHandler={freeProjectS1InputHandler}
             />
             <FileInput
               accept={"video/*"}
-              typeStartsWith={"video/"}
+              typeStartsWith={"video"}
               name="video"
               message={"Attach a video."}
               wrongFileTypeWarning={"Please select a video to upload."}

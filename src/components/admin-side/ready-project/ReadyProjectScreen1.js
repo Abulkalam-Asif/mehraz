@@ -155,21 +155,22 @@ const ReadyProjectS1 = ({
             required={true}
             maxLength={15}
           />
-          <div className="flex gap-4">
+          <div className="flex flex-col gap-2">
             <FileInput
               accept={"image/*"}
               name="image"
-              typeStartsWith={"image/"}
+              typeStartsWith={"image"}
               message={"Attach an image. (required)"}
               wrongFileTypeWarning={"Please select an image to upload."}
               inputHandler={readyProjectS1InputHandler}
               idHtmlFor={"image"}
               file={readyProjectS1.image}
               classNameOuter="w-full"
+              showPreview={true}
             />
             <FileInput
               accept={"video/*"}
-              typeStartsWith={"video/"}
+              typeStartsWith={"video"}
               name="video"
               file={readyProjectS1.video}
               message={"Attach a video. (required)"}
@@ -177,6 +178,7 @@ const ReadyProjectS1 = ({
               inputHandler={readyProjectS1InputHandler}
               idHtmlFor={"video"}
               classNameOuter="w-full"
+              showPreview={true}
             />
           </div>
           <TagsInput

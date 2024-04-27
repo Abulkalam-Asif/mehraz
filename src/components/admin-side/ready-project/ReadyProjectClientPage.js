@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
   addReadyProjectS1Service,
   addReadyProjectS2Service,
@@ -27,6 +27,9 @@ import {
   updateReadyProjectS2Service,
   updateReadyProjectS3Service,
 } from "@/services/admin-side/ready-project/updateReadyProject";
+import { getRPUploadedScreensCount } from "@/Firebase/admin-side/ready_project/getRPUploadedScreensCount";
+import { getScreen1Data } from "@/Firebase/admin-side/ready_project/getRPScreen1Data";
+import { getRPScreen2Data } from "@/Firebase/admin-side/ready_project/getRPScreen2Data";
 
 const ReadyProjectClientPage = ({
   cities,
@@ -38,60 +41,17 @@ const ReadyProjectClientPage = ({
   materials,
 }) => {
   const router = useRouter();
+  const pathname = usePathname();
+  const serachParams = useSearchParams();
+
   const { showAlert } = useContext(AlertContext);
   const [showSpinner, setShowSpinner] = useState(false);
-  // const [currentScreen, setCurrentScreen] = useState(1);
-  const [currentScreen, setCurrentScreen] = useState(4);
-  // const [uploadedScreensCount, setUploadedScreensCount] = useState(0);
-  const [uploadedScreensCount, setUploadedScreensCount] = useState(3);
-  // const [projectId, setProjectId] = useState("");
-  const [projectId, setProjectId] = useState("5Yo3DSe62VGsw5nEzVkW");
-  // const [rpDesignIds, setRpDesignIds] = useState([]);
-  const [rpDesignIds, setRpDesignIds] = useState([
-    "DZofpKhb6uwnXgZ7jWup",
-    "Nl9c7jBT0zZ4dDpgHQ7E",
-    "eCqHwbPxRcnez7KBHimN",
-    "mCA6PfKYRuuxwiovvNCH",
-    "rglLyEXSqmncPyUbiUXg",
-  ]);
-  // const [rpDesignsData, setRpDesignsData] = useState([]);
-  const [rpDesignsData, setRpDesignsData] = useState([
-    {
-      id: "DZofpKhb6uwnXgZ7jWup",
-      area: "10 MARLA",
-      areaInSqFt: 2722.51,
-      floor: "GROUND FLOOR, FIRST FLOOR",
-      familyUnit: "TWO UNITS",
-    },
-    {
-      id: "Nl9c7jBT0zZ4dDpgHQ7E",
-      area: "5 MARLA",
-      areaInSqFt: 1361.255,
-      floor: "GROUND FLOOR, FIRST FLOOR",
-      familyUnit: "ONE UNIT",
-    },
-    {
-      id: "eCqHwbPxRcnez7KBHimN",
-      area: "10 MARLA",
-      areaInSqFt: 2722.51,
-      floor: "GROUND FLOOR, FIRST FLOOR,SECOND FLOOR",
-      familyUnit: "ONE UNIT",
-    },
-    {
-      id: "mCA6PfKYRuuxwiovvNCH",
-      area: "5 MARLA",
-      areaInSqFt: 1361.255,
-      floor: "GROUND FLOOR, FIRST FLOOR",
-      familyUnit: "THREE UNITS",
-    },
-    {
-      id: "rglLyEXSqmncPyUbiUXg",
-      area: "10 MARLA",
-      areaInSqFt: 2722.51,
-      floor: "GROUND FLOOR, FIRST FLOOR",
-      familyUnit: "THREE UNITS",
-    },
-  ]);
+  const [showReloadSpinner, setShowReloadSpinner] = useState(true);
+  const [currentScreen, setCurrentScreen] = useState(1);
+  const [uploadedScreensCount, setUploadedScreensCount] = useState(0);
+  const [projectId, setProjectId] = useState("");
+  const [rpDesignIds, setRpDesignIds] = useState([]);
+  const [rpDesignsData, setRpDesignsData] = useState([]);
   const [productRates, setProductRates] = useState([]);
 
   // Confirmation modal states and handlers
@@ -103,6 +63,7 @@ const ReadyProjectClientPage = ({
   });
 
   useEffect(() => {
+    // Check if all the required data is available
     if (cities?.length === 0) {
       router.push("/admin/projects");
       showAlert({
@@ -154,9 +115,7 @@ const ReadyProjectClientPage = ({
     budget: "MEDIUM",
     description: "",
     cities: [],
-    // areas: ["FoelXqMpuaUUeNz1rNzt", "cTNSiUIDjdUksVNbgs6D"],
     areas: [],
-    // floors: ["B2q7f6fbEHSP78XQY9w3", "T8uSw1LVhxHyMts2UdFa"],
     floors: [],
     units: [],
     style: styles[0]?.id || "",
@@ -201,6 +160,11 @@ const ReadyProjectClientPage = ({
       });
       setCurrentScreen(2);
       setUploadedScreensCount(1);
+      // Updating the url with projectId and currentScreen
+      const params = new URLSearchParams(serachParams);
+      params.set("id", id);
+      params.set("screen", 2);
+      router.push(`${pathname}?${params.toString()}`);
     }
   };
 
@@ -218,7 +182,7 @@ const ReadyProjectClientPage = ({
     } else {
       setConfirmationModalMetadata({
         confirmationMessage:
-          "You have changed the areas or floors selection. Are you sure you want to update?",
+          "You have changed the areas or floors selection. Some designs may get deleted. Are you sure you want to continue?",
         confirmationHandler: updateReadyProjectS1Handler,
       });
       toggleModal();
@@ -243,6 +207,10 @@ const ReadyProjectClientPage = ({
         floors: readyProjectS1.floors,
       });
       setCurrentScreen(2);
+      // Updating the url with projectId and currentScreen
+      const params = new URLSearchParams(serachParams);
+      params.set("screen", 2);
+      router.push(`${pathname}?${params.toString()}`);
     }
   };
 
@@ -279,6 +247,7 @@ const ReadyProjectClientPage = ({
   };
 
   const addReadyProjectS2Handler = async e => {
+    console.log("Add");
     e.preventDefault();
     const data = await addReadyProjectS2Service(
       projectId,
@@ -291,20 +260,31 @@ const ReadyProjectClientPage = ({
       setUploadedScreensCount(2);
       setRpDesignIds(data);
       setScreen2PrevData({
-        combinations: readyProjectS2.combinations,
+        combinations: readyProjectS2.combinations.map(
+          ({ area, floor, familyUnits }) => ({
+            areaId: area.id,
+            floorId: floor.id,
+            familyUnits: familyUnits,
+          }),
+        ),
         budgetRanges: readyProjectS2.budgetRanges,
       });
+      // Updating the url with currentScreen
+      const params = new URLSearchParams(serachParams);
+      params.set("screen", 3);
+      router.push(`${pathname}?${params.toString()}`);
     }
   };
 
   const updateReadyProjectS2HandlerCheck = e => {
     e.preventDefault();
     if (
+      // Checking if the user has changed the family units selection
       screen2PrevData.combinations.every(prevCombination => {
         const newCombination = readyProjectS2.combinations.find(
           ({ area, floor }) =>
-            area.id === prevCombination.area.id &&
-            floor.id === prevCombination.floor.id,
+            area.id === prevCombination.areaId &&
+            floor.id === prevCombination.floorId,
         );
         if (newCombination) {
           return prevCombination.familyUnits.every(familyUnit =>
@@ -319,7 +299,7 @@ const ReadyProjectClientPage = ({
     } else {
       setConfirmationModalMetadata({
         confirmationMessage:
-          "You have changed the family units selection. Are you sure you want to update?",
+          "You have changed the family units selection. Some designs may get deleted. Are you sure you want to continue?",
         confirmationHandler: updateReadyProjectS2Handler,
       });
       toggleModal();
@@ -337,7 +317,13 @@ const ReadyProjectClientPage = ({
       setCurrentScreen(3);
       setRpDesignIds(data);
       setScreen2PrevData({
-        combinations: readyProjectS2.combinations,
+        combinations: readyProjectS2.combinations.map(
+          ({ area, floor, familyUnits }) => ({
+            areaId: area.id,
+            floorId: floor.id,
+            familyUnits: familyUnits,
+          }),
+        ),
         budgetRanges: readyProjectS2.budgetRanges,
       });
     }
@@ -393,12 +379,16 @@ const ReadyProjectClientPage = ({
       } catch (error) {
         showAlert({
           type: "ERROR",
-          message: "An error occurred. Please try again later.",
+          message: "An error occurred. Please try again.",
         });
       }
       setShowSpinner(false);
       setCurrentScreen(4);
       setUploadedScreensCount(3);
+      // Updating the url with currentScreen
+      const params = new URLSearchParams(serachParams);
+      params.set("screen", 4);
+      router.push(`${pathname}?${params.toString()}`);
     }
   };
   const updateReadyProjectS3Handler = async e => {
@@ -430,7 +420,7 @@ const ReadyProjectClientPage = ({
       } catch (error) {
         showAlert({
           type: "ERROR",
-          message: "An error occurred. Please try again later.",
+          message: "An error occurred. Please try again.",
         });
       }
       setShowSpinner(false);
@@ -472,7 +462,137 @@ const ReadyProjectClientPage = ({
     }));
   };
 
-  return (
+  const prevScreenButtonHandler = () => {
+    if (currentScreen === 1) return;
+    setCurrentScreen(prevState => prevState - 1);
+    const params = new URLSearchParams(serachParams);
+    params.set("screen", currentScreen - 1);
+    router.push(`${pathname}?${params.toString()}`);
+  };
+
+  // When the user reloads the page, this function will fetch the data for the current screen
+  const getScreenDataOnReload = async (currentScreen, projectId) => {
+    switch (currentScreen) {
+      case 1: {
+        try {
+          const projectData = await getScreen1Data(projectId);
+          setReadyProjectS1(projectData);
+          setScreen1PrevData({
+            areas: projectData.areas,
+            floors: projectData.floors,
+          });
+          return true;
+        } catch (error) {
+          showAlert({
+            type: "ERROR",
+            message: error.message,
+          });
+          return false;
+        }
+      }
+      case 2: {
+        try {
+          const projectData = await getRPScreen2Data(projectId);
+          setReadyProjectS2("Project data", projectData);
+          setScreen1PrevData({
+            areas: projectData.areas,
+            floors: projectData.floors,
+          });
+          setScreen2PrevData({
+            combinations: projectData.combinations,
+            budgetRanges: projectData.budgetRanges,
+          });
+          return true;
+        } catch (error) {
+          showAlert({
+            type: "ERROR",
+            message: error.message,
+          });
+          return false;
+        }
+      }
+      default: {
+        return false;
+      }
+    }
+  };
+
+  useEffect(() => {
+    // If the user reloads the page, the app should check if the projectId and currentScreen are available in the url
+    const handleSearchParams = async () => {
+      const currentScreenParam = serachParams.get("screen");
+      const projectIdParam = serachParams.get("id");
+      const params = new URLSearchParams(serachParams);
+      if (projectIdParam && currentScreenParam) {
+        let uploadedScreensCountDB;
+        // Fetching the uploadedScreensCount from db
+        uploadedScreensCountDB = await getRPUploadedScreensCount(
+          projectIdParam,
+        );
+        if (uploadedScreensCountDB) {
+          // If the uploadedScreensCount is available in the db, it means at least one screen is uploaded
+          if (currentScreenParam - uploadedScreensCountDB <= 1) {
+            // If the currentScreen is less than or equal or 1 more than the currentScreen, set the states
+            const isSuccessful = await getScreenDataOnReload(
+              Number(currentScreenParam),
+              projectIdParam,
+            );
+            if (isSuccessful) {
+              // If the data for the particular screen is fetched successfully, set the states
+              setUploadedScreensCount(uploadedScreensCountDB);
+              setProjectId(projectIdParam);
+              setCurrentScreen(Number(currentScreenParam));
+            } else {
+              // If the data is not fetched successfully, redirect to the first screen
+              params.delete("id");
+              params.set("screen", 1);
+              router.push(`${pathname}?${params.toString()}`);
+            }
+          } else {
+            const isSuccessful = await getScreenDataOnReload(
+              Number(currentScreenParam),
+              projectIdParam,
+            );
+            if (isSuccessful) {
+              // If the currentScreen is more than 1 more than the uploadedScreensCount, then the user has manually changed the url. Redirect to highest screen possible
+              params.set("screen", uploadedScreensCountDB + 1);
+              router.push(`${pathname}?${params.toString()}`);
+              setCurrentScreen(uploadedScreensCountDB + 1);
+              setUploadedScreensCount(uploadedScreensCountDB);
+            } else {
+              // If the data is not fetched successfully, redirect to the first screen
+              params.delete("id");
+              params.set("screen", 1);
+              router.push(`${pathname}?${params.toString()}`);
+            }
+          }
+        } else {
+          // If the project with the given projectId is not found in the db, or the uploadedScreensCount is not available, it means user has manually changed the url to a wrong projectId or currentScreen. Redirect to the first screen
+          params.delete("id");
+          params.set("screen", 1);
+          router.push(`${pathname}?${params.toString()}`);
+          showAlert({
+            type: "ERROR",
+            message: "An error occurred. Please try again.",
+          });
+        }
+      } else {
+        // If the projectId and currentScreen are not available in the url, redirect to the first screen
+        params.set("screen", 1);
+        params.set("screen", 1);
+        router.push(`${pathname}?${params.toString()}`);
+      }
+      setShowReloadSpinner(false);
+    };
+
+    handleSearchParams();
+  }, []);
+
+  return showReloadSpinner ? (
+    <div className="fixed top-0 left-0 bottom-0 right-0 flex items-center justify-center">
+      <Spinner size={"lg"} text={"Fetching data..."} />
+    </div>
+  ) : (
     <>
       <div className="max-w-8xl mx-auto w-full flex items-center h-24 xl:h-20">
         <div className="w-full flex justify-between items-center">
@@ -489,7 +609,7 @@ const ReadyProjectClientPage = ({
           ) : (
             <button
               className="bg-accent-1-base rounded-full p-5 xl:p-4"
-              onClick={() => setCurrentScreen(prevState => prevState - 1)}>
+              onClick={prevScreenButtonHandler}>
               <Image
                 src={chevronLeftIcon}
                 alt="chevron left"
@@ -518,9 +638,11 @@ const ReadyProjectClientPage = ({
         ) : currentScreen === 2 ? (
           <ReadyProjectScreen2
             readyProjectS2={readyProjectS2}
-            areas={plots.filter(plot => readyProjectS1.areas.includes(plot.id))}
+            areas={plots.filter(plot =>
+              screen1PrevData.areas.includes(plot.id),
+            )}
             floors={floors.filter(floor =>
-              readyProjectS1.floors.includes(floor.id),
+              screen1PrevData.floors.includes(floor.id),
             )}
             setReadyProjectS2={setReadyProjectS2}
             uploadedScreensCount={uploadedScreensCount}
@@ -554,8 +676,8 @@ const ReadyProjectClientPage = ({
         )}
       </div>
       {showSpinner && (
-        <div className="z-[4] bg-black bg-opacity-20 fixed top-0 left-0 bottom-0 right-0 flex items-center justify-center">
-          <Spinner size={"lg"} />
+        <div className="z-[4] bg-black bg-opacity-10 fixed top-0 left-0 bottom-0 right-0 flex items-center justify-center">
+          <Spinner size={"lg"} text={"Uploading..."} />
         </div>
       )}
       {isModalOpen && (

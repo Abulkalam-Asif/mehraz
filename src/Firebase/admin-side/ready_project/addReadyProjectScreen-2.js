@@ -12,7 +12,6 @@ const addReadyProjectS2ToDB = async ({ id, designs, budgetRanges }) => {
     if (!docSnapshot.exists()) {
       console.error("No document found!");
       return {
-        data: null,
         type: "ERROR",
         message: "Something went wrong, please try again later.",
       };
@@ -35,17 +34,16 @@ const addReadyProjectS2ToDB = async ({ id, designs, budgetRanges }) => {
     await updateDoc(readyProjectDocRef, {
       designs: rpDesignsIds,
       budgetRanges,
+      uploadedScreensCount: 2,
     });
 
     return {
-      data: rpDesignsIds,
       type: "SUCCESS",
       message: "Ready project screen 2 added successfully!",
     };
   } catch (error) {
     console.error("Error adding the ready project: ", error.message);
     return {
-      data: null,
       type: "ERROR",
       message: "Something went wrong, please try again later.",
     };

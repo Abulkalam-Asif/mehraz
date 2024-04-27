@@ -22,7 +22,7 @@ const updateReadyProjectS3ToDB = async ({
       return {
         data: null,
         type: "ERROR",
-        message: "Something went wrong. Please try again later.",
+        message: "Something went wrong. Please try again.",
       };
     }
 
@@ -103,7 +103,7 @@ const updateReadyProjectS3ToDB = async ({
     return {
       data: null,
       type: "ERROR",
-      message: "An error occurred. Please try again later.",
+      message: "An error occurred. Please try again.",
     };
   }
 };

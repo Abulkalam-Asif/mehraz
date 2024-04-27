@@ -3,7 +3,7 @@ const Spinner = ({ text = null, size, className }) => {
     xs: "gap-1",
     sm: "gap-1",
     md: "gap-3",
-    lg: "gap-4",
+    lg: "gap-6",
   };
 
   const spinnerSizeStyles = {
@@ -17,7 +17,7 @@ const Spinner = ({ text = null, size, className }) => {
     xs: "text-xs",
     sm: "text-sm",
     md: "text-base",
-    lg: "text-lg",
+    lg: "text-xl",
   };
   return (
     <>
@@ -27,7 +27,7 @@ const Spinner = ({ text = null, size, className }) => {
           className={`${spinnerSizeStyles[size]} border-accent-2-base border-b-transparent rounded-full animate-spin`}></div>
         {text && (
           <p
-            className={`"text-accent-1-dark ${textSizeStyles[size]} font-medium`}>
+            className={`text-accent-2-base ${textSizeStyles[size]} font-semibold`}>
             {text}
           </p>
         )}

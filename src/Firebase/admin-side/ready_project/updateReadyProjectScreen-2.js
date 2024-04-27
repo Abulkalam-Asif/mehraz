@@ -6,9 +6,7 @@ import {
   deleteDoc,
   doc,
   getDoc,
-  getDocs,
   updateDoc,
-  arrayUnion,
 } from "firebase/firestore";
 import { deleteObject, ref } from "firebase/storage";
 
@@ -27,15 +25,12 @@ const updateReadyProjectS2ToDB = async ({ id, designs, budgetRanges }) => {
       };
     }
 
-    const readyProjectPrevDesigns = readyProjectDoc.data().designs;
+    const readyProjectPrevDesigns = readyProjectDoc.data().designs || [];
     const rpDesignsIds = [];
     const rpDesignsData = [];
     let newDesigns = [];
 
-    console.log("Ready project designs: ", readyProjectPrevDesigns);
-
     // Delete designs from RP_DESIGNS collection and ready project which are not included in the selected designs
-
     await Promise.all(
       readyProjectPrevDesigns?.map(async prevDesignId => {
         const prevDesignDocRef = doc(
@@ -54,7 +49,6 @@ const updateReadyProjectS2ToDB = async ({ id, designs, budgetRanges }) => {
         );
 
         if (!matchingNewDesign) {
-          console.log("Not matching Design: ", prevDesignId);
           // Remove design from RP_DESIGNS collection
           await deleteDoc(prevDesignDocRef);
           const storageRef = ref(storage, `RP_DESIGNS/${prevDesignId}`);
@@ -67,11 +61,6 @@ const updateReadyProjectS2ToDB = async ({ id, designs, budgetRanges }) => {
       }),
     );
 
-    // console.log("Designs after deletion: ", designs);
-    console.log("Prev designs array: ", rpDesignsData);
-    console.log("Prev designs IDS: ", rpDesignsIds);
-
-
     // Obtain a third array containing objects from array1 that are not present in array2
     newDesigns = designs.filter(
       obj1 =>
@@ -83,18 +72,15 @@ const updateReadyProjectS2ToDB = async ({ id, designs, budgetRanges }) => {
         ),
     );
 
-    console.log("New Data: ", newDesigns);
-
     // Add the remaining new designs to the database
     const rpDesignsRef = collection(db, "RP_DESIGNS");
- 
+
     await Promise.all(
       newDesigns.map(async design => {
         const response = await addDoc(rpDesignsRef, design);
         rpDesignsIds.push(response.id);
       }),
     );
-    console.log("Prev designs IDS Below: ", rpDesignsIds);
 
     //Update the ready project document
     await updateDoc(readyProjectDocRef, {
