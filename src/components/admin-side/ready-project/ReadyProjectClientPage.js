@@ -107,7 +107,7 @@ const ReadyProjectClientPage = ({
         message: "No materials found. Please add one first",
       });
     }
-  }, [cities, plots, floors, units, styles, familyUnits, materials]);
+  }, []);
 
   // Screen 1 states and handlers
   const defaultReadyProjectS1 = {
@@ -124,6 +124,7 @@ const ReadyProjectClientPage = ({
     keywords: [],
     image: null,
     video: null,
+    isInDefaultState: true,
   };
   const [readyProjectS1, setReadyProjectS1] = useState(defaultReadyProjectS1);
   // Keeping track of the previous areas and floors selection to check if the user has changed the selection
@@ -135,6 +136,7 @@ const ReadyProjectClientPage = ({
   const readyProjectS1InputHandler = (name, value) => {
     setReadyProjectS1(prevState => ({
       ...prevState,
+      isInDefaultState: false,
       [name]: value,
     }));
   };
@@ -218,6 +220,7 @@ const ReadyProjectClientPage = ({
   const defaultReadyProjectS2 = {
     combinations: [],
     budgetRanges: [],
+    isInDefaultState: true,
   };
 
   const [readyProjectS2, setReadyProjectS2] = useState(defaultReadyProjectS2);
@@ -242,12 +245,12 @@ const ReadyProjectClientPage = ({
   const readyProjectS2InputHandler = (name, value) => {
     setReadyProjectS2(prevState => ({
       ...prevState,
+      isInDefaultState: false,
       [name]: value,
     }));
   };
 
   const addReadyProjectS2Handler = async e => {
-    console.log("Add");
     e.preventDefault();
     const data = await addReadyProjectS2Service(
       projectId,
@@ -287,7 +290,7 @@ const ReadyProjectClientPage = ({
             floor.id === prevCombination.floorId,
         );
         if (newCombination) {
-          return prevCombination.familyUnits.every(familyUnit =>
+          return prevCombination.familyUnits?.every(familyUnit =>
             newCombination.familyUnits.includes(familyUnit),
           );
         } else {
@@ -313,6 +316,7 @@ const ReadyProjectClientPage = ({
       showAlert,
       setShowSpinner,
     );
+    console.log(data);
     if (data) {
       setCurrentScreen(3);
       setRpDesignIds(data);
@@ -336,12 +340,14 @@ const ReadyProjectClientPage = ({
     materials: [],
     imagesOp1: [],
     imagesOp2: [],
+    isInDefaultState: true,
   };
 
   const [readyProjectS3, setReadyProjectS3] = useState(defaultReadyProjectS3);
   const readyProjectS3InputHandler = (name, value) => {
     setReadyProjectS3(prevState => ({
       ...prevState,
+      isInDefaultState: false,
       [name]: value,
     }));
   };
@@ -476,6 +482,7 @@ const ReadyProjectClientPage = ({
       case 1: {
         try {
           const projectData = await getScreen1Data(projectId);
+          console.log("Screen 1 projectData from DB: ", projectData);
           setReadyProjectS1(projectData);
           setScreen1PrevData({
             areas: projectData.areas,
@@ -493,7 +500,7 @@ const ReadyProjectClientPage = ({
       case 2: {
         try {
           const projectData = await getRPScreen2Data(projectId);
-          setReadyProjectS2("Project data", projectData);
+          console.log("Screen 2 projectData from DB: ", projectData);
           setScreen1PrevData({
             areas: projectData.areas,
             floors: projectData.floors,
@@ -519,55 +526,63 @@ const ReadyProjectClientPage = ({
 
   useEffect(() => {
     // If the user reloads the page, the app should check if the projectId and currentScreen are available in the url
-    const handleSearchParams = async () => {
-      const currentScreenParam = serachParams.get("screen");
+    const handleSearchParamsChange = async () => {
+      const currentScreenParam = Number(serachParams.get("screen"));
       const projectIdParam = serachParams.get("id");
+      console.log("useEffect called.", projectIdParam, currentScreenParam);
       const params = new URLSearchParams(serachParams);
       if (projectIdParam && currentScreenParam) {
-        let uploadedScreensCountDB;
         // Fetching the uploadedScreensCount from db
-        uploadedScreensCountDB = await getRPUploadedScreensCount(
+        const uploadedScreensCountDB = await getRPUploadedScreensCount(
           projectIdParam,
         );
         if (uploadedScreensCountDB) {
           // If the uploadedScreensCount is available in the db, it means at least one screen is uploaded
-          if (currentScreenParam - uploadedScreensCountDB <= 1) {
-            // If the currentScreen is less than or equal or 1 more than the currentScreen, set the states
-            const isSuccessful = await getScreenDataOnReload(
-              Number(currentScreenParam),
-              projectIdParam,
-            );
-            if (isSuccessful) {
-              // If the data for the particular screen is fetched successfully, set the states
+          if (currentScreenParam <= uploadedScreensCountDB) {
+            console.log("currentScreenParam: ", currentScreenParam);
+            console.log("uploadedScreenCountDB", uploadedScreensCountDB);
+            // If the currentScreen is less than or equal to the currentScreen, it means the data of the currentScreen is available in the db
+            if (
+              (currentScreenParam === 1 && readyProjectS1.isInDefaultState) ||
+              (currentScreenParam === 2 && readyProjectS2.isInDefaultState) ||
+              (currentScreenParam === 3 && readyProjectS3.isInDefaultState)
+            ) {
               setUploadedScreensCount(uploadedScreensCountDB);
-              setProjectId(projectIdParam);
               setCurrentScreen(Number(currentScreenParam));
-            } else {
-              // If the data is not fetched successfully, redirect to the first screen
-              params.delete("id");
-              params.set("screen", 1);
-              router.push(`${pathname}?${params.toString()}`);
+              setProjectId(projectIdParam);
+              const isSuccessful = await getScreenDataOnReload(
+                Number(currentScreenParam),
+                projectIdParam,
+              );
+              if (!isSuccessful) {
+                // If the data is not fetched successfully, set the states to default value and redirect to the first screen
+                setUploadedScreensCount(0);
+                setCurrentScreen(1);
+                setProjectId("");
+                setReadyProjectS1(defaultReadyProjectS1);
+                setReadyProjectS2(defaultReadyProjectS2);
+                setReadyProjectS3(defaultReadyProjectS3);
+                params.delete("id");
+                params.set("screen", 1);
+                router.push(`${pathname}?${params.toString()}`);
+              }
             }
           } else {
-            const isSuccessful = await getScreenDataOnReload(
-              Number(currentScreenParam),
-              projectIdParam,
-            );
-            if (isSuccessful) {
-              // If the currentScreen is more than 1 more than the uploadedScreensCount, then the user has manually changed the url. Redirect to highest screen possible
-              params.set("screen", uploadedScreensCountDB + 1);
-              router.push(`${pathname}?${params.toString()}`);
-              setCurrentScreen(uploadedScreensCountDB + 1);
-              setUploadedScreensCount(uploadedScreensCountDB);
-            } else {
-              // If the data is not fetched successfully, redirect to the first screen
-              params.delete("id");
-              params.set("screen", 1);
-              router.push(`${pathname}?${params.toString()}`);
-            }
+            // If the currentScreen is higher than the uploadedScreensCount, it means the data of the that currentScreen is not available in the db. The currentScreen might have an invalid value. Redirect to the screen next to the highest uploaded screen.
+            setUploadedScreensCount(uploadedScreensCountDB);
+            setCurrentScreen(uploadedScreensCountDB + 1);
+            setProjectId(projectIdParam);
+            params.set("screen", uploadedScreensCountDB + 1);
+            router.push(`${pathname}?${params.toString()}`);
           }
         } else {
-          // If the project with the given projectId is not found in the db, or the uploadedScreensCount is not available, it means user has manually changed the url to a wrong projectId or currentScreen. Redirect to the first screen
+          // If the project with the given projectId is not found in the db, or the uploadedScreensCount is not available, it means user has manually changed the url to an inconsistant state. Redirect to the first screen
+          setUploadedScreensCount(0);
+          setCurrentScreen(1);
+          setProjectId("");
+          setReadyProjectS1(defaultReadyProjectS1);
+          setReadyProjectS2(defaultReadyProjectS2);
+          setReadyProjectS3(defaultReadyProjectS3);
           params.delete("id");
           params.set("screen", 1);
           router.push(`${pathname}?${params.toString()}`);
@@ -577,16 +592,27 @@ const ReadyProjectClientPage = ({
           });
         }
       } else {
-        // If the projectId and currentScreen are not available in the url, redirect to the first screen
-        params.set("screen", 1);
+        // If both the projectId and the currentScreen are not available in the url, redirect to the first screen
+        setUploadedScreensCount(0);
+        setCurrentScreen(1);
+        setProjectId("");
+        setReadyProjectS1(defaultReadyProjectS1);
+        setReadyProjectS2(defaultReadyProjectS2);
+        setReadyProjectS3(defaultReadyProjectS3);
+        params.delete("id");
         params.set("screen", 1);
         router.push(`${pathname}?${params.toString()}`);
       }
-      setShowReloadSpinner(false);
     };
 
-    handleSearchParams();
-  }, []);
+    setShowReloadSpinner(true);
+    handleSearchParamsChange();
+    setShowReloadSpinner(false);
+
+    return () => {
+      setShowReloadSpinner(false);
+    };
+  }, [serachParams.toString()]);
 
   return showReloadSpinner ? (
     <div className="fixed top-0 left-0 bottom-0 right-0 flex items-center justify-center">

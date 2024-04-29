@@ -8,23 +8,32 @@ export const getRPScreen2Data = async projectId => {
     const projectDoc = await getDoc(projectDocRef);
     if (projectDoc.exists()) {
       const designIds = projectDoc.data().designs;
-      const combinations = await Promise.all(
+      const combinationsMap = new Map();
+      await Promise.all(
         designIds.map(async designId => {
-          console.log(designId);
           const designDocRef = doc(collection(db, "RP_DESIGNS"), designId);
           const designDoc = await getDoc(designDocRef);
-          console.log(designDoc.data());
           if (designDoc.exists()) {
-            return {
-              areaId: designDoc.data().areaId,
-              floorId: designDoc.data().floorId,
-              familyUnitId: designDoc.data().familyUnitId,
-            };
+            const { areaId, floorId, familyUnitId } = designDoc.data();
+            const combinationKey = `${areaId}_${floorId}`;
+            if (combinationsMap.has(combinationKey)) {
+              combinationsMap
+                .get(combinationKey)
+                .familyUnitIds.push(familyUnitId);
+            } else {
+              combinationsMap.set(combinationKey, {
+                areaId,
+                floorId,
+                familyUnitIds: [familyUnitId],
+              });
+            }
           } else {
+            console.error("Error getting screen 2 data. Design not found");
             throw new Error("An error occurred. Please try again.");
           }
         }),
       );
+      const combinations = Array.from(combinationsMap.values());
       const projectData = {
         areas: projectDoc.data().areas,
         floors: projectDoc.data().floors,
@@ -32,8 +41,10 @@ export const getRPScreen2Data = async projectId => {
         combinations,
       };
       return projectData;
+    } else {
+      console.error("Error getting screen 2 data. Document not found");
+      throw new Error("An error occurred. Please try again.");
     }
-    throw new Error("An error occurred. Please try again.");
   } catch (error) {
     console.log("Error getting document:", error);
     throw new Error("An error occurred. Please try again.");
