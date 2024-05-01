@@ -68,18 +68,19 @@ const AdminInputBox = ({
                   type: "WARNING",
                   message: `Minimum value for this field is ${min}`,
                 });
-              }
-            }}
-            onChange={e => {
-              if (e.target.value > max) {
+              } else if (e.target.value > max) {
                 inputHandler(e.target.name, max);
                 showAlert({
                   type: "WARNING",
                   message: `Maximum value for this field is ${max}`,
                 });
               } else {
+                // Converting the value to a number
                 inputHandler(e.target.name, Number(e.target.value));
               }
+            }}
+            onChange={e => {
+              inputHandler(e.target.name, e.target.value);
             }}
             autoComplete="off"
           />

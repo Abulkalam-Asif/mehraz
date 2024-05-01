@@ -29,15 +29,13 @@ const RPServicesInput = ({
         onBlur={e => {
           if (e.target.value < min) {
             serviceInputHandler(min);
-          }
-        }}
-        onChange={e => {
-          if (e.target.value > max) {
+          } else if (e.target.value > max) {
             serviceInputHandler(max);
           } else {
             serviceInputHandler(Number(e.target.value));
           }
         }}
+        onChange={e => serviceInputHandler(Number(e.target.value))}
         className="w-full border-2 text-sm border-accent-1-base rounded-md px-2 py-0.5"
         min={min}
         max={max}

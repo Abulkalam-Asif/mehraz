@@ -267,7 +267,7 @@ const ReadyProjectClientPage = ({
           ({ area, floor, familyUnits }) => ({
             areaId: area.id,
             floorId: floor.id,
-            familyUnits: familyUnits,
+            familyUnitIds: familyUnits,
           }),
         ),
         budgetRanges: readyProjectS2.budgetRanges,
@@ -290,8 +290,8 @@ const ReadyProjectClientPage = ({
             floor.id === prevCombination.floorId,
         );
         if (newCombination) {
-          return prevCombination.familyUnits?.every(familyUnit =>
-            newCombination.familyUnits.includes(familyUnit),
+          return prevCombination.familyUnitIds?.every(familyUnitId =>
+            newCombination.familyUnits.includes(familyUnitId),
           );
         } else {
           return true;
@@ -316,7 +316,6 @@ const ReadyProjectClientPage = ({
       showAlert,
       setShowSpinner,
     );
-    console.log(data);
     if (data) {
       setCurrentScreen(3);
       setRpDesignIds(data);
@@ -325,11 +324,15 @@ const ReadyProjectClientPage = ({
           ({ area, floor, familyUnits }) => ({
             areaId: area.id,
             floorId: floor.id,
-            familyUnits: familyUnits,
+            familyUnitIds: familyUnits,
           }),
         ),
         budgetRanges: readyProjectS2.budgetRanges,
       });
+      // Updating the url with currentScreen
+      const params = new URLSearchParams(serachParams);
+      params.set("screen", 3);
+      router.push(`${pathname}?${params.toString()}`);
     }
   };
 
@@ -470,6 +473,7 @@ const ReadyProjectClientPage = ({
 
   const prevScreenButtonHandler = () => {
     if (currentScreen === 1) return;
+    setShowReloadSpinner(true);
     setCurrentScreen(prevState => prevState - 1);
     const params = new URLSearchParams(serachParams);
     params.set("screen", currentScreen - 1);
@@ -539,8 +543,6 @@ const ReadyProjectClientPage = ({
         if (uploadedScreensCountDB) {
           // If the uploadedScreensCount is available in the db, it means at least one screen is uploaded
           if (currentScreenParam <= uploadedScreensCountDB) {
-            console.log("currentScreenParam: ", currentScreenParam);
-            console.log("uploadedScreenCountDB", uploadedScreensCountDB);
             // If the currentScreen is less than or equal to the currentScreen, it means the data of the currentScreen is available in the db
             if (
               (currentScreenParam === 1 && readyProjectS1.isInDefaultState) ||
@@ -554,6 +556,7 @@ const ReadyProjectClientPage = ({
                 Number(currentScreenParam),
                 projectIdParam,
               );
+              setShowReloadSpinner(false);
               if (!isSuccessful) {
                 // If the data is not fetched successfully, set the states to default value and redirect to the first screen
                 setUploadedScreensCount(0);
@@ -566,6 +569,8 @@ const ReadyProjectClientPage = ({
                 params.set("screen", 1);
                 router.push(`${pathname}?${params.toString()}`);
               }
+            } else {
+              setShowReloadSpinner(false);
             }
           } else {
             // If the currentScreen is higher than the uploadedScreensCount, it means the data of the that currentScreen is not available in the db. The currentScreen might have an invalid value. Redirect to the screen next to the highest uploaded screen.
@@ -574,6 +579,7 @@ const ReadyProjectClientPage = ({
             setProjectId(projectIdParam);
             params.set("screen", uploadedScreensCountDB + 1);
             router.push(`${pathname}?${params.toString()}`);
+            setShowReloadSpinner(false);
           }
         } else {
           // If the project with the given projectId is not found in the db, or the uploadedScreensCount is not available, it means user has manually changed the url to an inconsistant state. Redirect to the first screen
@@ -590,6 +596,7 @@ const ReadyProjectClientPage = ({
             type: "ERROR",
             message: "An error occurred. Please try again.",
           });
+          setShowReloadSpinner(false);
         }
       } else {
         // If both the projectId and the currentScreen are not available in the url, redirect to the first screen
@@ -602,16 +609,11 @@ const ReadyProjectClientPage = ({
         params.delete("id");
         params.set("screen", 1);
         router.push(`${pathname}?${params.toString()}`);
+        setShowReloadSpinner(false);
       }
     };
 
-    setShowReloadSpinner(true);
     handleSearchParamsChange();
-    setShowReloadSpinner(false);
-
-    return () => {
-      setShowReloadSpinner(false);
-    };
   }, [serachParams.toString()]);
 
   return showReloadSpinner ? (

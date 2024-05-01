@@ -108,7 +108,7 @@ const updateReadyProjectS1ToDB = async ({
     }
 
     // Get previous areas and floors
-    const prevDesigns = readyProjectsDoc.data()?.designs;
+    let prevDesigns = readyProjectsDoc.data()?.designs;
     if (prevDesigns) {
       const removedAreas = readyProjectsDoc
         .data()
@@ -135,8 +135,8 @@ const updateReadyProjectS1ToDB = async ({
                 .then(() => {})
                 .catch(error => {});
             })();
-
             deletionPromises.push(deletePromise);
+            prevDesigns = prevDesigns.filter(design => design !== prevDesign);
           }
         }
       }
@@ -156,6 +156,7 @@ const updateReadyProjectS1ToDB = async ({
       productRates,
       keywords,
       isComplete: false,
+      designs: prevDesigns,
     });
     let imageUrl = image;
     let videoUrl = video;
