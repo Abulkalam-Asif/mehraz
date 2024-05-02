@@ -1,6 +1,14 @@
 "use server";
 import { db, storage } from "@/Firebase/firebase";
-import { addDoc, collection, doc, getDoc, updateDoc } from "firebase/firestore";
+import {
+  addDoc,
+  setDoc,
+  collection,
+  doc,
+  getDoc,
+  updateDoc,
+  arrayUnion,
+} from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { monotonicFactory } from "ulid";
 const ulid = monotonicFactory();
@@ -9,9 +17,13 @@ const updateReadyProjectS3ToDB = async ({
   id,
   interiorViews,
   exteriorViews,
-  imagesOp1,
+  imagesOp1, //only FormData
   imagesOp2,
   materials,
+  images1ToDel, //only URLs
+  images2ToDel,
+  interiorViewsToDel, //only IDS
+  exteriorViewsToDel,
 }) => {
   try {
     const readyProjectDocRef = doc(collection(db, "READY_PROJECTS"), id);
@@ -25,6 +37,37 @@ const updateReadyProjectS3ToDB = async ({
         message: "Something went wrong. Please try again.",
       };
     }
+
+    //Delete old images from storage
+    await Promise.all(
+      images1ToDel.map(async url => {
+        const imageRef = ref(storage, url);
+        await deleteObject(imageRef);
+      }),
+    );
+    await Promise.all(
+      images2ToDel.map(async url => {
+        const imageRef = ref(storage, url);
+        await deleteObject(imageRef);
+      }),
+    );
+
+    // Delete old views from DB
+    const delInteriorViewsRef = collection(db, "VIEWS");
+    await Promise.all(
+      interiorViewsToDel.map(async id => {
+        const viewRef = doc(delInteriorViewsRef, id);
+        await deleteDoc(viewRef);
+      }),
+    );
+
+    const delExteriorViewsRef = collection(db, "VIEWS");
+    await Promise.all(
+      exteriorViewsToDel.map(async id => {
+        const viewRef = doc(delExteriorViewsRef, id);
+        await deleteDoc(viewRef);
+      }),
+    );
 
     // Upload images to storage
     const timestamp = Date.now();
@@ -51,45 +94,48 @@ const updateReadyProjectS3ToDB = async ({
       }),
     );
 
-    // Upload views to DB
+    // Upload New views to DB
     const viewsRef = collection(db, "VIEWS");
     const interiorViewsIds = [];
     const exteriorViewsIds = [];
     await Promise.all(
       interiorViews.map(async ({ id, name, description, option, video }) => {
-        const response = await addDoc(viewsRef, {
-          id,
+        const docRef = doc(viewsRef, id);
+        await setDoc(docRef, {
           name,
           description,
           option,
           type: "INTERIOR",
         });
-        interiorViewsIds.push(response.id);
-        const videoRef = ref(storage, `VIEWS/${response.id}`);
+        interiorViewsIds.push(id);
+        const videoRef = ref(storage, `VIEWS/${id}`);
         await uploadBytes(videoRef, video.get("video"));
       }),
     );
+
     await Promise.all(
       exteriorViews.map(async ({ id, name, description, option, video }) => {
-        const response = await addDoc(viewsRef, {
-          id,
+        const docRef = doc(viewsRef, id);
+        await setDoc(docRef, {
           name,
           description,
           option,
           type: "EXTERIOR",
         });
-        exteriorViewsIds.push(response.id);
-        const videoRef = ref(storage, `VIEWS/${response.id}`);
+        exteriorViewsIds.push(id);
+        const videoRef = ref(storage, `VIEWS/${id}`);
         await uploadBytes(videoRef, video.get("video"));
       }),
     );
 
     // Upload views and materials to DB
     await updateDoc(readyProjectDocRef, {
-      interiorViews: interiorViewsIds,
-      exteriorViews: exteriorViewsIds,
+      interiorViews: arrayUnion(interiorViewsIds),
+      exteriorViews: arrayUnion(exteriorViewsIds),
       materials,
     });
+
+    
     return {
       data: {
         op1ImageUrls,
