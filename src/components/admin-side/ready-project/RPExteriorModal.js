@@ -17,9 +17,13 @@ const RPExteriorModal = ({
   const [previewSrc, setPreviewSrc] = useState(null);
   useEffect(() => {
     if (currentExteriorView?.video) {
-      const videoUrl = URL.createObjectURL(currentExteriorView.video);
-      setPreviewSrc(videoUrl);
-      return () => URL.revokeObjectURL(videoUrl);
+      if (currentExteriorView.video instanceof File) {
+        const videoUrl = URL.createObjectURL(currentExteriorView.video);
+        setPreviewSrc(videoUrl);
+        return () => URL.revokeObjectURL(videoUrl);
+      } else {
+        setPreviewSrc(currentExteriorView.video);
+      }
     }
   }, [currentExteriorView?.video]);
 

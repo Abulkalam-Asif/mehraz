@@ -1,6 +1,13 @@
 "use server";
 import { db, storage } from "@/Firebase/firebase";
-import { addDoc, collection, doc, getDoc, updateDoc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { monotonicFactory } from "ulid";
 const ulid = monotonicFactory();
@@ -53,41 +60,45 @@ const addReadyProjectS3ToDB = async ({
 
     // Upload views to DB
     const viewsRef = collection(db, "VIEWS");
-    const interiorViewsIds = [];
-    const exteriorViewsIds = [];
+    const interiorViewsData = [];
+    const exteriorViewsData = [];
     await Promise.all(
       interiorViews.map(async ({ id, name, description, option, video }) => {
-        const response = await addDoc(viewsRef, {
-          id,
+        const docRef = doc(viewsRef, id);
+        await setDoc(docRef, {
           name,
           description,
           option,
           type: "INTERIOR",
         });
-        interiorViewsIds.push(response.id);
-        const videoRef = ref(storage, `VIEWS/${response.id}`);
+        const videoRef = ref(storage, `VIEWS/${id}`);
         await uploadBytes(videoRef, video.get("video"));
+        const videoUrl = await getDownloadURL(videoRef);
+
+        interiorViewsData.push({ id, videoUrl });
       }),
     );
     await Promise.all(
       exteriorViews.map(async ({ id, name, description, option, video }) => {
-        const response = await addDoc(viewsRef, {
-          id,
+        const docRef = doc(viewsRef, id);
+        await setDoc(docRef, {
           name,
           description,
           option,
           type: "EXTERIOR",
         });
-        exteriorViewsIds.push(response.id);
-        const videoRef = ref(storage, `VIEWS/${response.id}`);
+        const videoRef = ref(storage, `VIEWS/${id}`);
         await uploadBytes(videoRef, video.get("video"));
+        const videoUrl = await getDownloadURL(videoRef);
+
+        exteriorViewsData.push({ id, videoUrl });
       }),
     );
 
     // Upload views and materials to DB
     await updateDoc(readyProjectDocRef, {
-      interiorViews: interiorViewsIds,
-      exteriorViews: exteriorViewsIds,
+      interiorViews: interiorViewsData.map(view => view.id),
+      exteriorViews: exteriorViewsData.map(view => view.id),
       materials,
       uploadedScreensCount: 3,
     });
@@ -95,6 +106,8 @@ const addReadyProjectS3ToDB = async ({
       data: {
         op1ImageUrls,
         op2ImageUrls,
+        interiorViewsData,
+        exteriorViewsData,
       },
       type: "SUCCESS",
       message: "Ready project screen 3 added successfully.",

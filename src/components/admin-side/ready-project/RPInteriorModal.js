@@ -17,9 +17,13 @@ const RPInteriorModal = ({
   const [previewSrc, setPreviewSrc] = useState(null);
   useEffect(() => {
     if (currentInteriorView?.video) {
-      const videoUrl = URL.createObjectURL(currentInteriorView.video);
-      setPreviewSrc(videoUrl);
-      return () => URL.revokeObjectURL(videoUrl);
+      if (currentInteriorView.video instanceof File) {
+        const videoUrl = URL.createObjectURL(currentInteriorView.video);
+        setPreviewSrc(videoUrl);
+        return () => URL.revokeObjectURL(videoUrl);
+      } else {
+        setPreviewSrc(currentInteriorView.video);
+      }
     }
   }, [currentInteriorView?.video]);
 

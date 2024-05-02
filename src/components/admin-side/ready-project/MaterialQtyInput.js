@@ -1,3 +1,7 @@
+"use client";
+import { AlertContext } from "@/context/AlertContext";
+import { useContext } from "react";
+
 const MaterialQtyInput = ({
   value,
   min = 0,
@@ -5,6 +9,7 @@ const MaterialQtyInput = ({
   inputHandler,
   disabled = false,
 }) => {
+  const { showAlert } = useContext(AlertContext);
   return (
     <>
       <input
@@ -14,8 +19,10 @@ const MaterialQtyInput = ({
         onBlur={e => {
           if (e.target.value < min) {
             inputHandler(min);
+            showAlert({ type: "WARNING", message: `Minimum value is ${min}` });
           } else if (e.target.value > max) {
             inputHandler(max);
+            showAlert({ type: "WARNING", message: `Maximum value is ${max}` });
           } else {
             inputHandler(Number(e.target.value));
           }

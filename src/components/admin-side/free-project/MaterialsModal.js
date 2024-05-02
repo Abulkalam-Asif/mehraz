@@ -13,9 +13,13 @@ const MaterialsModal = ({
   const [previewSrc, setPreviewSrc] = useState(null);
   useEffect(() => {
     if (currentMaterial?.image) {
-      const imageUrl = URL.createObjectURL(currentMaterial.image);
-      setPreviewSrc(imageUrl);
-      return () => URL.revokeObjectURL(imageUrl);
+      if (currentMaterial.image instanceof File) {
+        const imageUrl = URL.createObjectURL(currentMaterial.image);
+        setPreviewSrc(imageUrl);
+        return () => URL.revokeObjectURL(imageUrl);
+      } else {
+        setPreviewSrc(currentMaterial.image);
+      }
     }
   }, [currentMaterial?.image]);
 

@@ -30,6 +30,7 @@ import {
 import { getRPUploadedScreensCount } from "@/Firebase/admin-side/ready_project/getRPUploadedScreensCount";
 import { getScreen1Data } from "@/Firebase/admin-side/ready_project/getRPScreen1Data";
 import { getRPScreen2Data } from "@/Firebase/admin-side/ready_project/getRPScreen2Data";
+import { getRPScreen3Data } from "@/Firebase/admin-side/ready_project/getRPScreen3Data";
 
 const ReadyProjectClientPage = ({
   cities,
@@ -364,11 +365,28 @@ const ReadyProjectClientPage = ({
       setShowSpinner,
     );
     if (data) {
+      const updatedInteriorViews = readyProjectS3.interiorViews.map(
+        localView => {
+          localView.video = data.interiorViewsData.find(
+            viewDataFromDb => viewDataFromDb.id === localView.id,
+          ).videoUrl;
+        },
+      );
+      const updatedExteriorViews = readyProjectS3.exteriorViews.map(
+        localView => {
+          localView.video = data.exteriorViewsData.find(
+            viewDataFromDb => viewDataFromDb.id === localView.id,
+          ).videoUrl;
+        },
+      );
+
       // Replacing image files with urls
       setReadyProjectS3(prevState => ({
         ...prevState,
         imagesOp1: data.op1ImageUrls,
         imagesOp2: data.op2ImageUrls,
+        interiorViews: updatedInteriorViews,
+        exteriorViews: updatedExteriorViews,
       }));
       const designs = [];
       try {
@@ -513,6 +531,20 @@ const ReadyProjectClientPage = ({
             combinations: projectData.combinations,
             budgetRanges: projectData.budgetRanges,
           });
+          return true;
+        } catch (error) {
+          showAlert({
+            type: "ERROR",
+            message: error.message,
+          });
+          return false;
+        }
+      }
+      case 3: {
+        try {
+          const projectData = await getRPScreen3Data(projectId);
+          console.log("Screen 3 projectData from DB: ", projectData);
+          setReadyProjectS3(projectData);
           return true;
         } catch (error) {
           showAlert({
