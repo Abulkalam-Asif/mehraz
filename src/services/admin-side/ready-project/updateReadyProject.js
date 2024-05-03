@@ -1,6 +1,6 @@
-import updateReadyProjectS1ToDB from "@/Firebase/admin-side/ready_project/updateReadyProjectScreen-1";
-import updateReadyProjectS2ToDB from "@/Firebase/admin-side/ready_project/updateReadyProjectScreen-2";
-import updateReadyProjectS3ToDB from "@/Firebase/admin-side/ready_project/updateReadyProjectScreen-3";
+import updateReadyProjectS1ToDB from "@/Firebase/admin-side/ready_project/updateFunctions/updateReadyProjectScreen-1";
+import updateReadyProjectS2ToDB from "@/Firebase/admin-side/ready_project/updateFunctions/updateReadyProjectScreen-2";
+import updateReadyProjectS3ToDB from "@/Firebase/admin-side/ready_project/updateFunctions/updateReadyProjectScreen-3";
 import fileToFormData from "@/utilities/admin-panel/fileToFormData";
 
 const updateReadyProjectS1Service = (
@@ -193,12 +193,17 @@ const updateReadyProjectS3Service = (
   } else {
     setShowSpinner(true);
     // Convert images to FormData
-    const imagesOp1 = readyProjectS3.imagesOp1.map((image, index) =>
-      image instanceof File ? fileToFormData(`image${index}`, image) : image,
-    );
-    const imagesOp2 = readyProjectS3.imagesOp2.map((image, index) =>
-      image instanceof File ? fileToFormData(`image${index}`, image) : image,
-    );
+    const imagesOp1 = readyProjectS3.imagesOp1
+      .filter(image => image instanceof File)
+      .map((image, index) => {
+        fileToFormData(`image${index}`, image);
+      });
+    const imagesOp2 = readyProjectS3.imagesOp2
+      .filter(image => image instanceof File)
+      .map((image, index) => {
+        fileToFormData(`image${index}`, image);
+      });
+
     const interiorViews = readyProjectS3.interiorViews.map(view => ({
       ...view,
       video:
@@ -209,7 +214,7 @@ const updateReadyProjectS3Service = (
     const exteriorViews = readyProjectS3.exteriorViews.map(view => ({
       ...view,
       video:
-      view.video instanceof File
+        view.video instanceof File
           ? fileToFormData("video", view.video)
           : view.video,
     }));
@@ -220,6 +225,9 @@ const updateReadyProjectS3Service = (
         exteriorViews,
         imagesOp1,
         imagesOp2,
+        imagesOp1ToDel: readyProjectS3.imagesOp1ToDel,
+        imagesOp2ToDel: readyProjectS3.imagesOp2ToDel,
+        viewsToDelIds: readyProjectS3.viewsToDelIds,
         materials: readyProjectS3.materials,
       }).then(({ type, message, data }) => {
         showAlert({ type, message });

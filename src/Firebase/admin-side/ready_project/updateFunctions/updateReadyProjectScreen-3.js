@@ -1,7 +1,6 @@
 "use server";
 import { db, storage } from "@/Firebase/firebase";
 import {
-  addDoc,
   setDoc,
   collection,
   doc,
@@ -17,13 +16,12 @@ const updateReadyProjectS3ToDB = async ({
   id,
   interiorViews,
   exteriorViews,
-  imagesOp1, //only FormData
+  imagesOp1,
   imagesOp2,
   materials,
-  images1ToDel, //only URLs
-  images2ToDel,
-  interiorViewsToDel, //only IDS
-  exteriorViewsToDel,
+  imagesOp1ToDel,
+  imagesOp2ToDel,
+  viewsToDelIds,
 }) => {
   try {
     const readyProjectDocRef = doc(collection(db, "READY_PROJECTS"), id);
@@ -40,32 +38,26 @@ const updateReadyProjectS3ToDB = async ({
 
     //Delete old images from storage
     await Promise.all(
-      images1ToDel.map(async url => {
+      imagesOp1ToDel.map(async url => {
         const imageRef = ref(storage, url);
         await deleteObject(imageRef);
       }),
     );
     await Promise.all(
-      images2ToDel.map(async url => {
+      imagesOp2ToDel.map(async url => {
         const imageRef = ref(storage, url);
         await deleteObject(imageRef);
       }),
     );
 
     // Delete old views from DB
-    const delInteriorViewsRef = collection(db, "VIEWS");
+    const viewsRef = collection(db, "VIEWS");
     await Promise.all(
-      interiorViewsToDel.map(async id => {
-        const viewRef = doc(delInteriorViewsRef, id);
+      viewsToDelIds.map(async viewId => {
+        const viewRef = doc(viewsRef, viewId);
         await deleteDoc(viewRef);
-      }),
-    );
-
-    const delExteriorViewsRef = collection(db, "VIEWS");
-    await Promise.all(
-      exteriorViewsToDel.map(async id => {
-        const viewRef = doc(delExteriorViewsRef, id);
-        await deleteDoc(viewRef);
+        const videoRef = ref(storage, `VIEWS/${viewId}`);
+        await deleteObject(videoRef);
       }),
     );
 
@@ -94,10 +86,9 @@ const updateReadyProjectS3ToDB = async ({
       }),
     );
 
-    // Upload New views to DB
-    const viewsRef = collection(db, "VIEWS");
-    const interiorViewsIds = [];
-    const exteriorViewsIds = [];
+    // Upload views to DB
+    const interiorViewsData = [];
+    const exteriorViewsData = [];
     await Promise.all(
       interiorViews.map(async ({ id, name, description, option, video }) => {
         const docRef = doc(viewsRef, id);
@@ -107,12 +98,15 @@ const updateReadyProjectS3ToDB = async ({
           option,
           type: "INTERIOR",
         });
-        interiorViewsIds.push(id);
-        const videoRef = ref(storage, `VIEWS/${id}`);
-        await uploadBytes(videoRef, video.get("video"));
+        let videoUrl = video;
+        if (video instanceof FormData) {
+          const videoRef = ref(storage, `VIEWS/${id}`);
+          await uploadBytes(videoRef, video.get("video"));
+          videoUrl = await getDownloadURL(videoRef);
+        }
+        interiorViewsData.push({ id, videoUrl });
       }),
     );
-
     await Promise.all(
       exteriorViews.map(async ({ id, name, description, option, video }) => {
         const docRef = doc(viewsRef, id);
@@ -122,24 +116,29 @@ const updateReadyProjectS3ToDB = async ({
           option,
           type: "EXTERIOR",
         });
-        exteriorViewsIds.push(id);
-        const videoRef = ref(storage, `VIEWS/${id}`);
-        await uploadBytes(videoRef, video.get("video"));
+        let videoUrl = video;
+        if (video instanceof FormData) {
+          const videoRef = ref(storage, `VIEWS/${id}`);
+          await uploadBytes(videoRef, video.get("video"));
+          videoUrl = await getDownloadURL(videoRef);
+        }
+        exteriorViewsData.push({ id, videoUrl });
       }),
     );
 
     // Upload views and materials to DB
     await updateDoc(readyProjectDocRef, {
-      interiorViews: arrayUnion(interiorViewsIds),
-      exteriorViews: arrayUnion(exteriorViewsIds),
+      interiorViews: arrayUnion(interiorViewsData.map(view => view.id)),
+      exteriorViews: arrayUnion(exteriorViewsData.map(view => view.id)),
       materials,
     });
 
-    
     return {
       data: {
         op1ImageUrls,
         op2ImageUrls,
+        interiorViewsData,
+        exteriorViewsData,
       },
       type: "SUCCESS",
       message: "Ready project screen 3 added successfully.",

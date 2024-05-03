@@ -6,7 +6,7 @@ import {
   FileInput,
   Modal,
   MultiFileInput,
-  MultiImagesDisplay,
+  RPRPMultiImageDisplay,
   ProductRatesSection,
   ProgramModal,
   ProgramSection,
@@ -382,7 +382,7 @@ const ReadyProjectScreen4 = ({
                 wrongFileTypeWarning="Some of the files were not images and were not attached."
               />
               {readyProjectS4Design?.imagesOp1?.length > 0 ? (
-                <MultiImagesDisplay
+                <RPRPMultiImageDisplay
                   className="md:h-32 overflow-y-auto p-2"
                   imagesArray={readyProjectS4Design?.imagesOp1}
                   removeImageHandler={(name, value) =>
@@ -410,7 +410,7 @@ const ReadyProjectScreen4 = ({
                 wrongFileTypeWarning="Some of the files were not images and were not attached."
               />
               {readyProjectS4Design?.imagesOp2?.length > 0 ? (
-                <MultiImagesDisplay
+                <RPRPMultiImageDisplay
                   className="md:h-32 overflow-y-auto p-2"
                   imagesArray={readyProjectS4Design?.imagesOp2}
                   removeImageHandler={(name, value) =>

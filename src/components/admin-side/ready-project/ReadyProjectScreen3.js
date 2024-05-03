@@ -11,7 +11,7 @@ import {
   Modal,
   DeleteModal,
   MultiFileInput,
-  MultiImagesDisplay,
+  RPMultiImageDisplay,
   RPMaterialsSection,
 } from "@/components";
 import { AlertContext } from "@/context/AlertContext";
@@ -85,6 +85,19 @@ const ReadyProjectScreen3 = ({
     }
   };
   const deleteExteriorViewHandler = () => {
+    const isUploaded = readyProjectS3.exteriorViews.find(
+      view => view.id === itemToDelete.id,
+    ).isUploaded;
+    if (isUploaded) {
+      if (typeof readyProjectS3?.viewsToDelIds === "object") {
+        readyProjectS3InputHandler("viewsToDelIds", [
+          ...readyProjectS3?.viewsToDelIds,
+          itemToDelete.id,
+        ]);
+      } else {
+        readyProjectS3InputHandler("viewsToDelIds", [itemToDelete.id]);
+      }
+    }
     readyProjectS3InputHandler("exteriorViews", [
       ...readyProjectS3.exteriorViews.filter(
         view => view.id !== itemToDelete.id,
@@ -154,6 +167,19 @@ const ReadyProjectScreen3 = ({
     }
   };
   const deleteInteriorViewHandler = () => {
+    const isUploaded = readyProjectS3.interiorViews.find(
+      view => view.id === itemToDelete.id,
+    ).isUploaded;
+    if (isUploaded) {
+      if (typeof readyProjectS3?.viewsToDelIds === "object") {
+        readyProjectS3InputHandler("viewsToDelIds", [
+          ...readyProjectS3?.viewsToDelIds,
+          itemToDelete.id,
+        ]);
+      } else {
+        readyProjectS3InputHandler("viewsToDelIds", [itemToDelete.id]);
+      }
+    }
     readyProjectS3InputHandler("interiorViews", [
       ...readyProjectS3.interiorViews.filter(
         view => view.id !== itemToDelete.id,
@@ -212,11 +238,27 @@ const ReadyProjectScreen3 = ({
                   wrongFileTypeWarning="Some of the files were not images and were not attached."
                 />
                 {readyProjectS3.imagesOp1?.length > 0 ? (
-                  <MultiImagesDisplay
+                  <RPMultiImageDisplay
                     className="overflow-y-auto p-2"
                     imagesArray={readyProjectS3.imagesOp1}
-                    removeImageHandler={readyProjectS3InputHandler}
                     name={"imagesOp1"}
+                    removeImageHandler={(name, newFilesArray, deletedImage) => {
+                      if (deletedImage) {
+                        if (
+                          typeof readyProjectS3?.imagesOp1ToDel === "object"
+                        ) {
+                          readyProjectS3InputHandler("imagesOp1ToDel", [
+                            ...readyProjectS3?.imagesOp1ToDel,
+                            deletedImage,
+                          ]);
+                        } else {
+                          readyProjectS3InputHandler("imagesOp1ToDel", [
+                            deletedImage,
+                          ]);
+                        }
+                      }
+                      readyProjectS3InputHandler(name, newFilesArray);
+                    }}
                   />
                 ) : (
                   <div className="w-full h-full p-4 flex items-center justify-center text-center text-accent-1-dark border-dashed border-2 border-accent-1-dark rounded-xl">
@@ -236,11 +278,27 @@ const ReadyProjectScreen3 = ({
                   wrongFileTypeWarning="Some of the files were not images and were not attached."
                 />
                 {readyProjectS3.imagesOp2?.length > 0 ? (
-                  <MultiImagesDisplay
+                  <RPMultiImageDisplay
                     className="overflow-y-auto p-2"
                     imagesArray={readyProjectS3.imagesOp2}
-                    removeImageHandler={readyProjectS3InputHandler}
                     name={"imagesOp2"}
+                    removeImageHandler={(name, newFilesArray, deletedImage) => {
+                      if (deletedImage) {
+                        if (
+                          typeof readyProjectS3?.imagesOp2ToDel === "object"
+                        ) {
+                          readyProjectS3InputHandler("imagesOp2ToDel", [
+                            ...readyProjectS3?.imagesOp2ToDel,
+                            deletedImage,
+                          ]);
+                        } else {
+                          readyProjectS3InputHandler("imagesOp2ToDel", [
+                            deletedImage,
+                          ]);
+                        }
+                      }
+                      readyProjectS3InputHandler(name, newFilesArray);
+                    }}
                   />
                 ) : (
                   <div className="w-full h-full p-4 flex items-center justify-center text-center text-accent-1-dark border-dashed border-2 border-accent-1-dark rounded-xl">

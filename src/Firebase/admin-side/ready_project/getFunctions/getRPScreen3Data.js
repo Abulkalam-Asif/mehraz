@@ -24,6 +24,7 @@ export const getRPScreen3Data = async projectId => {
             description: viewDoc.data().description,
             option: viewDoc.data().option,
             video: videoUrl,
+            isUploaded: true,
           };
         }),
       );
@@ -39,6 +40,7 @@ export const getRPScreen3Data = async projectId => {
             description: viewDoc.data().description,
             option: viewDoc.data().option,
             video: videoUrl,
+            isUploaded: true,
           };
         }),
       );
@@ -70,6 +72,7 @@ export const getRPScreen3Data = async projectId => {
         getImages(op1ImagesRef),
         getImages(op2ImagesRef),
       ]);
+      console.log(imagesOp1, imagesOp2);
       return {
         materials,
         interiorViews,

@@ -21,16 +21,16 @@ import {
   ReadyProjectScreen4,
   Spinner,
 } from "@/components";
-import getRPDesignData from "@/Firebase/admin-side/ready_project/getRPDesignData";
+import getRPDesignData from "@/Firebase/admin-side/ready_project/getFunctions/getRPDesignData";
 import {
   updateReadyProjectS1Service,
   updateReadyProjectS2Service,
   updateReadyProjectS3Service,
 } from "@/services/admin-side/ready-project/updateReadyProject";
-import { getRPUploadedScreensCount } from "@/Firebase/admin-side/ready_project/getRPUploadedScreensCount";
-import { getScreen1Data } from "@/Firebase/admin-side/ready_project/getRPScreen1Data";
-import { getRPScreen2Data } from "@/Firebase/admin-side/ready_project/getRPScreen2Data";
-import { getRPScreen3Data } from "@/Firebase/admin-side/ready_project/getRPScreen3Data";
+import { getRPUploadedScreensCount } from "@/Firebase/admin-side/ready_project/getFunctions/getRPUploadedScreensCount";
+import { getScreen1Data } from "@/Firebase/admin-side/ready_project/getFunctions/getRPScreen1Data";
+import { getRPScreen2Data } from "@/Firebase/admin-side/ready_project/getFunctions/getRPScreen2Data";
+import { getRPScreen3Data } from "@/Firebase/admin-side/ready_project/getFunctions/getRPScreen3Data";
 
 const ReadyProjectClientPage = ({
   cities,
@@ -341,9 +341,12 @@ const ReadyProjectClientPage = ({
   const defaultReadyProjectS3 = {
     interiorViews: [],
     exteriorViews: [],
+    viewsToDelIds: [],
     materials: [],
     imagesOp1: [],
     imagesOp2: [],
+    imagesOp1ToDel: [],
+    imagesOp2ToDel: [],
     isInDefaultState: true,
   };
 
@@ -367,6 +370,7 @@ const ReadyProjectClientPage = ({
     if (data) {
       const updatedInteriorViews = readyProjectS3.interiorViews.map(
         localView => {
+          localView.isUploaded = true;
           localView.video = data.interiorViewsData.find(
             viewDataFromDb => viewDataFromDb.id === localView.id,
           ).videoUrl;
@@ -374,13 +378,14 @@ const ReadyProjectClientPage = ({
       );
       const updatedExteriorViews = readyProjectS3.exteriorViews.map(
         localView => {
+          localView.isUploaded = true;
           localView.video = data.exteriorViewsData.find(
             viewDataFromDb => viewDataFromDb.id === localView.id,
           ).videoUrl;
         },
       );
 
-      // Replacing image files with urls
+      // Replacing image and video files with urls
       setReadyProjectS3(prevState => ({
         ...prevState,
         imagesOp1: data.op1ImageUrls,
@@ -427,14 +432,34 @@ const ReadyProjectClientPage = ({
       setShowSpinner,
     );
     if (data) {
-      // Replacing image files with urls
+      const updatedInteriorViews = readyProjectS3.interiorViews.map(
+        localView => {
+          localView.isUploaded = true;
+          localView.video = data.interiorViewsData.find(
+            viewDataFromDb => viewDataFromDb.id === localView.id,
+          ).videoUrl;
+        },
+      );
+      const updatedExteriorViews = readyProjectS3.exteriorViews.map(
+        localView => {
+          localView.isUploaded = true;
+          localView.video = data.exteriorViewsData.find(
+            viewDataFromDb => viewDataFromDb.id === localView.id,
+          ).videoUrl;
+        },
+      );
+
+      // Replacing image and video files with urls
       setReadyProjectS3(prevState => ({
         ...prevState,
         imagesOp1: data.op1ImageUrls,
         imagesOp2: data.op2ImageUrls,
+        interiorViews: updatedInteriorViews,
+        exteriorViews: updatedExteriorViews,
       }));
       const designs = [];
       try {
+        // Fetching designs data from db to show on screen 4
         await Promise.all(
           rpDesignIds.map(async designId => {
             const designFromDb = await getRPDesignData(designId);
@@ -444,6 +469,9 @@ const ReadyProjectClientPage = ({
           }),
         );
         setRpDesignsData(designs);
+        // Fetching product rates data
+        const productRates = await getRPDesignsProductRates();
+        setProductRates(productRates);
       } catch (error) {
         showAlert({
           type: "ERROR",
@@ -452,6 +480,10 @@ const ReadyProjectClientPage = ({
       }
       setShowSpinner(false);
       setCurrentScreen(4);
+      // Updating the url with currentScreen
+      const params = new URLSearchParams(serachParams);
+      params.set("screen", 4);
+      router.push(`${pathname}?${params.toString()}`);
     }
   };
 

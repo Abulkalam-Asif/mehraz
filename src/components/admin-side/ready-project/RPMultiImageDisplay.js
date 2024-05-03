@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { FaXmark } from "react-icons/fa6";
 
-const MultiImageDisplay = ({
+const RPMultiImageDisplay = ({
   imagesArray,
   removeImageHandler,
   className = "",
@@ -25,8 +25,15 @@ const MultiImageDisplay = ({
   }, [imagesArray]);
 
   const removeHandler = index => {
-    const newFilesArray = imagesArray.filter((_, i) => i !== index);
-    removeImageHandler(name, newFilesArray);
+    let deletedImage = null;
+    const newFilesArray = imagesArray.filter((_, i) => {
+      // If the image is a link(string), set it to be deleted from the database
+      if (i === index && typeof imagesArray[i] === "string") {
+        deletedImage = imagesArray[i];
+      }
+      return i !== index;
+    });
+    removeImageHandler(name, newFilesArray, deletedImage);
   };
 
   return (
@@ -55,4 +62,4 @@ const MultiImageDisplay = ({
   );
 };
 
-export default MultiImageDisplay;
+export default RPMultiImageDisplay;

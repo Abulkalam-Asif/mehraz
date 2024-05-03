@@ -29,7 +29,6 @@ export { default as ListInput } from "./admin-side/ListInput";
 export { default as AdminTableContainer } from "./admin-side/AdminTableContainer";
 export { default as AdminMultiSelect } from "./admin-side/AdminMultiSelect";
 export { default as AdminCustomSelect } from "./admin-side/AdminCustomSelect";
-export { default as MultiImagesDisplay } from "./admin-side/MultiImagesDisplay";
 export { default as AdminMultiSelect2 } from "./admin-side/AdminMultiSelect2";
 export { default as ToggleViewButtonMobile } from "./admin-side/ToggleViewButtonMobile";
 // Admin Side - AdminDashboard
@@ -62,6 +61,7 @@ export { default as ProgramSection } from "./admin-side/free-project/ProgramSect
 export { default as ProgramModal } from "./admin-side/free-project/ProgramModal";
 // Admin Side - ReadyProject
 export { default as ReadyProjectClientPage } from "./admin-side/ready-project/ReadyProjectClientPage";
+export { default as RPMultiImageDisplay } from "./admin-side/ready-project/RPMultiImageDisplay";
 export { default as ReadyProjectScreen1 } from "./admin-side/ready-project/ReadyProjectScreen1";
 export { default as ReadyProjectScreen2 } from "./admin-side/ready-project/ReadyProjectScreen2";
 export { default as ReadyProjectScreen3 } from "./admin-side/ready-project/ReadyProjectScreen3";

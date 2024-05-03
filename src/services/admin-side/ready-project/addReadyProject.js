@@ -1,6 +1,6 @@
-import addReadyProjectS1ToDB from "@/Firebase/admin-side/ready_project/addReadyProjectScreen-1";
-import addReadyProjectS2ToDB from "@/Firebase/admin-side/ready_project/addReadyProjectScreen-2";
-import addReadyProjectS3ToDB from "@/Firebase/admin-side/ready_project/addReadyProjectScreen-3";
+import addReadyProjectS1ToDB from "@/Firebase/admin-side/ready_project/addFunctions/addReadyProjectScreen-1";
+import addReadyProjectS2ToDB from "@/Firebase/admin-side/ready_project/addFunctions/addReadyProjectScreen-2";
+import addReadyProjectS3ToDB from "@/Firebase/admin-side/ready_project/addFunctions/addReadyProjectScreen-3";
 import fileToFormData from "@/utilities/admin-panel/fileToFormData";
 
 const addReadyProjectS1Service = (
