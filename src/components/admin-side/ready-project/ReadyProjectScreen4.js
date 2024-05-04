@@ -515,7 +515,7 @@ const ReadyProjectScreen4 = ({
           discount={readyProjectS4Design.discount}
           totalAmount={readyProjectS4Design.totalAmount}
         />
-        <div className="flex items-center justify-end gap-4 col-start-3">
+        <div className="flex items-center justify-end gap-4 col-start-3 lg:col-start-2 md:col-start-1">
           <Button
             type="button"
             text="upload design"

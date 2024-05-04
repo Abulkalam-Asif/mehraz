@@ -47,7 +47,7 @@ const RPExteriorModal = ({
             label="Enter name"
             value={currentExteriorView.name}
             inputHandler={currentExteriorViewInputHandler}
-            idHtmlFor="name"
+            idHtmlFor="exteriorViewName"
             name="name"
             maxLength={20}
             required={true}
@@ -56,13 +56,13 @@ const RPExteriorModal = ({
             label="Enter description"
             value={currentExteriorView.description}
             inputHandler={currentExteriorViewInputHandler}
-            idHtmlFor="description"
+            idHtmlFor="exteriorViewDescription"
             name="description"
             maxLength={50}
             required={true}
           />
           <AdminSelect
-            idHtmlFor="option"
+            idHtmlFor="exteriorViewOption"
             inputHandler={currentExteriorViewInputHandler}
             label="Select option(s)"
             name="option"
@@ -81,7 +81,7 @@ const RPExteriorModal = ({
             typeStartsWith={"video"}
             inputHandler={currentExteriorViewInputHandler}
             name="video"
-            idHtmlFor={"video"}
+            idHtmlFor={"exteriorViewVideo"}
             wrongFileTypeWarning="Please attach a video"
           />
         </div>

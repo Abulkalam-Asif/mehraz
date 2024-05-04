@@ -52,8 +52,8 @@ const FileInput = ({
     }
   };
 
-  const imageStateSetter = currentfile => {
-    inputHandler(name, currentfile);
+  const imageStateSetter = currentFile => {
+    inputHandler(name, currentFile);
   };
 
   return (
