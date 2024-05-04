@@ -35,6 +35,7 @@ const ReadyProjectScreen3 = ({
     description: "",
     option: "OPTION1",
     video: null,
+    isUploaded: false,
   };
   const [currentExteriorView, setCurrentExteriorView] =
     useState(defaultExteriorView);
@@ -117,6 +118,7 @@ const ReadyProjectScreen3 = ({
     description: "",
     option: "OPTION1",
     video: null,
+    isUploaded: false,
   };
   const [currentInteriorView, setCurrentInteriorView] =
     useState(defaultInteriorView);
@@ -221,12 +223,12 @@ const ReadyProjectScreen3 = ({
   return (
     <>
       <form
-        className="h-full w-full max-w-7xl mx-auto py-4 pr-2 space-y-6 lg:h-auto"
+        className="h-full w-full max-w-7xl mx-auto py-4 pr-2 space-y-6"
         onSubmit={e => e.preventDefault()}>
-        <div className="h-full w-full grid grid-cols-2 gap-4 lg:grid-cols-1 lg:h-auto">
-          <div className="h-full overflow-hidden grid grid-rows-2 gap-4 lg:flex lg:flex-col lg:h-auto">
-            <div className="grid grid-cols-2 gap-4 lg:grid-cols-1">
-              <div className="h-full overflow-y-hidden flex flex-col gap-2 lg:h-auto">
+        <div className="h-full w-full grid grid-cols-2 gap-4 lg:grid-cols-1 lg:h-full sm:h-auto">
+          <div className="h-full min-h-page-container-admin-inner max-h-page-container-admin-inner overflow-hidden grid grid-rows-2 gap-4 sm:flex sm:flex-col sm:min-h-min sm:max-h-max">
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-1">
+              <div className="h-full overflow-y-hidden flex flex-col gap-2 sm:h-auto">
                 <MultiFileInput
                   message={"Attach images (option 1)"}
                   filesArray={readyProjectS3.imagesOp1}
@@ -247,11 +249,13 @@ const ReadyProjectScreen3 = ({
                         if (
                           typeof readyProjectS3?.imagesOp1ToDel === "object"
                         ) {
+                          // If there is an array of images to delete, add the new image to it
                           readyProjectS3InputHandler("imagesOp1ToDel", [
                             ...readyProjectS3?.imagesOp1ToDel,
                             deletedImage,
                           ]);
                         } else {
+                          // If there is no array of images to delete, create one with the new image
                           readyProjectS3InputHandler("imagesOp1ToDel", [
                             deletedImage,
                           ]);
@@ -266,7 +270,7 @@ const ReadyProjectScreen3 = ({
                   </div>
                 )}
               </div>
-              <div className="h-full overflow-y-hidden flex flex-col gap-2 lg:h-auto">
+              <div className="h-full overflow-y-hidden flex flex-col gap-2 sm:h-auto">
                 <MultiFileInput
                   message={"Attach images (option 2)"}
                   filesArray={readyProjectS3.imagesOp2}
@@ -287,11 +291,13 @@ const ReadyProjectScreen3 = ({
                         if (
                           typeof readyProjectS3?.imagesOp2ToDel === "object"
                         ) {
+                          // If there is an array of images to delete, add the new image to it
                           readyProjectS3InputHandler("imagesOp2ToDel", [
                             ...readyProjectS3?.imagesOp2ToDel,
                             deletedImage,
                           ]);
                         } else {
+                          // If there is no array of images to delete, create one with the new image
                           readyProjectS3InputHandler("imagesOp2ToDel", [
                             deletedImage,
                           ]);
@@ -314,7 +320,7 @@ const ReadyProjectScreen3 = ({
               inputHandler={readyProjectS3InputHandler}
             />
           </div>
-          <div className="h-full overflow-hidden grid grid-rows-3 gap-4 lg:flex lg:flex-col lg:h-auto">
+          <div className="h-full min-h-page-container-admin-inner max-h-page-container-admin-inner overflow-hidden grid grid-rows-3 gap-4 sm:flex sm:flex-col sm:h-auto sm:min-h-min sm:max-h-max">
             <RPExteriorSection
               title={"Common Exterior 360 views"}
               exteriorViews={readyProjectS3.exteriorViews}

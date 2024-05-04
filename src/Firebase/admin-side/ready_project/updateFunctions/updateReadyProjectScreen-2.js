@@ -19,7 +19,6 @@ const updateReadyProjectS2ToDB = async ({ id, designs, budgetRanges }) => {
     if (!readyProjectDoc.exists()) {
       console.error("No document found!");
       return {
-        data: null,
         type: "ERROR",
         message: "Something went wrong, please try again later.",
       };
@@ -89,14 +88,12 @@ const updateReadyProjectS2ToDB = async ({ id, designs, budgetRanges }) => {
     });
 
     return {
-      data: rpDesignsIds,
       type: "SUCCESS",
       message: "Ready project screen 2 updated successfully!",
     };
   } catch (error) {
     console.error("Error updating the ready project: ", error.message);
     return {
-      data: null,
       type: "ERROR",
       message: "Something went wrong, please try again later.",
     };

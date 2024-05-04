@@ -136,11 +136,11 @@ const addReadyProjectS2Service = (
         id: projectId,
         designs,
         budgetRanges: readyProjectS2.budgetRanges,
-      }).then(({ data, type, message }) => {
+      }).then(({ type, message }) => {
         showAlert({ type, message });
         setShowSpinner(false);
-        if (type === "SUCCESS") resolve(data);
-        else resolve(null);
+        if (type === "SUCCESS") resolve(true);
+        else resolve(false);
       });
     });
   }
@@ -219,14 +219,32 @@ const addReadyProjectS3Service = (
         materials: readyProjectS3.materials,
       }).then(({ type, message, data }) => {
         showAlert({ type, message });
+        setShowSpinner(false);
         resolve(data);
       });
     });
   }
 };
 
+const addReadyProjectS4DesignService = async (
+  projectId,
+  designId,
+  readyProjectS4Design,
+  showAlert,
+  setShowSpinner,
+) => {
+  const formattedData = {
+    video: readyProjectS4Design.video,
+    designCost: readyProjectS4Design.designCost.trim().toUpperCase(),
+    constructionCost: readyProjectS4Design.constructionCost
+      .trim()
+      .toUpperCase(),
+  };
+};
+
 export {
   addReadyProjectS1Service,
   addReadyProjectS2Service,
   addReadyProjectS3Service,
+  addReadyProjectS4DesignService,
 };

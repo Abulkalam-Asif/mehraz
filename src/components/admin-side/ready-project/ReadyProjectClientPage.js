@@ -5,6 +5,7 @@ import {
   addReadyProjectS1Service,
   addReadyProjectS2Service,
   addReadyProjectS3Service,
+  addReadyProjectS4DesignService,
 } from "@/services/admin-side/ready-project/addReadyProject";
 import { AlertContext } from "@/context/AlertContext";
 import { useContext } from "react";
@@ -21,16 +22,15 @@ import {
   ReadyProjectScreen4,
   Spinner,
 } from "@/components";
-import getRPDesignData from "@/Firebase/admin-side/ready_project/getFunctions/getRPDesignData";
 import {
   updateReadyProjectS1Service,
   updateReadyProjectS2Service,
   updateReadyProjectS3Service,
 } from "@/services/admin-side/ready-project/updateReadyProject";
 import { getRPUploadedScreensCount } from "@/Firebase/admin-side/ready_project/getFunctions/getRPUploadedScreensCount";
-import { getScreen1Data } from "@/Firebase/admin-side/ready_project/getFunctions/getRPScreen1Data";
-import { getRPScreen2Data } from "@/Firebase/admin-side/ready_project/getFunctions/getRPScreen2Data";
-import { getRPScreen3Data } from "@/Firebase/admin-side/ready_project/getFunctions/getRPScreen3Data";
+import getRPDesignsProductRates from "@/Firebase/admin-side/ready_project/getFunctions/getRPDesignsProductRates";
+import getAllRPDesignsData from "@/Firebase/admin-side/ready_project/getFunctions/getAllRPDesignsData";
+import getScreenDataOnReload from "@/services/admin-side/ready-project/getScreenDataOnReload";
 
 const ReadyProjectClientPage = ({
   cities,
@@ -51,7 +51,6 @@ const ReadyProjectClientPage = ({
   const [currentScreen, setCurrentScreen] = useState(1);
   const [uploadedScreensCount, setUploadedScreensCount] = useState(0);
   const [projectId, setProjectId] = useState("");
-  const [rpDesignIds, setRpDesignIds] = useState([]);
   const [rpDesignsData, setRpDesignsData] = useState([]);
   const [productRates, setProductRates] = useState([]);
 
@@ -253,16 +252,15 @@ const ReadyProjectClientPage = ({
 
   const addReadyProjectS2Handler = async e => {
     e.preventDefault();
-    const data = await addReadyProjectS2Service(
+    const isSuccessful = await addReadyProjectS2Service(
       projectId,
       readyProjectS2,
       showAlert,
       setShowSpinner,
     );
-    if (data) {
+    if (isSuccessful) {
       setCurrentScreen(3);
       setUploadedScreensCount(2);
-      setRpDesignIds(data);
       setScreen2PrevData({
         combinations: readyProjectS2.combinations.map(
           ({ area, floor, familyUnits }) => ({
@@ -311,15 +309,14 @@ const ReadyProjectClientPage = ({
   };
 
   const updateReadyProjectS2Handler = async () => {
-    const data = await updateReadyProjectS2Service(
+    const isSuccessful = await updateReadyProjectS2Service(
       projectId,
       readyProjectS2,
       showAlert,
       setShowSpinner,
     );
-    if (data) {
+    if (isSuccessful) {
       setCurrentScreen(3);
-      setRpDesignIds(data);
       setScreen2PrevData({
         combinations: readyProjectS2.combinations.map(
           ({ area, floor, familyUnits }) => ({
@@ -393,34 +390,29 @@ const ReadyProjectClientPage = ({
         interiorViews: updatedInteriorViews,
         exteriorViews: updatedExteriorViews,
       }));
-      const designs = [];
       try {
+        setShowReloadSpinner(true);
         // Fetching designs data from db to show on screen 4
-        await Promise.all(
-          rpDesignIds.map(async designId => {
-            const designFromDb = await getRPDesignData(designId);
-            if (designFromDb) {
-              designs.push(designFromDb);
-            }
-          }),
-        );
+        const designs = await getAllRPDesignsData(projectId);
         setRpDesignsData(designs);
         // Fetching product rates data
         const productRates = await getRPDesignsProductRates();
         setProductRates(productRates);
+
+        setCurrentScreen(4);
+        setUploadedScreensCount(3);
+        // Updating the url with currentScreen
+        const params = new URLSearchParams(serachParams);
+        params.set("screen", 4);
+        router.push(`${pathname}?${params.toString()}`);
       } catch (error) {
         showAlert({
           type: "ERROR",
           message: "An error occurred. Please try again.",
         });
+      } finally {
+        setShowReloadSpinner(false);
       }
-      setShowSpinner(false);
-      setCurrentScreen(4);
-      setUploadedScreensCount(3);
-      // Updating the url with currentScreen
-      const params = new URLSearchParams(serachParams);
-      params.set("screen", 4);
-      router.push(`${pathname}?${params.toString()}`);
     }
   };
   const updateReadyProjectS3Handler = async e => {
@@ -433,65 +425,66 @@ const ReadyProjectClientPage = ({
     );
     if (data) {
       const updatedInteriorViews = readyProjectS3.interiorViews.map(
-        localView => {
-          localView.isUploaded = true;
-          localView.video = data.interiorViewsData.find(
+        localView => ({
+          ...localView,
+          isUploaded: true,
+          video: data.interiorViewsData.find(
             viewDataFromDb => viewDataFromDb.id === localView.id,
-          ).videoUrl;
-        },
+          ).videoUrl,
+        }),
       );
       const updatedExteriorViews = readyProjectS3.exteriorViews.map(
-        localView => {
-          localView.isUploaded = true;
-          localView.video = data.exteriorViewsData.find(
+        localView => ({
+          ...localView,
+          isUploaded: true,
+          video: data.exteriorViewsData.find(
             viewDataFromDb => viewDataFromDb.id === localView.id,
-          ).videoUrl;
-        },
+          ).videoUrl,
+        }),
       );
-
+      const updatedImagesOp1 = readyProjectS3.imagesOp1.concat(
+        data.op1ImageUrls,
+      );
+      const updatedImagesOp2 = readyProjectS3.imagesOp2.concat(
+        data.op2ImageUrls,
+      );
       // Replacing image and video files with urls
       setReadyProjectS3(prevState => ({
         ...prevState,
-        imagesOp1: data.op1ImageUrls,
-        imagesOp2: data.op2ImageUrls,
+        imagesOp1: updatedImagesOp1,
+        imagesOp2: updatedImagesOp2,
         interiorViews: updatedInteriorViews,
         exteriorViews: updatedExteriorViews,
       }));
-      const designs = [];
       try {
-        // Fetching designs data from db to show on screen 4
-        await Promise.all(
-          rpDesignIds.map(async designId => {
-            const designFromDb = await getRPDesignData(designId);
-            if (designFromDb) {
-              designs.push(designFromDb);
-            }
-          }),
-        );
+        setShowReloadSpinner(true);
+        const designs = await getAllRPDesignsData(projectId);
         setRpDesignsData(designs);
         // Fetching product rates data
         const productRates = await getRPDesignsProductRates();
         setProductRates(productRates);
+
+        setCurrentScreen(4);
+        // Updating the url with currentScreen
+        const params = new URLSearchParams(serachParams);
+        params.set("screen", 4);
+        router.push(`${pathname}?${params.toString()}`);
       } catch (error) {
         showAlert({
           type: "ERROR",
           message: "An error occurred. Please try again.",
         });
+      } finally {
+        setShowReloadSpinner(false);
       }
-      setShowSpinner(false);
-      setCurrentScreen(4);
-      // Updating the url with currentScreen
-      const params = new URLSearchParams(serachParams);
-      params.set("screen", 4);
-      router.push(`${pathname}?${params.toString()}`);
     }
   };
 
   // Screen 4 states and handlers
   const defaultReadyProjectS4Design = {
     video: null,
-    designCost: 0,
-    constructionCost: 0,
+    designCost: "",
+    constructionCost: "",
     op1Name: "",
     op2Name: "",
     imagesOp1: [],
@@ -520,8 +513,18 @@ const ReadyProjectClientPage = ({
       [name]: value,
     }));
   };
-
-  const prevScreenButtonHandler = () => {
+  const addReadyProjectS4DesignHandler = async designId => {
+    await addReadyProjectS4DesignService(
+      projectId,
+      designId,
+      readyProjectS4Design,
+      showAlert,
+      setShowSpinner,
+    );
+  };
+  const updateReadyProjectS4DesignHandler = designId => {};
+  // Additional handlers
+  const prevScreenButtonClickHandler = () => {
     if (currentScreen === 1) return;
     setShowReloadSpinner(true);
     setCurrentScreen(prevState => prevState - 1);
@@ -530,74 +533,11 @@ const ReadyProjectClientPage = ({
     router.push(`${pathname}?${params.toString()}`);
   };
 
-  // When the user reloads the page, this function will fetch the data for the current screen
-  const getScreenDataOnReload = async (currentScreen, projectId) => {
-    switch (currentScreen) {
-      case 1: {
-        try {
-          const projectData = await getScreen1Data(projectId);
-          console.log("Screen 1 projectData from DB: ", projectData);
-          setReadyProjectS1(projectData);
-          setScreen1PrevData({
-            areas: projectData.areas,
-            floors: projectData.floors,
-          });
-          return true;
-        } catch (error) {
-          showAlert({
-            type: "ERROR",
-            message: error.message,
-          });
-          return false;
-        }
-      }
-      case 2: {
-        try {
-          const projectData = await getRPScreen2Data(projectId);
-          console.log("Screen 2 projectData from DB: ", projectData);
-          setScreen1PrevData({
-            areas: projectData.areas,
-            floors: projectData.floors,
-          });
-          setScreen2PrevData({
-            combinations: projectData.combinations,
-            budgetRanges: projectData.budgetRanges,
-          });
-          return true;
-        } catch (error) {
-          showAlert({
-            type: "ERROR",
-            message: error.message,
-          });
-          return false;
-        }
-      }
-      case 3: {
-        try {
-          const projectData = await getRPScreen3Data(projectId);
-          console.log("Screen 3 projectData from DB: ", projectData);
-          setReadyProjectS3(projectData);
-          return true;
-        } catch (error) {
-          showAlert({
-            type: "ERROR",
-            message: error.message,
-          });
-          return false;
-        }
-      }
-      default: {
-        return false;
-      }
-    }
-  };
-
   useEffect(() => {
     // If the user reloads the page, the app should check if the projectId and currentScreen are available in the url
     const handleSearchParamsChange = async () => {
       const currentScreenParam = Number(serachParams.get("screen"));
       const projectIdParam = serachParams.get("id");
-      console.log("useEffect called.", projectIdParam, currentScreenParam);
       const params = new URLSearchParams(serachParams);
       if (projectIdParam && currentScreenParam) {
         // Fetching the uploadedScreensCount from db
@@ -606,12 +546,16 @@ const ReadyProjectClientPage = ({
         );
         if (uploadedScreensCountDB) {
           // If the uploadedScreensCount is available in the db, it means at least one screen is uploaded
-          if (currentScreenParam <= uploadedScreensCountDB) {
+          if (
+            currentScreenParam <= uploadedScreensCountDB &&
+            currentScreenParam > 0
+          ) {
             // If the currentScreen is less than or equal to the currentScreen, it means the data of the currentScreen is available in the db
             if (
               (currentScreenParam === 1 && readyProjectS1.isInDefaultState) ||
               (currentScreenParam === 2 && readyProjectS2.isInDefaultState) ||
-              (currentScreenParam === 3 && readyProjectS3.isInDefaultState)
+              (currentScreenParam === 3 && readyProjectS3.isInDefaultState) ||
+              currentScreenParam === 4
             ) {
               setUploadedScreensCount(uploadedScreensCountDB);
               setCurrentScreen(Number(currentScreenParam));
@@ -619,8 +563,14 @@ const ReadyProjectClientPage = ({
               const isSuccessful = await getScreenDataOnReload(
                 Number(currentScreenParam),
                 projectIdParam,
+                setReadyProjectS1,
+                setScreen1PrevData,
+                setScreen2PrevData,
+                setReadyProjectS3,
+                showAlert,
+                setRpDesignsData,
+                setProductRates,
               );
-              setShowReloadSpinner(false);
               if (!isSuccessful) {
                 // If the data is not fetched successfully, set the states to default value and redirect to the first screen
                 setUploadedScreensCount(0);
@@ -633,6 +583,7 @@ const ReadyProjectClientPage = ({
                 params.set("screen", 1);
                 router.push(`${pathname}?${params.toString()}`);
               }
+              setShowReloadSpinner(false);
             } else {
               setShowReloadSpinner(false);
             }
@@ -643,6 +594,33 @@ const ReadyProjectClientPage = ({
             setProjectId(projectIdParam);
             params.set("screen", uploadedScreensCountDB + 1);
             router.push(`${pathname}?${params.toString()}`);
+            if (uploadedScreensCountDB + 1 === 4) {
+              // If the current screen is 4, we need to fetch the designs data and product rates data
+              const isSuccessful = await getScreenDataOnReload(
+                4,
+                projectIdParam,
+                setReadyProjectS1,
+                setScreen1PrevData,
+                setScreen2PrevData,
+                setReadyProjectS3,
+                showAlert,
+                setRpDesignsData,
+                setProductRates,
+              );
+              if (!isSuccessful) {
+                // If the data is not fetched successfully, set the states to default value and redirect to the first screen
+                setUploadedScreensCount(0);
+                setCurrentScreen(1);
+                setProjectId("");
+                setReadyProjectS1(defaultReadyProjectS1);
+                setReadyProjectS2(defaultReadyProjectS2);
+                setReadyProjectS3(defaultReadyProjectS3);
+                params.delete("id");
+                params.set("screen", 1);
+                router.push(`${pathname}?${params.toString()}`);
+              }
+              setShowReloadSpinner(false);
+            }
             setShowReloadSpinner(false);
           }
         } else {
@@ -701,7 +679,7 @@ const ReadyProjectClientPage = ({
           ) : (
             <button
               className="bg-accent-1-base rounded-full p-5 xl:p-4"
-              onClick={prevScreenButtonHandler}>
+              onClick={prevScreenButtonClickHandler}>
               <Image
                 src={chevronLeftIcon}
                 alt="chevron left"
@@ -753,18 +731,22 @@ const ReadyProjectClientPage = ({
             materials={materials}
             uploadedScreensCount={uploadedScreensCount}
           />
-        ) : currentScreen === 4 ? (
-          <ReadyProjectScreen4
-            materials={materials}
-            rpDesignsData={rpDesignsData}
-            readyProjectS4Design={readyProjectS4Design}
-            readyProjectS4InputHandler={readyProjectS4InputHandler}
-            setReadyProjectS4Design={setReadyProjectS4Design}
-            productRates={productRates}
-            uploadedDesigns={uploadedDesigns}
-          />
         ) : (
-          currentScreen === 5 && <div>step 5</div>
+          currentScreen === 4 && (
+            <ReadyProjectScreen4
+              materials={materials}
+              rpDesignsData={rpDesignsData}
+              readyProjectS4Design={readyProjectS4Design}
+              readyProjectS4InputHandler={readyProjectS4InputHandler}
+              setReadyProjectS4Design={setReadyProjectS4Design}
+              productRates={productRates}
+              addReadyProjectS4DesignHandler={addReadyProjectS4DesignHandler}
+              updateReadyProjectS4DesignHandler={
+                updateReadyProjectS4DesignHandler
+              }
+              uploadedDesigns={uploadedDesigns}
+            />
+          )
         )}
       </div>
       {showSpinner && (

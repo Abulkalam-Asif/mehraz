@@ -39,7 +39,7 @@ const getRPDesignData = async id => {
     }
     return rpDesign;
   } catch (error) {
-    console.error("Error getting the ready project designs: ", error);
+    console.error("Error getting the ready project design: ", error);
     return null;
   }
 };

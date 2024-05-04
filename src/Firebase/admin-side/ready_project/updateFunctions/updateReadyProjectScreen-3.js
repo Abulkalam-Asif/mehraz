@@ -5,10 +5,17 @@ import {
   collection,
   doc,
   getDoc,
+  deleteDoc,
   updateDoc,
   arrayUnion,
+  arrayRemove,
 } from "firebase/firestore";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import {
+  deleteObject,
+  getDownloadURL,
+  ref,
+  uploadBytes,
+} from "firebase/storage";
 import { monotonicFactory } from "ulid";
 const ulid = monotonicFactory();
 
@@ -38,13 +45,13 @@ const updateReadyProjectS3ToDB = async ({
 
     //Delete old images from storage
     await Promise.all(
-      imagesOp1ToDel.map(async url => {
+      imagesOp1ToDel?.map(async url => {
         const imageRef = ref(storage, url);
         await deleteObject(imageRef);
       }),
     );
     await Promise.all(
-      imagesOp2ToDel.map(async url => {
+      imagesOp2ToDel?.map(async url => {
         const imageRef = ref(storage, url);
         await deleteObject(imageRef);
       }),
@@ -53,7 +60,7 @@ const updateReadyProjectS3ToDB = async ({
     // Delete old views from DB
     const viewsRef = collection(db, "VIEWS");
     await Promise.all(
-      viewsToDelIds.map(async viewId => {
+      viewsToDelIds?.map(async viewId => {
         const viewRef = doc(viewsRef, viewId);
         await deleteDoc(viewRef);
         const videoRef = ref(storage, `VIEWS/${viewId}`);
@@ -66,7 +73,7 @@ const updateReadyProjectS3ToDB = async ({
     const op1ImageUrls = [];
     const op2ImageUrls = [];
     await Promise.all(
-      imagesOp1.map(async (image, index) => {
+      imagesOp1?.map(async (image, index) => {
         const op1ImageRef = ref(
           storage,
           `READY_PROJECTS/${id}/images/option1/${ulid(timestamp)}`,
@@ -76,7 +83,7 @@ const updateReadyProjectS3ToDB = async ({
       }),
     );
     await Promise.all(
-      imagesOp2.map(async (image, index) => {
+      imagesOp2?.map(async (image, index) => {
         const op2ImageRef = ref(
           storage,
           `READY_PROJECTS/${id}/images/option2/${ulid(timestamp)}`,
@@ -90,7 +97,7 @@ const updateReadyProjectS3ToDB = async ({
     const interiorViewsData = [];
     const exteriorViewsData = [];
     await Promise.all(
-      interiorViews.map(async ({ id, name, description, option, video }) => {
+      interiorViews?.map(async ({ id, name, description, option, video }) => {
         const docRef = doc(viewsRef, id);
         await setDoc(docRef, {
           name,
@@ -108,7 +115,7 @@ const updateReadyProjectS3ToDB = async ({
       }),
     );
     await Promise.all(
-      exteriorViews.map(async ({ id, name, description, option, video }) => {
+      exteriorViews?.map(async ({ id, name, description, option, video }) => {
         const docRef = doc(viewsRef, id);
         await setDoc(docRef, {
           name,
@@ -128,8 +135,8 @@ const updateReadyProjectS3ToDB = async ({
 
     // Upload views and materials to DB
     await updateDoc(readyProjectDocRef, {
-      interiorViews: arrayUnion(interiorViewsData.map(view => view.id)),
-      exteriorViews: arrayUnion(exteriorViewsData.map(view => view.id)),
+      interiorViews: interiorViewsData.map(({ id }) => id),
+      exteriorViews: exteriorViewsData.map(({ id }) => id),
       materials,
     });
 

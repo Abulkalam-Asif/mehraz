@@ -6,7 +6,7 @@ import {
   FileInput,
   Modal,
   MultiFileInput,
-  RPRPMultiImageDisplay,
+  RPMultiImageDisplay,
   ProductRatesSection,
   ProgramModal,
   ProgramSection,
@@ -16,6 +16,7 @@ import {
   RPInteriorSection,
   RPMaterialsSection,
   TagsInput,
+  Button,
 } from "@/components";
 import { AlertContext } from "@/context/AlertContext";
 import { useContext } from "react";
@@ -33,6 +34,8 @@ const ReadyProjectScreen4 = ({
   setReadyProjectS4Design,
   uploadedDesigns,
   productRates,
+  addReadyProjectS4DesignHandler,
+  updateReadyProjectS4DesignHandler,
 }) => {
   const { showAlert } = useContext(AlertContext);
   const [currentDesign, setCurrentDesign] = useState(rpDesignsData[0]);
@@ -290,7 +293,7 @@ const ReadyProjectScreen4 = ({
       <form
         className="h-full w-full max-w-8xl mx-auto py-4 pr-2 grid grid-cols-3 lg:grid-cols-2 md:grid-cols-1 md:h-auto gap-8"
         onSubmit={e => e.preventDefault()}>
-        <div className="h-page-container-admin-inner min-h-page-container-admin-inner max-h-page-container-admin-inner md:h-auto md:min-h-0 flex flex-col gap-4">
+        <div className="h-page-container-admin-inner min-h-page-container-admin-inner max-h-page-container-admin-inner md:h-auto md:min-h-0 flex flex-col gap-4 overflow-y-auto pr-1">
           <AdminCustomSelect
             title="Select a Design"
             idHtmlFor="design"
@@ -300,7 +303,7 @@ const ReadyProjectScreen4 = ({
                 rpDesignsData.find(design => design.id === value),
               );
             }}
-            selectedOption={currentDesign.id}
+            selectedOption={currentDesign?.id}
             options={rpDesignsData.map(design => ({
               value: design.id,
               label: (
@@ -330,12 +333,22 @@ const ReadyProjectScreen4 = ({
           />
           <AdminInputBox2
             label="Design cost"
-            type="number"
+            type="text"
             idHtmlFor="designCost"
             name="designCost"
             value={readyProjectS4Design?.designCost}
             inputHandler={readyProjectS4InputHandler}
-            max={999999}
+            maxLength={15}
+            required={true}
+          />
+          <AdminInputBox2
+            label="Construction cost"
+            type="text"
+            idHtmlFor="constructionCost"
+            name="constructionCost"
+            value={readyProjectS4Design?.constructionCost}
+            inputHandler={readyProjectS4InputHandler}
+            maxLength={15}
             required={true}
           />
           <TagsInput
@@ -382,7 +395,7 @@ const ReadyProjectScreen4 = ({
                 wrongFileTypeWarning="Some of the files were not images and were not attached."
               />
               {readyProjectS4Design?.imagesOp1?.length > 0 ? (
-                <RPRPMultiImageDisplay
+                <RPMultiImageDisplay
                   className="md:h-32 overflow-y-auto p-2"
                   imagesArray={readyProjectS4Design?.imagesOp1}
                   removeImageHandler={(name, value) =>
@@ -410,7 +423,7 @@ const ReadyProjectScreen4 = ({
                 wrongFileTypeWarning="Some of the files were not images and were not attached."
               />
               {readyProjectS4Design?.imagesOp2?.length > 0 ? (
-                <RPRPMultiImageDisplay
+                <RPMultiImageDisplay
                   className="md:h-32 overflow-y-auto p-2"
                   imagesArray={readyProjectS4Design?.imagesOp2}
                   removeImageHandler={(name, value) =>
@@ -502,6 +515,25 @@ const ReadyProjectScreen4 = ({
           discount={readyProjectS4Design.discount}
           totalAmount={readyProjectS4Design.totalAmount}
         />
+        <div className="flex items-center justify-end gap-4 col-start-3">
+          <Button
+            type="button"
+            text="upload design"
+            isTransitioned={true}
+            onClick={() =>
+              uploadedDesigns?.includes(currentDesign.id)
+                ? updateReadyProjectS4DesignHandler(currentDesign.id)
+                : addReadyProjectS4DesignHandler(currentDesign.id)
+            }
+          />
+          <Button
+            type="button"
+            text="finish"
+            color="accent-2-outlined"
+            isTransitioned={true}
+            onClick={() => {}}
+          />
+        </div>
       </form>
       {isModalOpen && (
         <Modal toggleModal={toggleModal} isModalOpen={isModalOpen}>

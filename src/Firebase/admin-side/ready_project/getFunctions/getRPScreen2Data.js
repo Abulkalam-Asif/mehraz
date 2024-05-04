@@ -46,7 +46,7 @@ export const getRPScreen2Data = async projectId => {
       throw new Error("An error occurred. Please try again.");
     }
   } catch (error) {
-    console.log("Error getting document:", error);
+    console.error("Error getting document:", error);
     throw new Error("An error occurred. Please try again.");
   }
 };

@@ -5,6 +5,7 @@ const addEditRPInteriorViewService = (currentInteriorView, showAlert) => {
     description: currentInteriorView.description.trim(),
     option: currentInteriorView.option,
     video: currentInteriorView.video,
+    isUploaded: currentInteriorView.isUploaded || false,
   };
 
   if (formattedData.name === "") {

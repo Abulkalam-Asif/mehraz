@@ -18,11 +18,11 @@ const updateReadyProjectS1Service = (
     floors: readyProjectS1.floors,
     units: readyProjectS1.units,
     style: readyProjectS1.style,
-    constructionRates: readyProjectS1.constructionRates.map(rate =>
+    constructionRates: readyProjectS1.constructionRates?.map(rate =>
       rate.trim(),
     ),
-    productRates: readyProjectS1.productRates.map(rate => rate.trim()),
-    keywords: readyProjectS1.keywords.map(keyword => keyword.trim()),
+    productRates: readyProjectS1.productRates?.map(rate => rate.trim()),
+    keywords: readyProjectS1.keywords?.map(keyword => keyword.trim()),
     image: readyProjectS1.image,
     video: readyProjectS1.video,
   };
@@ -51,13 +51,13 @@ const updateReadyProjectS1Service = (
   } else if (formattedData.style.length === 0) {
     showAlert({ type: "WARNING", message: "Style is required" });
     return;
-  } else if (formattedData.constructionRates.some(rate => rate.length === 0)) {
+  } else if (formattedData.constructionRates?.some(rate => rate.length === 0)) {
     showAlert({
       type: "WARNING",
       message: "Construction rates are required",
     });
     return;
-  } else if (formattedData.productRates.some(rate => rate.length === 0)) {
+  } else if (formattedData.productRates?.some(rate => rate.length === 0)) {
     showAlert({ type: "WARNING", message: "Product rates are required" });
     return;
   } else if (formattedData.keywords.length === 0) {
@@ -110,7 +110,7 @@ const updateReadyProjectS2Service = (
     });
     return;
   } else if (
-    readyProjectS2.budgetRanges.some(
+    readyProjectS2.budgetRanges?.some(
       range => range.min === 0 || range.max === 0,
     )
   ) {
@@ -120,7 +120,7 @@ const updateReadyProjectS2Service = (
     });
     return;
   } else if (
-    readyProjectS2.budgetRanges.some(range => range.min >= range.max)
+    readyProjectS2.budgetRanges?.some(range => range.min >= range.max)
   ) {
     showAlert({
       type: "WARNING",
@@ -129,8 +129,8 @@ const updateReadyProjectS2Service = (
     return;
   } else {
     const designs = [];
-    readyProjectS2.combinations.forEach(combination => {
-      combination.familyUnits.forEach(familyUnit => {
+    readyProjectS2.combinations?.forEach(combination => {
+      combination.familyUnits?.forEach(familyUnit => {
         designs.push({
           areaId: combination.area.id,
           floorId: combination.floor.id,
@@ -144,11 +144,11 @@ const updateReadyProjectS2Service = (
         id: projectId,
         designs,
         budgetRanges: readyProjectS2.budgetRanges,
-      }).then(({ data, type, message }) => {
+      }).then(({ type, message }) => {
         showAlert({ type, message });
         setShowSpinner(false);
-        if (type === "SUCCESS") resolve(data);
-        else resolve(null);
+        if (type === "SUCCESS") resolve(true);
+        else resolve(false);
       });
     });
   }
@@ -160,31 +160,31 @@ const updateReadyProjectS3Service = (
   showAlert,
   setShowSpinner,
 ) => {
-  if (readyProjectS3.exteriorViews.length === 0) {
+  if (readyProjectS3.exteriorViews?.length === 0) {
     showAlert({
       type: "WARNING",
       message: "Please add at least one exterior view",
     });
     return;
-  } else if (readyProjectS3.interiorViews.length === 0) {
+  } else if (readyProjectS3.interiorViews?.length === 0) {
     showAlert({
       type: "WARNING",
       message: "Please add at least one interior view",
     });
     return;
-  } else if (readyProjectS3.materials.length === 0) {
+  } else if (readyProjectS3.materials?.length === 0) {
     showAlert({
       type: "WARNING",
       message: "Please select at least one material",
     });
     return;
-  } else if (readyProjectS3.imagesOp1.length === 0) {
+  } else if (readyProjectS3.imagesOp1?.length === 0) {
     showAlert({
       type: "WARNING",
       message: "Please attach at least one image for option 1",
     });
     return;
-  } else if (readyProjectS3.imagesOp2.length === 0) {
+  } else if (readyProjectS3.imagesOp2?.length === 0) {
     showAlert({
       type: "WARNING",
       message: "Please attach at least one image for option 2",
@@ -194,13 +194,13 @@ const updateReadyProjectS3Service = (
     setShowSpinner(true);
     // Convert images to FormData
     const imagesOp1 = readyProjectS3.imagesOp1
-      .filter(image => image instanceof File)
-      .map((image, index) => {
+      ?.filter(image => image instanceof File)
+      ?.map((image, index) => {
         fileToFormData(`image${index}`, image);
       });
     const imagesOp2 = readyProjectS3.imagesOp2
-      .filter(image => image instanceof File)
-      .map((image, index) => {
+      ?.filter(image => image instanceof File)
+      ?.map((image, index) => {
         fileToFormData(`image${index}`, image);
       });
 
@@ -225,12 +225,13 @@ const updateReadyProjectS3Service = (
         exteriorViews,
         imagesOp1,
         imagesOp2,
-        imagesOp1ToDel: readyProjectS3.imagesOp1ToDel,
-        imagesOp2ToDel: readyProjectS3.imagesOp2ToDel,
-        viewsToDelIds: readyProjectS3.viewsToDelIds,
-        materials: readyProjectS3.materials,
+        imagesOp1ToDel: readyProjectS3?.imagesOp1ToDel || [],
+        imagesOp2ToDel: readyProjectS3.imagesOp2ToDel || [],
+        viewsToDelIds: readyProjectS3?.viewsToDelIds || [],
+        materials: readyProjectS3?.materials || [],
       }).then(({ type, message, data }) => {
         showAlert({ type, message });
+        setShowSpinner(false);
         resolve(data);
       });
     });

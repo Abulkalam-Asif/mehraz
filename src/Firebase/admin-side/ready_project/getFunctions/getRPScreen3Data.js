@@ -72,7 +72,6 @@ export const getRPScreen3Data = async projectId => {
         getImages(op1ImagesRef),
         getImages(op2ImagesRef),
       ]);
-      console.log(imagesOp1, imagesOp2);
       return {
         materials,
         interiorViews,
@@ -85,7 +84,7 @@ export const getRPScreen3Data = async projectId => {
       throw new Error("An error occurred. Please try again.");
     }
   } catch (error) {
-    console.log("Error getting document:", error);
+    console.error("Error getting document:", error);
     throw new Error("An error occurred. Please try again.");
   }
 };

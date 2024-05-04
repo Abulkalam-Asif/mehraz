@@ -5,6 +5,7 @@ const addEditRPExteriorViewService = (currentExteriorView, showAlert) => {
     description: currentExteriorView.description.trim(),
     option: currentExteriorView.option,
     video: currentExteriorView.video,
+    isUploaded: currentExteriorView.isUploaded || false,
   };
 
   if (formattedData.name === "") {
