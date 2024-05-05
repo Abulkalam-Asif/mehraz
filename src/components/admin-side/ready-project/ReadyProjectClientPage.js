@@ -366,20 +366,22 @@ const ReadyProjectClientPage = ({
     );
     if (data) {
       const updatedInteriorViews = readyProjectS3.interiorViews.map(
-        localView => {
-          localView.isUploaded = true;
-          localView.video = data.interiorViewsData.find(
+        localView => ({
+          ...localView,
+          isUploaded: true,
+          video: data.interiorViewsData.find(
             viewDataFromDb => viewDataFromDb.id === localView.id,
-          ).videoUrl;
-        },
+          ).videoUrl,
+        }),
       );
       const updatedExteriorViews = readyProjectS3.exteriorViews.map(
-        localView => {
-          localView.isUploaded = true;
-          localView.video = data.exteriorViewsData.find(
+        localView => ({
+          ...localView,
+          isUploaded: true,
+          video: data.exteriorViewsData.find(
             viewDataFromDb => viewDataFromDb.id === localView.id,
-          ).videoUrl;
-        },
+          ).videoUrl,
+        }),
       );
 
       // Replacing image and video files with urls
@@ -389,6 +391,9 @@ const ReadyProjectClientPage = ({
         imagesOp2: data.op2ImageUrls,
         interiorViews: updatedInteriorViews,
         exteriorViews: updatedExteriorViews,
+        viewsToDelIds: [],
+        imagesOp1ToDel: [],
+        imagesOp2ToDel: [],
       }));
       try {
         setShowReloadSpinner(true);
@@ -442,12 +447,15 @@ const ReadyProjectClientPage = ({
           ).videoUrl,
         }),
       );
-      const updatedImagesOp1 = readyProjectS3.imagesOp1.concat(
-        data.op1ImageUrls,
-      );
-      const updatedImagesOp2 = readyProjectS3.imagesOp2.concat(
-        data.op2ImageUrls,
-      );
+
+      // Replacing image files with urls
+      const updatedImagesOp1 = readyProjectS3.imagesOp1
+        .filter(image => !(image instanceof File))
+        .concat(data.op1ImageUrls);
+      const updatedImagesOp2 = readyProjectS3.imagesOp2
+        .filter(image => !(image instanceof File))
+        .concat(data.op2ImageUrls);
+        
       // Replacing image and video files with urls
       setReadyProjectS3(prevState => ({
         ...prevState,
@@ -455,6 +463,9 @@ const ReadyProjectClientPage = ({
         imagesOp2: updatedImagesOp2,
         interiorViews: updatedInteriorViews,
         exteriorViews: updatedExteriorViews,
+        viewsToDelIds: [],
+        imagesOp1ToDel: [],
+        imagesOp2ToDel: [],
       }));
       try {
         setShowReloadSpinner(true);

@@ -195,14 +195,10 @@ const updateReadyProjectS3Service = (
     // Convert images to FormData
     const imagesOp1 = readyProjectS3.imagesOp1
       ?.filter(image => image instanceof File)
-      ?.map((image, index) => {
-        fileToFormData(`image${index}`, image);
-      });
+      ?.map((image, index) => fileToFormData(`image${index}`, image));
     const imagesOp2 = readyProjectS3.imagesOp2
       ?.filter(image => image instanceof File)
-      ?.map((image, index) => {
-        fileToFormData(`image${index}`, image);
-      });
+      ?.map((image, index) => fileToFormData(`image${index}`, image));
 
     const interiorViews = readyProjectS3.interiorViews.map(view => ({
       ...view,
