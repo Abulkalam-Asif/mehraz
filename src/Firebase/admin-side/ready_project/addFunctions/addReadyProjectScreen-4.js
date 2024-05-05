@@ -20,16 +20,16 @@ const addReadyProjectS4ToDB = async ({
   constructionCost,
   op1Name,
   op2Name,
-  imagesOp1: [],
-  imagesOp2: [], //imagesToDelOps1, imagesToDelOps2,
-  keywords: [],
+  imagesOp1,
+  imagesOp2, //imagesToDelOps1, imagesToDelOps2,
+  keywords,
   description,
   descriptionOp1,
   descriptionOp2,
-  exteriorViews: [], //exteriorViewsToDel,
-  interiorViews: [], //interiorViewsToDel,
-  materials: [],
-  programs: [],      //programsToDel,
+  exteriorViews, //exteriorViewsToDel,
+  interiorViews, //interiorViewsToDel,
+  materials,
+  programs, //programsToDel,
   designRates,
   constructionRates,
   discount,
@@ -56,7 +56,7 @@ const addReadyProjectS4ToDB = async ({
       imagesOp1.map(async (image, index) => {
         const op1ImageRef = ref(
           storage,
-          `RP_DESIGNS/${id}/images/option1/${ulid(timestamp)}`,
+          `RP_DESIGNS/${designId}/images/option1/${ulid(timestamp)}`,
         );
         await uploadBytes(op1ImageRef, image.get(`image${index}`));
         op1ImageUrls.push(await getDownloadURL(op1ImageRef));
@@ -66,7 +66,7 @@ const addReadyProjectS4ToDB = async ({
       imagesOp2.map(async (image, index) => {
         const op2ImageRef = ref(
           storage,
-          `RP_DESIGNS/${id}/images/option2/${ulid(timestamp)}`,
+          `RP_DESIGNS/${designId}/images/option2/${ulid(timestamp)}`,
         );
         await uploadBytes(op2ImageRef, image.get(`image${index}`));
         op2ImageUrls.push(await getDownloadURL(op2ImageRef));
@@ -75,7 +75,7 @@ const addReadyProjectS4ToDB = async ({
 
     //Upload video to storage
 
-    const designVideoRef = ref(storage, `RP_DESIGNS/${id}/video`);
+    const designVideoRef = ref(storage, `RP_DESIGNS/${projectId}/video`);
     await uploadBytes(designVideoRef, video.get("video"));
     const designVideoUrl = await getDownloadURL(designVideoRef);
 
@@ -127,6 +127,7 @@ const addReadyProjectS4ToDB = async ({
     // Update design document with new Data
     const designRef = doc(collection(db, "RP_DESIGNS"), designId);
     await updateDoc(designRef, {
+      keywords,
       designCost,
       constructionCost,
       op1Name,
@@ -145,10 +146,12 @@ const addReadyProjectS4ToDB = async ({
     });
 
     await Promise.all(
-      programs.map(async program => {
-        const programRef = doc(collection(db, "PROGRAMS"), program.id);
+      programs.map(async ({ id, category, quantity, subCategories }) => {
+        const programRef = doc(collection(db, "PROGRAMS"), id);
         await setDoc(programRef, {
-          program: program,
+          category,
+          quantity,
+          subCategories,
         });
       }),
     );

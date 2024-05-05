@@ -45,7 +45,7 @@ const ReadyProjectScreen4 = ({
       ...productRate,
       cost: Math.round(productRate.rate * currentDesign.areaInSqFt),
     }));
-    const totalAmount = Math.round(
+    const totalCost = Math.round(
       updatedProductRates.reduce((acc, rate) => {
         return acc + rate.cost;
       }, 0) *
@@ -54,7 +54,7 @@ const ReadyProjectScreen4 = ({
 
     setReadyProjectS4Design(prevState => ({
       ...prevState,
-      totalAmount,
+      totalCost,
       designRates: updatedProductRates.filter(rate => rate.type === "DESIGN"),
       constructionRates: updatedProductRates.filter(
         rate => rate.type === "CONSTRUCTION",
@@ -513,7 +513,7 @@ const ReadyProjectScreen4 = ({
           readyProjectS4InputHandler={readyProjectS4InputHandler}
           currentDesignAreaInSqFt={currentDesign.areaInSqFt}
           discount={readyProjectS4Design.discount}
-          totalAmount={readyProjectS4Design.totalAmount}
+          totalCost={readyProjectS4Design.totalCost}
         />
         <div className="flex items-center justify-end gap-4 col-start-3 lg:col-start-2 md:col-start-1">
           <Button

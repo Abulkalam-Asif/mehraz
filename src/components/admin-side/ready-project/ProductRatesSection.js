@@ -18,7 +18,7 @@ const ProductRatesSection = ({
   className = "",
   currentDesignAreaInSqFt,
   discount,
-  totalAmount,
+  totalCost,
 }) => {
   useEffect(() => {
     let total;
@@ -31,10 +31,10 @@ const ProductRatesSection = ({
     } else {
       total = 0;
     }
-    if (total !== totalAmount) {
-      readyProjectS4InputHandler("totalAmount", total);
+    if (total !== totalCost) {
+      readyProjectS4InputHandler("totalCost", total);
     }
-  }, [designRates, constructionRates, discount, totalAmount]);
+  }, [designRates, constructionRates, discount, totalCost]);
 
   return (
     <>
@@ -189,9 +189,9 @@ const ProductRatesSection = ({
             max={99999999}
             type="number"
             className="w-full"
-            value={totalAmount}
-            idHtmlFor="totalAmount"
-            name="totalAmount"
+            value={totalCost}
+            idHtmlFor="totalCost"
+            name="totalCost"
             required={true}
             disabled={true}
           />

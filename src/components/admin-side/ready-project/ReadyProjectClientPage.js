@@ -455,7 +455,7 @@ const ReadyProjectClientPage = ({
       const updatedImagesOp2 = readyProjectS3.imagesOp2
         .filter(image => !(image instanceof File))
         .concat(data.op2ImageUrls);
-        
+
       // Replacing image and video files with urls
       setReadyProjectS3(prevState => ({
         ...prevState,
@@ -496,22 +496,22 @@ const ReadyProjectClientPage = ({
     video: null,
     designCost: "",
     constructionCost: "",
+    keywords: [],
     op1Name: "",
     op2Name: "",
     imagesOp1: [],
     imagesOp2: [],
-    keywords: [],
+    programs: [],
     description: "",
     descriptionOp1: "",
     descriptionOp2: "",
     exteriorViews: [],
     interiorViews: [],
     materials: [],
-    programs: [],
     designRates: null,
     constructionRates: null,
     discount: 0,
-    totalAmount: 0,
+    totalCost: 0,
   };
 
   const [readyProjectS4Design, setReadyProjectS4Design] = useState(
@@ -525,13 +525,44 @@ const ReadyProjectClientPage = ({
     }));
   };
   const addReadyProjectS4DesignHandler = async designId => {
-    await addReadyProjectS4DesignService(
+    const data = await addReadyProjectS4DesignService(
       projectId,
       designId,
       readyProjectS4Design,
       showAlert,
       setShowSpinner,
     );
+    console.log(data);
+    if (data) {
+      const updatedInteriorViews = readyProjectS4Design.interiorViews.map(
+        localView => ({
+          ...localView,
+          isUploaded: true,
+          video: data.interiorViewsData.find(
+            viewDataFromDb => viewDataFromDb.id === localView.id,
+          ).videoUrl,
+        }),
+      );
+      const updatedExteriorViews = readyProjectS4Design.exteriorViews.map(
+        localView => ({
+          ...localView,
+          isUploaded: true,
+          video: data.exteriorViewsData.find(
+            viewDataFromDb => viewDataFromDb.id === localView.id,
+          ).videoUrl,
+        }),
+      );
+
+      setReadyProjectS4Design(prevState => ({
+        ...prevState,
+        video: data.designVideoUrl,
+        imagesOp1: data.op1ImageUrls,
+        imagesOp2: data.op2ImageUrls,
+        interiorViews: updatedInteriorViews,
+        exteriorViews: updatedExteriorViews,
+      }));
+      setUploadedDesigns(prevState => [...prevState, designId]);
+    }
   };
   const updateReadyProjectS4DesignHandler = designId => {};
   // Additional handlers
