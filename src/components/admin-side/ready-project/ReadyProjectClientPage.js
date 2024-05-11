@@ -26,9 +26,9 @@ import {
   updateReadyProjectS1Service,
   updateReadyProjectS2Service,
   updateReadyProjectS3Service,
+  updateReadyProjectS4DesignService,
 } from "@/services/admin-side/ready-project/updateReadyProject";
 import { getRPUploadedScreensCount } from "@/Firebase/admin-side/ready_project/getFunctions/getRPUploadedScreensCount";
-import getRPDesignsProductRates from "@/Firebase/admin-side/ready_project/getFunctions/getRPDesignsProductRates";
 import getAllRPDesignsData from "@/Firebase/admin-side/ready_project/getFunctions/getAllRPDesignsData";
 import getScreenDataOnReload from "@/services/admin-side/ready-project/getScreenDataOnReload";
 
@@ -40,6 +40,8 @@ const ReadyProjectClientPage = ({
   styles,
   familyUnits,
   materials,
+  productRates,
+  isErrorOccurredWhileFetching,
 }) => {
   const router = useRouter();
   const pathname = usePathname();
@@ -51,8 +53,7 @@ const ReadyProjectClientPage = ({
   const [currentScreen, setCurrentScreen] = useState(1);
   const [uploadedScreensCount, setUploadedScreensCount] = useState(0);
   const [projectId, setProjectId] = useState("");
-  const [rpDesignsData, setRpDesignsData] = useState([]);
-  const [productRates, setProductRates] = useState([]);
+  const [rpDesignsData, setRpDesignsData] = useState([]); // Basic data of all the designs. To be displayed on screen 4
 
   // Confirmation modal states and handlers
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -61,53 +62,6 @@ const ReadyProjectClientPage = ({
     confirmationMessage: "",
     confirmationHandler: () => {},
   });
-
-  useEffect(() => {
-    // Check if all the required data is available
-    if (cities?.length === 0) {
-      router.push("/admin/projects");
-      showAlert({
-        type: "ERROR",
-        message: "No cities found. Please add one first",
-      });
-    } else if (plots?.length === 0) {
-      router.push("/admin/projects");
-      showAlert({
-        type: "ERROR",
-        message: "No plots found. Please add one first",
-      });
-    } else if (floors?.length === 0) {
-      router.push("/admin/projects");
-      showAlert({
-        type: "ERROR",
-        message: "No floors found. Please add one first",
-      });
-    } else if (units?.length === 0) {
-      router.push("/admin/projects");
-      showAlert({
-        type: "ERROR",
-        message: "No units found. Please add one first",
-      });
-    } else if (styles?.length === 0) {
-      router.push("/admin/projects");
-      showAlert({
-        type: "ERROR",
-        message: "No styles found. Please add one first",
-      });
-    } else if (familyUnits?.length === 0) {
-      router.push("/admin/projects");
-      showAlert({
-        type: "ERROR",
-        message: "No family units found. Please add one first",
-      });
-    } else if (materials?.length === 0) {
-      router.push("/admin/projects");
-      showAlert({
-        type: "ERROR",
-        message: "No materials found. Please add one first",
-      });
-    }
-  }, []);
 
   // Screen 1 states and handlers
   const defaultReadyProjectS1 = {
@@ -118,7 +72,7 @@ const ReadyProjectClientPage = ({
     areas: [],
     floors: [],
     units: [],
-    style: styles[0]?.id || "",
+    style: (styles && styles[0]?.id) || "",
     constructionRates: ["", "", ""],
     productRates: ["", "", ""],
     keywords: [],
@@ -391,18 +345,12 @@ const ReadyProjectClientPage = ({
         imagesOp2: data.op2ImageUrls,
         interiorViews: updatedInteriorViews,
         exteriorViews: updatedExteriorViews,
-        viewsToDelIds: [],
-        imagesOp1ToDel: [],
-        imagesOp2ToDel: [],
       }));
       try {
         setShowReloadSpinner(true);
         // Fetching designs data from db to show on screen 4
         const designs = await getAllRPDesignsData(projectId);
         setRpDesignsData(designs);
-        // Fetching product rates data
-        const productRates = await getRPDesignsProductRates();
-        setProductRates(productRates);
 
         setCurrentScreen(4);
         setUploadedScreensCount(3);
@@ -448,7 +396,7 @@ const ReadyProjectClientPage = ({
         }),
       );
 
-      // Replacing image files with urls
+      // Filtering and replacing image files with urls
       const updatedImagesOp1 = readyProjectS3.imagesOp1
         .filter(image => !(image instanceof File))
         .concat(data.op1ImageUrls);
@@ -471,9 +419,6 @@ const ReadyProjectClientPage = ({
         setShowReloadSpinner(true);
         const designs = await getAllRPDesignsData(projectId);
         setRpDesignsData(designs);
-        // Fetching product rates data
-        const productRates = await getRPDesignsProductRates();
-        setProductRates(productRates);
 
         setCurrentScreen(4);
         // Updating the url with currentScreen
@@ -512,6 +457,11 @@ const ReadyProjectClientPage = ({
     constructionRates: null,
     discount: 0,
     totalCost: 0,
+    isInDefaultState: true, // Is set to false only if user gives any input
+    viewsToDelIds: [],
+    imagesOp1ToDel: [],
+    imagesOp2ToDel: [],
+    programsToDelIds: [],
   };
 
   const [readyProjectS4Design, setReadyProjectS4Design] = useState(
@@ -522,6 +472,7 @@ const ReadyProjectClientPage = ({
     setReadyProjectS4Design(prevState => ({
       ...prevState,
       [name]: value,
+      isInDefaultState: false,
     }));
   };
   const addReadyProjectS4DesignHandler = async designId => {
@@ -532,7 +483,6 @@ const ReadyProjectClientPage = ({
       showAlert,
       setShowSpinner,
     );
-    console.log(data);
     if (data) {
       const updatedInteriorViews = readyProjectS4Design.interiorViews.map(
         localView => ({
@@ -552,6 +502,10 @@ const ReadyProjectClientPage = ({
           ).videoUrl,
         }),
       );
+      const updatedPrograms = readyProjectS4Design.programs.map(program => ({
+        ...program,
+        isUploaded: true,
+      }));
 
       setReadyProjectS4Design(prevState => ({
         ...prevState,
@@ -560,11 +514,66 @@ const ReadyProjectClientPage = ({
         imagesOp2: data.op2ImageUrls,
         interiorViews: updatedInteriorViews,
         exteriorViews: updatedExteriorViews,
+        programs: updatedPrograms,
       }));
       setUploadedDesigns(prevState => [...prevState, designId]);
     }
   };
-  const updateReadyProjectS4DesignHandler = designId => {};
+  const updateReadyProjectS4DesignHandler = async designId => {
+    const data = await updateReadyProjectS4DesignService(
+      projectId,
+      designId,
+      readyProjectS4Design,
+      showAlert,
+      setShowSpinner,
+    );
+    if (data) {
+      const updatedInteriorViews = readyProjectS4Design.interiorViews.map(
+        localView => ({
+          ...localView,
+          isUploaded: true,
+          video: data.interiorViewsData.find(
+            viewDataFromDb => viewDataFromDb.id === localView.id,
+          ).videoUrl,
+        }),
+      );
+      const updatedExteriorViews = readyProjectS4Design.exteriorViews.map(
+        localView => ({
+          ...localView,
+          isUploaded: true,
+          video: data.exteriorViewsData.find(
+            viewDataFromDb => viewDataFromDb.id === localView.id,
+          ).videoUrl,
+        }),
+      );
+      const updatedPrograms = readyProjectS4Design.programs.map(program => ({
+        ...program,
+        isUploaded: true,
+      }));
+      // Filtering and replacing image files with urls
+      const updatedImagesOp1 = readyProjectS4Design.imagesOp1
+        .filter(image => !(image instanceof File))
+        .concat(data.op1ImageUrls);
+      const updatedImageOp2 = readyProjectS4Design.imagesOp2
+        .filter(image => !(image instanceof File))
+        .concat(data.op2ImageUrls);
+
+      setReadyProjectS4Design(prevState => ({
+        ...prevState,
+        video: data.designVideoUrl,
+        imagesOp1: updatedImagesOp1,
+        imagesOp2: updatedImageOp2,
+        interiorViews: updatedInteriorViews,
+        exteriorViews: updatedExteriorViews,
+        programs: updatedPrograms,
+        viewsToDelIds: [],
+        imagesOp1ToDel: [],
+        imagesOp2ToDel: [],
+        viewsToDelIds: [],
+      }));
+      setUploadedDesigns(prevState => [...prevState, designId]);
+    }
+  };
   // Additional handlers
   const prevScreenButtonClickHandler = () => {
     if (currentScreen === 1) return;
@@ -611,7 +620,7 @@ const ReadyProjectClientPage = ({
                 setReadyProjectS3,
                 showAlert,
                 setRpDesignsData,
-                setProductRates,
+                setUploadedDesigns,
               );
               if (!isSuccessful) {
                 // If the data is not fetched successfully, set the states to default value and redirect to the first screen
@@ -647,7 +656,7 @@ const ReadyProjectClientPage = ({
                 setReadyProjectS3,
                 showAlert,
                 setRpDesignsData,
-                setProductRates,
+                setUploadedDesigns,
               );
               if (!isSuccessful) {
                 // If the data is not fetched successfully, set the states to default value and redirect to the first screen
@@ -746,6 +755,7 @@ const ReadyProjectClientPage = ({
             units={units}
             cities={cities}
             styles={styles}
+            isErrorOccurredWhileFetching={isErrorOccurredWhileFetching.screen1}
           />
         ) : currentScreen === 2 ? (
           <ReadyProjectScreen2
@@ -772,6 +782,7 @@ const ReadyProjectClientPage = ({
             updateReadyProjectS3Handler={updateReadyProjectS3Handler}
             materials={materials}
             uploadedScreensCount={uploadedScreensCount}
+            isErrorOccurredWhileFetching={isErrorOccurredWhileFetching.screen3}
           />
         ) : (
           currentScreen === 4 && (
@@ -787,12 +798,16 @@ const ReadyProjectClientPage = ({
                 updateReadyProjectS4DesignHandler
               }
               uploadedDesigns={uploadedDesigns}
+              defaultReadyProjectS4Design={defaultReadyProjectS4Design}
+              isErrorOccurredWhileFetching={
+                isErrorOccurredWhileFetching.screen4
+              }
             />
           )
         )}
       </div>
       {showSpinner && (
-        <div className="z-[4] bg-black bg-opacity-10 fixed top-0 left-0 bottom-0 right-0 flex items-center justify-center">
+        <div className="z-[4] bg-white fixed top-0 left-0 bottom-0 right-0 flex items-center justify-center">
           <Spinner size={"lg"} text={"Uploading..."} />
         </div>
       )}

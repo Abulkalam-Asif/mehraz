@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   TagsInput,
   FileInput,
@@ -9,6 +9,7 @@ import {
   ReadyProjectRatesInput,
   Button,
 } from "@/components";
+import { AlertContext } from "@/context/AlertContext";
 
 const ReadyProjectS1 = ({
   readyProjectS1,
@@ -21,10 +22,29 @@ const ReadyProjectS1 = ({
   floors,
   units,
   styles,
+  isErrorOccurredWhileFetching,
 }) => {
+  const { showAlert } = useContext(AlertContext);
   const [citiesOptions, setCitiesOptions] = useState(cities);
+
   useEffect(() => {
-    if (!citiesOptions.some(city => city.id === "GENERAL")) {
+    const isScreen1DataAvailable = [cities, plots, floors, units, styles].every(
+      data => data?.length > 0,
+    );
+    if (isErrorOccurredWhileFetching) {
+      showAlert({
+        type: "ERROR",
+        message: [
+          "An error occurred while fetching data.",
+          "Please check your internet connection and try again.",
+        ],
+      });
+    } else if (!isScreen1DataAvailable) {
+      showAlert({
+        type: "ERROR",
+        message: "Please upload the missing data first.",
+      });
+    } else if (!citiesOptions.some(city => city.id === "GENERAL")) {
       setCitiesOptions([
         { value: "GENERAL", label: "GENERAL" },
         ...citiesOptions.map(({ id, name }) => ({ value: id, label: name })),
@@ -61,28 +81,40 @@ const ReadyProjectS1 = ({
             inputHandler={readyProjectS1InputHandler}
             required={true}
           />
-          <AdminMultiSelect
-            title="cities"
-            name="cities"
-            options={citiesOptions}
-            selectedOptions={readyProjectS1.cities}
-            inputHandler={readyProjectS1InputHandler}
-            message="Select cities"
-            required={true}
-            generalOption={"GENERAL"}
-          />
-          <AdminMultiSelect
-            title="areas"
-            name="areas"
-            options={plots?.map(({ id, area, unit }) => ({
-              value: id,
-              label: `${area} ${unit}`,
-            }))}
-            selectedOptions={readyProjectS1.areas}
-            inputHandler={readyProjectS1InputHandler}
-            message="Select areas"
-            required={true}
-          />
+          {cities?.length > 0 ? (
+            <AdminMultiSelect
+              title="cities"
+              name="cities"
+              options={citiesOptions}
+              selectedOptions={readyProjectS1.cities}
+              inputHandler={readyProjectS1InputHandler}
+              message="Select cities"
+              required={true}
+              generalOption={"GENERAL"}
+            />
+          ) : (
+            <div className="flex items-center justify-center">
+              <p className="text-red-500">No cities found </p>
+            </div>
+          )}
+          {plots?.length > 0 ? (
+            <AdminMultiSelect
+              title="areas"
+              name="areas"
+              options={plots?.map(({ id, area, unit }) => ({
+                value: id,
+                label: `${area} ${unit}`,
+              }))}
+              selectedOptions={readyProjectS1.areas}
+              inputHandler={readyProjectS1InputHandler}
+              message="Select areas"
+              required={true}
+            />
+          ) : (
+            <div className="flex items-center justify-center">
+              <p className="text-red-500">No areas found </p>
+            </div>
+          )}
           <AdminInputBox2
             label="description"
             type="textarea"
@@ -94,51 +126,68 @@ const ReadyProjectS1 = ({
             required={true}
             maxLength={250}
           />
-          <AdminMultiSelect
-            title="floors"
-            name="floors"
-            options={floors.map(({ id, name }) => ({
-              value: id,
-              label: (
-                <>
-                  {name.split(",").map((floor, index) => (
-                    <span key={index} className="block">
-                      {floor.trim()}
-                    </span>
-                  ))}
-                </>
-              ),
-            }))}
-            selectedOptions={readyProjectS1.floors}
-            inputHandler={readyProjectS1InputHandler}
-            message="Select floors"
-            required={true}
-          />
-          <AdminMultiSelect
-            title="other units"
-            name="units"
-            options={units?.map(({ id, name }) => ({
-              value: id,
-              label: name,
-            }))}
-            selectedOptions={readyProjectS1.units}
-            inputHandler={readyProjectS1InputHandler}
-            message="Select other units"
-            required={true}
-          />
-
-          <AdminSelect2
-            label="style"
-            idHtmlFor="style"
-            name="style"
-            value={readyProjectS1.style}
-            inputHandler={readyProjectS1InputHandler}
-            options={styles.map(({ id, name, budget }) => ({
-              value: id,
-              label: `${name} (${budget})`,
-            }))}
-            required={true}
-          />
+          {floors?.length > 0 ? (
+            <AdminMultiSelect
+              title="floors"
+              name="floors"
+              options={floors.map(({ id, name }) => ({
+                value: id,
+                label: (
+                  <>
+                    {name.split(",").map((floor, index) => (
+                      <span key={index} className="block">
+                        {floor.trim()}
+                      </span>
+                    ))}
+                  </>
+                ),
+              }))}
+              selectedOptions={readyProjectS1.floors}
+              inputHandler={readyProjectS1InputHandler}
+              message="Select floors"
+              required={true}
+            />
+          ) : (
+            <div className="flex items-center justify-center">
+              <p className="text-red-500">No floors found </p>
+            </div>
+          )}
+          {units?.length > 0 ? (
+            <AdminMultiSelect
+              title="other units"
+              name="units"
+              options={units?.map(({ id, name }) => ({
+                value: id,
+                label: name,
+              }))}
+              selectedOptions={readyProjectS1.units}
+              inputHandler={readyProjectS1InputHandler}
+              message="Select other units"
+              required={true}
+            />
+          ) : (
+            <div className="flex items-center justify-center">
+              <p className="text-red-500">No units found </p>
+            </div>
+          )}
+          {styles?.length > 0 ? (
+            <AdminSelect2
+              label="style"
+              idHtmlFor="style"
+              name="style"
+              value={readyProjectS1.style}
+              inputHandler={readyProjectS1InputHandler}
+              options={styles.map(({ id, name, budget }) => ({
+                value: id,
+                label: `${name} (${budget})`,
+              }))}
+              required={true}
+            />
+          ) : (
+            <div className="flex items-center justify-center">
+              <p className="text-red-500">No styles found </p>
+            </div>
+          )}
           <ReadyProjectRatesInput
             label={"construction rate"}
             rates={readyProjectS1.constructionRates}

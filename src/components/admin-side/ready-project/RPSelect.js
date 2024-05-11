@@ -1,13 +1,15 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
+import { FaCheckCircle, FaMinusCircle } from "react-icons/fa";
 
-const AdminCustomSelect = ({
+const RPSelect = ({
   title = "",
   name = "",
   selectedOption = "",
   options = [],
-  inputHandler = () => {},
+  designSelectHandler = () => {},
   required = false,
+  uploadedDesigns = [],
 }) => {
   const [expanded, setExpanded] = useState(false);
 
@@ -20,11 +22,10 @@ const AdminCustomSelect = ({
   };
 
   useEffect(() => {
-    const listener = handleClickOutside;
-    document.addEventListener("click", listener);
+    document.addEventListener("click", handleClickOutside);
 
     return () => {
-      document.removeEventListener("click", listener);
+      document.removeEventListener("click", handleClickOutside);
     };
   }, [expanded]);
 
@@ -39,7 +40,7 @@ const AdminCustomSelect = ({
           <button
             type="button"
             onClick={() => setExpanded(!expanded)}
-            className="w-full border-2 text-base border-accent-1-base rounded-md px-4 py-1">
+            className="w-full border-2 text-base border-accent-1-base rounded-md px-4 py-1 flex flex-col items-center">
             {options.find(option => option.value === selectedOption)?.label}
           </button>
           {expanded && (
@@ -57,17 +58,24 @@ const AdminCustomSelect = ({
                     checked={selectedOption === value}
                     onChange={e => {
                       if (e.target.checked) {
-                        inputHandler(name, value);
-                        setExpanded(false);
+                        designSelectHandler(value);
                       }
+                      setExpanded(false);
                     }}
                     className="absolute top-0 left-0 text-accent-1-extra-dark rounded-md peer w-0 h-0 focus:outline-none"
                   />
                   <label
-                    className="text-sm cursor-pointer peer-checked:font-bold peer-focus:outline-2 peer-focus:outline-dashed peer-focus:outline-accent-2-base p-2 flex flex-col items-start hover:bg-accent-1-base"
+                    className="flex items-center gap-2 text-sm cursor-pointer peer-checked:font-bold peer-focus:outline-2 peer-focus:outline-dashed peer-focus:outline-accent-2-base p-2 hover:bg-accent-1-base"
                     htmlFor={`option${index}`}
                     key={index}>
-                    {label}
+                    <div>
+                      {uploadedDesigns.includes(value) ? (
+                        <FaCheckCircle size={14} className="text-green-500" />
+                      ) : (
+                        <FaMinusCircle size={14} />
+                      )}
+                    </div>
+                    <div className="flex flex-col items-start">{label}</div>
                   </label>
                 </div>
               ))}
@@ -79,4 +87,4 @@ const AdminCustomSelect = ({
   );
 };
 
-export default AdminCustomSelect;
+export default RPSelect;

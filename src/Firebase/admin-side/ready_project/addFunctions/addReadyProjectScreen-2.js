@@ -39,7 +39,7 @@ const addReadyProjectS2ToDB = async ({ id, designs, budgetRanges }) => {
 
     return {
       type: "SUCCESS",
-      message: "Ready project screen 2 added successfully!",
+      message: "Screen 2 added successfully!",
     };
   } catch (error) {
     console.error("Error adding the ready project: ", error.message);

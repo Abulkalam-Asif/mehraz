@@ -1,6 +1,6 @@
 "use client";
 import {
-  AdminCustomSelect,
+  RPSelect,
   AdminInputBox2,
   DeleteModal,
   FileInput,
@@ -17,6 +17,8 @@ import {
   RPMaterialsSection,
   TagsInput,
   Button,
+  Spinner,
+  ConfirmationModal,
 } from "@/components";
 import { AlertContext } from "@/context/AlertContext";
 import { useContext } from "react";
@@ -25,6 +27,7 @@ import { addEditRPExteriorViewService } from "@/services/admin-side/ready-projec
 import { addEditRPInteriorViewService } from "@/services/admin-side/ready-project/interiorViews";
 import { useEffect, useState } from "react";
 import { ulid } from "ulid";
+import getCurrentRPDesign from "@/Firebase/admin-side/ready_project/getFunctions/getCurrentRPDesign";
 
 const ReadyProjectScreen4 = ({
   materials,
@@ -36,31 +39,78 @@ const ReadyProjectScreen4 = ({
   productRates,
   addReadyProjectS4DesignHandler,
   updateReadyProjectS4DesignHandler,
+  defaultReadyProjectS4Design,
+  isErrorOccurredWhileFetching,
 }) => {
   const { showAlert } = useContext(AlertContext);
   const [currentDesign, setCurrentDesign] = useState(rpDesignsData[0]);
+  const [showFetchSpinner, setShowFetchSpinner] = useState(true);
+
+  const fetchCurrentDesign = async () => {
+    try {
+      const currentRPDesign = await getCurrentRPDesign(currentDesign.id);
+      setReadyProjectS4Design(currentRPDesign);
+      if (!productRates || productRates.length === 0) {
+        setReadyProjectS4Design(prevState => ({
+          ...prevState,
+          designRates: [],
+          constructionRates: [],
+        }));
+      }
+    } catch (error) {
+      showAlert({
+        type: "ERROR",
+        message: error.message,
+      });
+    } finally {
+      setShowFetchSpinner(false);
+    }
+  };
 
   useEffect(() => {
-    const updatedProductRates = productRates.map(productRate => ({
-      ...productRate,
-      cost: Math.round(productRate.rate * currentDesign.areaInSqFt),
-    }));
-    const totalCost = Math.round(
-      updatedProductRates.reduce((acc, rate) => {
-        return acc + rate.cost;
-      }, 0) *
-        (1 - readyProjectS4Design.discount / 100),
-    );
+    // Checking if the required data is fetched successfully
+    if (isErrorOccurredWhileFetching) {
+      showAlert({
+        type: "ERROR",
+        message: [
+          "An error occurred while fetching data.",
+          "Please check your internet connection and try again.",
+        ],
+      });
+    } else if (materials?.length === 0 || productRates?.length === 0) {
+      showAlert({
+        type: "ERROR",
+        message: "Please upload the missing data first.",
+      });
+    }
 
-    setReadyProjectS4Design(prevState => ({
-      ...prevState,
-      totalCost,
-      designRates: updatedProductRates.filter(rate => rate.type === "DESIGN"),
-      constructionRates: updatedProductRates.filter(
-        rate => rate.type === "CONSTRUCTION",
-      ),
-    }));
-  }, []);
+    if (uploadedDesigns?.includes(currentDesign.id)) {
+      setShowFetchSpinner(true);
+      fetchCurrentDesign();
+    } else {
+      const updatedProductRates =
+        productRates?.map(productRate => ({
+          ...productRate,
+          cost: Math.round(productRate.rate * currentDesign.areaInSqFt),
+        })) || [];
+      const totalCost = Math.round(
+        updatedProductRates.reduce((acc, rate) => {
+          return acc + rate.cost;
+        }, 0) *
+          (1 - readyProjectS4Design.discount / 100),
+      );
+
+      setReadyProjectS4Design({
+        ...defaultReadyProjectS4Design,
+        totalCost,
+        designRates: updatedProductRates.filter(rate => rate.type === "DESIGN"),
+        constructionRates: updatedProductRates.filter(
+          rate => rate.type === "CONSTRUCTION",
+        ),
+      });
+      setShowFetchSpinner(false);
+    }
+  }, [currentDesign]);
 
   // Exterior states and functions
   const defaultExteriorView = {
@@ -69,6 +119,7 @@ const ReadyProjectScreen4 = ({
     description: "",
     option: "OPTION1",
     video: null,
+    isUploaded: false,
   };
   const [currentExteriorView, setCurrentExteriorView] =
     useState(defaultExteriorView);
@@ -119,6 +170,19 @@ const ReadyProjectScreen4 = ({
     }
   };
   const deleteExteriorViewHandler = () => {
+    const isUploaded = readyProjectS4Design.exteriorViews.find(
+      view => view.id === itemToDelete.id,
+    );
+    if (isUploaded) {
+      if (typeof readyProjectS4Design?.viewsToDelIds === "object") {
+        readyProjectS4InputHandler("viewsToDelIds", [
+          ...readyProjectS4Design?.viewsToDelIds,
+          itemToDelete.id,
+        ]);
+      } else {
+        readyProjectS4InputHandler("viewsToDelIds", [itemToDelete.id]);
+      }
+    }
     readyProjectS4InputHandler("exteriorViews", [
       ...readyProjectS4Design?.exteriorViews.filter(
         view => view.id !== itemToDelete.id,
@@ -138,6 +202,7 @@ const ReadyProjectScreen4 = ({
     description: "",
     option: "OPTION1",
     video: null,
+    isUploaded: false,
   };
   const [currentInteriorView, setCurrentInteriorView] =
     useState(defaultInteriorView);
@@ -188,6 +253,19 @@ const ReadyProjectScreen4 = ({
     }
   };
   const deleteInteriorViewHandler = () => {
+    const isUploaded = readyProjectS4Design.interiorViews.find(
+      view => view.id === itemToDelete.id,
+    );
+    if (isUploaded) {
+      if (typeof readyProjectS4Design?.viewsToDelIds === "object") {
+        readyProjectS4InputHandler("viewsToDelIds", [
+          ...readyProjectS4Design?.viewsToDelIds,
+          itemToDelete.id,
+        ]);
+      } else {
+        readyProjectS4InputHandler("viewsToDelIds", [itemToDelete.id]);
+      }
+    }
     readyProjectS4InputHandler("interiorViews", [
       ...readyProjectS4Design?.interiorViews.filter(
         view => view.id !== itemToDelete.id,
@@ -206,6 +284,7 @@ const ReadyProjectScreen4 = ({
     category: "",
     quantity: 1,
     subCategories: [],
+    isUploaded: false,
   };
   const [currentProgram, setCurrentProgram] = useState(defaultProgram);
   const currentProgramInputHandler = (name, value) => {
@@ -249,6 +328,19 @@ const ReadyProjectScreen4 = ({
     }
   };
   const deleteProgramHandler = () => {
+    const isUploaded = readyProjectS4Design.programs.find(
+      program => program.id === itemToDelete.id,
+    );
+    if (isUploaded) {
+      if (typeof readyProjectS4Design?.programsToDelIds === "object") {
+        readyProjectS4InputHandler("programsToDelIds", [
+          ...readyProjectS4Design?.programsToDelIds,
+          itemToDelete.id,
+        ]);
+      } else {
+        readyProjectS4InputHandler("programsToDelIds", [itemToDelete.id]);
+      }
+    }
     readyProjectS4InputHandler("programs", [
       ...readyProjectS4Design?.programs.filter(
         program => program.id !== itemToDelete.id,
@@ -288,32 +380,56 @@ const ReadyProjectScreen4 = ({
     }
   }, [isModalOpen]);
 
-  return (
+  // Design select handler. If the user tries to change an unsaved design, a confirmation modal will appear
+  const designSelectHandler = value => {
+    if (!readyProjectS4Design.isInDefaultState) {
+      setConfirmationModalMetadata({
+        confirmationMessage:
+          "If you change the design, the unsaved data will be lost. Do you want to proceed?",
+        confirmationHandler: () => {
+          setCurrentDesign(rpDesignsData.find(design => design.id === value));
+        },
+      });
+      toggleConfirmationModal();
+    } else {
+      setCurrentDesign(rpDesignsData.find(design => design.id === value));
+    }
+  };
+
+  // Confirmation modal states and functions
+  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+  const toggleConfirmationModal = () =>
+    setIsConfirmationModalOpen(prevState => !prevState);
+  const [confirmationModalMetadata, setConfirmationModalMetadata] = useState({
+    confirmationMessage: "",
+    confirmationHandler: () => {},
+  });
+
+  return showFetchSpinner ? (
+    <div className="fixed top-0 left-0 bottom-0 right-0 flex items-center justify-center">
+      <Spinner size={"lg"} text={"Fetching data..."} />
+    </div>
+  ) : (
     <>
       <form
         className="h-full w-full max-w-8xl mx-auto py-4 pr-2 grid grid-cols-3 lg:grid-cols-2 md:grid-cols-1 md:h-auto gap-8"
         onSubmit={e => e.preventDefault()}>
         <div className="h-page-container-admin-inner min-h-page-container-admin-inner max-h-page-container-admin-inner md:h-auto md:min-h-0 flex flex-col gap-4 overflow-y-auto pr-1">
-          <AdminCustomSelect
+          <RPSelect
             title="Select a Design"
             idHtmlFor="design"
             name="design"
-            inputHandler={(_, value) => {
-              setCurrentDesign(
-                rpDesignsData.find(design => design.id === value),
-              );
-            }}
+            designSelectHandler={designSelectHandler}
+            uploadedDesigns={uploadedDesigns}
             selectedOption={currentDesign?.id}
             options={rpDesignsData.map(design => ({
               value: design.id,
               label: (
                 <>
-                  <span className="block">{design.area}</span>
-                  <span className="block">{design.familyUnit} </span>
+                  <span>{design.area}</span>
+                  <span>{design.familyUnit} </span>
                   {design.floor.split(",").map((floor, index) => (
-                    <span key={index} className="block">
-                      {floor.trim()}
-                    </span>
+                    <span key={index}>{floor.trim()}</span>
                   ))}
                 </>
               ),
@@ -389,19 +505,33 @@ const ReadyProjectScreen4 = ({
                 typeStartsWith={"image"}
                 name="imagesOp1"
                 htmlFor={"imagesOp1"}
-                inputHandler={(name, value) =>
-                  readyProjectS4InputHandler(name, value)
-                }
+                inputHandler={readyProjectS4InputHandler}
                 wrongFileTypeWarning="Some of the files were not images and were not attached."
               />
               {readyProjectS4Design?.imagesOp1?.length > 0 ? (
                 <RPMultiImageDisplay
                   className="md:h-32 overflow-y-auto p-2"
                   imagesArray={readyProjectS4Design?.imagesOp1}
-                  removeImageHandler={(name, value) =>
-                    readyProjectS4InputHandler(name, value)
-                  }
                   name={"imagesOp1"}
+                  removeImageHandler={(name, newFilesArray, deletedImage) => {
+                    if (deletedImage) {
+                      if (
+                        typeof readyProjectS4Design?.imagesOp1ToDel === "object"
+                      ) {
+                        // If there is an array of images to delete, add the new image to it
+                        readyProjectS4InputHandler("imagesOp1ToDel", [
+                          ...readyProjectS4Design?.imagesOp1ToDel,
+                          deletedImage,
+                        ]);
+                      } else {
+                        // If there is no array of images to delete, create one with the new image
+                        readyProjectS4InputHandler("imagesOp1ToDel", [
+                          deletedImage,
+                        ]);
+                      }
+                    }
+                    readyProjectS4InputHandler(name, newFilesArray);
+                  }}
                 />
               ) : (
                 <div className="w-full h-full p-4 flex items-center justify-center text-center text-accent-1-dark border-dashed border-2 border-accent-1-dark rounded-xl md:h-32">
@@ -411,25 +541,40 @@ const ReadyProjectScreen4 = ({
             </div>
             <div className="h-full overflow-y-hidden flex flex-col gap-2 lg:h-auto">
               <MultiFileInput
+                className="h-full"
                 message={"Attach images (option 2)"}
                 filesArray={readyProjectS4Design?.imagesOp2}
                 accept={"image/*"}
                 typeStartsWith={"image"}
                 name="imagesOp2"
                 htmlFor={"imagesOp2"}
-                inputHandler={(name, value) =>
-                  readyProjectS4InputHandler(name, value)
-                }
+                inputHandler={readyProjectS4InputHandler}
                 wrongFileTypeWarning="Some of the files were not images and were not attached."
               />
               {readyProjectS4Design?.imagesOp2?.length > 0 ? (
                 <RPMultiImageDisplay
                   className="md:h-32 overflow-y-auto p-2"
                   imagesArray={readyProjectS4Design?.imagesOp2}
-                  removeImageHandler={(name, value) =>
-                    readyProjectS4InputHandler(name, value)
-                  }
                   name={"imagesOp2"}
+                  removeImageHandler={(name, newFilesArray, deletedImage) => {
+                    if (deletedImage) {
+                      if (
+                        typeof readyProjectS4Design?.imagesOp2ToDel === "object"
+                      ) {
+                        // If there is an array of images to delete, add the new image to it
+                        readyProjectS4InputHandler("imagesOp2ToDel", [
+                          ...readyProjectS4Design?.imagesOp2ToDel,
+                          deletedImage,
+                        ]);
+                      } else {
+                        // If there is no array of images to delete, create one with the new image
+                        readyProjectS4InputHandler("imagesOp2ToDel", [
+                          deletedImage,
+                        ]);
+                      }
+                    }
+                    readyProjectS4InputHandler(name, newFilesArray);
+                  }}
                 />
               ) : (
                 <div className="w-full h-full p-4 flex items-center justify-center text-center text-accent-1-dark border-dashed border-2 border-accent-1-dark rounded-xl md:h-32">
@@ -505,6 +650,7 @@ const ReadyProjectScreen4 = ({
           inputHandler={(name, value) => {
             readyProjectS4InputHandler(name, value);
           }}
+          isErrorOccurredWhileFetching={isErrorOccurredWhileFetching}
         />
         <ProductRatesSection
           className="h-page-container-admin-inner min-h-page-container-admin-inner max-h-page-container-admin-inner md:h-auto md:min-h-0"
@@ -514,6 +660,7 @@ const ReadyProjectScreen4 = ({
           currentDesignAreaInSqFt={currentDesign.areaInSqFt}
           discount={readyProjectS4Design.discount}
           totalCost={readyProjectS4Design.totalCost}
+          isErrorOccurredWhileFetching={isErrorOccurredWhileFetching}
         />
         <div className="flex items-center justify-end gap-4 col-start-3 lg:col-start-2 md:col-start-1">
           <Button
@@ -535,6 +682,17 @@ const ReadyProjectScreen4 = ({
           />
         </div>
       </form>
+      {isConfirmationModalOpen && (
+        <Modal
+          toggleModal={toggleConfirmationModal}
+          isModalOpen={isConfirmationModalOpen}>
+          <ConfirmationModal
+            toggleModal={toggleConfirmationModal}
+            confirmationMessage={confirmationModalMetadata.confirmationMessage}
+            confirmationHandler={confirmationModalMetadata.confirmationHandler}
+          />
+        </Modal>
+      )}
       {isModalOpen && (
         <Modal toggleModal={toggleModal} isModalOpen={isModalOpen}>
           {modalMetadata.action === "DELETE" ? (

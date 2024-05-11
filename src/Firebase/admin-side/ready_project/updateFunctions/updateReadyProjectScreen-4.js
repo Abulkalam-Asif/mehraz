@@ -3,12 +3,18 @@ import { db, storage } from "@/Firebase/firebase";
 import {
   arrayUnion,
   collection,
+  deleteDoc,
   doc,
   getDoc,
   setDoc,
   updateDoc,
 } from "firebase/firestore";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import {
+  deleteObject,
+  getDownloadURL,
+  ref,
+  uploadBytes,
+} from "firebase/storage";
 import { monotonicFactory } from "ulid";
 const ulid = monotonicFactory();
 
@@ -20,25 +26,24 @@ const updateReadyProjectS4ToDB = async ({
   constructionCost,
   op1Name,
   op2Name,
-  imagesOp1: [],
-  imagesOp2: [],
-  keywords: [],
+  imagesOp1,
+  imagesOp2,
+  keywords,
   description,
   descriptionOp1,
   descriptionOp2,
-  exteriorViews: [],
-  interiorViews: [],
-  materials: [],
-  programs: [],
+  exteriorViews,
+  interiorViews,
+  materials,
+  programs,
   designRates,
   constructionRates,
   discount,
-  totalAmount,
-  imagesToDelOps1,
-  imagesToDelOps2,
-  programsToDel,
-  exteriorViewsToDel,
-  interiorViewsToDel,
+  totalCost,
+  imagesOp1ToDel,
+  imagesOp2ToDel,
+  viewsToDelIds,
+  programsToDelIds,
 }) => {
   try {
     const readyProjectDocRef = doc(collection(db, "READY_PROJECTS"), projectId);
@@ -53,83 +58,76 @@ const updateReadyProjectS4ToDB = async ({
       };
     }
 
-    // Upload images to storage
-    const timestamp = Date.now();
-    const op1ImageUrls = [];
-    const op2ImageUrls = [];
-    await Promise.all(
-      imagesOp1.map(async (image, index) => {
-        const op1ImageRef = ref(
-          storage,
-          `RP_DESIGNS/${id}/images/option1/${ulid(timestamp)}`,
-        );
-        await uploadBytes(op1ImageRef, image.get(`image${index}`));
-        op1ImageUrls.push(await getDownloadURL(op1ImageRef));
-      }),
-    );
-    await Promise.all(
-      imagesOp2.map(async (image, index) => {
-        const op2ImageRef = ref(
-          storage,
-          `RP_DESIGNS/${id}/images/option2/${ulid(timestamp)}`,
-        );
-        await uploadBytes(op2ImageRef, image.get(`image${index}`));
-        op2ImageUrls.push(await getDownloadURL(op2ImageRef));
-      }),
-    );
-
     //Delete old images from storage
     await Promise.all(
-      imagesToDelOps1?.map(async url => {
+      imagesOp1ToDel?.map(async url => {
         const imageRef = ref(storage, url);
         await deleteObject(imageRef);
-      }),
+      }) || [],
     );
     await Promise.all(
-      imagesToDelOps2?.map(async url => {
+      imagesOp2ToDel?.map(async url => {
         const imageRef = ref(storage, url);
         await deleteObject(imageRef);
-      }),
+      }) || [],
     );
 
     // Delete old views from DB
     const viewsRef = collection(db, "VIEWS");
     await Promise.all(
-      interiorViewsToDel?.map(async viewId => {
+      viewsToDelIds?.map(async viewId => {
         const viewRef = doc(viewsRef, viewId);
         await deleteDoc(viewRef);
         const videoRef = ref(storage, `VIEWS/${viewId}`);
         await deleteObject(videoRef);
-      }),
-    );
-    await Promise.all(
-      exteriorViewsToDel?.map(async viewId => {
-        const viewRef = doc(viewsRef, viewId);
-        await deleteDoc(viewRef);
-        const videoRef = ref(storage, `VIEWS/${viewId}`);
-        await deleteObject(videoRef);
-      }),
+      }) || [],
     );
 
     //Delete old programs from DB
     await Promise.all(
-      programsToDel?.map(async programId => {
+      programsToDelIds?.map(async programId => {
         const programRef = doc(collection(db, "PROGRAMS"), programId);
         await deleteDoc(programRef);
-      }),
+      }) || [],
+    );
+    // Upload images to storage
+    const timestamp = Date.now();
+    const op1ImageUrls = [];
+    const op2ImageUrls = [];
+    await Promise.all(
+      imagesOp1?.map(async (image, index) => {
+        const op1ImageRef = ref(
+          storage,
+          `RP_DESIGNS/${designId}/images/option1/${ulid(timestamp)}`,
+        );
+        await uploadBytes(op1ImageRef, image.get(`image${index}`));
+        op1ImageUrls.push(await getDownloadURL(op1ImageRef));
+      }) || [],
+    );
+    await Promise.all(
+      imagesOp2?.map(async (image, index) => {
+        const op2ImageRef = ref(
+          storage,
+          `RP_DESIGNS/${designId}/images/option2/${ulid(timestamp)}`,
+        );
+        await uploadBytes(op2ImageRef, image.get(`image${index}`));
+        op2ImageUrls.push(await getDownloadURL(op2ImageRef));
+      }) || [],
     );
 
     //Upload video to storage
-
-    const designVideoRef = ref(storage, `RP_DESIGNS/${id}/video`);
-    await uploadBytes(designVideoRef, video.get("video"));
-    const designVideoUrl = await getDownloadURL(designVideoRef);
+    let designVideoUrl = video;
+    if (designVideoUrl instanceof FormData) {
+      const designVideoRef = ref(storage, `RP_DESIGNS/${designId}/video`);
+      await uploadBytes(designVideoRef, video.get("video"));
+      designVideoUrl = await getDownloadURL(designVideoRef);
+    }
 
     // Upload views to DB
     const interiorViewsData = [];
     const exteriorViewsData = [];
     await Promise.all(
-      interiorViews.map(async ({ id, name, description, option, video }) => {
+      interiorViews?.map(async ({ id, name, description, option, video }) => {
         const docRef = doc(viewsRef, id);
         await setDoc(docRef, {
           name,
@@ -137,15 +135,17 @@ const updateReadyProjectS4ToDB = async ({
           option,
           type: "INTERIOR",
         });
-        const videoRef = ref(storage, `VIEWS/${id}`);
-        await uploadBytes(videoRef, video.get("video"));
-        const videoUrl = await getDownloadURL(videoRef);
-
+        let videoUrl = video;
+        if (video instanceof FormData) {
+          const videoRef = ref(storage, `VIEWS/${id}`);
+          await uploadBytes(videoRef, video.get("video"));
+          videoUrl = await getDownloadURL(videoRef);
+        }
         interiorViewsData.push({ id, videoUrl });
-      }),
+      }) || [],
     );
     await Promise.all(
-      exteriorViews.map(async ({ id, name, description, option, video }) => {
+      exteriorViews?.map(async ({ id, name, description, option, video }) => {
         const docRef = doc(viewsRef, id);
         await setDoc(docRef, {
           name,
@@ -153,25 +153,31 @@ const updateReadyProjectS4ToDB = async ({
           option,
           type: "EXTERIOR",
         });
-        const videoRef = ref(storage, `VIEWS/${id}`);
-        await uploadBytes(videoRef, video.get("video"));
-        const videoUrl = await getDownloadURL(videoRef);
-
+        let videoUrl = video;
+        if (video instanceof FormData) {
+          const videoRef = ref(storage, `VIEWS/${id}`);
+          await uploadBytes(videoRef, video.get("video"));
+          videoUrl = await getDownloadURL(videoRef);
+        }
         exteriorViewsData.push({ id, videoUrl });
-      }),
+      }) || [],
     );
-
-    // Upload views and materials to DB
-    await updateDoc(readyProjectDocRef, {
-      interiorViews: interiorViewsData.map(view => view.id),
-      exteriorViews: exteriorViewsData.map(view => view.id),
-      materials,
-      uploadedScreensCount: 4,
-    });
+    // Upload programs to DB
+    await Promise.all(
+      programs?.map(async ({ id, category, quantity, subCategories }) => {
+        const docRef = doc(collection(db, "PROGRAMS"), id);
+        await setDoc(docRef, {
+          category,
+          quantity,
+          subCategories,
+        });
+      }) || [],
+    );
 
     // Update design document with new Data
     const designRef = doc(collection(db, "RP_DESIGNS"), designId);
     await updateDoc(designRef, {
+      keywords,
       designCost,
       constructionCost,
       op1Name,
@@ -182,32 +188,27 @@ const updateReadyProjectS4ToDB = async ({
       designRates,
       constructionRates,
       discount,
-      totalAmount,
+      totalCost,
+      interiorViews: interiorViewsData.map(({ id }) => id),
+      exteriorViews: exteriorViewsData.map(({ id }) => id),
+      materials,
+      programs: programs.map(({ id }) => id),
     });
 
     await updateDoc(readyProjectDocRef, {
       uploadedDesigns: arrayUnion(designId),
     });
 
-    await Promise.all(
-      programs.map(async program => {
-        const programRef = doc(collection(db, "PROGRAMS"), program.id);
-        await setDoc(programRef, {
-          program: program,
-        });
-      }),
-    );
-
     return {
       data: {
+        designVideoUrl,
         op1ImageUrls,
         op2ImageUrls,
         interiorViewsData,
         exteriorViewsData,
-        designVideoUrl,
       },
       type: "SUCCESS",
-      message: "Ready project screen 4 added successfully.",
+      message: "Screen 4 updated successfully.",
     };
   } catch (error) {
     console.error("Error adding ready project screen 4 to DB: ", error);

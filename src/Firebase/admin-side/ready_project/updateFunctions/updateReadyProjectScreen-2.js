@@ -89,7 +89,7 @@ const updateReadyProjectS2ToDB = async ({ id, designs, budgetRanges }) => {
 
     return {
       type: "SUCCESS",
-      message: "Ready project screen 2 updated successfully!",
+      message: "Screen 2 updated successfully!",
     };
   } catch (error) {
     console.error("Error updating the ready project: ", error.message);

@@ -21,7 +21,12 @@ const Alert = ({ message, type }) => {
     <>
       <div
         className={`fixed z-50 top-4 right-4 bg-white border-2 border-accent-1-base shadow-xl rounded-lg flex items-center gap-4 overflow-hidden`}>
-        <span className="pl-4 py-3">{message}</span>
+        <span className="pl-4 py-3 flex flex-col items-center gap-1">
+          {typeof message === "string"
+            ? message
+            : typeof message === "object" &&
+              message.map((msg, index) => <span key={index}>{msg}</span>)}
+        </span>
         <button className="p-4" onClick={hideAlert}>
           <Image src={closeIcon} alt="close" width={14} />
         </button>

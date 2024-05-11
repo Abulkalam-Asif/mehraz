@@ -7,16 +7,65 @@ import getFamilyUnitsFromDb from "@/Firebase/admin-side/teams-aboutus/familyUnit
 import getFloorsFromDb from "@/Firebase/admin-side/teams-aboutus/floors/getFloorsFromDb";
 import getStylesFromDB from "@/Firebase/admin-side/roles-analytics-cities/styles/getStylesFromFirebase";
 import getMaterialsFromDb from "@/Firebase/admin-side/materials/materials/getMaterialsFromDb";
+import getRPDesignsProductRates from "@/Firebase/admin-side/ready_project/getFunctions/getRPDesignsProductRates";
 
 const ReadyProject = async () => {
-  const floors = await getFloorsFromDb(["id", "name"]);
-  const familyUnits = await getFamilyUnitsFromDb(["id", "name"]);
-  const cities = await getCitiesFromDB(["id", "name"]);
-  const units = await getUnitsFromDb(["id", "name"]);
-  const styles = await getStylesFromDB(["id", "name", "budget"]);
-  const materials = await getMaterialsFromDb(["id", "name", "vendor"]);
-  let plots = await getPlotsFromDB(["id", "area", "unit"]);
-  plots = replacePlotUnitIdsByNames(plots, units);
+  let floors = null,
+    familyUnits = null,
+    cities = null,
+    units = null,
+    styles = null,
+    plots = null,
+    materials = null,
+    productRates = null;
+
+  let isErrorOccurredWhileFetching = {
+    screen1: false,
+    screen3: false,
+    screen4: false,
+  };
+  try {
+    floors = await getFloorsFromDb(["id", "name"]);
+  } catch (error) {
+    isErrorOccurredWhileFetching.screen1 = true;
+  }
+  try {
+    familyUnits = await getFamilyUnitsFromDb(["id", "name"]);
+  } catch (error) {
+    isErrorOccurredWhileFetching.screen1 = true;
+  }
+  try {
+    cities = await getCitiesFromDB(["id", "name"]);
+  } catch (error) {
+    isErrorOccurredWhileFetching.screen1 = true;
+  }
+  try {
+    units = await getUnitsFromDb(["id", "name"]);
+  } catch (error) {
+    isErrorOccurredWhileFetching.screen1 = true;
+  }
+  try {
+    styles = await getStylesFromDB(["id", "name", "budget"]);
+  } catch (error) {
+    isErrorOccurredWhileFetching.screen1 = true;
+  }
+  try {
+    plots = await getPlotsFromDB(["id", "area", "unit"]);
+    plots = replacePlotUnitIdsByNames(plots, units);
+  } catch (error) {
+    isErrorOccurredWhileFetching.screen1 = true;
+  }
+  try {
+    materials = await getMaterialsFromDb(["id", "name", "vendor"]);
+  } catch (error) {
+    isErrorOccurredWhileFetching.screen3 = true;
+    isErrorOccurredWhileFetching.screen4 = true;
+  }
+  try {
+    productRates = await getRPDesignsProductRates();
+  } catch (error) {
+    isErrorOccurredWhileFetching.screen4 = true;
+  }
 
   return (
     <>
@@ -29,6 +78,8 @@ const ReadyProject = async () => {
           familyUnits={familyUnits}
           styles={styles}
           materials={materials}
+          productRates={productRates}
+          isErrorOccurredWhileFetching={isErrorOccurredWhileFetching}
         />
       </section>
     </>

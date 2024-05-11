@@ -132,7 +132,7 @@ const addReadyProjectS1ToDB = async ({
         videoUrl,
       },
       type: "SUCCESS",
-      message: "Ready project screen 1 added successfully!",
+      message: "Screen 1 added successfully!",
     };
   } catch (error) {
     console.error("Error adding the ready project: ", error.message);

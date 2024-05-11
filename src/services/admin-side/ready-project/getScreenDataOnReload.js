@@ -1,8 +1,8 @@
 import getAllRPDesignsData from "@/Firebase/admin-side/ready_project/getFunctions/getAllRPDesignsData";
-import getRPDesignsProductRates from "@/Firebase/admin-side/ready_project/getFunctions/getRPDesignsProductRates";
 import { getScreen1Data } from "@/Firebase/admin-side/ready_project/getFunctions/getRPScreen1Data";
 import { getRPScreen2Data } from "@/Firebase/admin-side/ready_project/getFunctions/getRPScreen2Data";
 import { getRPScreen3Data } from "@/Firebase/admin-side/ready_project/getFunctions/getRPScreen3Data";
+import getUploadedDesigns from "@/Firebase/admin-side/ready_project/getFunctions/getUploadedDesigns";
 
 // When the user reloads the page, this function will fetch the data for the current screen
 const getScreenDataOnReload = async (
@@ -14,7 +14,7 @@ const getScreenDataOnReload = async (
   setReadyProjectS3,
   showAlert,
   setRpDesignsData,
-  setProductRates,
+  setUploadedDesigns,
 ) => {
   try {
     switch (currentScreen) {
@@ -47,8 +47,8 @@ const getScreenDataOnReload = async (
       case 4: {
         const designs = await getAllRPDesignsData(projectId);
         setRpDesignsData(designs);
-        const productRates = await getRPDesignsProductRates();
-        setProductRates(productRates);
+        const uploadedDesigns = await getUploadedDesigns(projectId);
+        setUploadedDesigns(uploadedDesigns);
         return true;
       }
       default: {

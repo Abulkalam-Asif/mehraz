@@ -21,19 +21,19 @@ const addReadyProjectS4ToDB = async ({
   op1Name,
   op2Name,
   imagesOp1,
-  imagesOp2, //imagesToDelOps1, imagesToDelOps2,
+  imagesOp2,
   keywords,
   description,
   descriptionOp1,
   descriptionOp2,
-  exteriorViews, //exteriorViewsToDel,
-  interiorViews, //interiorViewsToDel,
+  exteriorViews,
+  interiorViews,
   materials,
-  programs, //programsToDel,
+  programs,
   designRates,
   constructionRates,
   discount,
-  totalAmount,
+  totalCost,
 }) => {
   try {
     const readyProjectDocRef = doc(collection(db, "READY_PROJECTS"), projectId);
@@ -75,7 +75,7 @@ const addReadyProjectS4ToDB = async ({
 
     //Upload video to storage
 
-    const designVideoRef = ref(storage, `RP_DESIGNS/${projectId}/video`);
+    const designVideoRef = ref(storage, `RP_DESIGNS/${designId}/video`);
     await uploadBytes(designVideoRef, video.get("video"));
     const designVideoUrl = await getDownloadURL(designVideoRef);
 
@@ -115,12 +115,19 @@ const addReadyProjectS4ToDB = async ({
         exteriorViewsData.push({ id, videoUrl });
       }),
     );
+    // Upload programs to DB
+    await Promise.all(
+      programs.map(async ({ id, category, quantity, subCategories }) => {
+        const programRef = doc(collection(db, "PROGRAMS"), id);
+        await setDoc(programRef, {
+          category,
+          quantity,
+          subCategories,
+        });
+      }),
+    );
 
-    // Upload views and materials to DB
     await updateDoc(readyProjectDocRef, {
-      interiorViews: interiorViewsData.map(view => view.id),
-      exteriorViews: exteriorViewsData.map(view => view.id),
-      materials,
       uploadedScreensCount: 4,
     });
 
@@ -138,23 +145,16 @@ const addReadyProjectS4ToDB = async ({
       designRates,
       constructionRates,
       discount,
-      totalAmount,
+      totalCost,
+      interiorViews: interiorViewsData.map(({ id }) => id),
+      exteriorViews: exteriorViewsData.map(({ id }) => id),
+      materials,
+      programs: programs.map(({ id }) => id),
     });
 
     await updateDoc(readyProjectDocRef, {
       uploadedDesigns: arrayUnion(designId),
     });
-
-    await Promise.all(
-      programs.map(async ({ id, category, quantity, subCategories }) => {
-        const programRef = doc(collection(db, "PROGRAMS"), id);
-        await setDoc(programRef, {
-          category,
-          quantity,
-          subCategories,
-        });
-      }),
-    );
 
     return {
       data: {
@@ -165,7 +165,7 @@ const addReadyProjectS4ToDB = async ({
         designVideoUrl,
       },
       type: "SUCCESS",
-      message: "Ready project screen 4 added successfully.",
+      message: "Screen 4 added successfully.",
     };
   } catch (error) {
     console.error("Error adding ready project screen 4 to DB: ", error);

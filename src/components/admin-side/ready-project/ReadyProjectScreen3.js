@@ -25,8 +25,25 @@ const ReadyProjectScreen3 = ({
   updateReadyProjectS3Handler,
   uploadedScreensCount,
   materials,
+  isErrorOccurredWhileFetching,
 }) => {
   const { showAlert } = useContext(AlertContext);
+  useEffect(() => {
+    if (isErrorOccurredWhileFetching) {
+      showAlert({
+        type: "ERROR",
+        message: [
+          "An error occurred while fetching data.",
+          "Please check your internet connection and try again.",
+        ],
+      });
+    } else if (materials?.length === 0) {
+      showAlert({
+        type: "ERROR",
+        message: "Please upload the missing data first.",
+      });
+    }
+  }, []);
 
   // Exterior states and functions
   const defaultExteriorView = {
@@ -318,6 +335,7 @@ const ReadyProjectScreen3 = ({
               materials={materials}
               selectedMaterials={readyProjectS3.materials}
               inputHandler={readyProjectS3InputHandler}
+              isErrorOccurredWhileFetching={isErrorOccurredWhileFetching}
             />
           </div>
           <div className="h-full min-h-page-container-admin-inner max-h-page-container-admin-inner overflow-hidden grid grid-rows-3 gap-4 sm:flex sm:flex-col sm:h-auto sm:min-h-min sm:max-h-max">

@@ -103,7 +103,7 @@ const addReadyProjectS3ToDB = async ({
         exteriorViewsData,
       },
       type: "SUCCESS",
-      message: "Ready project screen 3 added successfully.",
+      message: "Screen 3 added successfully.",
     };
   } catch (error) {
     console.error("Error adding ready project screen 3 to DB: ", error);

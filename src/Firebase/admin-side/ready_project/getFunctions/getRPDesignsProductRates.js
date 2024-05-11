@@ -17,7 +17,7 @@ const getRPDesignsProductRates = async () => {
     }));
   } catch (error) {
     console.error("Error getting product rates: ", error);
-    return [];
+    throw new Error("An error occurred. Please try again.");
   }
 };
 
