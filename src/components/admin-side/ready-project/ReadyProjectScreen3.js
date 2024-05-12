@@ -360,18 +360,22 @@ const ReadyProjectScreen3 = ({
                 type="button"
                 text="Next step"
                 isTransitioned={true}
-                onClick={
+                onClick={() => {
                   uploadedScreensCount === 2
-                    ? addReadyProjectS3Handler
-                    : updateReadyProjectS3Handler
-                }
+                    ? addReadyProjectS3Handler(false)
+                    : updateReadyProjectS3Handler(false);
+                }}
               />
               <Button
                 type="button"
                 text="finish"
                 color="accent-2-outlined"
                 isTransitioned={true}
-                onClick={addReadyProjectS3Handler}
+                onClick={() => {
+                  uploadedScreensCount === 2
+                    ? addReadyProjectS3Handler(true)
+                    : updateReadyProjectS3Handler(true);
+                }}
               />
             </div>
           </div>

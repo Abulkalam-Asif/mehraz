@@ -30,7 +30,9 @@ import {
 } from "@/services/admin-side/ready-project/updateReadyProject";
 import { getRPUploadedScreensCount } from "@/Firebase/admin-side/ready_project/getFunctions/getRPUploadedScreensCount";
 import getAllRPDesignsData from "@/Firebase/admin-side/ready_project/getFunctions/getAllRPDesignsData";
-import getScreenDataOnReload from "@/services/admin-side/ready-project/getScreenDataOnReload";
+import getScreenDataOnReload, {
+  getScreen2SideData,
+} from "@/services/admin-side/ready-project/getScreenDataOnReload";
 
 const ReadyProjectClientPage = ({
   cities,
@@ -95,14 +97,17 @@ const ReadyProjectClientPage = ({
     }));
   };
 
-  const addReadyProjectS1Handler = async e => {
-    e.preventDefault();
+  const addReadyProjectS1Handler = async (finish = false) => {
     const data = await addReadyProjectS1Service(
       readyProjectS1,
       showAlert,
       setShowSpinner,
     );
     if (data) {
+      if (finish) {
+        router.push("/admin/projects");
+        return;
+      }
       const { id, imageUrl, videoUrl } = data;
       setProjectId(id);
       setReadyProjectS1(prevState => ({
@@ -124,8 +129,7 @@ const ReadyProjectClientPage = ({
     }
   };
 
-  const updateReadyProjectS1HandlerCheck = e => {
-    e.preventDefault();
+  const updateReadyProjectS1HandlerCheck = (finish = false) => {
     if (
       screen1PrevData.areas.every(area =>
         readyProjectS1.areas.includes(area),
@@ -134,7 +138,7 @@ const ReadyProjectClientPage = ({
         readyProjectS1.floors.includes(floor),
       )
     ) {
-      updateReadyProjectS1Handler();
+      updateReadyProjectS1Handler(finish);
     } else {
       setConfirmationModalMetadata({
         confirmationMessage:
@@ -145,7 +149,7 @@ const ReadyProjectClientPage = ({
     }
   };
 
-  const updateReadyProjectS1Handler = async () => {
+  const updateReadyProjectS1Handler = async (finish = false) => {
     const data = await updateReadyProjectS1Service(
       projectId,
       readyProjectS1,
@@ -153,6 +157,10 @@ const ReadyProjectClientPage = ({
       setShowSpinner,
     );
     if (data) {
+      if (finish) {
+        router.push("/admin/projects");
+        return;
+      }
       setReadyProjectS1(prevState => ({
         ...prevState,
         image: data.imageUrl,
@@ -204,8 +212,7 @@ const ReadyProjectClientPage = ({
     }));
   };
 
-  const addReadyProjectS2Handler = async e => {
-    e.preventDefault();
+  const addReadyProjectS2Handler = async (finish = false) => {
     const isSuccessful = await addReadyProjectS2Service(
       projectId,
       readyProjectS2,
@@ -213,6 +220,10 @@ const ReadyProjectClientPage = ({
       setShowSpinner,
     );
     if (isSuccessful) {
+      if (finish) {
+        router.push("/admin/projects");
+        return;
+      }
       setCurrentScreen(3);
       setUploadedScreensCount(2);
       setScreen2PrevData({
@@ -232,8 +243,7 @@ const ReadyProjectClientPage = ({
     }
   };
 
-  const updateReadyProjectS2HandlerCheck = e => {
-    e.preventDefault();
+  const updateReadyProjectS2HandlerCheck = (finish = false) => {
     if (
       // Checking if the user has changed the family units selection
       screen2PrevData.combinations.every(prevCombination => {
@@ -251,7 +261,7 @@ const ReadyProjectClientPage = ({
         }
       })
     ) {
-      updateReadyProjectS2Handler();
+      updateReadyProjectS2Handler(finish);
     } else {
       setConfirmationModalMetadata({
         confirmationMessage:
@@ -262,7 +272,7 @@ const ReadyProjectClientPage = ({
     }
   };
 
-  const updateReadyProjectS2Handler = async () => {
+  const updateReadyProjectS2Handler = async (finish = false) => {
     const isSuccessful = await updateReadyProjectS2Service(
       projectId,
       readyProjectS2,
@@ -270,6 +280,10 @@ const ReadyProjectClientPage = ({
       setShowSpinner,
     );
     if (isSuccessful) {
+      if (finish) {
+        router.push("/admin/projects");
+        return;
+      }
       setCurrentScreen(3);
       setScreen2PrevData({
         combinations: readyProjectS2.combinations.map(
@@ -310,8 +324,7 @@ const ReadyProjectClientPage = ({
     }));
   };
 
-  const addReadyProjectS3Handler = async e => {
-    e.preventDefault();
+  const addReadyProjectS3Handler = async (finish = false) => {
     const data = await addReadyProjectS3Service(
       projectId,
       readyProjectS3,
@@ -319,6 +332,10 @@ const ReadyProjectClientPage = ({
       setShowSpinner,
     );
     if (data) {
+      if (finish) {
+        router.push("/admin/projects");
+        return;
+      }
       const updatedInteriorViews = readyProjectS3.interiorViews.map(
         localView => ({
           ...localView,
@@ -368,8 +385,7 @@ const ReadyProjectClientPage = ({
       }
     }
   };
-  const updateReadyProjectS3Handler = async e => {
-    e.preventDefault();
+  const updateReadyProjectS3Handler = async (finish = false) => {
     const data = await updateReadyProjectS3Service(
       projectId,
       readyProjectS3,
@@ -377,6 +393,10 @@ const ReadyProjectClientPage = ({
       setShowSpinner,
     );
     if (data) {
+      if (finish) {
+        router.push("/admin/projects");
+        return;
+      }
       const updatedInteriorViews = readyProjectS3.interiorViews.map(
         localView => ({
           ...localView,
@@ -475,7 +495,7 @@ const ReadyProjectClientPage = ({
       isInDefaultState: false,
     }));
   };
-  const addReadyProjectS4DesignHandler = async designId => {
+  const addReadyProjectS4DesignHandler = async (designId, finish = false) => {
     const data = await addReadyProjectS4DesignService(
       projectId,
       designId,
@@ -484,6 +504,10 @@ const ReadyProjectClientPage = ({
       setShowSpinner,
     );
     if (data) {
+      if (finish) {
+        router.push("/admin/projects");
+        return;
+      }
       const updatedInteriorViews = readyProjectS4Design.interiorViews.map(
         localView => ({
           ...localView,
@@ -519,7 +543,10 @@ const ReadyProjectClientPage = ({
       setUploadedDesigns(prevState => [...prevState, designId]);
     }
   };
-  const updateReadyProjectS4DesignHandler = async designId => {
+  const updateReadyProjectS4DesignHandler = async (
+    designId,
+    finish = false,
+  ) => {
     const data = await updateReadyProjectS4DesignService(
       projectId,
       designId,
@@ -528,6 +555,10 @@ const ReadyProjectClientPage = ({
       setShowSpinner,
     );
     if (data) {
+      if (finish) {
+        router.push("/admin/projects");
+        return;
+      }
       const updatedInteriorViews = readyProjectS4Design.interiorViews.map(
         localView => ({
           ...localView,
@@ -585,7 +616,7 @@ const ReadyProjectClientPage = ({
   };
 
   useEffect(() => {
-    // If the user reloads the page, the app should check if the projectId and currentScreen are available in the url
+    // If the page is reloaded, or user edits a specific screen, the app should check if the projectId and currentScreen are available in the url
     const handleSearchParamsChange = async () => {
       const currentScreenParam = Number(serachParams.get("screen"));
       const projectIdParam = serachParams.get("id");
@@ -645,9 +676,17 @@ const ReadyProjectClientPage = ({
             setProjectId(projectIdParam);
             params.set("screen", uploadedScreensCountDB + 1);
             router.push(`${pathname}?${params.toString()}`);
-            if (uploadedScreensCountDB + 1 === 4) {
+            let isSuccessful = true;
+            if (uploadedScreensCountDB + 1 === 2) {
+              // The case here is that the screen 2 is not uploaded, so we don't have to fetch all the data for screen 2, but some data, which I have called as side data is needed to be diplayed in the tables. So, we fetch that data here.
+              isSuccessful = await getScreen2SideData(
+                projectIdParam,
+                setScreen1PrevData,
+                showAlert,
+              );
+            } else if (uploadedScreensCountDB + 1 === 4) {
               // If the current screen is 4, we need to fetch the designs data and product rates data
-              const isSuccessful = await getScreenDataOnReload(
+              isSuccessful = await getScreenDataOnReload(
                 4,
                 projectIdParam,
                 setReadyProjectS1,
@@ -658,19 +697,18 @@ const ReadyProjectClientPage = ({
                 setRpDesignsData,
                 setUploadedDesigns,
               );
-              if (!isSuccessful) {
-                // If the data is not fetched successfully, set the states to default value and redirect to the first screen
-                setUploadedScreensCount(0);
-                setCurrentScreen(1);
-                setProjectId("");
-                setReadyProjectS1(defaultReadyProjectS1);
-                setReadyProjectS2(defaultReadyProjectS2);
-                setReadyProjectS3(defaultReadyProjectS3);
-                params.delete("id");
-                params.set("screen", 1);
-                router.push(`${pathname}?${params.toString()}`);
-              }
-              setShowReloadSpinner(false);
+            }
+            if (!isSuccessful) {
+              // If the data is not fetched successfully, set the states to default value and redirect to the first screen
+              setUploadedScreensCount(0);
+              setCurrentScreen(1);
+              setProjectId("");
+              setReadyProjectS1(defaultReadyProjectS1);
+              setReadyProjectS2(defaultReadyProjectS2);
+              setReadyProjectS3(defaultReadyProjectS3);
+              params.delete("id");
+              params.set("screen", 1);
+              router.push(`${pathname}?${params.toString()}`);
             }
             setShowReloadSpinner(false);
           }

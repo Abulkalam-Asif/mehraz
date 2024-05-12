@@ -667,18 +667,22 @@ const ReadyProjectScreen4 = ({
             type="button"
             text="upload design"
             isTransitioned={true}
-            onClick={() =>
+            onClick={() => () => {
               uploadedDesigns?.includes(currentDesign.id)
-                ? updateReadyProjectS4DesignHandler(currentDesign.id)
-                : addReadyProjectS4DesignHandler(currentDesign.id)
-            }
+                ? updateReadyProjectS4DesignHandler(currentDesign.id, false)
+                : addReadyProjectS4DesignHandler(currentDesign.id, false);
+            }}
           />
           <Button
             type="button"
             text="finish"
             color="accent-2-outlined"
             isTransitioned={true}
-            onClick={() => {}}
+            onClick={() => {
+              uploadedDesigns?.includes(currentDesign.id)
+                ? updateReadyProjectS4DesignHandler(currentDesign.id, true)
+                : addReadyProjectS4DesignHandler(currentDesign.id, true);
+            }}
           />
         </div>
       </form>

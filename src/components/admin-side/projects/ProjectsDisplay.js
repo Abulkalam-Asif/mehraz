@@ -7,13 +7,14 @@ import {
   ProjectDisplayBoxMob,
   Td,
   Th,
+  ProjectActions,
 } from "@/components";
-import { deleteIcon, editIcon } from "@/assets";
-import Link from "next/link";
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import { FaCheckCircle, FaMinusCircle } from "react-icons/fa";
 import createProjectGroupsArr from "@/utilities/admin-panel/projects/createProjectGroupsArr";
+import { deleteIcon, editIcon } from "@/assets";
+import Image from "next/image";
+import Link from "next/link";
 
 const ProjectsDisplay = ({ freeProjects, readyProjects }) => {
   const projects = [...freeProjects, ...readyProjects];
@@ -58,7 +59,15 @@ const ProjectsDisplay = ({ freeProjects, readyProjects }) => {
               <tbody className="text-base">
                 {projects?.map(
                   (
-                    { id, title, description, isCompleted, dateCreated },
+                    {
+                      id,
+                      title,
+                      description,
+                      isCompleted,
+                      dateCreated,
+                      uploadedScreensCount,
+                      type,
+                    },
                     index,
                   ) => (
                     <tr key={index}>
@@ -95,20 +104,32 @@ const ProjectsDisplay = ({ freeProjects, readyProjects }) => {
                         position="end"
                         isLastRow={index === projectsCount - 1}
                         className="text-left py-3 px-5">
-                        <div className="flex items-center justify-center gap-3">
-                          <Link href={"/"}>
-                            <Image src={editIcon} alt="edit" className="w-5" />
-                          </Link>
-                          <button
-                            onClick={deleteProjectHandler}
-                            data-project-id={id}>
-                            <Image
-                              src={deleteIcon}
-                              alt="delete"
-                              className="w-5"
-                            />
-                          </button>
-                        </div>
+                        {type === "READY_PROJECT" ? (
+                          <ProjectActions
+                            id={id}
+                            uploadedScreensCount={uploadedScreensCount}
+                            deleteProjectHandler={deleteProjectHandler}
+                          />
+                        ) : (
+                          <div className="flex items-center justify-center gap-3 relative">
+                            <Link href={`/admin/projects`}>
+                              <Image
+                                src={editIcon}
+                                alt="edit"
+                                className="w-5"
+                              />
+                            </Link>
+                            <button
+                              onClick={deleteProjectHandler}
+                              data-project-id={id}>
+                              <Image
+                                src={deleteIcon}
+                                alt="delete"
+                                className="w-5"
+                              />
+                            </button>
+                          </div>
+                        )}
                       </Td>
                     </tr>
                   ),

@@ -48,6 +48,7 @@ const TagsInput = ({
           id={idHtmlFor}
           name={name}
           autoComplete="off"
+          placeholder="Press Enter to add a keyword..."
         />
         <div className="flex overflow-auto py-2 gap-2">
           {tagsArr?.map((value, index) => (

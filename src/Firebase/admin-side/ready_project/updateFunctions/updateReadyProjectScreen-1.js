@@ -5,7 +5,6 @@ import {
   deleteDoc,
   doc,
   getDoc,
-  query,
   updateDoc,
 } from "firebase/firestore";
 import {
@@ -108,7 +107,7 @@ const updateReadyProjectS1ToDB = async ({
     }
 
     // Get previous areas and floors
-    let prevDesigns = readyProjectsDoc.data()?.designs;
+    let prevDesigns = readyProjectsDoc.data()?.designs || [];
     if (prevDesigns) {
       const removedAreas = readyProjectsDoc
         .data()
@@ -142,7 +141,6 @@ const updateReadyProjectS1ToDB = async ({
       }
       await Promise.all(deletionPromises);
     }
-
     await updateDoc(readyProjectsDocRef, {
       title,
       cities,

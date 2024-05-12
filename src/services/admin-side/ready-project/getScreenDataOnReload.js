@@ -1,6 +1,7 @@
 import getAllRPDesignsData from "@/Firebase/admin-side/ready_project/getFunctions/getAllRPDesignsData";
 import { getScreen1Data } from "@/Firebase/admin-side/ready_project/getFunctions/getRPScreen1Data";
 import { getRPScreen2Data } from "@/Firebase/admin-side/ready_project/getFunctions/getRPScreen2Data";
+import { getRPScreen2SideData } from "@/Firebase/admin-side/ready_project/getFunctions/getRPScreen2SideData";
 import { getRPScreen3Data } from "@/Firebase/admin-side/ready_project/getFunctions/getRPScreen3Data";
 import getUploadedDesigns from "@/Firebase/admin-side/ready_project/getFunctions/getUploadedDesigns";
 
@@ -55,6 +56,27 @@ const getScreenDataOnReload = async (
         return false;
       }
     }
+  } catch (error) {
+    showAlert({
+      type: "ERROR",
+      message: error.message,
+    });
+    return false;
+  }
+};
+
+export const getScreen2SideData = async (
+  projectId,
+  setScreen1PrevData,
+  showAlert,
+) => {
+  try {
+    const projectData = await getRPScreen2SideData(projectId);
+    setScreen1PrevData({
+      areas: projectData.areas,
+      floors: projectData.floors,
+    });
+    return true;
   } catch (error) {
     showAlert({
       type: "ERROR",

@@ -244,18 +244,22 @@ const ReadyProjectS1 = ({
             type="button"
             text="Next step"
             isTransitioned={true}
-            onClick={
+            onClick={() => {
               uploadedScreensCount === 0
-                ? addReadyProjectS1Handler
-                : updateReadyProjectS1HandlerCheck
-            }
+                ? addReadyProjectS1Handler(false)
+                : updateReadyProjectS1HandlerCheck(false);
+            }}
           />
           <Button
             type="button"
             text="finish"
             color="accent-2-outlined"
             isTransitioned={true}
-            onClick={addReadyProjectS1Handler}
+            onClick={() => {
+              uploadedScreensCount === 0
+                ? addReadyProjectS1Handler(true)
+                : updateReadyProjectS1HandlerCheck(true);
+            }}
           />
         </div>
       </form>

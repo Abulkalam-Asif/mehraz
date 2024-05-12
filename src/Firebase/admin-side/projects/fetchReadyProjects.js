@@ -13,6 +13,7 @@ const fetchReadyProjects = async () => {
           isCompleted: doc.data().isCompleted,
           type: "READY_PROJECT",
           dateCreated: doc.data().dateCreated.toDate(),
+          uploadedScreensCount: doc.data().uploadedScreensCount,
         };
         projects.push(project);
       });
