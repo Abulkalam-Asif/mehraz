@@ -21,7 +21,7 @@ const Button = ({
   };
   const transitionStyles = {
     "accent-2":
-      "text-white border-2 border-accent-2-base hover:shadow-none hover:text-accent-2-base hover:bg-transparent hover:border-accent-1-dark transition-colors duration-500",
+      "border-2 border-accent-2-base hover:shadow-none hover:text-accent-2-base hover:bg-transparent hover:border-accent-1-dark transition-colors duration-500",
   };
   return (
     <>

@@ -60,7 +60,8 @@ const AdminDashboard = () => {
               {linksData.uploads?.map(({ text, href }, index) => (
                 <LinkButton
                   key={index}
-                  type="admin-dashboard"
+                  size="admin-dashboard"
+                  isTransitioned={true}
                   href={href}
                   text={text}
                 />
@@ -70,7 +71,8 @@ const AdminDashboard = () => {
               {linksData.groupChats?.map(({ text, href }, index) => (
                 <LinkButton
                   key={index}
-                  type="admin-dashboard"
+                  size="admin-dashboard"
+                  isTransitioned={true}
                   href={href}
                   text={text}
                 />
@@ -81,7 +83,8 @@ const AdminDashboard = () => {
             {linksData.members?.map(({ text, href }, index) => (
               <LinkButton
                 key={index}
-                type="admin-dashboard"
+                size="admin-dashboard"
+                isTransitioned={true}
                 href={href}
                 text={text}
               />
@@ -91,7 +94,8 @@ const AdminDashboard = () => {
             {linksData.teamsAndOthers?.map(({ text, href }, index) => (
               <LinkButton
                 key={index}
-                type="admin-dashboard"
+                size="admin-dashboard"
+                isTransitioned={true}
                 href={href}
                 text={text}
               />

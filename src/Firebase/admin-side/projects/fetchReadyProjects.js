@@ -10,7 +10,6 @@ const fetchReadyProjects = async () => {
           id: doc.id,
           title: doc.data().title,
           description: doc.data().description,
-          isCompleted: doc.data().isCompleted,
           type: "READY_PROJECT",
           dateCreated: doc.data().dateCreated.toDate(),
           uploadedScreensCount: doc.data().uploadedScreensCount,

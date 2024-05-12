@@ -63,7 +63,6 @@ const ProjectsDisplay = ({ freeProjects, readyProjects }) => {
                       id,
                       title,
                       description,
-                      isCompleted,
                       dateCreated,
                       uploadedScreensCount,
                       type,
@@ -94,7 +93,8 @@ const ProjectsDisplay = ({ freeProjects, readyProjects }) => {
                       <Td
                         align="center"
                         isLastRow={index === projectsCount - 1}>
-                        {isCompleted ? (
+                        {type === "READY_PROJECT" &&
+                        uploadedScreensCount === 4 ? (
                           <FaCheckCircle size={14} className="text-green-500" />
                         ) : (
                           <FaMinusCircle size={14} />
@@ -141,16 +141,27 @@ const ProjectsDisplay = ({ freeProjects, readyProjects }) => {
                 {projectsGroupsArr?.map((group, arrIndex) => (
                   <div key={arrIndex} className="px-2">
                     <div className="flex flex-col gap-3">
-                      {group?.map(({ id, title, description, dateCreated }) => (
-                        <ProjectDisplayBoxMob
-                          key={id}
-                          id={id}
-                          title={title}
-                          description={description}
-                          dateCreated={dateCreated}
-                          deleteProjectHandler={deleteProjectHandler}
-                        />
-                      ))}
+                      {group?.map(
+                        ({
+                          id,
+                          title,
+                          description,
+                          dateCreated,
+                          type,
+                          uploadedScreensCount,
+                        }) => (
+                          <ProjectDisplayBoxMob
+                            key={id}
+                            id={id}
+                            title={title}
+                            description={description}
+                            dateCreated={dateCreated}
+                            deleteProjectHandler={deleteProjectHandler}
+                            type={type}
+                            uploadedScreensCount={uploadedScreensCount}
+                          />
+                        ),
+                      )}
                     </div>
                   </div>
                 ))}

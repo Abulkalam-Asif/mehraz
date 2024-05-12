@@ -46,6 +46,7 @@ export { default as PropertyModal } from "./admin-side/materials/PropertyModal";
 export { default as ProjectDisplayBoxMob } from "./admin-side/projects/ProjectDisplayBoxMob";
 export { default as ProjectsDisplay } from "./admin-side/projects/ProjectsDisplay";
 export { default as ProjectActions } from "./admin-side/projects/ProjectActions";
+export { default as ProjectActionsMobile } from "./admin-side/projects/ProjectActionsMobile";
 // Admin Side - FreeProject
 export { default as FreeProjectClientPage } from "./admin-side/free-project/FreeProjectClientPage";
 export { default as FreeProjectS1 } from "./admin-side/free-project/FreeProjectS1";

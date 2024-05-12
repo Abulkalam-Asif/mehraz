@@ -11,7 +11,6 @@ const fetchFreeProjects = async () => {
           id: doc.id,
           title: doc.data().title,
           description: doc.data().description,
-          isCompleted: doc.data().isCompleted,
           type: "FREE_PROJECT",
           dateCreated: doc.data().dateCreated.toDate(),
         };
