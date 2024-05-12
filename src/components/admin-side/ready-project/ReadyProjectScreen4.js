@@ -667,7 +667,7 @@ const ReadyProjectScreen4 = ({
             type="button"
             text="upload design"
             isTransitioned={true}
-            onClick={() => () => {
+            onClick={() => {
               uploadedDesigns?.includes(currentDesign.id)
                 ? updateReadyProjectS4DesignHandler(currentDesign.id, false)
                 : addReadyProjectS4DesignHandler(currentDesign.id, false);
