@@ -63,7 +63,6 @@ const getCurrentRPDesign = async designId => {
         constructionRates: designDocData.constructionRates,
         discount: designDocData.discount,
         totalCost: designDocData.totalCost,
-        isInDefaultState: true,
       };
       return designData;
     } else {

@@ -49,7 +49,10 @@ const ReadyProjectScreen4 = ({
   const fetchCurrentDesign = async () => {
     try {
       const currentRPDesign = await getCurrentRPDesign(currentDesign.id);
-      setReadyProjectS4Design(currentRPDesign);
+      setReadyProjectS4Design({
+        ...currentRPDesign,
+        isInDefaultState: true,
+      });
       if (!productRates || productRates.length === 0) {
         setReadyProjectS4Design(prevState => ({
           ...prevState,
@@ -69,13 +72,12 @@ const ReadyProjectScreen4 = ({
 
   useEffect(() => {
     // Checking if the required data is fetched successfully
+    console.log(rpDesignsData, uploadedDesigns);
     if (isErrorOccurredWhileFetching) {
       showAlert({
         type: "ERROR",
-        message: [
-          "An error occurred while fetching data.",
-          "Please check your internet connection and try again.",
-        ],
+        message:
+          "An error occurred while fetching data. Please check your internet connection and try again.",
       });
     } else if (materials?.length === 0 || productRates?.length === 0) {
       showAlert({

@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { deleteIcon, editIcon } from "@/assets";
 import Image from "next/image";
-import LinkButton from "../LinkButton";
+import { LinkButton } from "@/components";
 
 const ProjectActions = ({ id, uploadedScreensCount, deleteProjectHandler }) => {
   const [showEditDropdown, setShowEditDropdown] = useState(false);
@@ -15,14 +15,14 @@ const ProjectActions = ({ id, uploadedScreensCount, deleteProjectHandler }) => {
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("click", handleClickOutside);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("click", handleClickOutside);
     };
-  }, []);
+  }, [showEditDropdown]);
 
   const handleEditButtonClick = () => {
-    setShowEditDropdown(!showEditDropdown);
+    setShowEditDropdown(prevState => !prevState);
   };
 
   return (

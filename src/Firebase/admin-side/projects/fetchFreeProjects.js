@@ -1,3 +1,4 @@
+"use server";
 import { getDocs, collection } from "firebase/firestore";
 import { db } from "@/Firebase/firebase";
 
@@ -18,12 +19,13 @@ const fetchFreeProjects = async () => {
       });
       return projects;
     } else {
-      console.error("No FREE_PROJECTS found.");
       return [];
     }
   } catch (error) {
     console.error("Error fetching FREE_PROJECTS from DB:", error);
-    return [];
+    throw new Error(
+      "An error occurred while fetching data. Please check your internet connection and try again.",
+    );
   }
 };
 

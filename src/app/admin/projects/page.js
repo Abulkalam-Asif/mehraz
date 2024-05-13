@@ -6,8 +6,15 @@ import fetchReadyProjects from "@/Firebase/admin-side/projects/fetchReadyProject
 import fetchFreeProjects from "@/Firebase/admin-side/projects/fetchFreeProjects";
 
 const Projects = async () => {
-  const readyProjects = await fetchReadyProjects();
-  const freeProjects = await fetchFreeProjects();
+  let readyProjects = null,
+    freeProjects = null;
+  let isErrorOccurredWhileFetching = false;
+  try {
+    readyProjects = await fetchReadyProjects();
+    freeProjects = await fetchFreeProjects();
+  } catch (error) {
+    isErrorOccurredWhileFetching = true;
+  }
 
   return (
     <>
@@ -52,6 +59,7 @@ const Projects = async () => {
           <ProjectsDisplay
             freeProjects={freeProjects}
             readyProjects={readyProjects}
+            isErrorOccurredWhileFetching={isErrorOccurredWhileFetching}
           />
         </div>
       </section>

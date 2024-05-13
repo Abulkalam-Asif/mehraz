@@ -1,3 +1,4 @@
+"use server";
 import { getDocs, collection } from "firebase/firestore";
 import { db } from "@/Firebase/firebase";
 const fetchReadyProjects = async () => {
@@ -18,12 +19,13 @@ const fetchReadyProjects = async () => {
       });
       return projects;
     } else {
-      console.error("No READY_PROJECTS found.");
       return [];
     }
   } catch (error) {
     console.error("Error fetching READY_PROJECTS from DB:", error);
-    return [];
+    throw new Error(
+      "An error occurred while fetching data. Please check your internet connection and try again.",
+    );
   }
 };
 export default fetchReadyProjects;

@@ -24,14 +24,17 @@ const updateReadyProjectS2ToDB = async ({ id, designs, budgetRanges }) => {
       };
     }
 
-    const readyProjectPrevDesigns = readyProjectDoc.data().designs || [];
+    // These are all the possible design combinations.
+    const prevDesigns = readyProjectDoc.data()?.designs || [];
+    // These are the designs whose data has been uploaded.
+    let prevUploadedDesigns = readyProjectDoc.data()?.uploadedDesigns || [];
     const rpDesignsIds = [];
     const rpDesignsData = [];
     let newDesigns = [];
 
     // Delete designs from RP_DESIGNS collection and ready project which are not included in the selected designs
     await Promise.all(
-      readyProjectPrevDesigns?.map(async prevDesignId => {
+      prevDesigns?.map(async prevDesignId => {
         const prevDesignDocRef = doc(
           collection(db, "RP_DESIGNS"),
           prevDesignId,
@@ -54,10 +57,15 @@ const updateReadyProjectS2ToDB = async ({ id, designs, budgetRanges }) => {
           await deleteObject(storageRef).catch(error => {
             console.error("Error deleting object from storage: ", error);
           });
+          if (prevUploadedDesigns.includes(prevDesignId)) {
+            prevUploadedDesigns = prevUploadedDesigns.filter(
+              design => design !== prevDesignId,
+            );
+          }
         } else {
           rpDesignsIds.push(prevDesignId);
         }
-      }),
+      }) || [],
     );
 
     // Obtain a third array containing objects from array1 that are not present in array2
@@ -75,15 +83,16 @@ const updateReadyProjectS2ToDB = async ({ id, designs, budgetRanges }) => {
     const rpDesignsRef = collection(db, "RP_DESIGNS");
 
     await Promise.all(
-      newDesigns.map(async design => {
+      newDesigns?.map(async design => {
         const response = await addDoc(rpDesignsRef, design);
         rpDesignsIds.push(response.id);
-      }),
+      }) || [],
     );
 
     //Update the ready project document
     await updateDoc(readyProjectDocRef, {
       designs: rpDesignsIds,
+      uploadedDesigns: prevUploadedDesigns,
       budgetRanges,
     });
 

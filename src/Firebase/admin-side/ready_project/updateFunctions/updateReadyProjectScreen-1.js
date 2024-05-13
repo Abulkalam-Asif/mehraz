@@ -108,7 +108,8 @@ const updateReadyProjectS1ToDB = async ({
 
     // Get previous areas and floors
     let prevDesigns = readyProjectsDoc.data()?.designs || [];
-    if (prevDesigns) {
+    let prevUploadedDesigns = readyProjectsDoc.data()?.uploadedDesigns || [];
+    if (prevDesigns?.length > 0) {
       const removedAreas = readyProjectsDoc
         .data()
         .areas.filter(area => !areas.includes(area));
@@ -127,15 +128,22 @@ const updateReadyProjectS1ToDB = async ({
             removedAreas.includes(rpDesignData.areaId) ||
             removedFloors.includes(rpDesignData.floorId)
           ) {
-            const deletePromise = (async () => {
+            const deletePromise = async () => {
               await deleteDoc(rpDesignDocRef);
               const storageRef = ref(storage, `RP_DESIGNS/${prevDesign}`);
               deleteObject(storageRef)
                 .then(() => {})
                 .catch(error => {});
-            })();
+            };
             deletionPromises.push(deletePromise);
+            // Remove the design from the previous designs array
             prevDesigns = prevDesigns.filter(design => design !== prevDesign);
+            // Remove the design from the uploaded designs array
+            if (prevUploadedDesigns.includes(prevDesign)) {
+              prevUploadedDesigns = prevUploadedDesigns.filter(
+                design => design !== prevDesign,
+              );
+            }
           }
         }
       }
@@ -155,6 +163,7 @@ const updateReadyProjectS1ToDB = async ({
       keywords,
       isComplete: false,
       designs: prevDesigns,
+      uploadedDesigns: prevUploadedDesigns,
     });
     let imageUrl = image;
     let videoUrl = video;

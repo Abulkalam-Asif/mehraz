@@ -7,11 +7,11 @@ export const getRPUploadedScreensCount = async projectId => {
   try {
     const projectData = await getDoc(projectDocRef);
     if (projectData.exists()) {
-      return projectData?.data()?.uploadedScreensCount || 0;
+      return projectData?.data()?.uploadedScreensCount || null;
     }
-    return 0;
+    return null;
   } catch (error) {
     console.error("Error getting document:", error);
-    return 0;
+    return null;
   }
 };

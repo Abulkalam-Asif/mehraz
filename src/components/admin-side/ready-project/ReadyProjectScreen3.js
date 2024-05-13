@@ -32,10 +32,8 @@ const ReadyProjectScreen3 = ({
     if (isErrorOccurredWhileFetching) {
       showAlert({
         type: "ERROR",
-        message: [
-          "An error occurred while fetching data.",
-          "Please check your internet connection and try again.",
-        ],
+        message:
+          "An error occurred while fetching data. Please check your internet connection and try again.",
       });
     } else if (materials?.length === 0) {
       showAlert({

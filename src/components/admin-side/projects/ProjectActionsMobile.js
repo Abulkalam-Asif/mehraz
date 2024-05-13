@@ -19,14 +19,14 @@ const ProjectActionsMobile = ({
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("click", handleClickOutside);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("click", handleClickOutside);
     };
-  }, []);
+  }, [showEditDropdown]);
 
   const handleEditButtonClick = () => {
-    setShowEditDropdown(!showEditDropdown);
+    setShowEditDropdown(prevState => !prevState);
   };
 
   return (

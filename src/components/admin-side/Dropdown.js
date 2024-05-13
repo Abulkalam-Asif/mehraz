@@ -13,7 +13,7 @@ const Dropdown = ({
 
   useEffect(() => {
     const handleOutsideClick = e => {
-      setShowDropdown(null);
+      setShowDropdown(false);
     };
     document.addEventListener("click", handleOutsideClick);
     return () => {

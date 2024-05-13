@@ -126,6 +126,7 @@ const ReadyProjectClientPage = ({
       params.set("id", id);
       params.set("screen", 2);
       router.push(`${pathname}?${params.toString()}`);
+      setShowReloadSpinner(true);
     }
   };
 
@@ -175,6 +176,7 @@ const ReadyProjectClientPage = ({
       const params = new URLSearchParams(serachParams);
       params.set("screen", 2);
       router.push(`${pathname}?${params.toString()}`);
+      setShowReloadSpinner(true);
     }
   };
 
@@ -240,6 +242,7 @@ const ReadyProjectClientPage = ({
       const params = new URLSearchParams(serachParams);
       params.set("screen", 3);
       router.push(`${pathname}?${params.toString()}`);
+      setShowReloadSpinner(true);
     }
   };
 
@@ -299,6 +302,7 @@ const ReadyProjectClientPage = ({
       const params = new URLSearchParams(serachParams);
       params.set("screen", 3);
       router.push(`${pathname}?${params.toString()}`);
+      setShowReloadSpinner(true);
     }
   };
 
@@ -539,6 +543,7 @@ const ReadyProjectClientPage = ({
         interiorViews: updatedInteriorViews,
         exteriorViews: updatedExteriorViews,
         programs: updatedPrograms,
+        isInDefaultState: true,
       }));
       setUploadedDesigns(prevState => [...prevState, designId]);
     }
@@ -601,6 +606,7 @@ const ReadyProjectClientPage = ({
         imagesOp1ToDel: [],
         imagesOp2ToDel: [],
         viewsToDelIds: [],
+        isInDefaultState: true,
       }));
       setUploadedDesigns(prevState => [...prevState, designId]);
     }
@@ -654,20 +660,9 @@ const ReadyProjectClientPage = ({
                 setUploadedDesigns,
               );
               if (!isSuccessful) {
-                // If the data is not fetched successfully, set the states to default value and redirect to the first screen
-                setUploadedScreensCount(0);
-                setCurrentScreen(1);
-                setProjectId("");
-                setReadyProjectS1(defaultReadyProjectS1);
-                setReadyProjectS2(defaultReadyProjectS2);
-                setReadyProjectS3(defaultReadyProjectS3);
-                params.delete("id");
-                params.set("screen", 1);
-                router.push(`${pathname}?${params.toString()}`);
+                // If the data is not fetched successfully, redirect to projects page
+                router.push("projects");
               }
-              setShowReloadSpinner(false);
-            } else {
-              setShowReloadSpinner(false);
             }
           } else {
             // If the currentScreen is higher than the uploadedScreensCount, it means the data of the that currentScreen is not available in the db. The currentScreen might have an invalid value. Redirect to the screen next to the highest uploaded screen.
@@ -699,49 +694,24 @@ const ReadyProjectClientPage = ({
               );
             }
             if (!isSuccessful) {
-              // If the data is not fetched successfully, set the states to default value and redirect to the first screen
-              setUploadedScreensCount(0);
-              setCurrentScreen(1);
-              setProjectId("");
-              setReadyProjectS1(defaultReadyProjectS1);
-              setReadyProjectS2(defaultReadyProjectS2);
-              setReadyProjectS3(defaultReadyProjectS3);
-              params.delete("id");
-              params.set("screen", 1);
-              router.push(`${pathname}?${params.toString()}`);
+              // If the data is not fetched successfully, redirect to the projects page
+              router.push("projects");
             }
-            setShowReloadSpinner(false);
           }
         } else {
-          // If the project with the given projectId is not found in the db, or the uploadedScreensCount is not available, it means user has manually changed the url to an inconsistant state. Redirect to the first screen
-          setUploadedScreensCount(0);
-          setCurrentScreen(1);
-          setProjectId("");
-          setReadyProjectS1(defaultReadyProjectS1);
-          setReadyProjectS2(defaultReadyProjectS2);
-          setReadyProjectS3(defaultReadyProjectS3);
-          params.delete("id");
-          params.set("screen", 1);
-          router.push(`${pathname}?${params.toString()}`);
+          // If the project with the given projectId is not found in the db, or the uploadedScreensCount is not available, it means user has manually changed the url to an inconsistant state. Redirect to the projects page
           showAlert({
             type: "ERROR",
-            message: "An error occurred. Please try again.",
+            message:
+              "An error occurred while fetching data. Please check your internet connection and try again.",
           });
-          setShowReloadSpinner(false);
+          router.push("projects");
         }
       } else {
-        // If both the projectId and the currentScreen are not available in the url, redirect to the first screen
-        setUploadedScreensCount(0);
-        setCurrentScreen(1);
-        setProjectId("");
-        setReadyProjectS1(defaultReadyProjectS1);
-        setReadyProjectS2(defaultReadyProjectS2);
-        setReadyProjectS3(defaultReadyProjectS3);
-        params.delete("id");
-        params.set("screen", 1);
-        router.push(`${pathname}?${params.toString()}`);
-        setShowReloadSpinner(false);
+        // If both the projectId or the currentScreen are not available in the url, redirect to the projects page
+        router.push("projects");
       }
+      setShowReloadSpinner(false);
     };
 
     handleSearchParamsChange();

@@ -20,13 +20,15 @@ const Alert = ({ message, type }) => {
   return (
     <>
       <div
-        className={`fixed z-50 top-4 right-4 bg-white border-2 border-accent-1-base shadow-xl rounded-lg flex items-center gap-4 overflow-hidden`}>
-        <span className="pl-4 py-3 flex flex-col items-center gap-1">
-          {typeof message === "string"
-            ? message
-            : typeof message === "object" &&
-              message.map((msg, index) => <span key={index}>{msg}</span>)}
-        </span>
+        className={`fixed z-50 top-0 right-0 mx-4 mt-4 bg-white border-2 border-accent-1-base shadow-xl rounded-lg flex items-center gap-4 overflow-hidden`}>
+        <div className="pl-4 pt-3 pb-4 flex flex-col items-center gap-1">
+          {message
+            .split(".")
+            .filter(msg => msg.length > 0)
+            .map((msg, index) => (
+              <span key={index}>{msg.trim()}.</span>
+            ))}
+        </div>
         <button className="p-4" onClick={hideAlert}>
           <Image src={closeIcon} alt="close" width={14} />
         </button>

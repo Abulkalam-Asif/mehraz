@@ -43,9 +43,13 @@ export const getScreen1Data = async projectId => {
       };
       return projectData;
     }
-    throw new Error("An error occurred. Please try again.");
+    throw new Error(
+      "An error occurred while fetching data. Please check your internet connection and try again.",
+    );
   } catch (error) {
     console.error("Error getting document:", error);
-    throw new Error("An error occurred. Please try again.");
+    throw new Error(
+      "An error occurred while fetching data. Please check your internet connection and try again.",
+    );
   }
 };
