@@ -38,7 +38,7 @@ const Projects = async () => {
                 className="lg:text-base"
               />
               <LinkButton
-                href="/admin/ready-project"
+                href="/admin/ready-project?screen=1"
                 text="create new +"
                 className="lg:text-base"
               />
@@ -50,7 +50,7 @@ const Projects = async () => {
                 className="text-sm xs:px-3 xs:py-2"
               />
               <LinkButton
-                href="/admin/ready-project"
+                href="/admin/ready-project?screen=1"
                 text="create +"
                 className="text-sm xs:px-3 xs:py-2"
               />

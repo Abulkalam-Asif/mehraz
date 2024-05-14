@@ -708,8 +708,25 @@ const ReadyProjectClientPage = ({
           router.push("projects");
         }
       } else {
-        // If both the projectId or the currentScreen are not available in the url, redirect to the projects page
-        router.push("projects");
+        // If either projectId or currentScreen is not available in the url, redirect to the screen 1
+        if (currentScreenParam !== 1) {
+          showAlert({
+            type: "ERROR",
+            message: "An error occurred, Please try again.",
+          });
+          params.set("screen", 1);
+        }
+        if (projectIdParam) {
+          params.delete("id");
+          params.set("screen", 1);
+        }
+        router.push(`${pathname}?${params.toString()}`);
+        setCurrentScreen(1);
+        setUploadedScreensCount(0);
+        setProjectId("");
+        setReadyProjectS1(defaultReadyProjectS1);
+        setReadyProjectS2(defaultReadyProjectS2);
+        setReadyProjectS3(defaultReadyProjectS3);
       }
       setShowReloadSpinner(false);
     };
