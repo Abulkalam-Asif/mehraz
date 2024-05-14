@@ -1,4 +1,4 @@
-const Spinner = ({ text = null, size, className }) => {
+const Spinner = ({ text = null, size, className = "" }) => {
   const containerSizeStyles = {
     xs: "gap-1",
     sm: "gap-1",

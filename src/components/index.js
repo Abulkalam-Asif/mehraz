@@ -82,6 +82,8 @@ export { default as ProductRatesSection } from "./admin-side/ready-project/Produ
 // Admin Side - ReadyProject - Preview
 export { default as PreviewClientPage } from "./admin-side/ready-project/preview/PreviewClientPage";
 export { default as PreviewCarouselSmall } from "./admin-side/ready-project/preview/PreviewCarouselSmall";
+export { default as PreviewCarouselMain } from "./admin-side/ready-project/preview/PreviewCarouselMain";
+export { default as PreviewCheckbox } from "./admin-side/ready-project/preview/PreviewCheckbox";
 // Admin Side - RAC
 export { default as RACClientPage } from "./admin-side/rac/RACClientPage";
 export { default as MultiCheckbox } from "./admin-side/rac/MultiCheckbox";

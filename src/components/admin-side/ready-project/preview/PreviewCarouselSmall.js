@@ -28,10 +28,10 @@ const PreviewCarouselSmall = ({ children, slidesCount }) => {
     prevArrow: <CustomPrevArrow />,
     nextArrow: <CustomNextArrow />,
     dots: false,
-    infinite: true,
+    infinite: false,
     speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 1,
+    slidesToShow: 3,
+    slidesToScroll: 2,
 
     responsive: [
       {
@@ -50,28 +50,22 @@ const PreviewCarouselSmall = ({ children, slidesCount }) => {
     <>
       <div className="w-full relative">
         <div>
-          {slidesCount > 1 ? (
-            <Slider {...sliderSettings} ref={sliderRef}>
-              {children}
-            </Slider>
-          ) : (
-            <div className="w-1/4 mx-auto">{children}</div>
-          )}
+          <Slider {...sliderSettings} ref={sliderRef}>
+            {children}
+          </Slider>
         </div>
-        {slidesCount > 1 && (
-          <>
-            <button
-              onClick={previousSlide}
-              className="absolute top-1/2 -translate-y-1/2 left-0 -translate-x-2/3 bg-accent-2-base p-3 rounded-full">
-              <FaChevronLeft className="text-white" size={24} />
-            </button>
-            <button
-              onClick={nextSlide}
-              className="absolute top-1/2 -translate-y-1/2 right-0 translate-x-2/3 bg-accent-2-base p-3 rounded-full">
-              <FaChevronRight className="text-white" size={24} />
-            </button>
-          </>
-        )}
+        <>
+          <button
+            onClick={previousSlide}
+            className="absolute top-1/2 -translate-y-1/2 left-0 -translate-x-2/3 bg-accent-2-base p-2 rounded-full">
+            <FaChevronLeft className="text-white" size={16} />
+          </button>
+          <button
+            onClick={nextSlide}
+            className="absolute top-1/2 -translate-y-1/2 right-0 translate-x-2/3 bg-accent-2-base p-2 rounded-full">
+            <FaChevronRight className="text-white" size={16} />
+          </button>
+        </>
       </div>
     </>
   );
