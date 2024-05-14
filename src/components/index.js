@@ -79,6 +79,9 @@ export { default as RPExteriorModal } from "./admin-side/ready-project/RPExterio
 export { default as RPInteriorModal } from "./admin-side/ready-project/RPInteriorModal";
 export { default as RPMaterialsSection } from "./admin-side/ready-project/RPMaterialsSection";
 export { default as ProductRatesSection } from "./admin-side/ready-project/ProductRatesSection";
+// Admin Side - ReadyProject - Preview
+export { default as PreviewClientPage } from "./admin-side/ready-project/preview/PreviewClientPage";
+export { default as PreviewCarouselSmall } from "./admin-side/ready-project/preview/PreviewCarouselSmall";
 // Admin Side - RAC
 export { default as RACClientPage } from "./admin-side/rac/RACClientPage";
 export { default as MultiCheckbox } from "./admin-side/rac/MultiCheckbox";
