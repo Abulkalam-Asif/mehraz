@@ -8,6 +8,7 @@ import {
   Spinner,
   PreviewCarouselSmall,
   PreviewCarouselMain,
+  LinkButton,
 } from "@/components";
 import Image from "next/image";
 import PreviewCheckbox from "./PreviewCheckbox";
@@ -44,7 +45,7 @@ const PreviewClientPage = () => {
       <div className="max-w-8xl w-full mx-auto h-page-container-admin xl:h-page-container-admin-xl overflow-y-auto pr-2">
         {previewData ? (
           <div className="flex gap-12 xl:gap-8 lg:flex-col-reverse sm:gap-4">
-            <div className="space-y-4 w-5/12 xl:w-1/2 lg:w-full">
+            <div className="space-y-6 w-5/12 xl:w-1/2 lg:w-full">
               <h2 className="font-bold text-2xl">{previewData.title} </h2>
               <p>{previewData.description}</p>
               <div>
@@ -75,6 +76,15 @@ const PreviewClientPage = () => {
                     );
                   })}
                 </PreviewCarouselSmall>
+              </div>
+              <div>
+                <LinkButton
+                  text="return to projects"
+                  href="/admin/projects"
+                  className="mx-auto w-fit block"
+                  isTransitioned={true}
+                  size="sm"
+                />
               </div>
             </div>
             <div className="w-7/12 xl:w-1/2 lg:w-full">

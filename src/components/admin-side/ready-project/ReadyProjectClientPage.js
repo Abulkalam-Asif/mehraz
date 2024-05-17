@@ -509,7 +509,7 @@ const ReadyProjectClientPage = ({
     );
     if (data) {
       if (finish) {
-        router.push("/admin/projects");
+        router.push(`/admin/ready-project/preview?id=${projectId}`);
         return;
       }
       const updatedInteriorViews = readyProjectS4Design.interiorViews.map(

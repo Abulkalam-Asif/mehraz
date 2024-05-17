@@ -677,7 +677,7 @@ const ReadyProjectScreen4 = ({
           />
           <Button
             type="button"
-            text="finish"
+            text="upload & finish"
             color="accent-2-outlined"
             isTransitioned={true}
             onClick={() => {
