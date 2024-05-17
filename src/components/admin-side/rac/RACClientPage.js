@@ -70,9 +70,22 @@ const RACClientPage = ({
   plots,
   styles,
   units,
+  isErrorOccurredWhileFetching,
 }) => {
   const { showAlert } = useContext(AlertContext);
   const [showModalSpinner, setShowModalSpinner] = useState(false);
+
+  useEffect(() => {
+    Object.keys(isErrorOccurredWhileFetching).forEach(key => {
+      if (isErrorOccurredWhileFetching[key]) {
+        showAlert({
+          type: "ERROR",
+          message:
+            "An error occurred while fetching data. Please check your internet connection and try again.",
+        });
+      }
+    });
+  }, []);
 
   // Roles states and functions
   const [rolesRows, setRolesRows] = useState(null);
@@ -373,10 +386,13 @@ const RACClientPage = ({
   return (
     <>
       {/* This div will be displayed for over 1024px width */}
-      <div className="max-w-8xl w-full mx-auto flex flex-row gap-x-4 h-page-container-admin xl:h-page-container-admin-xl lg:hidden">
+      <div className="max-w-8xl w-full mx-auto flex flex-row gap-x-4 h-page-container-admin xl:h-page-container-admin-xl min-h-page-container-admin-inner max-h-page-container-admin-inner pb-4 lg:hidden">
         <div className="w-full h-full grid grid-rows-3 gap-2">
           <RolesSection rolesRows={rolesRows} />
           <CurrenciesSection
+            isErrorOccurredWhileFetching={
+              isErrorOccurredWhileFetching.currencies
+            }
             currencies={currencies}
             setCurrentCurrency={setCurrentCurrency}
             setModalMetadata={setModalMetadata}
@@ -387,6 +403,7 @@ const RACClientPage = ({
         </div>
         <RACContainer className="w-full grid grid-rows-4">
           <CitiesSection
+            isErrorOccurredWhileFetching={isErrorOccurredWhileFetching.cities}
             cities={cities}
             setCurrentCity={setCurrentCity}
             setModalMetadata={setModalMetadata}
@@ -394,6 +411,9 @@ const RACClientPage = ({
             setItemToDelete={setItemToDelete}
           />
           <OfficeLocSection
+            isErrorOccurredWhileFetching={
+              isErrorOccurredWhileFetching.officeLocations
+            }
             officeLocations={officeLocations}
             setCurrentOfficeLocation={setCurrentOfficeLocation}
             setModalMetadata={setModalMetadata}
@@ -401,6 +421,7 @@ const RACClientPage = ({
             setItemToDelete={setItemToDelete}
           />
           <PlotsSection
+            isErrorOccurredWhileFetching={isErrorOccurredWhileFetching.plots}
             plots={plots}
             units={units}
             setCurrentPlot={setCurrentPlot}
@@ -409,6 +430,7 @@ const RACClientPage = ({
             setItemToDelete={setItemToDelete}
           />
           <StylesSection
+            isErrorOccurredWhileFetching={isErrorOccurredWhileFetching.styles}
             styles={styles}
             setCurrentStyle={setCurrentStyle}
             setModalMetadata={setModalMetadata}
@@ -418,8 +440,6 @@ const RACClientPage = ({
         </RACContainer>
         <UserProductAnalyticsSection />
       </div>
-      {/* for 0-1024 width, calc(100vh - (AdminHeader height + 3rem) - page header height) */}
-      {/* This div will be displayed for up to 1024px width */}
       <div className="hidden lg:h-[calc(100vh-7rem-3rem)] lg:flex flex-col items-center justify-start gap-y-3 w-full mx-auto pt-4 sm:pt-2">
         <div className="flex flex-wrap justify-center gap-2">
           {mobileButtonsData?.map((buttonData, index) => (
@@ -436,6 +456,9 @@ const RACClientPage = ({
           <RolesSection rolesRows={rolesRows} />
         ) : expandedSection === "currencies" ? (
           <CurrenciesSection
+            isErrorOccurredWhileFetching={
+              isErrorOccurredWhileFetching.currencies
+            }
             currencies={currencies}
             setCurrentCurrency={setCurrentCurrency}
             setModalMetadata={setModalMetadata}
@@ -445,6 +468,7 @@ const RACClientPage = ({
         ) : expandedSection === "cities" ? (
           <RACContainer className="w-full overflow-hidden">
             <CitiesSection
+              isErrorOccurredWhileFetching={isErrorOccurredWhileFetching.cities}
               cities={cities}
               setCurrentCity={setCurrentCity}
               setModalMetadata={setModalMetadata}
@@ -455,6 +479,9 @@ const RACClientPage = ({
         ) : expandedSection === "officeLocations" ? (
           <RACContainer className="w-full overflow-hidden">
             <OfficeLocSection
+              isErrorOccurredWhileFetching={
+                isErrorOccurredWhileFetching.officeLocations
+              }
               officeLocations={officeLocations}
               setCurrentOfficeLocation={setCurrentOfficeLocation}
               setModalMetadata={setModalMetadata}
@@ -465,6 +492,7 @@ const RACClientPage = ({
         ) : expandedSection === "plots" ? (
           <RACContainer className="w-full overflow-hidden">
             <PlotsSection
+              isErrorOccurredWhileFetching={isErrorOccurredWhileFetching.plots}
               plots={plots}
               units={units}
               setCurrentPlot={setCurrentPlot}
@@ -476,6 +504,7 @@ const RACClientPage = ({
         ) : expandedSection === "styles" ? (
           <RACContainer className="w-full overflow-hidden">
             <StylesSection
+              isErrorOccurredWhileFetching={isErrorOccurredWhileFetching.styles}
               styles={styles}
               setCurrentStyle={setCurrentStyle}
               setModalMetadata={setModalMetadata}

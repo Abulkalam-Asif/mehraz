@@ -3,6 +3,7 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/Firebase/firebase";
 
 const getCitiesFromDB = async (fields = ["id", "name"]) => {
+  
   const citiesRef = collection(db, "CITIES");
   const cities = [];
   try {

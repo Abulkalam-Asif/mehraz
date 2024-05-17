@@ -1,11 +1,4 @@
-import {
-  H2,
-  Spinner,
-  Td,
-  Th,
-  Table,
-  RACContainer,
-} from "@/components";
+import { H2, Spinner, Td, Th, Table, RACContainer } from "@/components";
 
 const RolesSection = ({ rolesRows }) => {
   return (

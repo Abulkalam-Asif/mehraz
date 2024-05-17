@@ -4,6 +4,7 @@ import { db, storage } from "@/Firebase/firebase";
 import { getDownloadURL, ref } from "firebase/storage";
 
 const getStylesFromDB = async (fields = ["id", "name", "budget"]) => {
+  
   const stylesRef = collection(db, "STYLES");
   const styles = [];
   const promises = [];

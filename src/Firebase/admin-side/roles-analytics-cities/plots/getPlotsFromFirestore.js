@@ -3,6 +3,7 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/Firebase/firebase";
 
 const getPlotsFromDB = async (fields = ["id", "area", "unit", "category"]) => {
+  
   const plotsRef = collection(db, "PLOTS");
   const plots = [];
   try {
