@@ -62,12 +62,12 @@ const PreviewCarouselMain = ({ children, slidesCount = 1, className = "" }) => {
           <>
             <button
               onClick={previousSlide}
-              className="absolute top-1/2 -translate-y-1/2 left-0 -translate-x-2/3 bg-accent-2-base p-3 rounded-full">
+              className="absolute top-1/2 -translate-y-1/2 left-0 bg-accent-2-base p-3 rounded-full border-4 border-white">
               <FaChevronLeft className="text-white" size={24} />
             </button>
             <button
               onClick={nextSlide}
-              className="absolute top-1/2 -translate-y-1/2 right-0 translate-x-2/3 bg-accent-2-base p-3 rounded-full">
+              className="absolute top-1/2 -translate-y-1/2 right-0 bg-accent-2-base p-3 rounded-full border-4 border-white">
               <FaChevronRight className="text-white" size={24} />
             </button>
           </>

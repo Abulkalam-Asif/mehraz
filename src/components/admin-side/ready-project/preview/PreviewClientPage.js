@@ -41,11 +41,11 @@ const PreviewClientPage = () => {
 
   return (
     <>
-      <div className="max-w-8xl w-full mx-auto h-page-container-admin xl:h-page-container-admin-xl overflow-y-auto px-8">
+      <div className="max-w-8xl w-full mx-auto h-page-container-admin xl:h-page-container-admin-xl overflow-y-auto pr-2">
         {previewData ? (
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-4 pr-16">
-              <h2 className="font-medium text-2xl">{previewData.title} </h2>
+          <div className="flex gap-12 xl:gap-8 lg:flex-col-reverse sm:gap-4">
+            <div className="space-y-4 w-5/12 xl:w-1/2 lg:w-full">
+              <h2 className="font-bold text-2xl">{previewData.title} </h2>
               <p>{previewData.description}</p>
               <div>
                 <h2 className="font-medium text-xl">Materials</h2>
@@ -54,7 +54,7 @@ const PreviewClientPage = () => {
                   {previewData.materials?.map((material, index) => {
                     return (
                       <div key={index} className="p-2">
-                        <div className="w-full h-28 rounded-md overflow-hidden">
+                        <div className="w-full h-28 rounded-md overflow-hidden sm:h-20">
                           <Image
                             src={material.image}
                             width={500}
@@ -77,17 +77,17 @@ const PreviewClientPage = () => {
                 </PreviewCarouselSmall>
               </div>
             </div>
-            <div>
+            <div className="w-7/12 xl:w-1/2 lg:w-full">
               <PreviewCarouselMain slidesCount={2}>
                 <div className="px-3">
-                  <div className="h-[50vh]">
+                  <div className="h-[50vh] lg:h-[40vh] sm:h-[30vh] xs:h-[25vh]">
                     <video controls className="w-full h-full object-contain">
                       <source src={previewData.video} type="video/mp4" />
                     </video>
                   </div>
                 </div>
                 <div className="px-3">
-                  <div className="h-[50vh]">
+                  <div className="h-[50vh] lg:h-[40vh] sm:h-[30vh] xs:h-[25vh]">
                     <Image
                       src={previewData.image}
                       width={500}
@@ -98,8 +98,8 @@ const PreviewClientPage = () => {
                   </div>
                 </div>
               </PreviewCarouselMain>
-              <div className="flex flex-col">
-                <div className="flex flex-row gap-8 py-3">
+              <div className="flex flex-col lg:flex-col-reverse">
+                <div className="flex flex-row justify-center gap-8 mt-4 mb-2">
                   <PreviewCheckbox
                     idHtmlFor="option1"
                     label="Option1"
@@ -122,11 +122,12 @@ const PreviewClientPage = () => {
                   />
                 </div>
                 <PreviewCarouselSmall
+                  className="lg:mt-4"
                   slidesCount={currentImagesArray?.length || 0}>
                   {currentImagesArray?.map((image, index) => {
                     return (
                       <div key={index} className="p-2">
-                        <div className="w-full h-28 rounded-md overflow-hidden">
+                        <div className="w-full h-28 rounded-md overflow-hidden sm:h-20">
                           <Image
                             src={image}
                             width={500}

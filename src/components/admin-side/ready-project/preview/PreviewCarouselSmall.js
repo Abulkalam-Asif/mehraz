@@ -5,7 +5,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { useRef } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 
-const PreviewCarouselSmall = ({ children, slidesCount }) => {
+const PreviewCarouselSmall = ({ children, className = "" }) => {
   const sliderRef = useRef(null);
 
   const CustomPrevArrow = () => (
@@ -32,7 +32,6 @@ const PreviewCarouselSmall = ({ children, slidesCount }) => {
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 2,
-
     responsive: [
       {
         breakpoint: 1024,
@@ -41,14 +40,23 @@ const PreviewCarouselSmall = ({ children, slidesCount }) => {
         breakpoint: 768,
       },
       {
-        breakpoint: 640,
+        breakpoint: 576,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 360,
+        settings: {
+          slidesToShow: 2,
+        },
       },
     ],
   };
 
   return (
     <>
-      <div className="w-full relative">
+      <div className={`w-full relative ${className}`}>
         <div>
           <Slider {...sliderSettings} ref={sliderRef}>
             {children}
@@ -57,12 +65,12 @@ const PreviewCarouselSmall = ({ children, slidesCount }) => {
         <>
           <button
             onClick={previousSlide}
-            className="absolute top-1/2 -translate-y-1/2 left-0 -translate-x-2/3 bg-accent-2-base p-2 rounded-full">
+            className="absolute top-1/2 -translate-y-1/2 left-0 bg-accent-2-base p-2 rounded-full border-4 border-white">
             <FaChevronLeft className="text-white" size={16} />
           </button>
           <button
             onClick={nextSlide}
-            className="absolute top-1/2 -translate-y-1/2 right-0 translate-x-2/3 bg-accent-2-base p-2 rounded-full">
+            className="absolute top-1/2 -translate-y-1/2 right-0 bg-accent-2-base p-2 rounded-full border-4 border-white">
             <FaChevronRight className="text-white" size={16} />
           </button>
         </>
