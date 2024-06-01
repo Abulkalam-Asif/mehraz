@@ -26,8 +26,8 @@ const ProductDesignRatesModal = ({
             ? addNewDesignRateHandler
             : editDesignRateHandler
         }
-        className={"flex items-stretch gap-8"}>
-        <div className="w-1/2 gap-2">
+        className={"flex items-stretch gap-8 sm:flex-col sm:gap-4"}>
+        <div className="w-1/2 gap-2 sm:w-full">
           <AdminInputBox
             label="Enter service"
             value={currentDesignRate.service}
@@ -49,7 +49,7 @@ const ProductDesignRatesModal = ({
             max={9999999}
           />
         </div>
-        <div className="flex flex-col w-1/2 gap-2">
+        <div className="flex flex-col w-1/2 gap-2 sm:w-full">
           <AdminInputBox
             label="Enter description"
             value={currentDesignRate.description}

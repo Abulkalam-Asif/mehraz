@@ -7,6 +7,7 @@ import {
   ProductConstructionRatesSection,
   ProductDesignRatesModal,
   ProductDesignRatesSection,
+  ProductRatesBudgetRangesSection,
   ProductRatesChangesSection,
   Spinner,
 } from "@/components";
@@ -17,10 +18,12 @@ import {
   editRateService,
 } from "@/services/admin-side/product-rates/productRates";
 import updateChangesService from "@/services/admin-side/product-rates/changes";
+import updateBudgetRangesService from "@/services/admin-side/product-rates/budgetRanges";
 
 const ProductRatesClientPage = ({
   productRates,
   changes,
+  budgetRanges,
   areErrorsOccurredWhileFetching,
 }) => {
   const { showAlert } = useContext(AlertContext);
@@ -134,6 +137,20 @@ const ProductRatesClientPage = ({
     updateChangesService(newChanges, setShowUpdateSpinner, showAlert);
   };
 
+  // Budget ranges state and functions
+  const [newBudgetRanges, setNewBudgetRanges] = useState(budgetRanges);
+  const newBudgetRangesInputHandler = (id, name, value) => {
+    setNewBudgetRanges(prevState =>
+      prevState.map(budgetRange =>
+        budgetRange.id === id ? { ...budgetRange, [name]: value } : budgetRange,
+      ),
+    );
+  };
+
+  const updateBudgetRangesHandler = async () => {
+    updateBudgetRangesService(newBudgetRanges, setShowUpdateSpinner, showAlert);
+  };
+
   // Spinner state for fetching data
   const [showUpdateSpinner, setShowUpdateSpinner] = useState(false);
 
@@ -166,8 +183,8 @@ const ProductRatesClientPage = ({
   }, [isModalOpen]);
   return (
     <>
-      <div className="max-w-8xl w-full mx-auto h-page-container-admin xl:h-page-container-admin-xl grid grid-cols-2 gap-8">
-        <div className="h-page-container-admin-inner min-h-page-container-admin-inner max-h-page-container-admin-inner md:h-auto md:min-h-0 grid grid-rows-3 gap-4 overflow-y-auto">
+      <div className="max-w-8xl w-full mx-auto h-page-container-admin xl:h-page-container-admin-xl grid grid-cols-2 gap-8 lg:h-auto lg:grid-cols-1 lg:gap-4">
+        <div className="h-page-container-admin-inner min-h-page-container-admin-inner max-h-page-container-admin-inner md:h-auto md:min-h-0 grid grid-rows-3 gap-4 overflow-y-auto lg:min-h-0 lg:h-auto lg:flex lg:flex-col">
           <ProductDesignRatesSection
             designRates={designRates}
             isErrorOccurredWhileFetching={
@@ -187,7 +204,7 @@ const ProductRatesClientPage = ({
             updateChangesHandler={updateChangesHandler}
           />
         </div>
-        <div className="h-page-container-admin-inner min-h-page-container-admin-inner max-h-page-container-admin-inner md:h-auto md:min-h-0 grid grid-rows-3 gap-4 overflow-y-auto">
+        <div className="h-page-container-admin-inner min-h-page-container-admin-inner max-h-page-container-admin-inner md:h-auto md:min-h-0 grid grid-rows-3 gap-4 overflow-y-auto lg:min-h-0 lg:h-auto lg:flex lg:flex-col">
           <ProductConstructionRatesSection
             constructionRates={constructionRates}
             isErrorOccurredWhileFetching={
@@ -198,7 +215,14 @@ const ProductRatesClientPage = ({
             setCurrentConstructionRate={setCurrentConstructionRate}
             setItemToDelete={setItemToDelete}
           />
-          <div>other div</div>
+          <ProductRatesBudgetRangesSection
+            newBudgetRanges={newBudgetRanges}
+            isErrorOccurredWhileFetching={
+              areErrorsOccurredWhileFetching.budgetRanges
+            }
+            newBudgetRangesInputHandler={newBudgetRangesInputHandler}
+            updateBudgetRangesHandler={updateBudgetRangesHandler}
+          />
         </div>
       </div>
       {showUpdateSpinner && (

@@ -26,8 +26,8 @@ const ProductConstructionRatesModal = ({
             ? addNewConstructionRateHandler
             : editConstructionRateHandler
         }
-        className={"flex items-stretch gap-8"}>
-        <div className="w-1/2 gap-2">
+        className={"flex items-stretch gap-8 sm:gap-4 sm:flex-col"}>
+        <div className="w-1/2 gap-2 sm:w-full">
           <AdminInputBox
             label="Enter service"
             value={currentConstructionRate.service}
@@ -49,7 +49,7 @@ const ProductConstructionRatesModal = ({
             max={9999999}
           />
         </div>
-        <div className="flex flex-col w-1/2 gap-2">
+        <div className="flex flex-col w-1/2 gap-2 sm:w-full">
           <AdminInputBox
             label="Enter description"
             value={currentConstructionRate.description}
