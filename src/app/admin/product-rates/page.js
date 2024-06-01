@@ -1,3 +1,4 @@
+import getAllChanges from "@/Firebase/admin-side/product-rates/getAllChanges";
 import getAllProductRates from "@/Firebase/admin-side/product-rates/getAllProductRates";
 import { chevronLeftIcon } from "@/assets";
 import { H1, ProductRatesClientPage } from "@/components";
@@ -5,12 +6,31 @@ import Image from "next/image";
 import Link from "next/link";
 
 const ProductRates = async () => {
-  let productRates = null;
-  let isErrorOccurredWhileFetching = false;
+  let productRates = null,
+    changes = null;
+  let areErrorsOccurredWhileFetching = {
+    productRates: false,
+    changes: false,
+    budgetRanges: false,
+  };
   try {
     productRates = await getAllProductRates();
   } catch (error) {
-    isErrorOccurredWhileFetching = true;
+    areErrorsOccurredWhileFetching.productRates = true;
+  }
+  try {
+    changes = await getAllChanges();
+    changes = changes.sort((a, b) => {
+      const priority = {
+        LOW: -1,
+        MEDIUM: 0,
+        HIGH: 1,
+      };
+
+      return priority[a.id] - priority[b.id];
+    });
+  } catch (error) {
+    areErrorsOccurredWhileFetching.changes = true;
   }
 
   return (
@@ -32,7 +52,8 @@ const ProductRates = async () => {
         </div>
         <ProductRatesClientPage
           productRates={productRates}
-          isErrorOccurredWhileFetching={isErrorOccurredWhileFetching}
+          areErrorsOccurredWhileFetching={areErrorsOccurredWhileFetching}
+          changes={changes}
         />
       </section>
     </>

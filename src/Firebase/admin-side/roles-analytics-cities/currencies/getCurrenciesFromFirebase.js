@@ -1,10 +1,10 @@
+"use server";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/Firebase/firebase";
 
 const getCurrenciesFromDB = async (
   fields = ["id", "name", "cities", "valueInPkr"],
 ) => {
-  
   const currenciesRef = collection(db, "CURRENCIES");
   const currencies = [];
   try {

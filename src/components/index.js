@@ -108,3 +108,5 @@ export { default as ProductDesignRatesSection } from "./admin-side/product-rates
 export { default as ProductConstructionRatesSection } from "./admin-side/product-rates/ProductConstructionRatesSection";
 export { default as ProductDesignRatesModal } from "./admin-side/product-rates/ProductDesignRatesModal";
 export { default as ProductConstructionRatesModal } from "./admin-side/product-rates/ProductConstructionRatesModal";
+export { default as ProductRatesChangesSection } from "./admin-side/product-rates/ProductRatesChangesSection";
+export { default as ProductRatesInput } from "./admin-side/product-rates/ProductRatesInput";

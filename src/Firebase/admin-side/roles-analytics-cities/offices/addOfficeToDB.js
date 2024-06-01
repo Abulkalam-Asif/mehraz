@@ -1,5 +1,5 @@
 "use server";
-import { db, storage } from "../../../firebase";
+import { db, storage } from "@/Firebase/firebase";
 import {
   collection,
   doc,

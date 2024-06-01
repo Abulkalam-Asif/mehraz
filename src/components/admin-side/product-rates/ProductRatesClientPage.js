@@ -7,6 +7,8 @@ import {
   ProductConstructionRatesSection,
   ProductDesignRatesModal,
   ProductDesignRatesSection,
+  ProductRatesChangesSection,
+  Spinner,
 } from "@/components";
 import { AlertContext } from "@/context/AlertContext";
 import {
@@ -14,16 +16,18 @@ import {
   deleteRateService,
   editRateService,
 } from "@/services/admin-side/product-rates/productRates";
+import updateChangesService from "@/services/admin-side/product-rates/changes";
 
 const ProductRatesClientPage = ({
   productRates,
-  isErrorOccurredWhileFetching,
+  changes,
+  areErrorsOccurredWhileFetching,
 }) => {
   const { showAlert } = useContext(AlertContext);
 
   let designRates = null,
     constructionRates = null;
-  if (!isErrorOccurredWhileFetching) {
+  if (!areErrorsOccurredWhileFetching.productRates) {
     designRates = productRates?.filter(rate => rate.type === "DESIGN");
     constructionRates = productRates.filter(
       rate => rate.type === "CONSTRUCTION",
@@ -31,7 +35,11 @@ const ProductRatesClientPage = ({
   }
 
   useEffect(() => {
-    if (isErrorOccurredWhileFetching) {
+    const isAtLeastOneErrorOccurred = Object.values(
+      areErrorsOccurredWhileFetching,
+    ).some(value => value === true);
+
+    if (isAtLeastOneErrorOccurred) {
       showAlert({
         type: "ERROR",
         message:
@@ -112,6 +120,23 @@ const ProductRatesClientPage = ({
     deleteRateService(itemToDelete, setShowModalSpinner, showAlert, hideModal);
   };
 
+  // Changes state and functions
+  const [newChanges, setNewChanges] = useState(changes);
+  const newChangesInputHandler = (id, name, value) => {
+    setNewChanges(prevState =>
+      prevState.map(change =>
+        change.id === id ? { ...change, [name]: value } : change,
+      ),
+    );
+  };
+
+  const updateChangesHandler = async () => {
+    updateChangesService(newChanges, setShowUpdateSpinner, showAlert);
+  };
+
+  // Spinner state for fetching data
+  const [showUpdateSpinner, setShowUpdateSpinner] = useState(false);
+
   // General state for deleting items
   const defaultItemToDelete = {
     name: null,
@@ -145,18 +170,29 @@ const ProductRatesClientPage = ({
         <div className="h-page-container-admin-inner min-h-page-container-admin-inner max-h-page-container-admin-inner md:h-auto md:min-h-0 grid grid-rows-3 gap-4 overflow-y-auto">
           <ProductDesignRatesSection
             designRates={designRates}
-            isErrorOccurredWhileFetching={isErrorOccurredWhileFetching}
+            isErrorOccurredWhileFetching={
+              areErrorsOccurredWhileFetching.productRates
+            }
             setModalMetadata={setModalMetadata}
             toggleModal={toggleModal}
             setCurrentDesignRate={setCurrentDesignRate}
             setItemToDelete={setItemToDelete}
           />
-          <div>other div</div>
+          <ProductRatesChangesSection
+            newChanges={newChanges}
+            isErrorOccurredWhileFetching={
+              areErrorsOccurredWhileFetching.changes
+            }
+            newChangesInputHandler={newChangesInputHandler}
+            updateChangesHandler={updateChangesHandler}
+          />
         </div>
         <div className="h-page-container-admin-inner min-h-page-container-admin-inner max-h-page-container-admin-inner md:h-auto md:min-h-0 grid grid-rows-3 gap-4 overflow-y-auto">
           <ProductConstructionRatesSection
             constructionRates={constructionRates}
-            isErrorOccurredWhileFetching={isErrorOccurredWhileFetching}
+            isErrorOccurredWhileFetching={
+              areErrorsOccurredWhileFetching.productRates
+            }
             setModalMetadata={setModalMetadata}
             toggleModal={toggleModal}
             setCurrentConstructionRate={setCurrentConstructionRate}
@@ -165,6 +201,11 @@ const ProductRatesClientPage = ({
           <div>other div</div>
         </div>
       </div>
+      {showUpdateSpinner && (
+        <div className="fixed top-0 left-0 bottom-0 right-0 flex items-center justify-center bg-white z-50">
+          <Spinner size={"lg"} text={"Updating data..."} />
+        </div>
+      )}
       {isModalOpen && (
         <Modal
           toggleModal={toggleModal}

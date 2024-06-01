@@ -1,6 +1,6 @@
 "use server";
 import { revalidatePath } from "next/cache";
-import { db } from "../../../firebase";
+import { db } from "@/Firebase/firebase";
 import { doc, updateDoc, getDoc, increment } from "firebase/firestore";
 
 const updatePlotInDB = async ({ id, area, unit, category }) => {

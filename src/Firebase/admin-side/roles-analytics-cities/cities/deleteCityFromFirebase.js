@@ -1,6 +1,6 @@
 "use server";
 import { revalidatePath } from "next/cache";
-import { db } from "../../../firebase";
+import { db } from "@/Firebase/firebase";
 import { deleteDoc, doc, getDoc } from "firebase/firestore";
 
 const deleteCityFromDB = async id => {

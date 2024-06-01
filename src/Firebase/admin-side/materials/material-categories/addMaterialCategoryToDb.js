@@ -1,10 +1,10 @@
 "use server";
 import { revalidatePath } from "next/cache";
-import { db, storage } from "../../../firebase";
 import { collection, doc, setDoc } from "firebase/firestore";
 import { query, where, getDocs } from "firebase/firestore";
 import { ulid } from "ulid";
 import { ref, uploadBytes } from "firebase/storage";
+import { db, storage } from "@/Firebase/firebase";
 
 const addMaterialCategoryToDb = async ({
   name,

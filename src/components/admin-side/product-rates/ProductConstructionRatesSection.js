@@ -46,9 +46,6 @@ const ProductConstructionRatesSection = ({
     });
     toggleModal();
     const serviceId = e.currentTarget.dataset.serviceId;
-    const constructionRate = constructionRates.find(
-      rate => rate.id === serviceId,
-    );
     setItemToDelete({
       id: serviceId,
       name: "construction rate",
