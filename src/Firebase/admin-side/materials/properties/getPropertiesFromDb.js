@@ -1,6 +1,6 @@
 "use server";
 import { collection, onSnapshot } from "firebase/firestore";
-import { db } from "../../../firebase";
+import { db } from "@/Firebase/firebase";
 
 const getPropertiesFromDb = async (
   fields = ["id", "area", "description", "location", "demand", "city", "type"],

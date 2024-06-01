@@ -1,5 +1,6 @@
+"use server";
+import { db, storage } from "@/Firebase/firebase";
 import { collection, getDocs } from "firebase/firestore";
-import { db, storage } from "../../../firebase";
 import { getDownloadURL, ref } from "firebase/storage";
 
 const getOfficesFromDB = async (

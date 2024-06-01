@@ -9,9 +9,9 @@ import {
   PreviewCarouselSmall,
   PreviewCarouselMain,
   LinkButton,
+  PreviewCheckbox,
 } from "@/components";
 import Image from "next/image";
-import PreviewCheckbox from "./PreviewCheckbox";
 
 const PreviewClientPage = () => {
   const { showAlert } = useContext(AlertContext);

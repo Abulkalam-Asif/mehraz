@@ -1,6 +1,6 @@
 "use server";
 import { collection, getDocs } from "firebase/firestore";
-import { db, storage } from "../../../firebase";
+import { db, storage } from "@/Firebase/firebase";
 import { getDownloadURL, ref } from "firebase/storage";
 
 const getMaterialsFromDb = async (

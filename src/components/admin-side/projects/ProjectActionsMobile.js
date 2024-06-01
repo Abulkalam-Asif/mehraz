@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { deleteIcon, editIcon } from "@/assets";
 import Image from "next/image";
-import LinkButton from "../LinkButton";
+import { LinkButton } from "@/components";
 
 const ProjectActionsMobile = ({
   id,

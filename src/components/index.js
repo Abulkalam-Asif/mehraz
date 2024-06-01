@@ -102,3 +102,12 @@ export { default as CurrencyModal } from "./admin-side/rac/CurrencyModal";
 export { default as OfficeModal } from "./admin-side/rac/OfficeModal";
 export { default as PlotModal } from "./admin-side/rac/PlotModal";
 export { default as StyleModal } from "./admin-side/rac/StyleModal";
+// Admin Side - ProductRates
+export { default as ProductRatesClientPage } from "./admin-side/product-rates/ProductRatesClientPage";
+export { default as ProductDesignRatesSection } from "./admin-side/product-rates/ProductDesignRatesSection";
+export { default as ProductConstructionRatesSection } from "./admin-side/product-rates/ProductConstructionRatesSection";
+export { default as ProductDesignRatesModal } from "./admin-side/product-rates/ProductDesignRatesModal";
+export { default as ProductConstructionRatesModal } from "./admin-side/product-rates/ProductConstructionRatesModal";
+export { default as ProductRatesChangesSection } from "./admin-side/product-rates/ProductRatesChangesSection";
+export { default as ProductRatesBudgetRangesSection } from "./admin-side/product-rates/ProductRatesBudgetRangesSection";
+export { default as ProductRatesInput } from "./admin-side/product-rates/ProductRatesInput";
