@@ -11,5 +11,12 @@ export { default as ellipsisIcon } from "./icons/ellipsis.svg";
 export { default as plusIcon } from "./icons/plus.svg";
 export { default as minusIcon } from "./icons/minus.svg";
 
+export { default as barsIcon } from "./icons/bars.svg";
+export { default as chatIcon } from "./icons/chat.svg";
+export { default as meetIcon } from "./icons/meet.svg";
+export { default as phoneIcon } from "./icons/phone.svg";
+export { default as meetupIcon } from "./icons/meetup.svg";
+
 // Images
 export { default as logo1Img } from "./images/logo1.svg";
+export { default as logo2Img } from "./images/logo2.svg";

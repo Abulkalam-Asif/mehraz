@@ -24,9 +24,12 @@ module.exports = {
         "accent-1-dark": "#666666",
         "accent-1-extra-dark": "#444444",
         "accent-2-base": "#323232",
+        "accent-dark-blue": "#171E4D",
+        "accent-sea-green": "#13617C",
       },
       boxShadow: {
         dropdown: "0px 1px 8px 2px rgba(0, 0, 0, 0.3)",
+        "dropdown-2": "5px 5px 20px 0px rgba(0, 0, 0, 0.3)",
       },
       maxWidth: {
         "8xl": "90rem",
@@ -39,6 +42,7 @@ module.exports = {
       },
       transitionProperty: {
         "grid-rows": "grid-template-rows",
+        "grid-rows-opacity-padding": "grid-template-rows, opacity, padding",
         padding: "padding",
       },
       height: {
@@ -48,6 +52,7 @@ module.exports = {
         "page-container-admin-xl": "calc(100vh - 6rem - 5rem)",
         // 100vh - 6rem (admin header + 1rem spacing from bottom) - 6rem (page header) - 2rem
         "page-container-admin-inner": "calc(100vh - 6rem - 6rem - 2rem)",
+        18: "4.5rem",
       },
       minHeight: {
         "page-container-admin-inner": "600px",
