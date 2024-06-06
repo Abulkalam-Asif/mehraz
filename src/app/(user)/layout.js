@@ -40,9 +40,9 @@ const proximaNova = localFont({
 const UserLayout = ({ children }) => {
   return (
     <>
-      <main className={`h-screen ${proximaNova.className}`}>
+      <main className={`flex flex-col h-screen ${proximaNova.className}`}>
         <UserHeader />
-        {children}
+        <div className="flex-1 overflow-y-auto">{children}</div>
       </main>
     </>
   );

@@ -24,18 +24,34 @@ module.exports = {
         "accent-1-dark": "#666666",
         "accent-1-extra-dark": "#444444",
         "accent-2-base": "#323232",
+
         "accent-dark-blue": "#171E4D",
         "accent-sea-green": "#13617C",
+        "accent-gold": "#BD9E48",
+        "accent-gold-light": "#DCBB60",
+        "accent-gold-lighter": "#FFDDB4",
+        "accent-gray": "#3F3F3F",
+        "accent-green": "#219C70",
       },
       boxShadow: {
         dropdown: "0px 1px 8px 2px rgba(0, 0, 0, 0.3)",
         "dropdown-2": "5px 5px 20px 0px rgba(0, 0, 0, 0.25)",
+        btn: "0px 5px 5px 0px rgba(0, 0, 0, 0.25)",
+      },
+      lineHeight: {
+        tighter: "1.125",
+      },
+      letterSpacing: {
+        "ultra-wide": "0.25em",
       },
       maxWidth: {
         "8xl": "90rem",
         "6.5xl": "75rem",
       },
       fontSize: {
+        xxxs: "0.5rem",
+        xxs: "0.625rem",
+        "1.5xl": "1.375rem",
         "1.5xl": "1.375rem",
         "3.5xl": "2rem",
         "4.5xl": "2.5rem",
@@ -44,6 +60,10 @@ module.exports = {
         "grid-rows": "grid-template-rows",
         "grid-rows-opacity-padding": "grid-template-rows, opacity, padding",
         padding: "padding",
+      },
+      backgroundImage: {
+        "landing-cta-1": "url('/images/user-side/landing-cta-1-bg.png')",
+        "landing-cta-2": "url('/images/user-side/landing-cta-2-bg.png')",
       },
       height: {
         // 100vh - 6rem (admin header + 1rem spacing from bottom) - 6rem (page header)
@@ -66,6 +86,9 @@ module.exports = {
       },
       animation: {
         alert: "alert-keyframes 5s linear",
+        "landing-slide-1": "landing-slide 12s linear infinite 0s",
+        "landing-slide-2": "landing-slide 12s linear infinite 4s",
+        "landing-slide-3": "landing-slide 12s linear infinite 8s",
       },
       keyframes: {
         "alert-keyframes": {
@@ -75,6 +98,11 @@ module.exports = {
           to: {
             tranform: "translateX(0%)",
           },
+        },
+        "landing-slide": {
+          "0%, 32%": { opacity: 1 },
+          "35%, 97%": { opacity: 0 },
+          "100%": { opacity: 1 },
         },
       },
     },

@@ -6,18 +6,18 @@ import { UserHeaderMeetBtn, UserHeaderMenu } from "@/components";
 const UserHeader = () => {
   return (
     <>
-      <header className="bg-gradient-to-r from-accent-dark-blue via-accent-dark-blue to-accent-sea-green py-4 h-18 flex items-center">
-        <div className="w-full max-w-7xl mx-auto px-4 flex items-center justify-between">
+      <header className="bg-gradient-to-r from-accent-dark-blue via-accent-dark-blue to-accent-sea-green py-4 h-18 sm:h-14 flex items-center">
+        <div className="w-full max-w-7xl mx-auto px-8 sm:px-4 flex items-center justify-between">
           <Link href="/">
             <Image
               src={logo2Img}
               priority={true}
               alt="logo"
-              className="h-9 w-auto"
+              className="h-9 w-auto md:h-8 sm:h-7 xs:h-5"
             />
           </Link>
-          <div className="flex items-center gap-8">
-            <Link href="/" className="group relative w-8 h-8">
+          <div className="flex items-center gap-8 sm:gap-6 xs:gap-4">
+            <Link href="/" className="group relative w-8 h-8 md:hidden">
               <Image
                 src={bookmarkIcon}
                 alt="bookmark"
@@ -34,9 +34,12 @@ const UserHeader = () => {
               />
             </Link>
             <UserHeaderMeetBtn />
-            <button className="inline-flex items-center gap-1 text-white border-2 border-white py-0.5 px-3 rounded hover:text-accent-dark-blue hover:bg-white transition-colors duration-300">
+            <button className="inline-flex sm:hidden items-center gap-1 text-white border-2 border-white py-0.5 px-3 rounded hover:text-accent-dark-blue hover:bg-white transition-colors duration-300">
               <CiChat1 size={20} />
               <span className="text-sm">CHAT</span>
+            </button>
+            <button className="hidden sm:inline text-white">
+              <CiChat1 size={20} className="h-6 w-auto" />
             </button>
             <UserHeaderMenu />
           </div>

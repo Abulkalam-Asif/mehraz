@@ -27,12 +27,12 @@ const UserHeaderMeetBtn = () => {
 
   return (
     <>
-      <div className="relative flex items-center justify-center">
+      <div className="relative flex items-center justify-center sm:justify-end">
         <button
-          className="text-white inline-flex items-center gap-3"
+          className="text-white inline-flex items-center gap-3 md:gap-2"
           onClick={toggleDropdown}>
-          <Image src={meetIcon} alt="meet" className="w-6 h-auto" />
-          <span className="text-lg">MEET</span>
+          <Image src={meetIcon} alt="meet" className="w-6 h-auto sm:w-5" />
+          <span className="text-lg md:hidden">MEET</span>
           <FaChevronDown
             className={`w-4 h-auto transition-transform duration-300 ${
               isDropdownOpen ? "-rotate-90" : ""
@@ -40,22 +40,31 @@ const UserHeaderMeetBtn = () => {
           />
         </button>
         <div
-          className={`bg-white rounded-2xl shadow-dropdown-2 absolute top-12 grid transition-grid-rows-opacity-padding duration-300 ${
+          className={`bg-white rounded-2xl shadow-dropdown-2 absolute z-[2] top-12 sm:top-10 grid transition-grid-rows-opacity-padding duration-300 ${
             isDropdownOpen
               ? "grid-rows-[1fr] p-2 opacity-100"
               : "grid-rows-[0fr] p-0 opacity-0"
           }`}>
-          <div className={`overflow-hidden uppercase w-max flex flex-col`}>
+          <div
+            className={`overflow-hidden uppercase w-max flex flex-col md:text-sm`}>
             <Link
               href="/"
-              className="inline-flex items-center gap-8 px-4 py-2 m-1">
-              <Image src={phoneIcon} alt="phone" className="w-5 h-auto" />
+              className="inline-flex items-center gap-8 md:gap-6 sm:gap-4 px-4 md:px-2 py-2 md:py-1 m-1">
+              <Image
+                src={phoneIcon}
+                alt="phone"
+                className="w-5 h-auto md:w-4"
+              />
               <span className="flex-1 text-center">schedule a call</span>
             </Link>
             <Link
               href="/"
-              className="inline-flex items-center gap-8 px-4 py-2 m-1">
-              <Image src={meetupIcon} alt="meet up" className="w-5 h-auto" />
+              className="inline-flex items-center gap-8 md:gap-6 sm:gap-4 px-4 md:px-2 py-2 md:py-1 m-1">
+              <Image
+                src={meetupIcon}
+                alt="meet up"
+                className="w-5 h-auto md:w-4"
+              />
               <span className="flex-1 text-center">schedule a meet up</span>
             </Link>
           </div>
