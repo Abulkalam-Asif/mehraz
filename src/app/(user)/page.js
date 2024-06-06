@@ -60,7 +60,7 @@ export default async function Home() {
           </div>
           <div className="absolute top-0 left-0 animate-landing-slide-3 opacity-0">
             <h1 className="text-accent-dark-blue text-7xl xl:text-6xl lg:text-5xl sm:text-3xl mb-2 leading-tighter">
-              <b>united</b> we'll
+              <b>united</b> we&apos;ll
               <br /> <b>grow</b>
             </h1>
             <h2 className="w-fit bg-accent-gold text-white text-3.5xl xl:text-3xl lg:text-2xl sm:text-xl px-8 xl:px-6 lg:px-4 sm:px-2 py-0.5">
