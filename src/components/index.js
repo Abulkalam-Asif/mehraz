@@ -114,8 +114,6 @@ export { default as ProductRatesInput } from "./admin-side/product-rates/Product
 
 // User Side
 export { default as ULinkButton } from "./user-side/ULinkButton";
-export { default as LandingCTAButton } from "./user-side/LandingCTAButton";
-export { default as LandingBuyButton } from "./user-side/LandingBuyButton";
 
 // User Side - Header
 export { default as UserHeader } from "./user-side/header/UserHeader";
@@ -123,3 +121,13 @@ export { default as UserHeaderMeetBtn } from "./user-side/header/UserHeaderMeetB
 export { default as UserHeaderMenu } from "./user-side/header/UserHeaderMenu";
 export { default as UserHeaderMenuItem } from "./user-side/header/UserHeaderMenuItem";
 export { default as UserHeaderSubmenuItem } from "./user-side/header/UserHeaderSubmenuItem";
+
+// User Side - Landing
+export { default as LandingCTAButton } from "./user-side/landing/LandingCTAButton";
+export { default as LandingBuyButton } from "./user-side/landing/LandingBuyButton";
+
+// User Side - Fast Homes
+export { default as FastHomesBoxesElem } from "./user-side/fast-homes/FastHomesBoxesElem";
+export { default as FastHomesBtn } from "./user-side/fast-homes/FastHomesBtn";
+export { default as FastHomesBoxesElemMob } from "./user-side/fast-homes/FastHomesBoxesElemMob";
+

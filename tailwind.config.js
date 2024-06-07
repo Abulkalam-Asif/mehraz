@@ -42,6 +42,7 @@ module.exports = {
         tighter: "1.125",
       },
       letterSpacing: {
+        "semi-ultra-wide": "0.2em",
         "ultra-wide": "0.25em",
       },
       maxWidth: {
@@ -64,6 +65,7 @@ module.exports = {
       backgroundImage: {
         "landing-cta-1": "url('/images/user-side/landing-cta-1-bg.png')",
         "landing-cta-2": "url('/images/user-side/landing-cta-2-bg.png')",
+        "fast-homes": "url('/images/user-side/fast-homes-bg.png')",
       },
       height: {
         // 100vh - 6rem (admin header + 1rem spacing from bottom) - 6rem (page header)

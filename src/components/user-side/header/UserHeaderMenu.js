@@ -41,7 +41,7 @@ const subMenuItems = {
     items: [
       {
         text: "fast homes",
-        href: "/",
+        href: "/fast-homes",
         src: servicesIcon,
       },
       {

@@ -4,7 +4,6 @@ import Link from "next/link";
 const LandingCTAButton = ({
   text,
   icon,
-  bgImage,
   tagline1,
   tagline2,
   className = "",

@@ -110,7 +110,7 @@ export default async function Home() {
                 <b>fast</b> homes
               </>
             }
-            href={"/"}
+            href={"/fast-homes"}
             icon={fastHomesIcon}
             className="w-[103%] bg-landing-cta-1 rounded-l-lg rounded-r-[4rem] sm:w-[101%]"
             tagline1={"explore all types of homes"}
