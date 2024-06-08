@@ -128,6 +128,9 @@ export { default as LandingBuyButton } from "./user-side/landing/LandingBuyButto
 
 // User Side - Fast Homes
 export { default as FastHomesBoxesElem } from "./user-side/fast-homes/FastHomesBoxesElem";
-export { default as FastHomesBtn } from "./user-side/fast-homes/FastHomesBtn";
+export { default as FastHomesLink } from "./user-side/fast-homes/FastHomesLink";
 export { default as FastHomesBoxesElemMob } from "./user-side/fast-homes/FastHomesBoxesElemMob";
 
+// User Side - Fast Homes - Design Selection
+export { default as DesSelClientPage } from "./user-side/fast-homes/design-selection/DesSelClientPage";
+export { default as DesSelIntroSec } from "./user-side/fast-homes/design-selection/DesSelIntroSec";

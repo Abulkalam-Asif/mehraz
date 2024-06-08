@@ -134,7 +134,7 @@ export default async function Home() {
           </p>
         </div>
         <div className="bg-accent-gold-light h-2 w-4/5 mt-8 lg:mr-auto"></div>
-        <div className="w-full flex gap-4 items-center justify-end mt-8">
+        <div className="w-full flex gap-4 items-center justify-end mt-8 xs:gap-0.5">
           <LandingBuyButton
             text={
               <>

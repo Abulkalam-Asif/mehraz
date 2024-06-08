@@ -2,14 +2,14 @@ import { fastHomesIcon } from "@/assets";
 import {
   FastHomesBoxesElem,
   FastHomesBoxesElemMob,
-  FastHomesBtn,
+  FastHomesLink,
 } from "@/components";
 import Image from "next/image";
 
-const FastHomes = () => {
+const FastHomesPage = () => {
   return (
     <div className="relative z-[1] min-h-full w-full bg-fast-homes bg-no-repeat bg-center bg-cover before:absolute before:z-[-1] before:top-0 before:left-0 before:right-0 before:bottom-0 before:bg-gradient-to-b before:from-[#000000e6] before:to-[#3c3c3cb3]">
-      <div className="relative w-full max-w-8xl flex items-center mx-auto p-8 sm:px-4 lg:pt-8 lg:pb-16 lg:max-w-xl lg:flex-col">
+      <div className="relative w-full max-w-8xl flex items-center mx-auto p-8 lg:pt-8 lg:pb-16 sm:px-4 lg:max-w-xl lg:flex-col">
         <FastHomesBoxesElem />
         <div className="w-full flex flex-col items-center">
           <div className="flex items-center justify-center gap-6 sm:gap-4 xs:gap-2">
@@ -47,12 +47,18 @@ const FastHomes = () => {
           </div>
           <hr className="w-full opacity-40 mt-4 lg:mt-1" />
           <div className="w-full flex items-center justify-center py-8 xl:py-6 lg:flex-col lg:gap-2 lg:py-4">
-            <FastHomesBtn text="upto 18 marlas" />
+            <FastHomesLink
+              text="upto 18 marlas"
+              href="/fast-homes/design-selection?category=upto_18"
+            />
             <span className="hidden lg:block text-white text-sm uppercase opacity-60">
               4-8 marla homes
             </span>
             <hr className="w-1/12 self-center opacity-40 lg:w-1/3 lg:mb-2" />
-            <FastHomesBtn text="1 kanal & above" />
+            <FastHomesLink
+              text="1 kanal & above"
+              href="/fast-homes/design-selection?category=1_kanal_above"
+            />
             <span className="hidden lg:block text-white text-sm uppercase opacity-60">
               1-2 kanal homes
             </span>
@@ -86,4 +92,4 @@ const FastHomes = () => {
   );
 };
 
-export default FastHomes;
+export default FastHomesPage;
