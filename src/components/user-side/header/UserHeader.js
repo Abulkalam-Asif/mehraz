@@ -13,10 +13,10 @@ const UserHeader = () => {
               src={logo2Img}
               priority={true}
               alt="logo"
-              className="h-9 w-auto md:h-8 sm:h-7 xs:h-5"
+              className="h-9 w-auto md:h-8 sm:h-6 xs:h-5"
             />
           </Link>
-          <div className="flex items-center gap-8 sm:gap-6 xs:gap-4">
+          <div className="flex items-center gap-8 sm:gap-4">
             <Link href="/" className="group relative w-8 h-8 md:hidden">
               <Image
                 src={bookmarkIcon}

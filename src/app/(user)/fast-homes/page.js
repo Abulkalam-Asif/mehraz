@@ -27,7 +27,7 @@ const FastHomesPage = () => {
               </h2>
             </div>
           </div>
-          <hr className="hidden lg:block mt-4 w-full opacity-40" />
+          <hr className="hidden lg:block mt-4 w-full opacity-20" />
           <div className="w-full text-center hidden lg:block">
             <h2 className="text-white opacity-60 text-2xl sm:text-xl mt-4 tracking-wide">
               GREAT . FAST . ECONOMIC
@@ -38,7 +38,7 @@ const FastHomesPage = () => {
               <span>PRICES YOU&apos;LL LOVE</span>
             </p>
           </div>
-          <hr className="hidden lg:block mt-4 w-full opacity-40" />
+          <hr className="hidden lg:block mt-4 w-full opacity-20" />
           <div className="text-lg xl:text-base sm:text-sm xs:text-xs text-white opacity-80 uppercase w-full max-w-sm sm:max-w-xs xs:w-5/6 mt-12 xl:mt-8">
             <h3 className="font-bold">select home by area</h3>
             <h3 className="w-fit ml-auto font-light">
@@ -54,7 +54,7 @@ const FastHomesPage = () => {
             <span className="hidden lg:block text-white text-sm uppercase opacity-60">
               4-8 marla homes
             </span>
-            <hr className="w-1/12 self-center opacity-40 lg:w-1/3 lg:mb-2" />
+            <hr className="w-1/12 self-center opacity-15 lg:w-1/3 lg:mb-2" />
             <FastHomesLink
               text="1 kanal & above"
               href="/fast-homes/design-selection?category=1_kanal_above"
@@ -68,12 +68,12 @@ const FastHomesPage = () => {
             <span>4-8 marla homes</span>
             <span>1-2 kanal homes</span>
           </div>
-          <hr className="w-4/5 opacity-40 lg:hidden" />
-          <hr className="w-1/3 opacity-40 mt-12 lg:hidden" />
+          <hr className="w-4/5 opacity-15 lg:hidden" />
+          <hr className="w-1/3 opacity-20 mt-12 lg:hidden" />
           <div className="w-full text-white text-sm sm:text-xs font-light opacity-60 uppercase text-center mt-2 lg:mt-6">
             MADE WITH HUNDREDS OF RUNS AND POSSIBILITIES
           </div>
-          <hr className="hidden lg:block w-1/3 opacity-40 my-2" />
+          <hr className="hidden lg:block w-2/3 opacity-10 my-2" />
           <div className="block lg:hidden">
             <h2 className="text-white opacity-60 text-4xl xl:text-3xl mt-8 tracking-wide">
               GREAT . FAST . ECONOMIC

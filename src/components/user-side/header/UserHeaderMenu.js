@@ -116,87 +116,91 @@ const UserHeaderMenu = () => {
             }`}></div>
         </button>
         <div
-          className={`bg-white rounded-2xl shadow-dropdown-2 absolute z-[2] top-12 sm:top-10 grid transition-grid-rows-opacity-padding duration-300 ${
+          className={`max-h-user-header-menu sm:max-h-user-header-menu-sm bg-white rounded-2xl shadow-dropdown-2 absolute z-[2] top-12 sm:top-10 grid transition-grid-rows-opacity-padding duration-300 ${
             isMenuOpen && !showSubMenu
-              ? "grid-rows-[1fr] py-2 opacity-100"
+              ? "grid-rows-[1fr] py-4 opacity-100"
               : "grid-rows-[0fr] py-0 opacity-0"
           }`}>
           <div className="overflow-hidden w-max">
-            <ul className={`uppercase flex flex-col`}>
-              {menuDataItems.map(({ src, text, href }, index) => (
-                <UserHeaderMenuItem
-                  key={index}
-                  src={src}
-                  text={text}
-                  href={href}
-                  setIsMenuOpen={setIsMenuOpen}
-                  setShowSubMenu={href === null ? setShowSubMenu : null}
-                />
-              ))}
-            </ul>
-            <div className={`flex items-center gap-4 justify-center mt-8`}>
-              <Link href="/">
-                <FaXTwitter size={20} className="w-5 h-auto md:w-4" />
-              </Link>
-              <Link href="/">
-                <FaFacebookF size={20} className="w-5 h-auto md:w-4" />
-              </Link>
-              <Link href="/">
-                <FaInstagram size={20} className="w-5 h-auto md:w-4" />
-              </Link>
-            </div>
-            <div className={`uppercase text-xs font-light text-center my-4`}>
-              <p>copyrights &copy; mehraz 2023</p>
-              <p>
-                <span>all rights reserved</span>
-                <Link href="/" className="ml-2 underline">
-                  policy
+            <div className="max-h-user-header-menu-inner sm:max-h-user-header-menu-inner-sm overflow-y-auto mr-1">
+              <ul className={`uppercase flex flex-col`}>
+                {menuDataItems.map(({ src, text, href }, index) => (
+                  <UserHeaderMenuItem
+                    key={index}
+                    src={src}
+                    text={text}
+                    href={href}
+                    setIsMenuOpen={setIsMenuOpen}
+                    setShowSubMenu={href === null ? setShowSubMenu : null}
+                  />
+                ))}
+              </ul>
+              <div className={`flex items-center gap-4 justify-center mt-8`}>
+                <Link href="/">
+                  <FaXTwitter size={20} className="w-5 h-auto md:w-4" />
                 </Link>
-                <Link href="/" className="ml-2 underline">
-                  terms
+                <Link href="/">
+                  <FaFacebookF size={20} className="w-5 h-auto md:w-4" />
                 </Link>
-              </p>
+                <Link href="/">
+                  <FaInstagram size={20} className="w-5 h-auto md:w-4" />
+                </Link>
+              </div>
+              <div className={`uppercase text-xs font-light text-center my-4`}>
+                <p>copyrights &copy; mehraz 2023</p>
+                <p>
+                  <span>all rights reserved</span>
+                  <Link href="/" className="ml-2 underline">
+                    policy
+                  </Link>
+                  <Link href="/" className="ml-2 underline">
+                    terms
+                  </Link>
+                </p>
+              </div>
             </div>
           </div>
         </div>
 
         <div
           ref={subMenuRef}
-          className={`bg-white rounded-lg shadow-dropdown-2 absolute z-[2] top-12 grid transition-grid-rows-opacity-padding duration-300 ${
+          className={`max-h-user-header-menu sm:max-h-user-header-menu-sm bg-white rounded-2xl shadow-dropdown-2 absolute z-[2] top-12 sm:top-10 grid transition-grid-rows-opacity-padding duration-300 ${
             showSubMenu
               ? "grid-rows-[1fr] py-4 opacity-100"
               : "grid-rows-[0fr] py-0 opacity-0"
           }`}>
           <div className="overflow-hidden w-max">
-            {showSubMenu && (
-              <>
-                <div className="my-2 flex items-end">
-                  <button
-                    className="opacity-60 p-2 m-1"
-                    onClick={() => {
-                      setShowSubMenu(null);
-                      setIsMenuOpen(true);
-                    }}>
-                    <FaChevronLeft size={28} />
-                  </button>
-                  <h3 className="uppercase opacity-60 text-lg md:text-base text-center w-full pr-9">
-                    {subMenuItems[showSubMenu]?.title}
-                  </h3>
-                </div>
-                <ul className={`uppercase flex flex-col`}>
-                  {subMenuItems[showSubMenu]?.items.map(
-                    ({ src, text, href }, index) => (
-                      <UserHeaderSubmenuItem
-                        key={index}
-                        src={src}
-                        text={text}
-                        href={href}
-                      />
-                    ),
-                  )}
-                </ul>
-              </>
-            )}
+            <div className="max-h-user-header-menu-inner sm:max-h-user-header-menu-inner-sm overflow-y-auto mr-1">
+              {showSubMenu && (
+                <>
+                  <div className="my-2 flex items-end">
+                    <button
+                      className="opacity-60 p-2 m-1"
+                      onClick={() => {
+                        setShowSubMenu(null);
+                        setIsMenuOpen(true);
+                      }}>
+                      <FaChevronLeft size={28} />
+                    </button>
+                    <h3 className="uppercase opacity-60 text-lg md:text-base text-center w-full pr-9">
+                      {subMenuItems[showSubMenu]?.title}
+                    </h3>
+                  </div>
+                  <ul className={`uppercase flex flex-col`}>
+                    {subMenuItems[showSubMenu]?.items.map(
+                      ({ src, text, href }, index) => (
+                        <UserHeaderSubmenuItem
+                          key={index}
+                          src={src}
+                          text={text}
+                          href={href}
+                        />
+                      ),
+                    )}
+                  </ul>
+                </>
+              )}
+            </div>
           </div>
         </div>
       </div>

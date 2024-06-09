@@ -85,6 +85,10 @@ module.exports = {
         "1/3": "33%",
         "1/2": "50%",
         "1/4": "25%",
+        "user-header-menu": "calc(100vh - 6rem)",
+        "user-header-menu-inner": "calc(100vh - 8rem)",
+        "user-header-menu-sm": "calc(100vh - 5rem)",
+        "user-header-menu-inner-sm": "calc(100vh - 7rem)",
       },
       animation: {
         alert: "alert-keyframes 5s linear",

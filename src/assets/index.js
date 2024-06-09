@@ -10,6 +10,7 @@ export { default as closeIcon } from "./icons/close.svg";
 export { default as ellipsisIcon } from "./icons/ellipsis.svg";
 export { default as plusIcon } from "./icons/plus.svg";
 export { default as minusIcon } from "./icons/minus.svg";
+export { default as longArrowIcon } from "./icons/long-arrow.svg";
 
 // User Header Icons
 export { default as meetIcon } from "./icons/user-header/meet.svg";
