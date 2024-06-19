@@ -114,6 +114,8 @@ export { default as ProductRatesInput } from "./admin-side/product-rates/Product
 
 // User Side
 export { default as ULinkButton } from "./user-side/ULinkButton";
+export { default as ULinkButton2 } from "./user-side/ULinkButton2";
+export { default as USelect } from "./user-side/USelect";
 
 // User Side - Header
 export { default as UserHeader } from "./user-side/header/UserHeader";
@@ -134,3 +136,9 @@ export { default as FastHomesBoxesElemMob } from "./user-side/fast-homes/FastHom
 // User Side - Fast Homes - Design Selection
 export { default as DesSelClientPage } from "./user-side/fast-homes/design-selection/DesSelClientPage";
 export { default as DesSelIntroSec } from "./user-side/fast-homes/design-selection/DesSelIntroSec";
+export { default as DesSelStep1Sec } from "./user-side/fast-homes/design-selection/DesSelStep1Sec";
+
+export { default as DesSelStep1Screen2 } from "./user-side/fast-homes/design-selection/DesSelStep1Screen2";
+export { default as DesSelStep1Screen2StylesModal } from "./user-side/fast-homes/design-selection/DesSelStep1Screen2StylesModal";
+export { default as DesSelStep1Screen2StylesModalCarousal } from "./user-side/fast-homes/design-selection/DesSelStep1Screen2StylesModalCarousal";
+export { default as DesSelStep1Screen2InputBox } from "./user-side/fast-homes/design-selection/DesSelStep1Screen2InputBox";

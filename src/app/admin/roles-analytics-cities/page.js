@@ -59,7 +59,7 @@ const RAC = async () => {
     isErrorOccurredWhileFetching.plots = true;
   }
   try {
-    styles = await getStylesFromDB(["id", "name", "budget"]);
+    styles = await getStylesFromDB(["id", "name", "budget", "image"]);
   } catch (error) {
     isErrorOccurredWhileFetching.styles = true;
   }

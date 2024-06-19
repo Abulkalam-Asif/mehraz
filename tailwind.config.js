@@ -61,6 +61,7 @@ module.exports = {
         "grid-rows": "grid-template-rows",
         "grid-rows-opacity-padding": "grid-template-rows, opacity, padding",
         padding: "padding",
+        "font-weight": "font-weight",
       },
       backgroundImage: {
         "landing-cta-1": "url('/images/user-side/landing-cta-1-bg.png')",

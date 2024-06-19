@@ -16,13 +16,13 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <>
-      <StoreProvider>
-        <AlertProvider>
-          <html lang="en">
-            <body className={roboto.className}>{children}</body>
-          </html>
-        </AlertProvider>
-      </StoreProvider>
+      <html lang="en">
+        <body className={roboto.className}>
+          <StoreProvider>
+            <AlertProvider>{children}</AlertProvider>
+          </StoreProvider>
+        </body>
+      </html>
     </>
   );
 }

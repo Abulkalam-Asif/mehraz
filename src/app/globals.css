@@ -21,3 +21,55 @@ select:focus,
 input:focus {
   outline: 2px dashed #323232;
 }
+
+
+/* Design selection screen 2 styles select modal carousal dots styles */
+.desSelScreen2StylesModalCarousalDotsContainer {
+  display: block;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  text-align: center;
+}
+
+.desSelScreen2StylesModalCarousalDotsContainer>li {
+  position: relative;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin: 0 5px;
+  padding: 0;
+  cursor: pointer;
+}
+
+.desSelScreen2StylesModalCarousalDotsContainer>li>button {
+  font-size: 0;
+  line-height: 0;
+  display: block;
+  width: 20px;
+  height: 20px;
+  padding: 8px;
+  cursor: pointer;
+  color: transparent;
+  border: 0;
+  outline: none;
+}
+
+.desSelScreen2StylesModalCarousalDotsContainer>li>button::before {
+  width: 12px;
+  height: 12px;
+  content: '';
+  display: block;
+  background: #C1C1C1;
+  border-radius: 100%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.desSelScreen2StylesModalCarousalDotsContainer>li.slick-active>button::before {
+  background: transparent;
+  border: 2px solid #EFEFEF;
+}

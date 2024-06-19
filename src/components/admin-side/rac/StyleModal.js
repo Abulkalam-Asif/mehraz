@@ -44,6 +44,7 @@ const StyleModal = ({
             inputHandler={currentStyleInputHandler}
             idHtmlFor="name"
             name="name"
+            maxLength={20}
           />
           <AdminSelect
             label="Select budget"
