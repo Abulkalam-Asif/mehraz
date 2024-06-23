@@ -7,7 +7,7 @@ const addReadyProjectS2ToDB = async ({ id, designs, budgetRanges }) => {
     const readyProjectsRef = collection(db, "READY_PROJECTS");
 
     const readyProjectDocRef = doc(readyProjectsRef, id);
-
+  // Validation
     const docSnapshot = await getDoc(readyProjectDocRef);
     if (!docSnapshot.exists()) {
       console.error("No document found!");
@@ -33,7 +33,7 @@ const addReadyProjectS2ToDB = async ({ id, designs, budgetRanges }) => {
     // Update the ready project document
     await updateDoc(readyProjectDocRef, {
       designs: rpDesignsIds,
-      budgetRanges,
+      budgetRanges:budgetRanges,
       uploadedScreensCount: 2,
     });
 
