@@ -28,6 +28,8 @@ const addReadyProjectS1ToDB = async ({
   video,
 }) => {
   try {
+
+    // Validations
     const readyProjectsRef = collection(db, "READY_PROJECTS");
     const readyProjectQuery = query(
       readyProjectsRef,
@@ -99,7 +101,8 @@ const addReadyProjectS1ToDB = async ({
         message: "Something went wrong, please try again later.",
       };
     }
-
+   
+    // uploading Data to DB
     const response = await addDoc(readyProjectsRef, {
       title,
       cities,
@@ -116,7 +119,8 @@ const addReadyProjectS1ToDB = async ({
       dateCreated: Timestamp.now(),
       uploadedScreensCount: 1,
     });
-
+   
+    //Uploading Data to Firebase Storage
     const imageRef = ref(storage, `READY_PROJECTS/${response.id}/image`);
     await uploadBytes(imageRef, image.get("image"));
     const imageUrl = await getDownloadURL(imageRef);
