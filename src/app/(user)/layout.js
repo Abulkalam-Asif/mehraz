@@ -4,11 +4,6 @@ import localFont from "next/font/local";
 const proximaNova = localFont({
   src: [
     {
-      path: "../fonts/proximaNova/proximaNovaThin.otf",
-      style: "normal",
-      weight: "100",
-    },
-    {
       path: "../fonts/proximaNova/proximaNovaLight.otf",
       style: "normal",
       weight: "300",
@@ -27,11 +22,6 @@ const proximaNova = localFont({
       path: "../fonts/proximaNova/proximaNovaBold.otf",
       style: "normal",
       weight: "700",
-    },
-    {
-      path: "../fonts/proximaNova/proximaNovaBlack.otf",
-      style: "normal",
-      weight: "900",
     },
   ],
   display: "swap",

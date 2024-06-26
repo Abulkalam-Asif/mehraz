@@ -11,7 +11,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaArrowRight, FaChevronLeft } from "react-icons/fa6";
 
-const DesSelStep1Screen2 = ({ cities, styles, setScreen }) => {
+const DesSelStep1Screen2 = ({ cities, styles }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
@@ -56,9 +56,19 @@ const DesSelStep1Screen2 = ({ cities, styles, setScreen }) => {
       description: step1Screen2Data.description,
     });
     router.push(`${pathname}?${newParams.toString()}`);
-    setScreen("3");
   };
-  const skipAndNextStepHandler = () => {};
+  const skipAndNextStepHandler = () => {
+    const newParams = new URLSearchParams({
+      category: searchParams.get("category") || "",
+      step: "1",
+      screen: "3",
+      city: "",
+      styleCost: "",
+      style: "",
+      description: "",
+    });
+    router.push(`${pathname}?${newParams.toString()}`);
+  };
 
   return (
     <>

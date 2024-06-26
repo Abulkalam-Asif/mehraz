@@ -16,6 +16,8 @@ const FastHomesPage = () => {
             <Image
               src={fastHomesIcon}
               width={96}
+              height={96}
+              alt="Fast Homes Icon"
               className="w-24 h-auto xl:w-20 sm:w-14"
             />
             <div className="text-white uppercase">

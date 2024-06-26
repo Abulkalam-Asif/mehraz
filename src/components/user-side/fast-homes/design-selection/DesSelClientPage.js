@@ -5,8 +5,8 @@ import { DesSelIntroSec, DesSelStep1Sec } from "@/components";
 import { useEffect, useState } from "react";
 
 const DesSelClientPage = ({ cities, styles }) => {
-  const [step, setStep] = useState("1");
-  const [screen, setScreen] = useState("1");
+  const [step, setStep] = useState("");
+  const [screen, setScreen] = useState("");
 
   const searchParams = useSearchParams();
   const paramsStep = searchParams.get("step");
@@ -20,14 +20,12 @@ const DesSelClientPage = ({ cities, styles }) => {
   return (
     <>
       {!paramsStep && !paramsScreen && <DesSelIntroSec />}
-      {paramsStep === "1" && (
-        <DesSelStep1Sec
-          screen={screen}
-          cities={cities}
-          styles={styles}
-          setStep={setStep}
-          setScreen={setScreen}
-        />
+      {step === "" || screen === "" ? (
+        <div>loading</div>
+      ) : (
+        step === "1" && (
+          <DesSelStep1Sec screen={screen} cities={cities} styles={styles} />
+        )
       )}
     </>
   );

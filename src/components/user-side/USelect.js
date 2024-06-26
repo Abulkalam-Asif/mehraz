@@ -48,34 +48,32 @@ const USelect = ({
             className="w-max min-w-full absolute bottom-0 translate-y-full right-0 bg-white text-[#000000a6] shadow-2xl rounded-2xl border-2 border-accent-1-base p-2 grid grid-cols-1 z-10 max-h-[33vh] overflow-y-auto"
             ref={dropdownRef}>
             {options?.map(({ label, value }, index) => (
-              <>
-                <label
-                  className="flex items-center gap-3 p-2 text-xl xl:text-base sm:text-sm cursor-pointer hover:bg-black hover:bg-opacity-5"
-                  htmlFor={`option${index}`}
-                  key={index}>
-                  <input
-                    id={`option${index}`}
-                    type="checkbox"
-                    value={value}
-                    checked={selectedOption === value}
-                    onChange={e => {
-                      if (e.target.checked) {
-                        selectHandler(value);
-                      }
-                      setExpanded(false);
-                    }}
-                    className="absolute top-0 left-0 text-accent-1-extra-dark rounded-md peer w-0 h-0 focus:outline-none"
-                  />
-                  <span className="block w-6 h-6 xl:w-5 xl:h-5 bg-white border-2 border-[#000000cc] rounded-full peer-checked:bg-[#000000cc]"></span>
-                  <span className="flex-1 px-1 peer-checked:font-medium peer-focus:outline-2 peer-focus:outline-dashed peer-focus:outline-accent-2-base ">
-                    {label}
-                  </span>
-                </label>
-
-                {index !== options.length - 1 && (
-                  <hr className="border-black border-opacity-10" />
-                )}
-              </>
+              <label
+                className={`flex items-center gap-3 p-2 text-xl xl:text-base sm:text-sm cursor-pointer hover:bg-black hover:bg-opacity-5 ${
+                  index !== options.length - 1
+                    ? "border-b border-black border-opacity-10"
+                    : ""
+                }`}
+                htmlFor={`option${index}`}
+                key={index}>
+                <input
+                  id={`option${index}`}
+                  type="checkbox"
+                  value={value}
+                  checked={selectedOption === value}
+                  onChange={e => {
+                    if (e.target.checked) {
+                      selectHandler(value);
+                    }
+                    setExpanded(false);
+                  }}
+                  className="absolute top-0 left-0 text-accent-1-extra-dark rounded-md peer w-0 h-0 focus:outline-none"
+                />
+                <span className="block w-6 h-6 xl:w-5 xl:h-5 bg-white border-2 border-[#000000cc] rounded-full peer-checked:bg-[#000000cc]"></span>
+                <span className="flex-1 px-1 peer-checked:font-medium peer-focus:outline-2 peer-focus:outline-dashed peer-focus:outline-accent-2-base ">
+                  {label}
+                </span>
+              </label>
             ))}
           </div>
         )}

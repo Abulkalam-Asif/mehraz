@@ -36,9 +36,12 @@ export { default as buyPropertyLightIcon } from "./icons/user-landing/buy-proper
 export { default as buyPropertyDarkIcon } from "./icons/user-landing/buy-property-dark.svg";
 export { default as buyMaterialLightIcon } from "./icons/user-landing/buy-material-light.svg";
 export { default as buyMaterialDarkIcon } from "./icons/user-landing/buy-material-dark.svg";
+export { default as jumpToIcon } from "./icons/user-fast-homes/jump-to.svg";
+export { default as maximizedViewIcon } from "./icons/user-fast-homes/maximized-view.svg";
+export { default as minimizedViewIcon } from "./icons/user-fast-homes/minimized-view.svg";
 
 // Images
 export { default as logo1Img } from "./images/logo1.svg";
 export { default as logo2Img } from "./images/logo2.svg";
 
-export { default as defaultLandingImage } from "./images/user-side/default-landing-image.png";
+export { default as defaultLandingImage } from "./images/user-side/default-landing-image.webp";

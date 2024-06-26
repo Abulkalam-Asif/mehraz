@@ -1,6 +1,6 @@
 "use client";
 import { AiOutlineClose } from "react-icons/ai";
-import DesSelStep1Screen2StylesModalCarousal from "./DesSelStep1Screen2StylesModalCarousal";
+import DesSelStep1Screen2StylesModalCarousel from "./DesSelStep1Screen2StylesModalCarousel";
 import { useEffect, useState } from "react";
 
 const DesSelStep1Screen2StylesModal = ({
@@ -65,7 +65,7 @@ const DesSelStep1Screen2StylesModal = ({
               </button>
             </div>
             {/* For screens over 1024px */}
-            <DesSelStep1Screen2StylesModalCarousal className={"lg:hidden"}>
+            <DesSelStep1Screen2StylesModalCarousel className={"lg:hidden"}>
               {stylesToShow?.map(({ id, name, budget, image }) => (
                 <button
                   key={id}
@@ -89,9 +89,9 @@ const DesSelStep1Screen2StylesModal = ({
                   </div>
                 </button>
               ))}
-            </DesSelStep1Screen2StylesModalCarousal>
+            </DesSelStep1Screen2StylesModalCarousel>
             {/* For <= 1024px */}
-            <DesSelStep1Screen2StylesModalCarousal
+            <DesSelStep1Screen2StylesModalCarousel
               className={"hidden lg:block"}>
               {styleArraysToShow.map((styleArray, index) => (
                 <div key={index}>
@@ -126,7 +126,7 @@ const DesSelStep1Screen2StylesModal = ({
                   </div>
                 </div>
               ))}
-            </DesSelStep1Screen2StylesModalCarousal>
+            </DesSelStep1Screen2StylesModalCarousel>
           </div>
         </div>
       }

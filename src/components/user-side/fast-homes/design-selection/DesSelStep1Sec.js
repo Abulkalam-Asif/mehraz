@@ -3,8 +3,9 @@ import { motion } from "framer-motion";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import DesSelStep1Screen2 from "./DesSelStep1Screen2";
+import DesSelStep1Screen3 from "./DesSelStep1Screen3";
 
-const DesSelStep1Sec = ({ screen, cities, styles, setStep, setScreen }) => {
+const DesSelStep1Sec = ({ screen, cities, styles }) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
@@ -46,14 +47,10 @@ const DesSelStep1Sec = ({ screen, cities, styles, setStep, setScreen }) => {
         </motion.div>
       ) : screen === "2" ? (
         <>
-          <DesSelStep1Screen2
-            cities={cities}
-            styles={styles}
-            setScreen={setScreen}
-          />
+          <DesSelStep1Screen2 cities={cities} styles={styles} />
         </>
       ) : (
-        screen === "3" && <div>screen 3</div>
+        screen === "3" && <DesSelStep1Screen3 />
       )}
     </>
   );

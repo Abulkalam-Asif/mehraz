@@ -140,5 +140,8 @@ export { default as DesSelStep1Sec } from "./user-side/fast-homes/design-selecti
 
 export { default as DesSelStep1Screen2 } from "./user-side/fast-homes/design-selection/DesSelStep1Screen2";
 export { default as DesSelStep1Screen2StylesModal } from "./user-side/fast-homes/design-selection/DesSelStep1Screen2StylesModal";
-export { default as DesSelStep1Screen2StylesModalCarousal } from "./user-side/fast-homes/design-selection/DesSelStep1Screen2StylesModalCarousal";
+export { default as DesSelStep1Screen2StylesModalCarousel } from "./user-side/fast-homes/design-selection/DesSelStep1Screen2StylesModalCarousel";
 export { default as DesSelStep1Screen2InputBox } from "./user-side/fast-homes/design-selection/DesSelStep1Screen2InputBox";
+
+export { default as DesSelStep1Screen3 } from "./user-side/fast-homes/design-selection/DesSelStep1Screen3";
+export { default as DesSelStep1Screen3ProjectsCarousel } from "./user-side/fast-homes/design-selection/DesSelStep1Screen3ProjectsCarousel";

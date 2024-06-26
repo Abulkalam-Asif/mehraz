@@ -64,9 +64,9 @@ module.exports = {
         "font-weight": "font-weight",
       },
       backgroundImage: {
-        "landing-cta-1": "url('/images/user-side/landing-cta-1-bg.png')",
-        "landing-cta-2": "url('/images/user-side/landing-cta-2-bg.png')",
-        "fast-homes": "url('/images/user-side/fast-homes-bg.png')",
+        "landing-cta-1": "url('/images/user-side/landing-cta-1-bg.webp')",
+        "landing-cta-2": "url('/images/user-side/landing-cta-2-bg.webp')",
+        "fast-homes": "url('/images/user-side/fast-homes-bg.webp')",
       },
       height: {
         // 100vh - 6rem (admin header + 1rem spacing from bottom) - 6rem (page header)
@@ -79,9 +79,11 @@ module.exports = {
       },
       minHeight: {
         "page-container-admin-inner": "600px",
+        "page-user-inner": "600px",
       },
       maxHeight: {
         "page-container-admin-inner": "800px",
+        "page-user-inner": "800px",
         "2/3": "66%",
         "1/3": "33%",
         "1/2": "50%",
