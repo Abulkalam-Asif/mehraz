@@ -23,6 +23,16 @@ const proximaNova = localFont({
       style: "normal",
       weight: "700",
     },
+    {
+      path: "../fonts/proximaNova/proximaNovaExtrabold.otf",
+      style: "normal",
+      weight: "800",
+    },
+    {
+      path: "../fonts/proximaNova/proximaNovaBlack.otf",
+      style: "normal",
+      weight: "900",
+    },
   ],
   display: "swap",
 });

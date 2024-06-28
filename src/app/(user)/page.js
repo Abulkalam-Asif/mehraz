@@ -24,6 +24,16 @@ const isocpeur = localFont({
   display: "swap",
 });
 
+export const metadata = {
+  title: "Mehraz | Home",
+  description: "Mehraz - Building the new Pakistan",
+  openGraph: {
+    title: "Mehraz | Home",
+    description: "Mehraz - Building the new Pakistan",
+    url: "localhost:3000/",
+  },
+};
+
 export default async function Home() {
   const landingImage = await getBannerImage("landing-image.png");
 
