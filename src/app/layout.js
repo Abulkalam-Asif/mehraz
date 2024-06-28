@@ -11,7 +11,7 @@ const roboto = Roboto({
 export const metadata = {
   title: "Mehraz",
   description: "TOWARDS A NEW ERA OF ARCHITECTURE...",
-  metadataBase: new URL("https://acme.com"),
+  metadataBase: new URL("https://mehraz-gamma.vercel.app/"),
 };
 
 export default function RootLayout({ children }) {
