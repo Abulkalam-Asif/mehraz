@@ -11,6 +11,7 @@ const roboto = Roboto({
 export const metadata = {
   title: "Mehraz",
   description: "TOWARDS A NEW ERA OF ARCHITECTURE...",
+  metadataBase: new URL("https://acme.com"),
 };
 
 export default function RootLayout({ children }) {

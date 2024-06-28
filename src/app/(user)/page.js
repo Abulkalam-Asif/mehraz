@@ -31,7 +31,6 @@ export const metadata = {
     title: "Mehraz | Home",
     description: "Mehraz - Building the new Pakistan",
     url: "localhost:3000/",
-    metadataBase: new URL("https://acme.com"),
   },
 };
 
