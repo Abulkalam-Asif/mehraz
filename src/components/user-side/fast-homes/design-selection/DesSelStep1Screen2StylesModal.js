@@ -2,6 +2,7 @@
 import { AiOutlineClose } from "react-icons/ai";
 import DesSelStep1Screen2StylesModalCarousel from "./DesSelStep1Screen2StylesModalCarousel";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 const DesSelStep1Screen2StylesModal = ({
   isModalOpen = false,
@@ -75,9 +76,12 @@ const DesSelStep1Screen2StylesModal = ({
                     toggleModal();
                   }}>
                   <div className="min-h-[40vh] h-52">
-                    <img
+                    <Image
                       src={image}
                       alt={name}
+                      width={300}
+                      height={300}
+                      priority={true}
                       className="w-full h-full object-cover"
                     />
                   </div>

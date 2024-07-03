@@ -88,7 +88,7 @@ export default async function Home() {
         <ULinkButton
           href="/"
           text="why mehraz?"
-          color="gold"
+          color="gold-gold"
           className="py-1 px-8 mt-6 text-1.5xl xl:text-xl sm:text-base sm:px-5 text-accent-gray"
         />
         <div className="mt-12 lg:hidden">

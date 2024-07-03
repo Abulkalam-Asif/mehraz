@@ -39,6 +39,11 @@ export { default as buyMaterialDarkIcon } from "./icons/user-landing/buy-materia
 export { default as jumpToIcon } from "./icons/user-fast-homes/jump-to.svg";
 export { default as maximizedViewIcon } from "./icons/user-fast-homes/maximized-view.svg";
 export { default as minimizedViewIcon } from "./icons/user-fast-homes/minimized-view.svg";
+export { default as bookmarkGrayIcon } from "./icons/user-fast-homes/bookmark-gray.svg";
+export { default as bookmarkGrayFilledIcon } from "./icons/user-fast-homes/bookmark-gray-filled.svg";
+export { default as shareGrayIcon } from "./icons/user-fast-homes/share-gray.svg";
+export { default as shareGrayFilledIcon } from "./icons/user-fast-homes/share-gray-filled.svg";
+export { default as circleCheckIcon } from "./icons/user-fast-homes/circle-check.svg";
 
 // Images
 export { default as logo1Img } from "./images/logo1.svg";

@@ -36,7 +36,7 @@ module.exports = {
       boxShadow: {
         dropdown: "0px 1px 8px 2px rgba(0, 0, 0, 0.3)",
         "dropdown-2": "5px 5px 20px 0px rgba(0, 0, 0, 0.25)",
-        btn: "0px 5px 5px 0px rgba(0, 0, 0, 0.25)",
+        btn: "1px 4px 4px 0px rgba(0, 0, 0, 0.25)",
       },
       lineHeight: {
         tighter: "1.125",
@@ -80,6 +80,7 @@ module.exports = {
       minHeight: {
         "page-container-admin-inner": "600px",
         "page-user-inner": "600px",
+        "page-user-inner-xl": "560px",
       },
       maxHeight: {
         "page-container-admin-inner": "800px",

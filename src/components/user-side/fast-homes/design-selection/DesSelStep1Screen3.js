@@ -1,31 +1,15 @@
 "use client";
 import { motion } from "framer-motion";
-import { DesSelStep1Screen3ProjectsCarousel, ULinkButton2 } from "@/components";
-import Link from "next/link";
-import { FaChevronLeft } from "react-icons/fa6";
-import Image from "next/image";
-import { jumpToIcon, minimizedViewIcon } from "@/assets";
-import { FaMagnifyingGlass } from "react-icons/fa6";
+import {
+  DesSelStep1Screen3Header,
+  DesSelStep1Screen3ProjectSlide,
+  DesSelStep1Screen3ProjectsCarousel,
+  ULinkButton2,
+} from "@/components";
 import { useEffect, useState } from "react";
 import getScreeen3Projects from "@/Firebase/user-side/design-selection/step-1/getScreeen3Projects";
 
-const projects = [
-  {
-    id: "8BA2iZqyVWFBm845CIeh",
-    style: {
-      id: "1710611303085",
-      name: "BUNGALOW",
-      budget: "MEDIUM",
-    },
-    description:
-      "Our project aims to transform neglected urban spaces into vibrant, sustainable communities. With a focus on environmental stewardship and social cohesion, we propose a comprehensive architectural solution that integrates green spaces, renewable energy, and affordable housing.",
-    productRates: ["1", "1", "1"],
-    constructionRates: ["1", "11", "1"],
-    image:
-      "https://firebasestorage.googleapis.com/v0/b/mehraz-e8261.appspot.com/o/READY_PROJECTS%2F8BA2iZqyVWFBm845CIeh%2Fimage?alt=media&token=ff2d898a-c9ce-4ac4-a46b-307f93a9889c",
-    video:
-      "https://firebasestorage.googleapis.com/v0/b/mehraz-e8261.appspot.com/o/READY_PROJECTS%2F8BA2iZqyVWFBm845CIeh%2Fvideo?alt=media&token=c763a7c2-9215-4384-a67b-39cef67c3a74",
-  },
+const allProjects = [
   {
     id: "A5jYNwF9swEhx3LAUZic",
     style: {
@@ -34,13 +18,37 @@ const projects = [
       budget: "HIGH",
     },
     description:
-      "A beautful home to live in. The best one in the town for sure. This home has a beautiful garden and a swimming pool. The interior is designed by the best designers in the town.",
-    productRates: ["1", "1", "1"],
-    constructionRates: ["1", "1", "1"],
+      "Our project aims to transform neglected urban spaces into vibrant, sustainable communities. With a focus on environmental stewardship and social.",
+    productRates: ["RS 100 / sq ft", "RS 12 / sq meter", "RS 300 / sq yard"],
+    constructionRates: [
+      "RS 2000 / sq ft",
+      "RS 100 / sq meter",
+      "RS 500 / sq yard",
+    ],
     image:
       "https://firebasestorage.googleapis.com/v0/b/mehraz-e8261.appspot.com/o/READY_PROJECTS%2FA5jYNwF9swEhx3LAUZic%2Fimage?alt=media&token=773b578b-98c3-4ac4-bd12-582b660eab91",
     video:
       "https://firebasestorage.googleapis.com/v0/b/mehraz-e8261.appspot.com/o/READY_PROJECTS%2FA5jYNwF9swEhx3LAUZic%2Fvideo?alt=media&token=028a71a5-3275-4a42-a269-5164ce736c84",
+  },
+  {
+    id: "8BA2iZqyVWFBm845CIeh",
+    style: {
+      id: "1710611303085",
+      name: "BUNGALOW",
+      budget: "MEDIUM",
+    },
+    description:
+      "Our project aims to transform neglected urban spaces into vibrant, sustainable communities. With a focus on environmental stewardship and social.",
+    productRates: ["RS 100 / sq ft", "RS 12 / sq meter", "RS 300 / sq yard"],
+    constructionRates: [
+      "RS 2000 / sq ft",
+      "RS 100 / sq meter",
+      "RS 500 / sq yard",
+    ],
+    image:
+      "https://firebasestorage.googleapis.com/v0/b/mehraz-e8261.appspot.com/o/READY_PROJECTS%2F8BA2iZqyVWFBm845CIeh%2Fimage?alt=media&token=ff2d898a-c9ce-4ac4-a46b-307f93a9889c",
+    video:
+      "https://firebasestorage.googleapis.com/v0/b/mehraz-e8261.appspot.com/o/READY_PROJECTS%2F8BA2iZqyVWFBm845CIeh%2Fvideo?alt=media&token=c763a7c2-9215-4384-a67b-39cef67c3a74",
   },
   {
     id: "H6AoVBfYd0VgFjoB3iH2",
@@ -93,7 +101,7 @@ const projects = [
 ];
 
 const DesSelStep1Screen3 = () => {
-  // const [projects, setProjects] = useState([]);
+  const [projects, setProjects] = useState(allProjects);
   // useEffect(() => {
   //   const fetchProjects = async () => {
   //     try {
@@ -105,6 +113,20 @@ const DesSelStep1Screen3 = () => {
   //   };
   //   fetchProjects();
   // }, []);
+  const [searchString, setSearchString] = useState("");
+
+  useEffect(() => {
+    setProjects(
+      allProjects.filter(project => {
+        const search = searchString.toLowerCase();
+        return (
+          searchString === "" ||
+          project.description.toLowerCase().includes(search) ||
+          project.style.name.toLowerCase().includes(search)
+        );
+      }),
+    );
+  }, [searchString]);
 
   return (
     <>
@@ -112,81 +134,17 @@ const DesSelStep1Screen3 = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className="relative w-full h-full min-h-page-user-inner max-h-page-user-inner max-w-8xl flex flex-col gap-8 lg:max-w-xl mx-auto px-4 py-8 sm:p-4">
-        <div className="flex justify-between items-center">
-          <div className="flex items-center gap-10 lg:gap-2">
-            <Link
-              href={"/fast-homes"}
-              className="bg-[#EFEFEF] p-4 xl:p-3 rounded-full shadow-btn">
-              <FaChevronLeft size={24} className="w-6 h-auto sm:w-4" />
-            </Link>
-            <button className="border border-black rounded flex items-center gap-2 py-1 px-8 uppercase hover:shadow-btn transition-shadow duration-300 text-lg">
-              <Image
-                src={jumpToIcon}
-                width={32}
-                height={32}
-                alt="Jump to icon"
-                className="w-8 h-auto"
-              />
-              <span>jump to</span>
-            </button>
-          </div>
-          <div className="flex items-center gap-5">
-            <button className="flex items-center gap-2 text-lg uppercase">
-              <Image
-                src={minimizedViewIcon}
-                width={48}
-                height={48}
-                alt="Minimized view icon"
-                className="w-14 h-auto"
-              />
-              <span>minimized view</span>
-            </button>
-            <div className="relative">
-              <input
-                type="text"
-                className="text-lg border border-black rounded-full pl-4 pr-10 py-2 placeholder:text-black placeholder:opacity-60"
-                placeholder="SEARCH"
-              />
-              <FaMagnifyingGlass
-                width={20}
-                className="absolute top-1/2 right-3 -translate-y-1/2 w-5 h-auto text-black opacity-50"
-              />
-            </div>
-            <div className="flex flex-col items-center gap-0.5">
-              <span className="text-[#6A6A6A]">Learn More</span>
-              <ULinkButton2
-                text="all"
-                href="/"
-                className="ml-auto lg:text-sm text-white bg-[#323232] border border-[#323232] shadow-btn px-12 py-1 transition-colors duration-300 hover:bg-white hover:text-[#323232] hover:shadow-none"
-              />
-            </div>
-          </div>
-        </div>
+        className="relative w-full h-full min-h-page-user-inner xl:min-h-page-user-inner-xl max-h-page-user-inner max-w-8xl flex flex-col gap-8 xl:gap-4 lg:gap-1 lg:max-w-xl mx-auto px-4 pt-8 pb-6 xl:py-4 sm:p-2">
+        <DesSelStep1Screen3Header
+          searchString={searchString}
+          setSearchString={setSearchString}
+        />
         <DesSelStep1Screen3ProjectsCarousel>
           {projects.map(project => (
-            <div
+            <DesSelStep1Screen3ProjectSlide
               key={project.id}
-              className="h-full grid grid-cols-5 rounded-lg shadow-btn border border-black border-opacity-25 overflow-hidden">
-              <div className="py-4 px-5 col-span-2 text-black/90">
-                <h1 className="text-xl font-bold text-center">
-                  {project.style.name}
-                </h1>
-                <h2 className="text-xs capitalize text-center">
-                  {project.style.budget.toLowerCase()} Cost
-                </h2>
-                <p className="text-lg text-justify mt-1">{project.description}</p>
-              </div>
-              <div className="col-span-3">
-                <Image
-                  src={project.image}
-                  width={800}
-                  height={800}
-                  className="w-full h-full object-cover"
-                  alt="Project image"
-                />
-              </div>
-            </div>
+              project={project}
+            />
           ))}
         </DesSelStep1Screen3ProjectsCarousel>
       </motion.div>
