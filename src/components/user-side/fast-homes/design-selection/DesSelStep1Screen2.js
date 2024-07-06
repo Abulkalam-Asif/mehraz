@@ -47,7 +47,7 @@ const DesSelStep1Screen2 = ({ cities, styles }) => {
 
   const nextStepHandler = () => {
     const newParams = new URLSearchParams({
-      category: searchParams.get("category") || "",
+      category: searchParams.get("category") || "upto_18",
       step: "1",
       screen: "3",
       city: step1Screen2Data.city,
@@ -59,7 +59,7 @@ const DesSelStep1Screen2 = ({ cities, styles }) => {
   };
   const skipAndNextStepHandler = () => {
     const newParams = new URLSearchParams({
-      category: searchParams.get("category") || "",
+      category: searchParams.get("category") || "upto_18",
       step: "1",
       screen: "3",
       city: "",

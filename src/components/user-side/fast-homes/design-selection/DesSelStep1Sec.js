@@ -1,32 +1,28 @@
 "use client";
 import { motion } from "framer-motion";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import DesSelStep1Screen2 from "./DesSelStep1Screen2";
 import DesSelStep1Screen3 from "./DesSelStep1Screen3";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-const DesSelStep1Sec = ({ screen, cities, styles }) => {
+const DesSelStep1Sec = ({ screen, setScreen, cities, styles }) => {
   const searchParams = useSearchParams();
-  const pathname = usePathname();
   const router = useRouter();
+  const pathname = usePathname();
+  const paramsScreen = searchParams.get("screen");
 
   useEffect(() => {
-    const params = new URLSearchParams(searchParams);
-
-    if (params.get("screen") === "1") {
-      // Hides the step intro screen after 3 seconds
+    if (paramsScreen === "1") {
+      // Hides the step 1 intro screen after 3 seconds
       const screen1Timeout = setTimeout(() => {
-        const newParams = new URLSearchParams({
-          category: params.get("category") || "",
-          step: "1",
-          screen: "2",
-        });
+        const newParams = new URLSearchParams(searchParams);
+        newParams.set("screen", "2");
         router.push(`${pathname}?${newParams.toString()}`);
       }, 3000);
 
       return () => clearTimeout(screen1Timeout);
     }
-  }, [searchParams]);
+  }, [paramsScreen, router, searchParams, pathname]);
 
   return (
     <>
@@ -47,7 +43,11 @@ const DesSelStep1Sec = ({ screen, cities, styles }) => {
         </motion.div>
       ) : screen === "2" ? (
         <>
-          <DesSelStep1Screen2 cities={cities} styles={styles} />
+          <DesSelStep1Screen2
+            cities={cities}
+            styles={styles}
+            setScreen={setScreen}
+          />
         </>
       ) : (
         screen === "3" && <DesSelStep1Screen3 />

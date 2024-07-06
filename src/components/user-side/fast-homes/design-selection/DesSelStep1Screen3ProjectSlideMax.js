@@ -3,7 +3,7 @@ import Image from "next/image";
 import DesSelStep1Screen3ProjectSlideRates from "./DesSelStep1Screen3ProjectSlideRates";
 import { ULinkButton } from "@/components";
 
-const DesSelStep1Screen3ProjectSlide = ({ project }) => {
+const DesSelStep1Screen3ProjectSlideMax = ({ project }) => {
   return (
     <>
       <div
@@ -120,4 +120,4 @@ const DesSelStep1Screen3ProjectSlide = ({ project }) => {
   );
 };
 
-export default DesSelStep1Screen3ProjectSlide;
+export default DesSelStep1Screen3ProjectSlideMax;

@@ -2,12 +2,17 @@
 import Link from "next/link";
 import { FaChevronLeft } from "react-icons/fa6";
 import Image from "next/image";
-import { jumpToIcon, minimizedViewIcon } from "@/assets";
+import { jumpToIcon, maximizedViewIcon, minimizedViewIcon } from "@/assets";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { ULinkButton2 } from "@/components";
 import { useEffect, useRef, useState } from "react";
 
-const DesSelStep1Screen3Header = ({ searchString, setSearchString }) => {
+const DesSelStep1Screen3Header = ({
+  searchString,
+  setSearchString,
+  view,
+  setView,
+}) => {
   const [mobSearchbarExpanded, setMobSearchbarExpanded] = useState(false);
   const searchbarDivRef = useRef(null);
 
@@ -26,6 +31,10 @@ const DesSelStep1Screen3Header = ({ searchString, setSearchString }) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [mobSearchbarExpanded]);
+
+  const changeViewHandler = () => {
+    setView(prevView => (prevView === "max" ? "min" : "max"));
+  };
 
   return (
     <>
@@ -48,15 +57,19 @@ const DesSelStep1Screen3Header = ({ searchString, setSearchString }) => {
           </button>
         </div>
         <div className="flex items-center gap-5 lg:mr-16">
-          <button className="flex items-center gap-2 text-lg xl:text-base uppercase">
+          <button
+            onClick={changeViewHandler}
+            className="flex items-center gap-2 p-1 text-lg xl:text-base uppercase">
             <Image
-              src={minimizedViewIcon}
+              src={view === "max" ? minimizedViewIcon : maximizedViewIcon}
               width={48}
               height={48}
               alt="Minimized view icon"
               className="w-12 h-auto xl:w-10"
             />
-            <span className="lg:hidden">minimized view</span>
+            <span className="lg:hidden">
+              {view === "max" ? "minimized view" : "maximized view"}
+            </span>
           </button>
           <div className="relative lg:hidden">
             <input

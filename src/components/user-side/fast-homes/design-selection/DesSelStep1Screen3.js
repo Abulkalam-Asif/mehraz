@@ -2,12 +2,17 @@
 import { motion } from "framer-motion";
 import {
   DesSelStep1Screen3Header,
-  DesSelStep1Screen3ProjectSlide,
-  DesSelStep1Screen3ProjectsCarousel,
+  DesSelStep1Screen3ProjectSlideMax,
+  DesSelStep1Screen3ProjectSlideMin,
+  DesSelStep1Screen3ProjectSlideMinMobile,
+  DesSelStep1Screen3ProjectsCarouselMax,
+  DesSelStep1Screen3ProjectsCarouselMin,
+  DesSelStep1Screen3ProjectsCarouselMinMobile,
   ULinkButton2,
 } from "@/components";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import getScreeen3Projects from "@/Firebase/user-side/design-selection/step-1/getScreeen3Projects";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const allProjects = [
   {
@@ -101,7 +106,34 @@ const allProjects = [
 ];
 
 const DesSelStep1Screen3 = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+
+  const [view, setView] = useState("min");
+  useEffect(() => {
+    const paramsView = searchParams.get("view");
+    if (paramsView) {
+      setView(paramsView);
+    } else {
+      const newParams = new URLSearchParams(searchParams);
+      newParams.set("view", "min");
+      router.push(`${pathname}?${newParams.toString()}`);
+      setView("min");
+    }
+  }, []);
+
+  useEffect(() => {
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set("view", view);
+    router.push(`${pathname}?${newParams.toString()}`);
+  }, [view]);
+
+  const [searchString, setSearchString] = useState("");
+
   const [projects, setProjects] = useState(allProjects);
+  const [projectGroups, setProjectGroups] = useState([]);
+
   // useEffect(() => {
   //   const fetchProjects = async () => {
   //     try {
@@ -113,7 +145,14 @@ const DesSelStep1Screen3 = () => {
   //   };
   //   fetchProjects();
   // }, []);
-  const [searchString, setSearchString] = useState("");
+
+  useEffect(() => {
+    const groups = [];
+    for (let i = 0; i < projects.length; i += 4) {
+      groups.push(projects.slice(i, i + 4));
+    }
+    setProjectGroups(groups);
+  }, [projects]);
 
   useEffect(() => {
     setProjects(
@@ -128,25 +167,73 @@ const DesSelStep1Screen3 = () => {
     );
   }, [searchString]);
 
+  const [maxViewCurrSlide, setMaxViewCurrSlide] = useState(1);
+
   return (
     <>
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className="relative w-full h-full min-h-page-user-inner xl:min-h-page-user-inner-xl max-h-page-user-inner max-w-8xl flex flex-col gap-8 xl:gap-4 lg:gap-1 lg:max-w-xl mx-auto px-4 pt-8 pb-6 xl:py-4 sm:p-2">
+        className="relative w-full h-full min-h-page-user-inner xl:min-h-page-user-inner-xl max-h-page-user-inner max-w-8xl flex flex-col gap-4 lg:gap-1 lg:max-w-xl mx-auto px-4 pt-8 pb-6 xl:py-4 sm:p-2">
         <DesSelStep1Screen3Header
           searchString={searchString}
           setSearchString={setSearchString}
+          view={view}
+          setView={setView}
         />
-        <DesSelStep1Screen3ProjectsCarousel>
-          {projects.map(project => (
-            <DesSelStep1Screen3ProjectSlide
-              key={project.id}
-              project={project}
-            />
-          ))}
-        </DesSelStep1Screen3ProjectsCarousel>
+        {view === "max" ? (
+          <DesSelStep1Screen3ProjectsCarouselMax
+            currentIndex={maxViewCurrSlide}
+            setCurrentIndex={setMaxViewCurrSlide}>
+            {projects.map(project => (
+              <DesSelStep1Screen3ProjectSlideMax
+                key={project.id}
+                project={project}
+              />
+            ))}
+          </DesSelStep1Screen3ProjectsCarouselMax>
+        ) : (
+          view === "min" && (
+            <>
+              {/* 3 slides carousel for descktop */}
+              <DesSelStep1Screen3ProjectsCarouselMin>
+                {projects.map((project, index) => (
+                  <DesSelStep1Screen3ProjectSlideMin
+                    key={project.id}
+                    project={project}
+                    seeMoreHandler={() => {
+                      // index + 1 is because in the max view, the last slide is cloned to the 0th index and the first slide is cloned to the last index to produce a infinite carousel effect
+                      setMaxViewCurrSlide(index + 1);
+                      setView("max");
+                    }}
+                  />
+                ))}
+              </DesSelStep1Screen3ProjectsCarouselMin>
+              <DesSelStep1Screen3ProjectsCarouselMinMobile>
+                {projectGroups.map((group, groupIndex) => (
+                  <div key={groupIndex}>
+                    <div className="px-1 grid grid-cols-2 gap-2 mb-2">
+                      {group.map((project, projectIndex) => (
+                        <DesSelStep1Screen3ProjectSlideMinMobile
+                          key={project.id}
+                          project={project}
+                          seeMoreHandler={() => {
+                            setMaxViewCurrSlide(
+                              groupIndex * 4 + projectIndex + 1,
+                            );
+                            setView("max");
+                          }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </DesSelStep1Screen3ProjectsCarouselMinMobile>
+              {/* 4 slides grid carousel for mobile and tablet */}
+            </>
+          )
+        )}
       </motion.div>
     </>
   );

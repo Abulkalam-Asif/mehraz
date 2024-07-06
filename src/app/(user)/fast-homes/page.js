@@ -51,7 +51,7 @@ const FastHomesPage = () => {
           <div className="w-full flex items-center justify-center py-8 xl:py-6 lg:flex-col lg:gap-2 lg:py-4">
             <FastHomesLink
               text="upto 18 marlas"
-              href="/fast-homes/design-selection?category=upto_18"
+              href="/fast-homes/design-selection?category=upto_18&step=0&screen=0"
             />
             <span className="hidden lg:block text-white text-sm uppercase opacity-60">
               4-8 marla homes
@@ -59,7 +59,7 @@ const FastHomesPage = () => {
             <hr className="w-1/12 self-center opacity-15 lg:w-1/3 lg:mb-2" />
             <FastHomesLink
               text="1 kanal & above"
-              href="/fast-homes/design-selection?category=1_kanal_above"
+              href="/fast-homes/design-selection?category=1_kanal_above&step=0&screen=0"
             />
             <span className="hidden lg:block text-white text-sm uppercase opacity-60">
               1-2 kanal homes
