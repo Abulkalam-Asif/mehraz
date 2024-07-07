@@ -1,9 +1,22 @@
-import { bookmarkGrayIcon, circleCheckIcon, shareGrayIcon } from "@/assets";
+"use client";
+import {
+  bookmarkGrayFilledIcon,
+  bookmarkGrayIcon,
+  circleCheckIcon,
+  shareGrayIcon,
+} from "@/assets";
 import Image from "next/image";
 import DesSelStep1Screen3ProjectSlideRates from "./DesSelStep1Screen3ProjectSlideRates";
-import { ULinkButton } from "@/components";
+import { UButton } from "@/components";
+import { useState } from "react";
 
-const DesSelStep1Screen3ProjectSlideMax = ({ project }) => {
+const DesSelStep1Screen3ProjectSlideMax = ({
+  project,
+  isLocalStorageBookmarked,
+  bookmarkLocalStorageHandler,
+  selectProjectHandler,
+}) => {
+  const [isBookmarked, setIsBookmarked] = useState(isLocalStorageBookmarked);
   return (
     <>
       <div
@@ -41,17 +54,29 @@ const DesSelStep1Screen3ProjectSlideMax = ({ project }) => {
                 />
               </div>
               <div className="flex lg:hidden flex-col items-center justify-center gap-4">
-                {/* TODO: On click, add bookmark and replace bookmarkGrayIcon with bookmarkGrayFilledIcon */}
-                <button>
+                <button
+                  onClick={() => {
+                    bookmarkLocalStorageHandler();
+                    setIsBookmarked(prevState => !prevState);
+                  }}>
                   <Image
-                    src={bookmarkGrayIcon}
+                    src={
+                      isBookmarked ? bookmarkGrayFilledIcon : bookmarkGrayIcon
+                    }
                     width={28}
                     height={28}
                     className="w-7 xl:w-6 h-auto"
                     alt="Bookmark"
                   />
                 </button>
-                <button>
+                <button
+                  onClick={() => {
+                    navigator.share({
+                      title: "Fast Homes",
+                      text: project.description,
+                      url: window.location.href,
+                    });
+                  }}>
                   <Image
                     src={shareGrayIcon}
                     width={32}
@@ -64,7 +89,8 @@ const DesSelStep1Screen3ProjectSlideMax = ({ project }) => {
             </div>
           </div>
           <div className="mt-4 sm:mt-2 px-5 sm:px-2 pb-4 lg:pb-2 lg:w-full">
-            <ULinkButton
+            <UButton
+              onClick={selectProjectHandler}
               className="w-full flex items-center justify-center gap-2 text-lg xl:text-base font-bold py-1.5 px-4"
               color="gold-gray"
               text={
@@ -93,18 +119,31 @@ const DesSelStep1Screen3ProjectSlideMax = ({ project }) => {
             className="h-full w-full object-cover"
             alt="Project image"
           />
-          <div className="absolute w-full bottom-0 right-0 px-2 hidden lg:flex justify-end items-center gap-1 bg-gradient-to-r from-white/0 from-50% to-white to-90%">
+          <div className="absolute w-full bottom-0 right-0 px-2 hidden lg:flex justify-end items-center gap-1 bg-gradient-to-r from-white/0 from-30% to-white to-80%">
             {/* TODO: On click, add bookmark and replace bookmarkGrayIcon with bookmarkGrayFilledIcon */}
-            <button className="p-2">
+            <button
+              className="p-2"
+              onClick={() => {
+                bookmarkLocalStorageHandler();
+                setIsBookmarked(prevState => !prevState);
+              }}>
               <Image
-                src={bookmarkGrayIcon}
+                src={isBookmarked ? bookmarkGrayFilledIcon : bookmarkGrayIcon}
                 width={28}
                 height={28}
                 className="w-6 h-auto"
                 alt="Bookmark"
               />
             </button>
-            <button className="p-2">
+            <button
+              onClick={() => {
+                navigator.share({
+                  title: "Fast Homes",
+                  text: project.description,
+                  url: window.location.href,
+                });
+              }}
+              className="p-2">
               <Image
                 src={shareGrayIcon}
                 width={32}

@@ -4,15 +4,21 @@ import { FaChevronLeft } from "react-icons/fa6";
 import Image from "next/image";
 import { jumpToIcon, maximizedViewIcon, minimizedViewIcon } from "@/assets";
 import { FaMagnifyingGlass } from "react-icons/fa6";
-import { ULinkButton2 } from "@/components";
+import { DesSelStep1Screen3JumpToModal, ULinkButton2 } from "@/components";
 import { useEffect, useRef, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const DesSelStep1Screen3Header = ({
   searchString,
   setSearchString,
   view,
   setView,
+  cities,
+  styles,
 }) => {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
   const [mobSearchbarExpanded, setMobSearchbarExpanded] = useState(false);
   const searchbarDivRef = useRef(null);
 
@@ -36,16 +42,28 @@ const DesSelStep1Screen3Header = ({
     setView(prevView => (prevView === "max" ? "min" : "max"));
   };
 
+  const moveToScreen2Handler = () => {
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set("screen", "2");
+    router.push(`${pathname}?${newParams.toString()}`);
+  };
+
+  // Modal states and functions
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const toggleModal = () => setIsModalOpen(prevState => !prevState);
+
   return (
     <>
       <div className="relative flex justify-between items-center">
         <div className="flex items-center gap-10 lg:gap-2">
-          <Link
-            href={"/fast-homes"}
+          <button
+            onClick={moveToScreen2Handler}
             className="bg-[#EFEFEF] p-4 xl:p-3 rounded-full shadow-btn">
             <FaChevronLeft size={24} className="w-6 h-auto sm:w-4" />
-          </Link>
-          <button className="border lg:border-none border-black rounded flex items-center gap-2 py-1 px-8 lg:px-1 lg:py-0.5 xl:px-4 uppercase hover:shadow-btn transition-shadow duration-300 text-lg xl:text-base">
+          </button>
+          <button
+            onClick={toggleModal}
+            className="border lg:border-none border-black rounded flex items-center gap-2 py-1 px-8 lg:px-1 lg:py-0.5 xl:px-4 uppercase hover:shadow-btn transition-shadow duration-300 text-lg xl:text-base">
             <Image
               src={jumpToIcon}
               width={32}
@@ -121,6 +139,14 @@ const DesSelStep1Screen3Header = ({
           </button>
         </div>
       </div>
+      {isModalOpen && (
+        <DesSelStep1Screen3JumpToModal
+          isModalOpen={isModalOpen}
+          toggleModal={toggleModal}
+          cities={cities}
+          styles={styles}
+        />
+      )}
     </>
   );
 };

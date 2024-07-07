@@ -7,6 +7,7 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import { motion } from "framer-motion";
 
 const DesSelStep1Screen3ProjectsCarouselMinMobile = ({ children }) => {
+  const isSingleSlide = children.length <= 1;
   const sliderRef = useRef(null);
 
   const CustomPrevArrow = () => (
@@ -29,7 +30,7 @@ const DesSelStep1Screen3ProjectsCarouselMinMobile = ({ children }) => {
     prevArrow: <CustomPrevArrow />,
     nextArrow: <CustomNextArrow />,
     dots: false,
-    infinite: true,
+    infinite: !isSingleSlide,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -47,23 +48,30 @@ const DesSelStep1Screen3ProjectsCarouselMinMobile = ({ children }) => {
             {children}
           </Slider>
         </div>
-        <button
-          onClick={previousSlide}
-          className="absolute w-auto h-full top-0 left-0 bottom-0 flex items-center justify-center focus:outline-none">
-          <span className="bg-[#EFEFEF] bg-opacity-80 p-4 lg:p-3 rounded-full">
-            <FaChevronLeft className="text-black w-6 h-auto lg:w-5" size={24} />
-          </span>
-        </button>
-        <button
-          onClick={nextSlide}
-          className="absolute w-auto h-full top-0 right-0 bottom-0 z-[1] flex items-center justify-center focus:outline-none">
-          <span className="bg-[#EFEFEF] bg-opacity-80 p-4 lg:p-3 rounded-full">
-            <FaChevronRight
-              className="text-black w-6 h-auto lg:w-5"
-              size={24}
-            />
-          </span>
-        </button>
+        {!isSingleSlide && (
+          <>
+            <button
+              onClick={previousSlide}
+              className="absolute w-auto h-full top-0 left-0 bottom-0 flex items-center justify-center focus:outline-none">
+              <span className="bg-[#EFEFEF] bg-opacity-80 p-4 lg:p-3 rounded-full">
+                <FaChevronLeft
+                  className="text-black w-6 h-auto lg:w-5"
+                  size={24}
+                />
+              </span>
+            </button>
+            <button
+              onClick={nextSlide}
+              className="absolute w-auto h-full top-0 right-0 bottom-0 z-[1] flex items-center justify-center focus:outline-none">
+              <span className="bg-[#EFEFEF] bg-opacity-80 p-4 lg:p-3 rounded-full">
+                <FaChevronRight
+                  className="text-black w-6 h-auto lg:w-5"
+                  size={24}
+                />
+              </span>
+            </button>
+          </>
+        )}
       </motion.div>
     </>
   );

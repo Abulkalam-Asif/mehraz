@@ -1,15 +1,15 @@
 "use client";
 import { AiOutlineClose } from "react-icons/ai";
-import DesSelStep1Screen2StylesModalCarousel from "./DesSelStep1Screen2StylesModalCarousel";
+import DesSelStep1StylesModalCarousel from "./DesSelStep1StylesModalCarousel";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 
-const DesSelStep1Screen2StylesModal = ({
+const DesSelStep1StylesModal = ({
   isModalOpen = false,
   toggleModal = () => {},
   styles,
   styleCost,
-  step1Screen2DataInputHandler,
+  step1Screen2FormDataInputHandler,
 }) => {
   const [stylesToShow, setStylesToShow] = useState([]);
   const [styleArraysToShow, setStyleArraysToShow] = useState([]);
@@ -35,12 +35,12 @@ const DesSelStep1Screen2StylesModal = ({
         onClick={toggleModal}
         className={`${
           isModalOpen
-            ? "fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-60 z-[2]"
+            ? "fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-60 z-[5]"
             : "hidden"
         }`}></div>
       {
         <div
-          className={`fixed z-[3] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-8xl lg:max-w-xl bg-white rounded-xl overflow-hidden`}>
+          className={`fixed z-[6] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-8xl lg:max-w-xl bg-white rounded-xl overflow-hidden`}>
           <div className="bg-gradient-to-r from-accent-dark-blue to-accent-sea-green pt-12 lg:pt-8 px-10 lg:px-4 pb-6 lg:pb-2">
             <div className="w-full relative flex flex-col items-center gap-4 lg:gap-2 text-center mb-6">
               <h3 className="text-white font-bold text-3.5xl lg:text-2xl sm:text-xl">
@@ -66,13 +66,13 @@ const DesSelStep1Screen2StylesModal = ({
               </button>
             </div>
             {/* For screens over 1024px */}
-            <DesSelStep1Screen2StylesModalCarousel className={"lg:hidden"}>
+            <DesSelStep1StylesModalCarousel className={"lg:hidden"}>
               {stylesToShow?.map(({ id, name, budget, image }) => (
                 <button
                   key={id}
                   className="px-3"
                   onClick={() => {
-                    step1Screen2DataInputHandler("style", id);
+                    step1Screen2FormDataInputHandler("style", id);
                     toggleModal();
                   }}>
                   <div className="min-h-[40vh] h-52">
@@ -93,10 +93,9 @@ const DesSelStep1Screen2StylesModal = ({
                   </div>
                 </button>
               ))}
-            </DesSelStep1Screen2StylesModalCarousel>
+            </DesSelStep1StylesModalCarousel>
             {/* For <= 1024px */}
-            <DesSelStep1Screen2StylesModalCarousel
-              className={"hidden lg:block"}>
+            <DesSelStep1StylesModalCarousel className={"hidden lg:block"}>
               {styleArraysToShow.map((styleArray, index) => (
                 <div key={index}>
                   <div className="grid grid-cols-2">
@@ -105,7 +104,7 @@ const DesSelStep1Screen2StylesModal = ({
                         key={id}
                         className="p-2"
                         onClick={() => {
-                          step1Screen2DataInputHandler("style", id);
+                          step1Screen2FormDataInputHandler("style", id);
                           toggleModal();
                         }}>
                         <div className="max-h-[25vh] h-32">
@@ -130,7 +129,7 @@ const DesSelStep1Screen2StylesModal = ({
                   </div>
                 </div>
               ))}
-            </DesSelStep1Screen2StylesModalCarousel>
+            </DesSelStep1StylesModalCarousel>
           </div>
         </div>
       }
@@ -138,4 +137,4 @@ const DesSelStep1Screen2StylesModal = ({
   );
 };
 
-export default DesSelStep1Screen2StylesModal;
+export default DesSelStep1StylesModal;

@@ -21,10 +21,10 @@ const DesSelClientPage = ({ cities, styles }) => {
     <>
       {step === "0" && screen === "0" ? (
         <DesSelIntroSec />
+      ) : step === "1" ? (
+        <DesSelStep1Sec screen={screen} cities={cities} styles={styles} />
       ) : (
-        step === "1" && (
-          <DesSelStep1Sec screen={screen} cities={cities} styles={styles} />
-        )
+        step === "2" && <div>step 2</div>
       )}
     </>
   );

@@ -8,16 +8,21 @@ const DesSelStep1Screen3ProjectsCarouselMax = ({
   currentIndex,
   setCurrentIndex,
 }) => {
+  const isSingleChild = children.length === 1;
   const [items, setItems] = useState([...children]);
 
   useEffect(() => {
     // Clone the first and last items to make the carousel infinite
-    const clonedItems = [
-      children[children.length - 1],
-      ...children,
-      children[0],
-    ];
-    setItems(clonedItems);
+    if (!isSingleChild) {
+      const clonedItems = [
+        children[children.length - 1],
+        ...children,
+        children[0],
+      ];
+      setItems(clonedItems);
+    } else {
+      setItems(children);
+    }
   }, [children]);
 
   const previousSlide = () => {
@@ -48,10 +53,15 @@ const DesSelStep1Screen3ProjectsCarouselMax = ({
         <div
           className="flex transition-transform duration-500 h-full"
           style={{
-            transform: `translateX(-${
-              currentIndex * slideWidth - (100 - slideWidth) / 2
-            }%)`,
+            transform: `${
+              isSingleChild
+                ? `translateX(0)`
+                : `translateX(-${
+                    currentIndex * slideWidth - (100 - slideWidth) / 2
+                  }%)`
+            }`,
             width: `${items.length * slideWidth}%`,
+            minWidth: `100%`,
             maxWidth: `${items.length * slideWidth}%`,
           }}>
           {items.map((child, index) => (
@@ -61,11 +71,18 @@ const DesSelStep1Screen3ProjectsCarouselMax = ({
               style={{
                 width: `${slideWidth}%`,
                 maxWidth: `${slideWidth}%`,
-                transform: `scale(${
-                  index === currentIndex ? 1 : 0.8
-                }) translateX(${
-                  index < currentIndex ? 10 : index > currentIndex ? -10 : 0
-                }%)`,
+                margin: `${isSingleChild ? "auto" : ""}`,
+                transform: `${
+                  isSingleChild
+                    ? ""
+                    : `scale(${index === currentIndex ? 1 : 0.8}) translateX(${
+                        index < currentIndex
+                          ? 10
+                          : index > currentIndex
+                          ? -10
+                          : 0
+                      }%)`
+                }`,
                 transition: "transform 0.5s",
               }}>
               {child}
@@ -73,20 +90,30 @@ const DesSelStep1Screen3ProjectsCarouselMax = ({
           ))}
         </div>
       </div>
-      <button
-        onClick={previousSlide}
-        className="absolute w-[8%] lg:w-auto h-full top-0 left-0 bottom-0 bg-gradient-to-r from-white to-white/0 z-[1] flex items-center justify-center focus:outline-none">
-        <span className="bg-[#EFEFEF] bg-opacity-80 p-4 lg:p-3 rounded-full">
-          <FaChevronLeft className="text-black w-6 h-auto lg:w-5" size={24} />
-        </span>
-      </button>
-      <button
-        onClick={nextSlide}
-        className="absolute w-[8%] lg:w-auto h-full top-0 right-0 bottom-0 bg-gradient-to-r from-white/0 to-white z-[1] flex items-center justify-center focus:outline-none">
-        <span className="bg-[#EFEFEF] bg-opacity-80 p-4 lg:p-3 rounded-full">
-          <FaChevronRight className="text-black w-6 h-auto lg:w-5" size={24} />
-        </span>
-      </button>
+      {!isSingleChild && (
+        <>
+          <button
+            onClick={previousSlide}
+            className="absolute w-[8%] lg:w-auto h-full top-0 left-0 bottom-0 bg-gradient-to-r from-white to-white/0 z-[1] flex items-center justify-center focus:outline-none">
+            <span className="bg-[#EFEFEF] bg-opacity-80 p-4 lg:p-3 rounded-full">
+              <FaChevronLeft
+                className="text-black w-6 h-auto lg:w-5"
+                size={24}
+              />
+            </span>
+          </button>
+          <button
+            onClick={nextSlide}
+            className="absolute w-[8%] lg:w-auto h-full top-0 right-0 bottom-0 bg-gradient-to-r from-white/0 to-white z-[1] flex items-center justify-center focus:outline-none">
+            <span className="bg-[#EFEFEF] bg-opacity-80 p-4 lg:p-3 rounded-full">
+              <FaChevronRight
+                className="text-black w-6 h-auto lg:w-5"
+                size={24}
+              />
+            </span>
+          </button>
+        </>
+      )}
     </motion.div>
   );
 };

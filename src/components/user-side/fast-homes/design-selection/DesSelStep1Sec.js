@@ -46,11 +46,15 @@ const DesSelStep1Sec = ({ screen, setScreen, cities, styles }) => {
           <DesSelStep1Screen2
             cities={cities}
             styles={styles}
-            setScreen={setScreen}
           />
         </>
       ) : (
-        screen === "3" && <DesSelStep1Screen3 />
+        screen === "3" && (
+          <DesSelStep1Screen3
+            cities={cities}
+            styles={styles}
+          />
+        )
       )}
     </>
   );

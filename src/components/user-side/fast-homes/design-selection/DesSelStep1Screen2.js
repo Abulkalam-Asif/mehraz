@@ -1,9 +1,9 @@
 "use client";
 import {
   DesSelStep1Screen2InputBox,
-  DesSelStep1Screen2StylesModal,
+  DesSelStep1StylesModal,
   ULinkButton2,
-  USelect,
+  DesSelStep1Screen2Select,
 } from "@/components";
 import { motion } from "framer-motion";
 import Link from "next/link";
@@ -16,18 +16,18 @@ const DesSelStep1Screen2 = ({ cities, styles }) => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const defaultStep1Screen2Data = {
+  const defaultStep1Screen2FormData = {
     city: "",
     styleCost: "",
     style: "",
     description: "",
   };
 
-  const [step1Screen2Data, setStep1Screen2Data] = useState(
-    defaultStep1Screen2Data,
+  const [step1Screen2FormData, setStep1Screen2FormData] = useState(
+    defaultStep1Screen2FormData,
   );
-  const step1Screen2DataInputHandler = (key, value) => {
-    setStep1Screen2Data(prevState => ({
+  const step1Screen2FormDataInputHandler = (key, value) => {
+    setStep1Screen2FormData(prevState => ({
       ...prevState,
       [key]: value,
     }));
@@ -35,11 +35,11 @@ const DesSelStep1Screen2 = ({ cities, styles }) => {
 
   useEffect(() => {
     // Reset style when styleCost changes so that user can select new style according to new styleCost
-    setStep1Screen2Data(prevState => ({
+    setStep1Screen2FormData(prevState => ({
       ...prevState,
       style: "",
     }));
-  }, [step1Screen2Data.styleCost]);
+  }, [step1Screen2FormData.styleCost]);
 
   // Modal States and functions
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -50,10 +50,10 @@ const DesSelStep1Screen2 = ({ cities, styles }) => {
       category: searchParams.get("category") || "upto_18",
       step: "1",
       screen: "3",
-      city: step1Screen2Data.city,
-      styleCost: step1Screen2Data.styleCost,
-      style: step1Screen2Data.style,
-      description: step1Screen2Data.description,
+      city: step1Screen2FormData.city,
+      styleCost: step1Screen2FormData.styleCost,
+      style: step1Screen2FormData.style,
+      description: step1Screen2FormData.description,
     });
     router.push(`${pathname}?${newParams.toString()}`);
   };
@@ -127,7 +127,7 @@ const DesSelStep1Screen2 = ({ cities, styles }) => {
         </h3>
         <div className="bg-transparent relative flex lg:flex-col items-center justify-evenly lg:gap-4 px-8 py-6 sm:p-4 mr-6 lg:mr-2 mt-8 lg:mt-4 before:absolute before:z-[-2] before:top-0 before:left-0 before:right-0 before:bottom-0 before:bg-[#E5CD86] before:shadow-btn before:rounded-full lg:before:rounded-3xl before:border before:border-black before:border-opacity-30 after:absolute after:z-[-1] after:top-0 after:left-0 after:right-0 after:bottom-0 after:bg-[#efefef1a] after:translate-x-6 lg:after:translate-x-2 after:translate-y-3 lg:after:translate-y-2 after:shadow-btn after:rounded-full lg:after:rounded-3xl after:border after:border-black after:border-opacity-30">
           <DesSelStep1Screen2InputBox label={"city"}>
-            <USelect
+            <DesSelStep1Screen2Select
               options={
                 cities
                   ? [
@@ -142,9 +142,9 @@ const DesSelStep1Screen2 = ({ cities, styles }) => {
                     ]
                   : []
               }
-              selectedOption={step1Screen2Data.city}
+              selectedOption={step1Screen2FormData.city}
               selectHandler={value =>
-                step1Screen2DataInputHandler("city", value)
+                step1Screen2FormDataInputHandler("city", value)
               }
             />
           </DesSelStep1Screen2InputBox>
@@ -153,16 +153,16 @@ const DesSelStep1Screen2 = ({ cities, styles }) => {
             className="text-white opacity-25 w-10 h-auto lg:hidden"
           />
           <DesSelStep1Screen2InputBox label={"style cost"}>
-            <USelect
+            <DesSelStep1Screen2Select
               options={[
                 { label: "CHOOSE", value: "" },
                 { label: "LOW", value: "LOW" },
                 { label: "MEDIUM", value: "MEDIUM" },
                 { label: "HIGH", value: "HIGH" },
               ]}
-              selectedOption={step1Screen2Data.styleCost}
+              selectedOption={step1Screen2FormData.styleCost}
               selectHandler={value =>
-                step1Screen2DataInputHandler("styleCost", value)
+                step1Screen2FormDataInputHandler("styleCost", value)
               }
             />
           </DesSelStep1Screen2InputBox>
@@ -175,9 +175,9 @@ const DesSelStep1Screen2 = ({ cities, styles }) => {
             <button
               onClick={toggleModal}
               className="text-2xl xl:text-xl py-3 sm:py-2 px-12 sm:px-6 bg-[#8D8E97] rounded-full uppercase text-white shadow-btn font-bold border-2 border-white border-opacity-60 transition-colors duration-300 hover:bg-white hover:text-[#000000a6] hover:border-[#000000a6]">
-              {step1Screen2Data.style === ""
+              {step1Screen2FormData.style === ""
                 ? "styles"
-                : styles.find(style => style.id === step1Screen2Data.style)
+                : styles.find(style => style.id === step1Screen2FormData.style)
                     .name}
             </button>
           </DesSelStep1Screen2InputBox>
@@ -190,13 +190,13 @@ const DesSelStep1Screen2 = ({ cities, styles }) => {
           </label>
           <div className="w-4/5 sm:w-full relative">
             <span className="absolute top-0.5 right-0.5 text-xs font-medium">
-              {step1Screen2Data.description.length}/100
+              {step1Screen2FormData.description.length}/100
             </span>
             <textarea
               id="description"
-              value={step1Screen2Data.description}
+              value={step1Screen2FormData.description}
               onChange={e =>
-                step1Screen2DataInputHandler("description", e.target.value)
+                step1Screen2FormDataInputHandler("description", e.target.value)
               }
               rows={1}
               maxLength={100}
@@ -223,12 +223,12 @@ const DesSelStep1Screen2 = ({ cities, styles }) => {
         </div>
       </motion.div>
       {isModalOpen && (
-        <DesSelStep1Screen2StylesModal
+        <DesSelStep1StylesModal
           isModalOpen={isModalOpen}
           toggleModal={toggleModal}
           styles={styles}
-          styleCost={step1Screen2Data.styleCost}
-          step1Screen2DataInputHandler={step1Screen2DataInputHandler}
+          styleCost={step1Screen2FormData.styleCost}
+          step1Screen2FormDataInputHandler={step1Screen2FormDataInputHandler}
         />
       )}
     </>

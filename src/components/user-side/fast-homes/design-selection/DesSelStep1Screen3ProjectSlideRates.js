@@ -1,12 +1,27 @@
 "use client";
-
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const DesSelStep1Screen3ProjectSlideRates = ({
   productRates,
   constructionRates,
 }) => {
   const [showSecondaryRates, setShowSecondaryRates] = useState(false);
+  const buttonRef = useRef(null);
+
+  const handleClickOutside = event => {
+    if (buttonRef.current && !buttonRef.current.contains(event.target)) {
+      setShowSecondaryRates(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [showSecondaryRates]);
+
   return (
     <>
       <div className="relative">
@@ -18,6 +33,7 @@ const DesSelStep1Screen3ProjectSlideRates = ({
           </div>
         )}
         <button
+          ref={buttonRef}
           onClick={() => setShowSecondaryRates(prevState => !prevState)}
           className="uppercase px-2 py-1.5 rounded text-sm font-bold opacity-80 bg-[#EFEFEF]/70">
           <div>

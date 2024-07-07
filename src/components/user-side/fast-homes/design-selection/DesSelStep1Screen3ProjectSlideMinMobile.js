@@ -1,17 +1,22 @@
-import { circleCheckIcon } from "@/assets";
+"use client";
+import { bookmarkGrayFilledIcon, bookmarkGrayIcon } from "@/assets";
 import Image from "next/image";
-import { ULinkButton } from "@/components";
+import { useState } from "react";
 
 const DesSelStep1Screen3ProjectSlideMinMobile = ({
   project,
   seeMoreHandler,
+  isLocalStorageBookmarked,
+  bookmarkLocalStorageHandler,
+  selectProjectHandler,
 }) => {
+  const [isBookmarked, setIsBookmarked] = useState(isLocalStorageBookmarked);
   return (
     <>
       <div
         key={project.id}
         className="rounded-lg shadow-btn border border-black border-opacity-25 overflow-hidden">
-        <div className="h-[16vh]">
+        <div className="relative h-[16vh]">
           <Image
             src={project.image}
             width={500}
@@ -19,6 +24,22 @@ const DesSelStep1Screen3ProjectSlideMinMobile = ({
             className="h-full w-full object-cover"
             alt="Project image"
           />
+          <div className="absolute w-full bottom-0 right-0 px-2 hidden lg:block bg-gradient-to-r from-white/0 from-50% to-white to-90%">
+            <button
+              className="p-1 block ml-auto"
+              onClick={() => {
+                bookmarkLocalStorageHandler();
+                setIsBookmarked(prevState => !prevState);
+              }}>
+              <Image
+                src={isBookmarked ? bookmarkGrayFilledIcon : bookmarkGrayIcon}
+                width={14}
+                height={14}
+                className="w-3.5 h-auto"
+                alt="Bookmark"
+              />
+            </button>
+          </div>
         </div>
         <div className="h-[20vh] flex flex-col overflow-y-auto">
           <h1 className="text-xs font-bold text-center">
@@ -46,13 +67,15 @@ const DesSelStep1Screen3ProjectSlideMinMobile = ({
               </div>
             </div>
           </div>
-          <div className="mt-1 pb-2 flex flex-col items-center gap-1 text-sm sm:text-xs px-4">
+          <div className="mt-2 pb-2 flex flex-col items-center gap-2 text-sm sm:text-xs px-4">
             <button
               onClick={seeMoreHandler}
               className="bg-[#D9BF77] px-4 py-1 rounded-full shadow-btn uppercase w-full">
               see more
             </button>
-            <button className="bg-[#D9BF77] px-4 py-1 rounded-md shadow-btn uppercase w-full">
+            <button
+              onClick={selectProjectHandler}
+              className="bg-[#D9BF77] px-4 py-1 rounded-md shadow-btn uppercase w-full">
               select
             </button>
           </div>

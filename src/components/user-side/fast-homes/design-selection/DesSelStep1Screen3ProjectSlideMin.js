@@ -1,9 +1,22 @@
-import { bookmarkGrayIcon, circleCheckIcon, shareGrayIcon } from "@/assets";
+"use client";
+import {
+  bookmarkGrayFilledIcon,
+  bookmarkGrayIcon,
+  circleCheckIcon,
+  shareGrayIcon,
+} from "@/assets";
 import Image from "next/image";
-import DesSelStep1Screen3ProjectSlideRates from "./DesSelStep1Screen3ProjectSlideRates";
-import { ULinkButton } from "@/components";
+import { UButton, DesSelStep1Screen3ProjectSlideRates } from "@/components";
+import { useState } from "react";
 
-const DesSelStep1Screen3ProjectSlideMin = ({ project, seeMoreHandler }) => {
+const DesSelStep1Screen3ProjectSlideMin = ({
+  project,
+  selectProjectHandler,
+  seeMoreHandler,
+  isLocalStorageBookmarked,
+  bookmarkLocalStorageHandler,
+}) => {
+  const [isBookmarked, setIsBookmarked] = useState(isLocalStorageBookmarked);
   return (
     <>
       <div
@@ -54,9 +67,15 @@ const DesSelStep1Screen3ProjectSlideMin = ({ project, seeMoreHandler }) => {
                 />
               </div>
               <div className="w-12 flex flex-col items-center justify-center gap-4">
-                <button>
+                <button
+                  onClick={() => {
+                    bookmarkLocalStorageHandler();
+                    setIsBookmarked(prevState => !prevState);
+                  }}>
                   <Image
-                    src={bookmarkGrayIcon}
+                    src={
+                      isBookmarked ? bookmarkGrayFilledIcon : bookmarkGrayIcon
+                    }
                     width={28}
                     height={28}
                     className="w-6 h-auto"
@@ -76,7 +95,8 @@ const DesSelStep1Screen3ProjectSlideMin = ({ project, seeMoreHandler }) => {
             </div>
           </div>
           <div className="mt-2 pb-1">
-            <ULinkButton
+            <UButton
+              onClick={selectProjectHandler}
               className="w-full flex items-center justify-center gap-2 text-base font-bold py-1.5 px-4"
               color="gold-gray"
               text={

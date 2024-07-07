@@ -3,7 +3,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-const DesSelStep1Screen2StylesModalCarousel = ({ children, className }) => {
+const DesSelStep1StylesModalCarousel = ({ children, className }) => {
   const sliderSettings = {
     arrows: false,
     dots: true,
@@ -35,4 +35,4 @@ const DesSelStep1Screen2StylesModalCarousel = ({ children, className }) => {
   );
 };
 
-export default DesSelStep1Screen2StylesModalCarousel;
+export default DesSelStep1StylesModalCarousel;

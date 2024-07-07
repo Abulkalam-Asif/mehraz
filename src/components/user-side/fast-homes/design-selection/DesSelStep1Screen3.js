@@ -10,7 +10,7 @@ import {
   DesSelStep1Screen3ProjectsCarouselMinMobile,
   ULinkButton2,
 } from "@/components";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import getScreeen3Projects from "@/Firebase/user-side/design-selection/step-1/getScreeen3Projects";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
@@ -105,21 +105,21 @@ const allProjects = [
   },
 ];
 
-const DesSelStep1Screen3 = () => {
+const DesSelStep1Screen3 = ({ cities, styles }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
 
-  const [view, setView] = useState("min");
+  const [view, setView] = useState("max");
   useEffect(() => {
     const paramsView = searchParams.get("view");
     if (paramsView) {
       setView(paramsView);
     } else {
       const newParams = new URLSearchParams(searchParams);
-      newParams.set("view", "min");
+      newParams.set("view", "max");
       router.push(`${pathname}?${newParams.toString()}`);
-      setView("min");
+      setView("max");
     }
   }, []);
 
@@ -155,19 +155,61 @@ const DesSelStep1Screen3 = () => {
   }, [projects]);
 
   useEffect(() => {
-    setProjects(
-      allProjects.filter(project => {
-        const search = searchString.toLowerCase();
-        return (
-          searchString === "" ||
-          project.description.toLowerCase().includes(search) ||
-          project.style.name.toLowerCase().includes(search)
-        );
-      }),
-    );
+    // Must filter the projects from allProjects, not from projects
+    const filteredProjects = allProjects.filter(project => {
+      const search = searchString.toLowerCase();
+      return (
+        searchString === "" ||
+        project.description.toLowerCase().includes(search) ||
+        project.style.name.toLowerCase().includes(search)
+      );
+    });
+    setProjects(filteredProjects);
+
+    const groups = [];
+    for (let i = 0; i < filteredProjects.length; i += 4) {
+      groups.push(filteredProjects.slice(i, i + 4));
+    }
+    setProjectGroups(groups);
   }, [searchString]);
 
   const [maxViewCurrSlide, setMaxViewCurrSlide] = useState(1);
+
+  const checkLocalStorageBookmarked = id => {
+    const localStorageBookmarkedProjects = JSON.parse(
+      localStorage.getItem("bookmarkedProjects"),
+    );
+    return (
+      localStorageBookmarkedProjects &&
+      localStorageBookmarkedProjects.includes(id)
+    );
+  };
+
+  const bookmarkLocalStorageHandler = id => {
+    const localStorageBookmarkedProjects = JSON.parse(
+      localStorage.getItem("bookmarkedProjects"),
+    );
+    const newBookmarkedProjects = localStorageBookmarkedProjects
+      ? localStorageBookmarkedProjects.includes(id)
+        ? localStorageBookmarkedProjects.filter(
+            bookmarkedId => bookmarkedId !== id,
+          )
+        : [...localStorageBookmarkedProjects, id]
+      : [id];
+    localStorage.setItem(
+      "bookmarkedProjects",
+      JSON.stringify(newBookmarkedProjects),
+    );
+  };
+
+  const selectProjectHandler = id => {
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set("project", id);
+    newParams.set("step", 2);
+    newParams.set("screen", 1);
+    newParams.delete("view");
+    router.push(`${pathname}?${newParams.toString()}`);
+  };
 
   return (
     <>
@@ -181,15 +223,30 @@ const DesSelStep1Screen3 = () => {
           setSearchString={setSearchString}
           view={view}
           setView={setView}
+          cities={cities}
+          styles={styles}
         />
-        {view === "max" ? (
+        {projects.length === 0 ? (
+          <div className="flex items-center justify-center h-full">
+            <p className="text-lg text-gray-500">No projects found</p>
+          </div>
+        ) : view === "max" ? (
           <DesSelStep1Screen3ProjectsCarouselMax
             currentIndex={maxViewCurrSlide}
             setCurrentIndex={setMaxViewCurrSlide}>
             {projects.map(project => (
               <DesSelStep1Screen3ProjectSlideMax
                 key={project.id}
+                selectProjectHandler={() => {
+                  selectProjectHandler(project.id);
+                }}
                 project={project}
+                isLocalStorageBookmarked={checkLocalStorageBookmarked(
+                  project.id,
+                )}
+                bookmarkLocalStorageHandler={() =>
+                  bookmarkLocalStorageHandler(project.id)
+                }
               />
             ))}
           </DesSelStep1Screen3ProjectsCarouselMax>
@@ -202,11 +259,20 @@ const DesSelStep1Screen3 = () => {
                   <DesSelStep1Screen3ProjectSlideMin
                     key={project.id}
                     project={project}
+                    selectProjectHandler={() => {
+                      selectProjectHandler(project.id);
+                    }}
                     seeMoreHandler={() => {
                       // index + 1 is because in the max view, the last slide is cloned to the 0th index and the first slide is cloned to the last index to produce a infinite carousel effect
                       setMaxViewCurrSlide(index + 1);
                       setView("max");
                     }}
+                    isLocalStorageBookmarked={checkLocalStorageBookmarked(
+                      project.id,
+                    )}
+                    bookmarkLocalStorageHandler={() =>
+                      bookmarkLocalStorageHandler(project.id)
+                    }
                   />
                 ))}
               </DesSelStep1Screen3ProjectsCarouselMin>
@@ -223,6 +289,15 @@ const DesSelStep1Screen3 = () => {
                               groupIndex * 4 + projectIndex + 1,
                             );
                             setView("max");
+                          }}
+                          isLocalStorageBookmarked={checkLocalStorageBookmarked(
+                            project.id,
+                          )}
+                          bookmarkLocalStorageHandler={() =>
+                            bookmarkLocalStorageHandler(project.id)
+                          }
+                          selectProjectHandler={() => {
+                            selectProjectHandler(project.id);
                           }}
                         />
                       ))}
