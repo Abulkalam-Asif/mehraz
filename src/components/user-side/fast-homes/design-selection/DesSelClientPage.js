@@ -1,10 +1,13 @@
 "use client";
-
 import { useSearchParams } from "next/navigation";
-import { DesSelIntroSec, DesSelStep1Sec } from "@/components";
-import { useEffect, useState } from "react";
+import { useEffect, useState, lazy, Suspense } from "react";
+import { UserScreenSpinner } from "@/components";
 
-const DesSelClientPage = ({ cities, styles }) => {
+const DesSelIntroSec = lazy(() => import("./DesSelIntroSec"));
+const DesSelStep1Sec = lazy(() => import("./DesSelStep1Sec"));
+const DesSelStep2Sec = lazy(() => import("./DesSelStep2Sec"));
+
+const DesSelClientPage = () => {
   const [step, setStep] = useState(null);
   const [screen, setScreen] = useState(null);
 
@@ -20,13 +23,22 @@ const DesSelClientPage = ({ cities, styles }) => {
   return (
     <>
       {step === "0" && screen === "0" ? (
-        <DesSelIntroSec />
+        <Suspense fallback={<UserScreenSpinner />}>
+          <DesSelIntroSec />
+        </Suspense>
       ) : step === "1" ? (
-        <DesSelStep1Sec screen={screen} cities={cities} styles={styles} />
+        <Suspense fallback={<UserScreenSpinner />}>
+          <DesSelStep1Sec screen={screen} />
+        </Suspense>
       ) : (
-        step === "2" && <div>step 2</div>
+        step === "2" && (
+          <Suspense fallback={<UserScreenSpinner />}>
+            <DesSelStep2Sec screen={screen} />
+          </Suspense>
+        )
       )}
     </>
   );
 };
+
 export default DesSelClientPage;

@@ -21,6 +21,7 @@ const UserHeader = () => {
               <Image
                 src={bookmarkIcon}
                 alt="bookmark"
+                priority={true}
                 width={28}
                 height={28}
                 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-800 opacity-100 group-hover:opacity-0"
@@ -28,6 +29,7 @@ const UserHeader = () => {
               <Image
                 src={bookmarkFilledIcon}
                 alt="bookmark"
+                priority={true}
                 width={24}
                 height={24}
                 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-800 opacity-0 group-hover:opacity-100"

@@ -6,10 +6,10 @@ import {
   shareGrayIcon,
 } from "@/assets";
 import Image from "next/image";
-import { UButton, DesSelStep1Screen3ProjectSlideRates } from "@/components";
+import { UButton, DesSelStep1Screen2ProjectSlideRates } from "@/components";
 import { useState } from "react";
 
-const DesSelStep1Screen3ProjectSlideMin = ({
+const DesSelStep1Screen2ProjectSlideMin = ({
   project,
   selectProjectHandler,
   seeMoreHandler,
@@ -61,7 +61,7 @@ const DesSelStep1Screen3ProjectSlideMin = ({
                     construction <span className="text-xxxs">avg.</span>
                   </h4>
                 </div>
-                <DesSelStep1Screen3ProjectSlideRates
+                <DesSelStep1Screen2ProjectSlideRates
                   productRates={project.productRates}
                   constructionRates={project.constructionRates}
                 />
@@ -122,4 +122,4 @@ const DesSelStep1Screen3ProjectSlideMin = ({
   );
 };
 
-export default DesSelStep1Screen3ProjectSlideMin;
+export default DesSelStep1Screen2ProjectSlideMin;

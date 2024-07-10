@@ -2,6 +2,8 @@ export { default as Modal } from "./Modal";
 export { default as Alert } from "./Alert";
 export { default as Carousel } from "./Carousel";
 export { default as AlertContainer } from "./AlertContainer";
+export { default as Spinner } from "./Spinner";
+
 // Admin Side
 export { default as ConfirmationModal } from "./admin-side/ConfirmationModal";
 export { default as AdminInputBox } from "./admin-side/AdminInputBox";
@@ -10,7 +12,6 @@ export { default as AdminModal } from "./admin-side/AdminModal";
 export { default as LinkButton } from "./admin-side/LinkButton";
 export { default as Button } from "./admin-side/Button";
 export { default as Dropdown } from "./admin-side/Dropdown";
-export { default as Spinner } from "./admin-side/Spinner";
 export { default as H1 } from "./admin-side/H1";
 export { default as H2 } from "./admin-side/H2";
 export { default as Th } from "./admin-side/Th";
@@ -116,6 +117,7 @@ export { default as ProductRatesInput } from "./admin-side/product-rates/Product
 export { default as ULinkButton } from "./user-side/ULinkButton";
 export { default as UButton } from "./user-side/UButton";
 export { default as ULinkButton2 } from "./user-side/ULinkButton2";
+export { default as UserScreenSpinner } from "./user-side/UserScreenSpinner";
 
 // User Side - Header
 export { default as UserHeader } from "./user-side/header/UserHeader";
@@ -136,23 +138,26 @@ export { default as FastHomesBoxesElemMob } from "./user-side/fast-homes/FastHom
 // User Side - Fast Homes - Design Selection
 export { default as DesSelClientPage } from "./user-side/fast-homes/design-selection/DesSelClientPage";
 export { default as DesSelIntroSec } from "./user-side/fast-homes/design-selection/DesSelIntroSec";
-export { default as DesSelStep1Sec } from "./user-side/fast-homes/design-selection/DesSelStep1Sec";
 
-export { default as DesSelStep1Screen2 } from "./user-side/fast-homes/design-selection/DesSelStep1Screen2";
-export { default as DesSelStep1Screen2Select } from "./user-side/fast-homes/design-selection/DesSelStep1Screen2Select";
+export { default as DesSelStep1Sec } from "./user-side/fast-homes/design-selection/DesSelStep1Sec";
 export { default as DesSelStep1StylesModal } from "./user-side/fast-homes/design-selection/DesSelStep1StylesModal";
 export { default as DesSelStep1StylesModalCarousel } from "./user-side/fast-homes/design-selection/DesSelStep1StylesModalCarousel";
-export { default as DesSelStep1Screen2InputBox } from "./user-side/fast-homes/design-selection/DesSelStep1Screen2InputBox";
 
-export { default as DesSelStep1Screen3 } from "./user-side/fast-homes/design-selection/DesSelStep1Screen3";
-export { default as DesSelStep1Screen3Select } from "./user-side/fast-homes/design-selection/DesSelStep1Screen3Select";
-export { default as DesSelStep1Screen3InputBox } from "./user-side/fast-homes/design-selection/DesSelStep1Screen3InputBox";
-export { default as DesSelStep1Screen3Header } from "./user-side/fast-homes/design-selection/DesSelStep1Screen3Header";
-export { default as DesSelStep1Screen3ProjectsCarouselMax } from "./user-side/fast-homes/design-selection/DesSelStep1Screen3ProjectsCarouselMax";
-export { default as DesSelStep1Screen3ProjectSlideMax } from "./user-side/fast-homes/design-selection/DesSelStep1Screen3ProjectSlideMax";
-export { default as DesSelStep1Screen3ProjectsCarouselMin } from "./user-side/fast-homes/design-selection/DesSelStep1Screen3ProjectsCarouselMin";
-export { default as DesSelStep1Screen3ProjectSlideMin } from "./user-side/fast-homes/design-selection/DesSelStep1Screen3ProjectSlideMin";
-export { default as DesSelStep1Screen3ProjectSlideRates } from "./user-side/fast-homes/design-selection/DesSelStep1Screen3ProjectSlideRates";
-export { default as DesSelStep1Screen3ProjectsCarouselMinMobile } from "./user-side/fast-homes/design-selection/DesSelStep1Screen3ProjectsCarouselMinMobile";
-export { default as DesSelStep1Screen3ProjectSlideMinMobile } from "./user-side/fast-homes/design-selection/DesSelStep1Screen3ProjectSlideMinMobile";
-export { default as DesSelStep1Screen3JumpToModal } from "./user-side/fast-homes/design-selection/DesSelStep1Screen3JumpToModal";
+export { default as DesSelStep1Screen0 } from "./user-side/fast-homes/design-selection/DesSelStep1Screen0";
+export { default as DesSelStep1Screen1 } from "./user-side/fast-homes/design-selection/DesSelStep1Screen1";
+export { default as DesSelStep1Screen1Select } from "./user-side/fast-homes/design-selection/DesSelStep1Screen1Select";
+export { default as DesSelStep1Screen1InputBox } from "./user-side/fast-homes/design-selection/DesSelStep1Screen1InputBox";
+export { default as DesSelStep1Screen2 } from "./user-side/fast-homes/design-selection/DesSelStep1Screen2";
+export { default as DesSelStep1Screen2Select } from "./user-side/fast-homes/design-selection/DesSelStep1Screen2Select";
+export { default as DesSelStep1Screen2InputBox } from "./user-side/fast-homes/design-selection/DesSelStep1Screen2InputBox";
+export { default as DesSelStep1Screen2Header } from "./user-side/fast-homes/design-selection/DesSelStep1Screen2Header";
+export { default as DesSelStep1Screen2ProjectsCarouselMax } from "./user-side/fast-homes/design-selection/DesSelStep1Screen2ProjectsCarouselMax";
+export { default as DesSelStep1Screen2ProjectSlideMax } from "./user-side/fast-homes/design-selection/DesSelStep1Screen2ProjectSlideMax";
+export { default as DesSelStep1Screen2ProjectsCarouselMin } from "./user-side/fast-homes/design-selection/DesSelStep1Screen2ProjectsCarouselMin";
+export { default as DesSelStep1Screen2ProjectSlideMin } from "./user-side/fast-homes/design-selection/DesSelStep1Screen2ProjectSlideMin";
+export { default as DesSelStep1Screen2ProjectSlideRates } from "./user-side/fast-homes/design-selection/DesSelStep1Screen2ProjectSlideRates";
+export { default as DesSelStep1Screen2ProjectsCarouselMinMobile } from "./user-side/fast-homes/design-selection/DesSelStep1Screen2ProjectsCarouselMinMobile";
+export { default as DesSelStep1Screen2ProjectSlideMinMobile } from "./user-side/fast-homes/design-selection/DesSelStep1Screen2ProjectSlideMinMobile";
+export { default as DesSelStep1Screen2JumpToModal } from "./user-side/fast-homes/design-selection/DesSelStep1Screen2JumpToModal";
+
+export { default as DesSelStep2Sec } from "./user-side/fast-homes/design-selection/DesSelStep2Sec";

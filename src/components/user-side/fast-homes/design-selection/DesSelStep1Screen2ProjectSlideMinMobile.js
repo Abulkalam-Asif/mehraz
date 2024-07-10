@@ -3,7 +3,7 @@ import { bookmarkGrayFilledIcon, bookmarkGrayIcon } from "@/assets";
 import Image from "next/image";
 import { useState } from "react";
 
-const DesSelStep1Screen3ProjectSlideMinMobile = ({
+const DesSelStep1Screen2ProjectSlideMinMobile = ({
   project,
   seeMoreHandler,
   isLocalStorageBookmarked,
@@ -85,4 +85,4 @@ const DesSelStep1Screen3ProjectSlideMinMobile = ({
   );
 };
 
-export default DesSelStep1Screen3ProjectSlideMinMobile;
+export default DesSelStep1Screen2ProjectSlideMinMobile;

@@ -6,11 +6,11 @@ import {
   shareGrayIcon,
 } from "@/assets";
 import Image from "next/image";
-import DesSelStep1Screen3ProjectSlideRates from "./DesSelStep1Screen3ProjectSlideRates";
+import DesSelStep1Screen2ProjectSlideRates from "./DesSelStep1Screen2ProjectSlideRates";
 import { UButton } from "@/components";
 import { useState } from "react";
 
-const DesSelStep1Screen3ProjectSlideMax = ({
+const DesSelStep1Screen2ProjectSlideMax = ({
   project,
   isLocalStorageBookmarked,
   bookmarkLocalStorageHandler,
@@ -48,7 +48,7 @@ const DesSelStep1Screen3ProjectSlideMax = ({
                     construction <span className="text-xxxs">avg.</span>
                   </h4>
                 </div>
-                <DesSelStep1Screen3ProjectSlideRates
+                <DesSelStep1Screen2ProjectSlideRates
                   productRates={project.productRates}
                   constructionRates={project.constructionRates}
                 />
@@ -159,4 +159,4 @@ const DesSelStep1Screen3ProjectSlideMax = ({
   );
 };
 
-export default DesSelStep1Screen3ProjectSlideMax;
+export default DesSelStep1Screen2ProjectSlideMax;

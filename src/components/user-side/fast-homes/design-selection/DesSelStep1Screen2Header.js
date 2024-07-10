@@ -4,11 +4,11 @@ import { FaChevronLeft } from "react-icons/fa6";
 import Image from "next/image";
 import { jumpToIcon, maximizedViewIcon, minimizedViewIcon } from "@/assets";
 import { FaMagnifyingGlass } from "react-icons/fa6";
-import { DesSelStep1Screen3JumpToModal, ULinkButton2 } from "@/components";
+import { DesSelStep1Screen2JumpToModal, ULinkButton2 } from "@/components";
 import { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-const DesSelStep1Screen3Header = ({
+const DesSelStep1Screen2Header = ({
   searchString,
   setSearchString,
   view,
@@ -140,7 +140,7 @@ const DesSelStep1Screen3Header = ({
         </div>
       </div>
       {isModalOpen && (
-        <DesSelStep1Screen3JumpToModal
+        <DesSelStep1Screen2JumpToModal
           isModalOpen={isModalOpen}
           toggleModal={toggleModal}
           cities={cities}
@@ -151,4 +151,4 @@ const DesSelStep1Screen3Header = ({
   );
 };
 
-export default DesSelStep1Screen3Header;
+export default DesSelStep1Screen2Header;

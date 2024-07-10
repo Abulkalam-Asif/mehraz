@@ -56,7 +56,7 @@ const DesSelIntroSec = () => {
           </div>
           <Link
             href={
-              "/fast-homes/design-selection?category=upto_18&step=1&screen=1"
+              "/fast-homes/design-selection?category=upto_18&step=1&screen=0"
             }
             className="text-black bg-white border border-white px-12 sm:px-8 py-2 text-lg sm:text-base rounded self-end mt-4 lg:mt-8 transition-colors duration-300 hover:bg-transparent hover:text-white">
             SKIP ?
