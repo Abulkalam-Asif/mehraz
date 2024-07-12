@@ -1,14 +1,33 @@
 "use server";
 import getStyleById from "@/Firebase/admin-side/roles-analytics-cities/styles/getStyleById";
 import { db, storage } from "@/Firebase/firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { getDownloadURL, ref } from "firebase/storage";
 
-const getScreeen3Projects = async () => {
+// Note: This implementation is done by ChatGPT. Needed to be reviewed and tested.
+
+// TODO: Fetch the products on the basis of these things.
+// The city must be same.
+// first priority: same style, same styleCost
+// second priority: different style, same styleCost
+// third priority: same style (budget closest to least closest)
+// fourth: different styles (budget closest to least closest)
+
+const getScreeen3Projects = async (
+  categoryParam,
+  cityParam,
+  styleParam,
+  styleCostParam,
+  descriptionParam,
+) => {
   const readyProjectCollectionRef = collection(db, "READY_PROJECTS");
   const projects = [];
   try {
-    const readyProjectDocs = await getDocs(readyProjectCollectionRef);
+    const filterQuery = query(
+      readyProjectCollectionRef,
+      where("cities", "array-contains-any", [cityParam, "GENERAL"]),
+    );
+    const readyProjectDocs = await getDocs(filterQuery);
     for (const readyProjectDoc of readyProjectDocs.docs) {
       if (
         readyProjectDoc.exists() &&
@@ -16,7 +35,7 @@ const getScreeen3Projects = async () => {
       ) {
         const projectId = readyProjectDoc.id;
         const styleId = readyProjectDoc.data().style;
-        const style = {
+        const styleData = {
           id: styleId,
           ...(await getStyleById(styleId, ["name", "budget"])),
         };
@@ -28,7 +47,8 @@ const getScreeen3Projects = async () => {
 
         const projectData = {
           id: projectId,
-          style,
+          style: styleData,
+          cities: readyProjectDoc.data().cities,
           description: readyProjectDoc.data().description,
           productRates: readyProjectDoc.data().productRates,
           constructionRates: readyProjectDoc.data().constructionRates,
@@ -38,7 +58,47 @@ const getScreeen3Projects = async () => {
         projects.push(projectData);
       }
     }
-    return projects;
+
+    // Sorting projects based on the priorities
+    projects.sort((a, b) => {
+      const aStyleMatch = a.style.id === styleParam;
+      const bStyleMatch = b.style.id === styleParam;
+      const aStyleCostMatch = a.productRates.styleCost === styleCostParam;
+      const bStyleCostMatch = b.productRates.styleCost === styleCostParam;
+      const aBudgetDifference = Math.abs(a.style.budget - styleCostParam);
+      const bBudgetDifference = Math.abs(b.style.budget - styleCostParam);
+
+      if (aStyleMatch && bStyleMatch) {
+        if (aStyleCostMatch && bStyleCostMatch) return 0;
+        if (aStyleCostMatch) return -1;
+        if (bStyleCostMatch) return 1;
+        return aBudgetDifference - bBudgetDifference;
+      }
+      if (aStyleMatch) return -1;
+      if (bStyleMatch) return 1;
+      if (aStyleCostMatch && bStyleCostMatch) return 0;
+      if (aStyleCostMatch) return -1;
+      if (bStyleCostMatch) return 1;
+      return aBudgetDifference - bBudgetDifference;
+    });
+
+    // Reordering projects to place highest priority projects in the middle
+    const reorderProjects = projects => {
+      const midIndex = Math.floor(projects.length / 2);
+      const reordered = [];
+      let left = 0,
+        right = projects.length - 1;
+      for (let i = 0; i <= midIndex; i++) {
+        if (i % 2 === 0 && left <= midIndex) {
+          reordered.unshift(projects[left++]);
+        } else if (right > midIndex) {
+          reordered.push(projects[right--]);
+        }
+      }
+      return reordered;
+    };
+
+    return reorderProjects(projects);
   } catch (error) {
     console.error("Error getting the project data for preview: ", error);
     throw new Error(

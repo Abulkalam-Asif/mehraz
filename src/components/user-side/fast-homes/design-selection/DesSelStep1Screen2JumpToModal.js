@@ -3,23 +3,21 @@ import { jumpToIcon } from "@/assets";
 import Image from "next/image";
 import { AiOutlineClose } from "react-icons/ai";
 import {
-  DesSelStep1Screen3Select,
-  DesSelStep1Screen3InputBox,
+  DesSelStep1Screen2Select,
+  DesSelStep1Screen2InputBox,
   Button,
   DesSelStep1StylesModal,
 } from "@/components";
 import { useState } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import useRPS from "@/hooks/useRPS";
 
-const DesSelStep1Screen3JumpToModal = ({
+const DesSelStep1Screen2JumpToModal = ({
   isModalOpen = false,
   toggleModal = () => {},
   cities = [],
   styles = [],
 }) => {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
+  const { router, pathname, searchParams } = useRPS();
 
   const defaultStep1Screen3FormData = {
     city: searchParams.get("city") || "",
@@ -41,11 +39,11 @@ const DesSelStep1Screen3JumpToModal = ({
   const toggleStyleModal = () => setIsStyleModalOpen(prevState => !prevState);
 
   const applyChangesHandler = () => {
-    const newParams = new URLSearchParams(searchParams);
-    newParams.set("city", step1Screen3FormData.city);
-    newParams.set("styleCost", step1Screen3FormData.styleCost);
-    newParams.set("style", step1Screen3FormData.style);
-    router.push(`${pathname}?${newParams.toString()}`);
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.set("city", step1Screen3FormData.city);
+    newSearchParams.set("styleCost", step1Screen3FormData.styleCost);
+    newSearchParams.set("style", step1Screen3FormData.style);
+    router.push(`${pathname}?${newSearchParams.toString()}`);
     router.refresh();
     toggleModal();
   };
@@ -80,8 +78,8 @@ const DesSelStep1Screen3JumpToModal = ({
             </button>
           </div>
           <div className="flex lg:flex-col items-center justify-center gap-8 lg:gap-6 pt-4 pb-20">
-            <DesSelStep1Screen3InputBox label={"city"}>
-              <DesSelStep1Screen3Select
+            <DesSelStep1Screen2InputBox label={"city"}>
+              <DesSelStep1Screen2Select
                 options={
                   cities
                     ? [
@@ -101,9 +99,9 @@ const DesSelStep1Screen3JumpToModal = ({
                   step1Screen3FormDataInputHandler("city", value)
                 }
               />
-            </DesSelStep1Screen3InputBox>
-            <DesSelStep1Screen3InputBox label={"style cost"}>
-              <DesSelStep1Screen3Select
+            </DesSelStep1Screen2InputBox>
+            <DesSelStep1Screen2InputBox label={"style cost"}>
+              <DesSelStep1Screen2Select
                 options={[
                   { label: "CHOOSE", value: "" },
                   { label: "LOW", value: "LOW" },
@@ -115,8 +113,8 @@ const DesSelStep1Screen3JumpToModal = ({
                   step1Screen3FormDataInputHandler("styleCost", value)
                 }
               />
-            </DesSelStep1Screen3InputBox>
-            <DesSelStep1Screen3InputBox label={"choose"}>
+            </DesSelStep1Screen2InputBox>
+            <DesSelStep1Screen2InputBox label={"choose"}>
               <button
                 onClick={toggleStyleModal}
                 className="text-xl xl:text-lg py-2 sm:py-1 px-10 sm:px-6 bg-[#8D8E97] rounded-full uppercase text-white shadow-btn font-bold border-2 border-white border-opacity-60 transition-colors duration-300 hover:bg-white hover:text-[#000000a6] hover:border-[#000000a6]">
@@ -126,7 +124,7 @@ const DesSelStep1Screen3JumpToModal = ({
                       style => style.id === step1Screen3FormData.style,
                     ).name}
               </button>
-            </DesSelStep1Screen3InputBox>
+            </DesSelStep1Screen2InputBox>
           </div>
           <div>
             <Button
@@ -153,4 +151,4 @@ const DesSelStep1Screen3JumpToModal = ({
   );
 };
 
-export default DesSelStep1Screen3JumpToModal;
+export default DesSelStep1Screen2JumpToModal;

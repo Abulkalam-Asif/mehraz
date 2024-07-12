@@ -1,5 +1,5 @@
 "use client";
-import { stringEllipsis } from "@/utilities/admin-panel/stringEllipsis";
+import { stringEllipsis } from "@/utilities/admin-side/stringEllipsis";
 import {
   Carousel,
   Table,
@@ -10,7 +10,7 @@ import {
 } from "@/components";
 import { useContext, useEffect, useState } from "react";
 import { FaCheckCircle, FaMinusCircle } from "react-icons/fa";
-import createProjectGroupsArr from "@/utilities/admin-panel/projects/createProjectGroupsArr";
+import createProjectGroupsArr from "@/utilities/admin-side/projects/createProjectGroupsArr";
 import { deleteIcon, editIcon } from "@/assets";
 import Image from "next/image";
 import Link from "next/link";

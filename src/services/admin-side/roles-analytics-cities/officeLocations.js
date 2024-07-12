@@ -1,7 +1,7 @@
 import deleteOfficeFromDB from "@/Firebase/admin-side/roles-analytics-cities/offices/deleteOfficeFromFirebase";
 import addOfficeToDB from "@/Firebase/admin-side/roles-analytics-cities/offices/addOfficeToDB";
 import updateOfficeInDB from "@/Firebase/admin-side/roles-analytics-cities/offices/updateOfficeFromFirebase";
-import fileToFormData from "@/utilities/admin-panel/fileToFormData";
+import fileToFormData from "@/utilities/admin-side/fileToFormData";
 
 const addNewOfficeLocationService = (
   currentOfficeLocation,

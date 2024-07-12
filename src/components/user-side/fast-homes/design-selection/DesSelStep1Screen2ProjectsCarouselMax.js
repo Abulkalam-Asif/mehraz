@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import { motion } from "framer-motion";
 
-const DesSelStep1Screen3ProjectsCarouselMax = ({
+const DesSelStep1Screen2ProjectsCarouselMax = ({
   children,
   currentIndex,
   setCurrentIndex,
@@ -118,4 +118,4 @@ const DesSelStep1Screen3ProjectsCarouselMax = ({
   );
 };
 
-export default DesSelStep1Screen3ProjectsCarouselMax;
+export default DesSelStep1Screen2ProjectsCarouselMax;

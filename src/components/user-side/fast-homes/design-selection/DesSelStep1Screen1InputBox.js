@@ -1,8 +1,8 @@
-const DesSelStep1Screen3InputBox = ({ label, children }) => {
+const DesSelStep1Screen1InputBox = ({ label, children }) => {
   return (
     <>
       <div className="flex flex-col lg:flex-row lg:w-full items-center lg:justify-between gap-2">
-        <span className="uppercase text-[#2F2F2F] text-xl lg:text-lg font-bold">
+        <span className="uppercase text-[#2F2F2F] text-2xl xl:text-xl sm:text-lg font-bold">
           {label}
         </span>
         {children}
@@ -11,4 +11,4 @@ const DesSelStep1Screen3InputBox = ({ label, children }) => {
   );
 };
 
-export default DesSelStep1Screen3InputBox;
+export default DesSelStep1Screen1InputBox;

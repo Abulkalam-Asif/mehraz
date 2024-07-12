@@ -7,7 +7,7 @@ import getCitiesFromDB from "@/Firebase/admin-side/roles-analytics-cities/cities
 import getOfficesFromDB from "@/Firebase/admin-side/roles-analytics-cities/offices/getOfficesFromDB";
 import getStylesFromDB from "@/Firebase/admin-side/roles-analytics-cities/styles/getStylesFromFirebase";
 import getPlotsFromDB from "@/Firebase/admin-side/roles-analytics-cities/plots/getPlotsFromFirestore";
-import mapCurrencyCitiesWithNames from "@/utilities/admin-panel/roles-analytics-cities/mapCurrencyCitiesWithNames";
+import mapCurrencyCitiesWithNames from "@/utilities/admin-side/roles-analytics-cities/mapCurrencyCitiesWithNames";
 import getUnitsFromDb from "@/Firebase/admin-side/teams-aboutus/units/getUnitsFromDb";
 
 const RAC = async () => {

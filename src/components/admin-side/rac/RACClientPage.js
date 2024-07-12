@@ -18,7 +18,7 @@ import {
   DeleteModal,
   UserProductAnalyticsSection,
 } from "@/components";
-import { convertRolesToRows } from "@/utilities/admin-panel/roles-analytics-cities/convertRolesToRows";
+import { convertRolesToRows } from "@/utilities/admin-side/roles-analytics-cities/convertRolesToRows";
 import {
   addNewCityService,
   deleteCityService,
@@ -254,7 +254,7 @@ const RACClientPage = ({
     id: null,
     area: 0,
     unit: units[0]?.id,
-    category: "BELOW_1_KANAL",
+    category: "UPTO_18",
     usage: {
       projects: 0,
     },

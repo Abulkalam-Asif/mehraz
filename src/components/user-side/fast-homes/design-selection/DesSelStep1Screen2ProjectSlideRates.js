@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 
-const DesSelStep1Screen3ProjectSlideRates = ({
+const DesSelStep1Screen2ProjectSlideRates = ({
   productRates,
   constructionRates,
 }) => {
@@ -50,4 +50,4 @@ const DesSelStep1Screen3ProjectSlideRates = ({
   );
 };
 
-export default DesSelStep1Screen3ProjectSlideRates;
+export default DesSelStep1Screen2ProjectSlideRates;

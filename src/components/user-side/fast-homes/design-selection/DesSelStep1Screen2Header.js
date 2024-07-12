@@ -1,24 +1,22 @@
 "use client";
-import Link from "next/link";
 import { FaChevronLeft } from "react-icons/fa6";
 import Image from "next/image";
 import { jumpToIcon, maximizedViewIcon, minimizedViewIcon } from "@/assets";
 import { FaMagnifyingGlass } from "react-icons/fa6";
-import { DesSelStep1Screen3JumpToModal, ULinkButton2 } from "@/components";
+import { DesSelStep1Screen2JumpToModal, ULinkButton2 } from "@/components";
 import { useEffect, useRef, useState } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import useRPS from "@/hooks/useRPS";
 
-const DesSelStep1Screen3Header = ({
+const DesSelStep1Screen2Header = ({
   searchString,
   setSearchString,
   view,
-  setView,
+  changeView,
   cities,
   styles,
 }) => {
-  const searchParams = useSearchParams();
-  const router = useRouter();
-  const pathname = usePathname();
+  const { router, pathname, searchParams } = useRPS();
+
   const [mobSearchbarExpanded, setMobSearchbarExpanded] = useState(false);
   const searchbarDivRef = useRef(null);
 
@@ -39,13 +37,13 @@ const DesSelStep1Screen3Header = ({
   }, [mobSearchbarExpanded]);
 
   const changeViewHandler = () => {
-    setView(prevView => (prevView === "max" ? "min" : "max"));
+    changeView(view === "max" ? "min" : "max");
   };
 
-  const moveToScreen2Handler = () => {
-    const newParams = new URLSearchParams(searchParams);
-    newParams.set("screen", "2");
-    router.push(`${pathname}?${newParams.toString()}`);
+  const moveToScreen1Handler = () => {
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.set("screen", "1");
+    router.push(`${pathname}?${newSearchParams.toString()}`);
   };
 
   // Modal states and functions
@@ -57,7 +55,7 @@ const DesSelStep1Screen3Header = ({
       <div className="relative flex justify-between items-center">
         <div className="flex items-center gap-10 lg:gap-2">
           <button
-            onClick={moveToScreen2Handler}
+            onClick={moveToScreen1Handler}
             className="bg-[#EFEFEF] p-4 xl:p-3 rounded-full shadow-btn">
             <FaChevronLeft size={24} className="w-6 h-auto sm:w-4" />
           </button>
@@ -140,7 +138,7 @@ const DesSelStep1Screen3Header = ({
         </div>
       </div>
       {isModalOpen && (
-        <DesSelStep1Screen3JumpToModal
+        <DesSelStep1Screen2JumpToModal
           isModalOpen={isModalOpen}
           toggleModal={toggleModal}
           cities={cities}
@@ -151,4 +149,4 @@ const DesSelStep1Screen3Header = ({
   );
 };
 
-export default DesSelStep1Screen3Header;
+export default DesSelStep1Screen2Header;

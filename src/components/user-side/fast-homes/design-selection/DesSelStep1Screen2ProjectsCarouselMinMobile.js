@@ -6,7 +6,7 @@ import { useRef } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import { motion } from "framer-motion";
 
-const DesSelStep1Screen3ProjectsCarouselMinMobile = ({ children }) => {
+const DesSelStep1Screen2ProjectsCarouselMinMobile = ({ children }) => {
   const isSingleSlide = children.length <= 1;
   const sliderRef = useRef(null);
 
@@ -77,4 +77,4 @@ const DesSelStep1Screen3ProjectsCarouselMinMobile = ({ children }) => {
   );
 };
 
-export default DesSelStep1Screen3ProjectsCarouselMinMobile;
+export default DesSelStep1Screen2ProjectsCarouselMinMobile;

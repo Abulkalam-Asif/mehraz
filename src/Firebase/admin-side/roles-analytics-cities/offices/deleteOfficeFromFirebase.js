@@ -22,14 +22,14 @@ const deleteOfficeFromDB = async (officeId) => {
 			};
 		} else {
 			return {
-				type: ERROR,
+				type: "ERROR",
 				message: "Something went wrong, please try again later.",
 			};
 		}
 	} catch (error) {
 		console.error("Error deleting the office: ", error);
 		return {
-			type: ERROR,
+			type: "ERROR",
 			message: "Something went wrong, please try again later.",
 		};
 	}

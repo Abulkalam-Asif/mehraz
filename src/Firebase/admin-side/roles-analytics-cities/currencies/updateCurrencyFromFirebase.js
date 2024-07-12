@@ -23,7 +23,7 @@ const updateCurrencyInDB = async (currentCurrency, prevCities) => {
 		const duplicateCurrency = querySnapshot.docs.find((doc) => doc.id !== id);
 		if (duplicateCurrency) {
 			return {
-				type: ERROR,
+				type: "ERROR",
 				message: "Currency with this name already exists.",
 			};
 		}
