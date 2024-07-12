@@ -1,6 +1,6 @@
 "use client";
 import { deleteIcon, editIcon } from "@/assets";
-import { stringEllipsis } from "@/utilities/admin-panel/stringEllipsis";
+import { stringEllipsis } from "@/utilities/admin-side/stringEllipsis";
 import Image from "next/image";
 import Link from "next/link";
 import { ProjectActionsMobile } from "@/components";

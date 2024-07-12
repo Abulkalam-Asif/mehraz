@@ -2,9 +2,8 @@
 import { longArrowIcon } from "@/assets";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import Link from "next/link";
 
-const DesSelIntroSec = () => {
+const DesSelStep0 = ({ nextStepHandler }) => {
   return (
     <>
       <motion.div
@@ -54,17 +53,15 @@ const DesSelIntroSec = () => {
               lets set <b>look</b> first, then its <b>build</b>
             </h3>
           </div>
-          <Link
-            href={
-              "/fast-homes/design-selection?category=upto_18&step=1&screen=0"
-            }
+          <button
+            onClick={nextStepHandler}
             className="text-black bg-white border border-white px-12 sm:px-8 py-2 text-lg sm:text-base rounded self-end mt-4 lg:mt-8 transition-colors duration-300 hover:bg-transparent hover:text-white">
             SKIP ?
-          </Link>
+          </button>
         </div>
       </motion.div>
     </>
   );
 };
 
-export default DesSelIntroSec;
+export default DesSelStep0;

@@ -58,8 +58,8 @@ const PlotModal = ({
           name="category"
           required={true}
           radios={[
-            { label: "Below 1 KANAL", value: "BELOW_1_KANAL" },
-            { label: "1 KANAL & above", value: "1_KANAL_AND_ABOVE" },
+            { label: "Below 1 KANAL", value: "UPTO_18" },
+            { label: "1 KANAL & above", value: "1_KANAL_ABOVE" },
           ]}
         />
       </AdminModal>

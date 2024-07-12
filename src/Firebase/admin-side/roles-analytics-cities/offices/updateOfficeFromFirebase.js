@@ -12,7 +12,7 @@ const updateOfficeInDB = async ({ id, name, address, mapsLink, image }) => {
 		const duplicateOffice = querySnapshot.docs.find((doc) => doc.id !== id);
 		if (duplicateOffice) {
 			return {
-				type: ERROR,
+				type: "ERROR",
 				message: "Office with this name already exists.",
 			};
 		}
@@ -39,14 +39,14 @@ const updateOfficeInDB = async ({ id, name, address, mapsLink, image }) => {
 			return { type: "SUCCESS", message: "Office updated successfully!" };
 		} else {
 			return {
-				type: ERROR,
+				type: "ERROR",
 				message: "Something went wrong, please try again later.",
 			};
 		}
 	} catch (error) {
 		console.error("Error updating the office:", error);
 		return {
-			type: ERROR,
+			type: "ERROR",
 			message: "Something went wrong, please try again later.",
 		};
 	}

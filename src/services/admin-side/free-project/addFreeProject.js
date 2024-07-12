@@ -1,6 +1,6 @@
 import addFreeProjectS1ToDb from "@/Firebase/admin-side/free-project/addFreeProjectS1ToDb";
 import addFreeProjectS2ToDb from "@/Firebase/admin-side/free-project/addFreeProjectS2ToDb";
-import fileToFormData from "@/utilities/admin-panel/fileToFormData";
+import fileToFormData from "@/utilities/admin-side/fileToFormData";
 
 const addFreeProjectS1Service = (freeProjectS1, showAlert, setShowSpinner) => {
   const formattedData = {

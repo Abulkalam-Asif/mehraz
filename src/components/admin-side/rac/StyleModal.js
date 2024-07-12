@@ -5,7 +5,7 @@ import {
   RACImageInput,
   AdminSelect,
 } from "@/components";
-import checkIfValidUrl from "@/utilities/admin-panel/checkIfValidUrl";
+import checkIfValidUrl from "@/utilities/admin-side/checkIfValidUrl";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 

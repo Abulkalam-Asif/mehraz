@@ -1,7 +1,7 @@
 import addNewMaterialToDb from "@/Firebase/admin-side/materials/materials/addNewMaterialToDb";
 import deleteMaterialFromDb from "@/Firebase/admin-side/materials/materials/deleteMaterialFromDb";
 import updateMaterialFromDb from "@/Firebase/admin-side/materials/materials/updateMaterialFromDb";
-import fileToFormData from "@/utilities/admin-panel/fileToFormData";
+import fileToFormData from "@/utilities/admin-side/fileToFormData";
 
 const addNewMaterialService = (
   materials,

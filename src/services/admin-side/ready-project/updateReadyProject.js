@@ -2,7 +2,7 @@ import updateReadyProjectS1ToDB from "@/Firebase/admin-side/ready_project/update
 import updateReadyProjectS2ToDB from "@/Firebase/admin-side/ready_project/updateFunctions/updateReadyProjectScreen-2";
 import updateReadyProjectS3ToDB from "@/Firebase/admin-side/ready_project/updateFunctions/updateReadyProjectScreen-3";
 import updateReadyProjectS4ToDB from "@/Firebase/admin-side/ready_project/updateFunctions/updateReadyProjectScreen-4";
-import fileToFormData from "@/utilities/admin-panel/fileToFormData";
+import fileToFormData from "@/utilities/admin-side/fileToFormData";
 
 const updateReadyProjectS1Service = (
   projectId,

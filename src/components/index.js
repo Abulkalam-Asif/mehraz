@@ -137,17 +137,13 @@ export { default as FastHomesBoxesElemMob } from "./user-side/fast-homes/FastHom
 
 // User Side - Fast Homes - Design Selection
 export { default as DesSelClientPage } from "./user-side/fast-homes/design-selection/DesSelClientPage";
-export { default as DesSelIntroSec } from "./user-side/fast-homes/design-selection/DesSelIntroSec";
+export { default as DesSelSelect } from "./user-side/fast-homes/design-selection/DesSelSelect";
+export { default as DesSelFloorsSelect } from "./user-side/fast-homes/design-selection/DesSelFloorsSelect";
 
-export { default as DesSelStep1Sec } from "./user-side/fast-homes/design-selection/DesSelStep1Sec";
 export { default as DesSelStep1StylesModal } from "./user-side/fast-homes/design-selection/DesSelStep1StylesModal";
 export { default as DesSelStep1StylesModalCarousel } from "./user-side/fast-homes/design-selection/DesSelStep1StylesModalCarousel";
 
-export { default as DesSelStep1Screen0 } from "./user-side/fast-homes/design-selection/DesSelStep1Screen0";
-export { default as DesSelStep1Screen1 } from "./user-side/fast-homes/design-selection/DesSelStep1Screen1";
-export { default as DesSelStep1Screen1Select } from "./user-side/fast-homes/design-selection/DesSelStep1Screen1Select";
 export { default as DesSelStep1Screen1InputBox } from "./user-side/fast-homes/design-selection/DesSelStep1Screen1InputBox";
-export { default as DesSelStep1Screen2 } from "./user-side/fast-homes/design-selection/DesSelStep1Screen2";
 export { default as DesSelStep1Screen2Select } from "./user-side/fast-homes/design-selection/DesSelStep1Screen2Select";
 export { default as DesSelStep1Screen2InputBox } from "./user-side/fast-homes/design-selection/DesSelStep1Screen2InputBox";
 export { default as DesSelStep1Screen2Header } from "./user-side/fast-homes/design-selection/DesSelStep1Screen2Header";
@@ -159,5 +155,3 @@ export { default as DesSelStep1Screen2ProjectSlideRates } from "./user-side/fast
 export { default as DesSelStep1Screen2ProjectsCarouselMinMobile } from "./user-side/fast-homes/design-selection/DesSelStep1Screen2ProjectsCarouselMinMobile";
 export { default as DesSelStep1Screen2ProjectSlideMinMobile } from "./user-side/fast-homes/design-selection/DesSelStep1Screen2ProjectSlideMinMobile";
 export { default as DesSelStep1Screen2JumpToModal } from "./user-side/fast-homes/design-selection/DesSelStep1Screen2JumpToModal";
-
-export { default as DesSelStep2Sec } from "./user-side/fast-homes/design-selection/DesSelStep2Sec";

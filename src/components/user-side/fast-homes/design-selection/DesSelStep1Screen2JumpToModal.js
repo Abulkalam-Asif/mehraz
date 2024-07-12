@@ -9,7 +9,7 @@ import {
   DesSelStep1StylesModal,
 } from "@/components";
 import { useState } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import userRPS from "@/hooks/useRPS";
 
 const DesSelStep1Screen2JumpToModal = ({
   isModalOpen = false,
@@ -17,9 +17,7 @@ const DesSelStep1Screen2JumpToModal = ({
   cities = [],
   styles = [],
 }) => {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
+  const { router, pathname, searchParams } = userRPS();
 
   const defaultStep1Screen3FormData = {
     city: searchParams.get("city") || "",
@@ -41,11 +39,11 @@ const DesSelStep1Screen2JumpToModal = ({
   const toggleStyleModal = () => setIsStyleModalOpen(prevState => !prevState);
 
   const applyChangesHandler = () => {
-    const newParams = new URLSearchParams(searchParams);
-    newParams.set("city", step1Screen3FormData.city);
-    newParams.set("styleCost", step1Screen3FormData.styleCost);
-    newParams.set("style", step1Screen3FormData.style);
-    router.push(`${pathname}?${newParams.toString()}`);
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.set("city", step1Screen3FormData.city);
+    newSearchParams.set("styleCost", step1Screen3FormData.styleCost);
+    newSearchParams.set("style", step1Screen3FormData.style);
+    router.push(`${pathname}?${newSearchParams.toString()}`);
     router.refresh();
     toggleModal();
   };

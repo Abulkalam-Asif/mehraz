@@ -1,7 +1,7 @@
 import addStyleToDB from "@/Firebase/admin-side/roles-analytics-cities/styles/addStyletoFirebase";
 import deleteStyleFromDB from "@/Firebase/admin-side/roles-analytics-cities/styles/deleteStyleFromFirebase";
 import updateStyleInDB from "@/Firebase/admin-side/roles-analytics-cities/styles/updateStyleFromFirebase";
-import fileToFormData from "@/utilities/admin-panel/fileToFormData";
+import fileToFormData from "@/utilities/admin-side/fileToFormData";
 
 const addNewStyleService = (
   currentStyle,

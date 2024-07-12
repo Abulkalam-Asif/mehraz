@@ -21,7 +21,7 @@ const addOfficeToDB = async ({ name, address, mapsLink, image }) => {
 
     if (!querySnapshot.empty) {
       return {
-        type: ERROR,
+        type: "ERROR",
         message: "Office with this name already exists.",
       };
     }
@@ -47,7 +47,7 @@ const addOfficeToDB = async ({ name, address, mapsLink, image }) => {
   } catch (err) {
     console.error("Error adding the office: " + err);
     return {
-      type: ERROR,
+      type: "ERROR",
       message: "Something went wrong, please try again later.",
     };
   }

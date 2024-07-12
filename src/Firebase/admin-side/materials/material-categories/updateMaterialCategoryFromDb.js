@@ -21,7 +21,7 @@ const updateMaterialCategoryFromDb = async ({
     const duplicateCategory = querySnapshot.docs.find(doc => doc.id !== id);
     if (duplicateCategory) {
       return {
-        type: ERROR,
+        type: "ERROR",
         message: "Category with this name already exists.",
       };
     }

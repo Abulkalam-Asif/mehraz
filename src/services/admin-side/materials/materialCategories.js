@@ -1,7 +1,7 @@
 import addMaterialCategoryToDb from "@/Firebase/admin-side/materials/material-categories/addMaterialCategoryToDb";
 import deleteMaterialCategoryFromDb from "@/Firebase/admin-side/materials/material-categories/deleteMaterialCategoryFromDb";
 import updateMaterialCategoryFromDb from "@/Firebase/admin-side/materials/material-categories/updateMaterialCategoryFromDb";
-import fileToFormData from "@/utilities/admin-panel/fileToFormData";
+import fileToFormData from "@/utilities/admin-side/fileToFormData";
 
 const addNewMaterialCategoryService = (
   materialCategories,

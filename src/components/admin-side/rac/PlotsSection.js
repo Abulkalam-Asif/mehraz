@@ -74,12 +74,12 @@ const PlotsSection = ({
                     {units?.find(unit => unit.id === plot.unit)?.name}
                   </Td>
                   <Td isLastRow={index === plots.length - 1} align="center">
-                    {plot.category === "BELOW_1_KANAL" && (
+                    {plot.category === "UPTO_18" && (
                       <FaCheckCircle size={14} className="text-green-500" />
                     )}
                   </Td>
                   <Td isLastRow={index === plots.length - 1} align="center">
-                    {plot.category === "1_KANAL_AND_ABOVE" && (
+                    {plot.category === "1_KANAL_ABOVE" && (
                       <FaCheckCircle size={14} className="text-green-500" />
                     )}
                   </Td>

@@ -2,7 +2,7 @@ import { ReadyProjectClientPage } from "@/components";
 import getCitiesFromDB from "@/Firebase/admin-side/roles-analytics-cities/cities/getCitiesFromFirebase";
 import getPlotsFromDB from "@/Firebase/admin-side/roles-analytics-cities/plots/getPlotsFromFirestore";
 import getUnitsFromDb from "@/Firebase/admin-side/teams-aboutus/units/getUnitsFromDb";
-import replacePlotUnitIdsByNames from "@/services/admin-side/replacePlotUnitIdsByNames";
+import { replacePlotsUnitIdsByNames } from "@/services/admin-side/replacePlotsUnitIds";
 import getFamilyUnitsFromDb from "@/Firebase/admin-side/teams-aboutus/familyUnits/getFamilyUnitsFromDb";
 import getFloorsFromDb from "@/Firebase/admin-side/teams-aboutus/floors/getFloorsFromDb";
 import getStylesFromDB from "@/Firebase/admin-side/roles-analytics-cities/styles/getStylesFromFirebase";
@@ -51,7 +51,7 @@ const ReadyProject = async () => {
   }
   try {
     plots = await getPlotsFromDB(["id", "area", "unit"]);
-    plots = replacePlotUnitIdsByNames(plots, units);
+    plots = replacePlotsUnitIdsByNames(plots, units);
   } catch (error) {
     isErrorOccurredWhileFetching.screen1 = true;
   }

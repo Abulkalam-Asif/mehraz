@@ -1,5 +1,5 @@
-import { fileSizeConversion } from "@/utilities/admin-panel/fileSizeConversion";
-import reduceFilename from "@/utilities/admin-panel/reduceFilename";
+import { fileSizeConversion } from "@/utilities/admin-side/fileSizeConversion";
+import reduceFilename from "@/utilities/admin-side/reduceFilename";
 import { FaXmark } from "react-icons/fa6";
 
 const MultiFileDisplay = ({
