@@ -5,7 +5,7 @@ import { jumpToIcon, maximizedViewIcon, minimizedViewIcon } from "@/assets";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { DesSelStep1Screen2JumpToModal, ULinkButton2 } from "@/components";
 import { useEffect, useRef, useState } from "react";
-import userRPS from "@/hooks/useRPS";
+import useRPS from "@/hooks/useRPS";
 
 const DesSelStep1Screen2Header = ({
   searchString,
@@ -15,7 +15,7 @@ const DesSelStep1Screen2Header = ({
   cities,
   styles,
 }) => {
-  const { router, pathname, searchParams } = userRPS();
+  const { router, pathname, searchParams } = useRPS();
 
   const [mobSearchbarExpanded, setMobSearchbarExpanded] = useState(false);
   const searchbarDivRef = useRef(null);

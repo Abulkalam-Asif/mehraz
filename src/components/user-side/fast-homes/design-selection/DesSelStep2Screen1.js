@@ -5,14 +5,14 @@ import {
   DesSelSelect,
   DesSelFloorsSelect,
 } from "@/components";
-import userRPS from "@/hooks/useRPS";
+import useRPS from "@/hooks/useRPS";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useState } from "react";
 import { FaArrowRight, FaChevronLeft } from "react-icons/fa6";
 
 const DesSelStep2Screen1 = ({ areas, floors, familyUnits }) => {
-  const { router, pathname, searchParams } = userRPS();
+  const { router, pathname, searchParams } = useRPS();
   const categoryParam = searchParams.get("category");
 
   const defaultStep1Screen2FormData = {

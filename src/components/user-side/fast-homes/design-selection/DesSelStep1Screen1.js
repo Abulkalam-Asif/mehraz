@@ -5,14 +5,14 @@ import {
   ULinkButton2,
   DesSelSelect,
 } from "@/components";
-import userRPS from "@/hooks/useRPS";
+import useRPS from "@/hooks/useRPS";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FaArrowRight, FaChevronLeft } from "react-icons/fa6";
 
 const DesSelStep1Screen1 = ({ cities, styles }) => {
-  const { router, pathname, searchParams } = userRPS();
+  const { router, pathname, searchParams } = useRPS();
 
   const defaultStep1Screen2FormData = {
     city: "",

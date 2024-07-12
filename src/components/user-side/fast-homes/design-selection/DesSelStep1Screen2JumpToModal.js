@@ -9,7 +9,7 @@ import {
   DesSelStep1StylesModal,
 } from "@/components";
 import { useState } from "react";
-import userRPS from "@/hooks/useRPS";
+import useRPS from "@/hooks/useRPS";
 
 const DesSelStep1Screen2JumpToModal = ({
   isModalOpen = false,
@@ -17,7 +17,7 @@ const DesSelStep1Screen2JumpToModal = ({
   cities = [],
   styles = [],
 }) => {
-  const { router, pathname, searchParams } = userRPS();
+  const { router, pathname, searchParams } = useRPS();
 
   const defaultStep1Screen3FormData = {
     city: searchParams.get("city") || "",

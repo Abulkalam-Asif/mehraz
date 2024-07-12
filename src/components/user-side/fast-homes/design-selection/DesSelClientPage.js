@@ -1,7 +1,7 @@
 "use client";
 import { lazy, Suspense } from "react";
 import { UserScreenSpinner } from "@/components";
-import userRPS from "@/hooks/useRPS";
+import useRPS from "@/hooks/useRPS";
 
 const DesSelStep0 = lazy(() => import("./DesSelStep0"));
 const DesSelStep1Sec = lazy(() => import("./DesSelStep1Sec"));
@@ -16,7 +16,7 @@ const DesSelClientPage = ({
   familyUnits,
   step2DataFetchError,
 }) => {
-  const { router, pathname, searchParams } = userRPS();
+  const { router, pathname, searchParams } = useRPS();
 
   const step = searchParams.get("step");
   const screen = searchParams.get("screen");

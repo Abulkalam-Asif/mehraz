@@ -12,14 +12,14 @@ import {
 } from "@/components";
 import { useEffect, useState } from "react";
 import getScreeen3Projects from "@/Firebase/user-side/design-selection/step-1/getScreeen3Projects";
-import userRPS from "@/hooks/useRPS";
+import useRPS from "@/hooks/useRPS";
 import {
   getBookmarkedProjects,
   setBookmarkedProjects,
 } from "@/utilities/user-side/design-selection/localStorageBookmarks";
 
 const DesSelStep1Screen2 = ({ cities, styles }) => {
-  const { router, pathname, searchParams } = userRPS();
+  const { router, pathname, searchParams } = useRPS();
   const categoryParam = searchParams.get("category");
   const cityParam = searchParams.get("city");
   const styleParam = searchParams.get("style");
