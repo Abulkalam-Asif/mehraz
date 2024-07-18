@@ -24,7 +24,6 @@ const DesSelStep1Screen2 = ({ cities, styles }) => {
   const cityParam = searchParams.get("city");
   const styleParam = searchParams.get("style");
   const styleCostParam = searchParams.get("styleCost");
-  const descriptionParam = searchParams.get("description");
 
   const [allProjects, setAllProjects] = useState(null);
   const [projectsToShow, setProjectsToShow] = useState([]);
@@ -38,7 +37,6 @@ const DesSelStep1Screen2 = ({ cities, styles }) => {
           cityParam,
           styleParam,
           styleCostParam,
-          descriptionParam,
         );
         setAllProjects(projectsFromDb);
       } catch (error) {

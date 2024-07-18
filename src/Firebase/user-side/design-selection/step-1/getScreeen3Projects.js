@@ -18,7 +18,6 @@ const getScreeen3Projects = async (
   cityParam,
   styleParam,
   styleCostParam,
-  descriptionParam,
 ) => {
   const readyProjectCollectionRef = collection(db, "READY_PROJECTS");
   const projects = [];
