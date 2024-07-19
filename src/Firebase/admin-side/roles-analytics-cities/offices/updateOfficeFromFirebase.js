@@ -5,10 +5,14 @@ import { ref, uploadBytes, deleteObject } from "firebase/storage";
 import { revalidatePath } from "next/cache";
 
 const updateOfficeInDB = async ({ id, name, address, mapsLink, image }) => {
+
 	try {
+		//Fetching the Docs with the Same name
 		const querySnapshot = await getDocs(
 			query(collection(db, "OFFICES"), where("name", "==", name))
 		);
+
+		//validation (if the office with the same name already exists and the id is different)
 		const duplicateOffice = querySnapshot.docs.find((doc) => doc.id !== id);
 		if (duplicateOffice) {
 			return {
@@ -20,7 +24,10 @@ const updateOfficeInDB = async ({ id, name, address, mapsLink, image }) => {
 		const docRef = doc(db, "OFFICES", id);
 		const docSnap = await getDoc(docRef);
 
+		
 		if (docSnap.exists()) {
+
+			//Deleting old image and uploading new one if the new image is not null
 			if (image !== null && image instanceof FormData) {
 				const previousImageRef = ref(storage, `OFFICES/${id}`);
 				await deleteObject(previousImageRef);

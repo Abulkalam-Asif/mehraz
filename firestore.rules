@@ -1,0 +1,297 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+   match /{document=**} {
+      allow read, write: if true;
+    }
+    // Rules for CITIES collection
+    match /CITIES/{cityId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && isValidCityCreation();
+      allow update: if isSignedIn() && isValidCityUpdate();
+      allow delete: if isSignedIn() && usageZero();
+    }
+    
+    //City functions
+    function isValidCityCreation() {
+      return isSignedIn() &&
+             getIncomingData().name != "" && 
+             getIncomingData().usage.projects == 0 && 
+             getIncomingData().usage.currencies == 0;
+    }
+  
+    function isValidCityUpdate() {
+      return isSignedIn() &&
+             getIncomingData().name != "" && 
+             onlyIncrementOne();
+    }
+  
+    // Rules for CURRENCIES collection
+    match /CURRENCIES/{currId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && isValidCurrencyCreation();
+      allow update: if isSignedIn() && isValidCurrencyUpdate();
+      allow delete: if isSignedIn() && isValidCurrencyDeletion();
+    }
+    
+    //CURRENCIES functions
+    
+    function isValidCurrencyCreation() {
+      return isSignedIn() &&
+             getIncomingData().name != "" && 
+             getIncomingData().usage.projects == 0 && 
+             getIncomingData().usage.currencies == 0 &&
+             getIncomingData().cities.size() > 0 && 
+             hasValidValueInPkr();
+    }
+  
+    function isValidCurrencyUpdate() {
+      return getIncomingData().name != "" &&   
+             hasValidValueInPkr()&&
+             getIncomingData().cities.size() > 0 &&
+             onlyIncrementOneProjects();      
+    }
+  
+    function isValidCurrencyDeletion() {
+      return usageZeroProjects();
+    }
+  
+    // Rules for OFFICES collection
+    match /OFFICES/{officeId} {
+      allow read: if isSignedIn() &&  isValidOfficeCreation();
+      allow create: if isSignedIn();
+      allow update: if isSignedIn() && isValidOfficeUpdate();
+      allow delete: if isSignedIn();
+    }
+    
+    // Custom functions for OFFICES collection
+    function isValidOfficeCreation() {
+       return getIncomingData().keys().hasOnly(['name','address','mapsLink']) &&
+             getIncomingData().name != "" &&
+             getIncomingData().name != null &&
+             getIncomingData().address != "" &&
+             getIncomingData().name != null &&
+             getIncomingData().mapsLink != "" &&
+             getIncomingData().mapsLink != null;
+    }
+
+    function isValidOfficeUpdate() {
+      return (getIncomingData().name == null || getIncomingData().name != "") &&
+             onlyIncrementOneCurrencies() &&
+             (getIncomingData().address == null || getIncomingData().address != "") &&
+             (getIncomingData().mapsLink == null || getIncomingData().mapsLink != "");
+    }
+    
+    //Rules for Plots
+    match /PLOTS/{plotId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && isValidPlotCreation();
+      allow update: if isSignedIn() && isValidPlotUpdate();
+      allow delete: if isSignedIn() && isValidPlotDeletion();
+    }
+
+    function isValidPlotCreation() {
+      return 
+        getIncomingData().area != null &&
+        getIncomingData().area > 0 &&
+        getIncomingData().unit != "" &&
+        getIncomingData().unit != null &&
+        UsageIsZeroProjects();
+    }
+
+    function isValidPlotUpdate() {
+      return isSignedIn() &&
+        getIncomingData().area != null &&
+        getIncomingData().area > 0 &&
+        getIncomingData().unit != "" &&
+        getIncomingData().unit != null &&
+        onlyIncrementOneProjects();
+    }
+
+    function isValidPlotDeletion() {
+      return UsageIsZeroProjects();
+    }
+
+    // Rules for STYLES collection
+    match /STYLES/{styleId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && isValidStyleCreation();
+      allow update: if isSignedIn() && isValidStyleUpdate();
+      allow delete: if isSignedIn() && isValidStyleDeletion();
+    }
+
+    // Custom functions for STYLES collection
+    function isValidStyleCreation() {
+      return
+        isValidStyleName() &&
+        UsageIsZeroProjects();
+    }
+
+    function isValidStyleUpdate() {
+      return isSignedIn() &&
+        isValidStyleName() &&
+        onlyIncrementOneProjects();
+    }
+
+    function isValidStyleDeletion() {
+      return UsageIsZeroProjects();
+    }
+
+    function isValidStyleName() {
+      return getIncomingData().name != null &&
+        getIncomingData().name != "";
+    }
+
+    // Material Category Functions:
+
+    // Rules for MATERIAL_CATEGORIES collection
+    match /MATERIAL_CATEGORIES/{categoryId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && isValidMaterialCategoryCreation();
+      allow update: if isSignedIn() && isValidMaterialCategoryUpdate();
+      allow delete: if isSignedIn() && request.resource.data.usage == 0; 
+    }
+  
+    // Material Category Custom functions
+  
+    function isValidMaterialCategoryCreation() {
+      return 
+             request.resource.data.name != null &&    
+             request.resource.data.usage == 0 && 
+             request.resource.data.fixedMaterialId == null &&
+             (getIncomingData().fixCoverImage==true || getIncomingData().fixCoverImage==false);
+    }
+
+    function isValidMaterialCategoryUpdate() {
+      return 
+             request.resource.data.name != null &&
+             onlyIncrementOneUsage();
+    }
+     
+     
+    // READY_PROJECTS Security Rules 
+     match /READY_PROJECTS/{projectId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && checkScreenOne();
+      allow update: if isSignedIn() && (checkScreenOne() || checkScreenTwo());
+      allow delete: if isSignedIn(); 
+    }
+    
+    
+    //RP_DESIGNS Security Rules
+    
+    match /RP_DESIGNS/{designId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && checkRPDesigns();
+      allow delete: if isSignedIn();
+      allow update: if isSignedIn() && checkRPDesigns();
+    }
+
+    function checkRPDesigns() {
+      return request.resource.data.keys().hasAll(['areaId', 'familyUnitId', 'floorId']) &&
+             request.resource.data.areaId != "" && 
+             request.resource.data.familyUnitId != "" && 
+             request.resource.data.floorId != "";
+    }
+    
+    // FUNCTIONS FOR VIEWS
+    match /VIEWS/{viewId}
+    {
+    allow read: if isSignedIn();
+    allow create: if isSignedIn() && checkViews();
+    allow delete: if isSignedIn();
+    allow update: if isSignedIn() && checkViews();
+    }
+    // Custom functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    function checkScreenOne() {
+    return request.resource.data.keys().hasAll(['title', 'cities', 'areas', 'budget', 'description', 'floors', 'units', 'style', 'constructionRates', 'productRates', 'keywords', 'isComplete', 'dateCreated', 'uploadedScreensCount']) &&
+           request.resource.data.title != "" &&
+           request.resource.data.cities.size() > 0 &&
+           request.resource.data.areas.size() > 0 &&
+           request.resource.data.budget != "" &&
+           request.resource.data.description != "" &&
+           request.resource.data.floors.size() > 0 &&
+           request.resource.data.units.size() > 0 &&
+           request.resource.data.style != "" &&
+           request.resource.data.constructionRates.size() > 0 &&
+           request.resource.data.productRates.size() > 0 &&
+           request.resource.data.keywords.size() > 0 &&
+           request.resource.data.isComplete is bool &&
+           request.resource.data.dateCreated is timestamp &&
+           request.resource.data.uploadedScreensCount is number;
+     }
+     function checkScreenTwo()
+  {
+   return getIncomingData().keys().hasAll(['designs','budgetRanges','uploadedScreensCount']) &&
+          getIncomingData().designs.size()>0 &&
+          getIncomingData().budgetRanges.size()>0 &&
+          getIncomingData().uploadedScreensCount is number;
+  }
+  
+  function checkViews()
+  {
+     return getIncomingData().keys().hasAll(['name','description','option','type']);
+  }
+ 
+ 
+    function onlyIncrementOneCurrencies() {
+      return getIncomingData().usage.currencies == getExistingData().usage.currencies || 
+             getIncomingData().usage.currencies == getExistingData().usage.currencies + 1||
+             getIncomingData().usage.currencies == getExistingData().usage.currencies - 1;
+    }
+  
+    function onlyIncrementOneProjects() {
+      return getIncomingData().usage.projects == getExistingData().usage.projects || 
+             getIncomingData().usage.projects == getExistingData().usage.projects + 1 ||
+             getIncomingData().usage.projects == getExistingData().usage.projects - 1;
+    }
+  
+    function onlyIncrementOneUsage() {
+      return getIncomingData().usage == getExistingData().usage || 
+             getIncomingData().usage == getExistingData().usage + 1||
+             getIncomingData().usage == getExistingData().usage - 1;
+    }
+  
+    function onlyIncrementOne() {
+      return (
+        (getIncomingData().usage.projects == getExistingData().usage.projects ||
+        getIncomingData().usage.projects == getExistingData().usage.projects + 1 ||
+        getIncomingData().usage.projects == getExistingData().usage.projects - 1) &&
+        (getIncomingData().usage.currencies == getExistingData().usage.currencies ||
+        getIncomingData().usage.currencies == getExistingData().usage.currencies + 1 ||
+        getIncomingData().usage.currencies == getExistingData().usage.currencies - 1)
+      );
+    }
+  
+    function usageZero() {
+      return getExistingData().usage.projects == 0 && 
+             getExistingData().usage.currencies == 0;
+    }
+    
+    function usageZeroProjects() {
+      return getExistingData().usage.projects == 0;
+    }
+  
+    function UsageIsZeroProjects() {
+      return getIncomingData().usage.projects == 0;
+    }
+    
+    function hasValidValueInPkr() {
+      return (getIncomingData().valueInPkr != null && 
+             getIncomingData().valueInPkr>=0) && 
+             getIncomingData().valueInPkr > 0;
+    }
+  
+    function getExistingData() {
+      return resource.data;
+    }
+  
+    function getIncomingData() {
+      return request.resource.data;
+    }
+  }
+}
