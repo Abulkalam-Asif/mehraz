@@ -4,6 +4,7 @@ import { UserScreenSpinner } from "@/components";
 
 const DesSelStep2Screen0 = lazy(() => import("./DesSelStep2Screen0"));
 const DesSelStep2Screen1 = lazy(() => import("./DesSelStep2Screen1"));
+const DesSelStep2Screen2 = lazy(() => import("./DesSelStep2Screen2"));
 
 const DesSelStep1Sec = ({
   screen,
@@ -21,17 +22,23 @@ const DesSelStep1Sec = ({
           <DesSelStep2Screen0 changeStepScreen={changeStepScreen} />
         </Suspense>
       ) : screen === "1" ? (
-        <>
+        <Suspense fallback={<UserScreenSpinner />}>
+          <DesSelStep2Screen1
+            areas={areas}
+            floors={floors}
+            familyUnits={familyUnits}
+          />
+        </Suspense>
+      ) : (
+        screen === "2" && (
           <Suspense fallback={<UserScreenSpinner />}>
-            <DesSelStep2Screen1
+            <DesSelStep2Screen2
               areas={areas}
               floors={floors}
               familyUnits={familyUnits}
             />
           </Suspense>
-        </>
-      ) : (
-        screen === "2" && <div> step 2 screen 2</div>
+        )
       )}
     </>
   );

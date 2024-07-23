@@ -22,7 +22,7 @@ const storage = getStorage(app);
 
 if (process.env.ENVIRONMENT === "development") {
   connectAuthEmulator(auth, "https://localhost:9099");
-  connectFirestoreEmulator(db, "localhost", 8081);
+  connectFirestoreEmulator(db, "localhost", 8080);
   connectStorageEmulator(storage, "127.0.0.1", 9199);
 }
 

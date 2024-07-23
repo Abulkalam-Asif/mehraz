@@ -155,3 +155,7 @@ export { default as DesSelStep1Screen2ProjectSlideRates } from "./user-side/fast
 export { default as DesSelStep1Screen2ProjectsCarouselMinMobile } from "./user-side/fast-homes/design-selection/DesSelStep1Screen2ProjectsCarouselMinMobile";
 export { default as DesSelStep1Screen2ProjectSlideMinMobile } from "./user-side/fast-homes/design-selection/DesSelStep1Screen2ProjectSlideMinMobile";
 export { default as DesSelStep1Screen2JumpToModal } from "./user-side/fast-homes/design-selection/DesSelStep1Screen2JumpToModal";
+
+export { default as DesSelStep2Screen2InputDiv } from "./user-side/fast-homes/design-selection/DesSelStep2Screen2InputDiv";
+export { default as DesSelStep2Screen2NumInput } from "./user-side/fast-homes/design-selection/DesSelStep2Screen2NumInput";
+export { default as DesSelStep2Screen2RangeInput } from "./user-side/fast-homes/design-selection/DesSelStep2Screen2RangeInput";

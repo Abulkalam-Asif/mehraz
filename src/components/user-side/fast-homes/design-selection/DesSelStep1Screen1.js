@@ -75,9 +75,7 @@ const DesSelStep1Screen1 = ({ cities, styles }) => {
               <FaChevronLeft size={28} className="w-7 h-auto lg:w-5 sm:w-4" />
             </Link>
             <div>
-              <h2 className="text-[#6A6A6A] text-3xl xl:text-2xl">
-                STEP 1/3
-              </h2>
+              <h2 className="text-[#6A6A6A] text-3xl xl:text-2xl">STEP 1/3</h2>
               <h1 className="text-[#242424] text-3xl xl:text-2xl lg:hidden">
                 <b>HOME STYLE</b> SELECTION
               </h1>
@@ -107,7 +105,7 @@ const DesSelStep1Screen1 = ({ cities, styles }) => {
             />
           </div>
         </div>
-        <hr className="border-t-0 border-b border-b-black/30 mt-2 w-11/12 mx-auto"/>
+        <hr className="border-t-0 border-b border-b-black/30 mt-2 w-11/12 mx-auto" />
         <h3 className="text-[#2F2F2F] text-xl xl:text-base lg:text-sm xs:text-xs text-center mt-8 lg:mt-4 sm:mt-8 uppercase">
           Tell us how your home should <b>look</b> <br /> so we find perfect fit
           for you ...
