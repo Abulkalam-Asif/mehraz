@@ -8,17 +8,17 @@ const DesSelStep2Screen2InputDiv = ({
   setBudget,
   inputStep,
   currency,
+  setCurrency,
+  currencies,
 }) => {
   return (
     <>
-      <div className="space-y-4 mt-8">
+      <div className="space-y-8 mt-8">
         <div>
           {/* TODO: Fetch actual currencies */}
           <DesSelStep2Screen2NumInput
-            currencies={[
-              { label: "PKR", value: "PKR" },
-              { label: "USD", value: "USD" },
-            ]}
+            currencies={currencies}
+            selectCurrencyHandler={setCurrency}
             selectedCurrency={currency}
             budget={budget}
             setBudget={setBudget}

@@ -5,12 +5,12 @@ import { FaChevronDown } from "react-icons/fa6";
 const DesSelStep2Screen2NumInput = ({
   currencies,
   selectedCurrency,
-  selectHandler,
+  selectCurrencyHandler,
   budget,
   setBudget,
   min,
   max,
-  inputStep
+  inputStep,
 }) => {
   const [expanded, setExpanded] = useState(false);
 
@@ -40,7 +40,10 @@ const DesSelStep2Screen2NumInput = ({
           step={inputStep}
           min={min}
           max={max}
-          onChange={e => setBudget(e.target.value)}
+          onChange={e => {
+            if (e.target.value > max) e.target.value = max;
+            setBudget(e.target.value);
+          }}
           className="rounded-l-full px-4 py-2 text-1.5xl text-[2F2F2F]"
           placeholder="Enter..."
           onBlur={e => {
@@ -64,7 +67,7 @@ const DesSelStep2Screen2NumInput = ({
           {expanded && (
             <div className="w-max min-w-full absolute bottom-0 translate-y-full right-0 bg-white shadow-btn rounded-2xl border-2 border-accent-1-base py-2 pl-2 pr-1 z-[10] overflow-hidden">
               <div
-                className="w-full text-black/70 grid grid-cols-1 gap-2.5 max-h-[33vh] overflow-y-auto pr-1 py-2"
+                className="w-full text-black/70 grid grid-cols-1 max-h-[33vh] overflow-y-auto pr-1 py-2"
                 ref={dropdownRef}>
                 {currencies?.map(({ label, value }, index) => (
                   <label
@@ -82,7 +85,7 @@ const DesSelStep2Screen2NumInput = ({
                       checked={selectedCurrency === value}
                       onChange={e => {
                         if (e.target.checked) {
-                          selectHandler(value);
+                          selectCurrencyHandler(value);
                         }
                         setExpanded(false);
                       }}

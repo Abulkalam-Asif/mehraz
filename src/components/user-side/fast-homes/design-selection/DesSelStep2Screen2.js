@@ -1,24 +1,30 @@
 "use client";
-import { UButton, DesSelStep2Screen2InputDiv } from "@/components";
+import {
+  UButton,
+  DesSelStep2Screen2InputDiv,
+  UserScreenSpinner,
+} from "@/components";
 import getBudgetRange from "@/Firebase/user-side/design-selection/step-2/getBudgetRange";
 import useRPS from "@/hooks/useRPS";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { FaChevronLeft } from "react-icons/fa6";
 
+const currencies = [
+  { label: "PKR", value: "PKR", valueInPkr: 1 },
+  { label: "USD", value: "USD", valueInPkr: 175 },
+];
 const DesSelStep2Screen2 = () => {
   const { router, pathname, searchParams } = useRPS();
-  const [budget, setBudget] = useState(75000);
-  const [budgetRange, setBudgetRange] = useState({ min: 0, max: 0 });
+  const [budget, setBudget] = useState(0);
+  const [currency, setCurrency] = useState("PKR");
+  const [budgetRange, setBudgetRange] = useState(null);
 
   useEffect(() => {
     const fetchBudgetRange = async () => {
       try {
         const budgetRange = await getBudgetRange();
-        setBudgetRange({
-          min: budgetRange.min,
-          max: budgetRange.max,
-        });
+        setBudgetRange(budgetRange);
         const defaultBudget = (budgetRange.min + budgetRange.max) / 2;
         setBudget(defaultBudget);
       } catch (error) {
@@ -46,7 +52,9 @@ const DesSelStep2Screen2 = () => {
     router.push(`${pathname}?${newSearchParams.toString()}`);
   };
 
-  return (
+  return !budgetRange ? (
+    <UserScreenSpinner />
+  ) : (
     <>
       <motion.div
         initial={{ opacity: 0 }}
@@ -74,25 +82,28 @@ const DesSelStep2Screen2 = () => {
             budget={budget}
             setBudget={setBudget}
             inputStep={5}
-            currency={"PKR"}
+            currency={currency}
+            setCurrency={setCurrency}
+            currencies={currencies}
           />
         </div>
-        <div className="mt-32">
-          <p className="text-[#2F2F2F]/65">
-            All figures are in lakhs , 1 lakh = 100,000
+        <div className="mt-24">
+          <p className="text-[#2F2F2F]/65 text-center uppercase">
+            All figures are in <b>lakhs</b> , 1 <i>lakh</i> = 100,000
           </p>
-          <hr className="border-black/10" />
-          <div className="grid grid-cols-3">
-            <div className="col-start-2 uppercase">
-              my budget{" "}
-              <span>
-                <i>PKR&nbsp;&nbsp;</i>
-                {budget}
+          <hr className="border-black/10 mt-3 mb-12" />
+          <div className="grid grid-cols-3 items-center">
+            <div className="col-span-2 justify-self-end uppercase text-[#2F2F2F]">
+              <span className="text-xl mr-4">my budget </span>
+              <span className="border border-black/40 py-2 px-8 rounded-full text-2xl">
+                <i>{currency}</i>{" "}
+                {budget < 100 ? budget : (budget / 100).toFixed(2)}{" "}
+                <span>{budget < 100 ? "Lakh" : "Crore"}</span>
               </span>
             </div>
             <UButton
               onClick={nextStepHandler}
-              text="set"
+              text="next"
               color="gray-white"
               className="text-lg px-12 py-3 mx-auto"
             />

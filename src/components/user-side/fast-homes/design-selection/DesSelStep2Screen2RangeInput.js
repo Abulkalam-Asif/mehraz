@@ -1,5 +1,3 @@
-import { space } from "postcss/lib/list";
-
 const DesSelStep2Screen2RangeInput = ({
   budget,
   setBudget,
@@ -14,6 +12,7 @@ const DesSelStep2Screen2RangeInput = ({
     budgetPoints.push(Math.round((min + budgetPointsDiff * i) / 10) * 10);
   }
   budgetPoints.push(max);
+
   return (
     <>
       <div>
@@ -25,7 +24,10 @@ const DesSelStep2Screen2RangeInput = ({
           <span
             className="absolute z-[2] top-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#2F2F2F] text-white py-1 px-4 rounded-full whitespace-nowrap"
             style={{
-              left: `${((budget - min) / (max - min)) * 100}%`,
+              left: `${Math.max(
+                0,
+                Math.min(100, ((budget - min) / (max - min)) * 100),
+              )}%`,
             }}>
             <span className="italic">{currency}&nbsp;&nbsp;</span>
             {budget} Lakh
@@ -46,7 +48,7 @@ const DesSelStep2Screen2RangeInput = ({
             {max} Lakh
           </span>
         </div>
-        <div className="shadow-[1px_3px_3px_0px_rgba(0,0,0,0.15)] border border-[#EFEFEF] rounded-lg py-3 mt-1">
+        <div className="shadow-[1px_3px_3px_0px_rgba(0,0,0,0.15)] border border-[#EFEFEF] rounded-lg py-3 px-4 mt-1">
           <div className="flex justify-between">
             {budgetPoints.map((point, index) => (
               <span
