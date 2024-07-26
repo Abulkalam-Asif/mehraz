@@ -159,3 +159,4 @@ export { default as DesSelStep1Screen2JumpToModal } from "./user-side/fast-homes
 export { default as DesSelStep2Screen2InputDiv } from "./user-side/fast-homes/design-selection/DesSelStep2Screen2InputDiv";
 export { default as DesSelStep2Screen2NumInput } from "./user-side/fast-homes/design-selection/DesSelStep2Screen2NumInput";
 export { default as DesSelStep2Screen2RangeInput } from "./user-side/fast-homes/design-selection/DesSelStep2Screen2RangeInput";
+export { default as DesSelStep2Screen3Header } from "./user-side/fast-homes/design-selection/DesSelStep2Screen3Header";

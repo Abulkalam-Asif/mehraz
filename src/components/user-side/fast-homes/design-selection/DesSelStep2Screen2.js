@@ -36,19 +36,14 @@ const DesSelStep2Screen2 = () => {
 
   const nextStepHandler = () => {
     const newSearchParams = new URLSearchParams(searchParams);
-    newSearchParams.set("screen", "2");
+    newSearchParams.set("screen", "3");
+    newSearchParams.set("budget", budget);
     router.push(`${pathname}?${newSearchParams.toString()}`);
   };
 
-  const skipAndNextStepHandler = () => {
+  const moveToScreen1Handler = () => {
     const newSearchParams = new URLSearchParams(searchParams);
-    router.push(`${pathname}?${newSearchParams.toString()}`);
-  };
-
-  const moveToStep1Screen2Handler = () => {
-    const newSearchParams = new URLSearchParams(searchParams);
-    newSearchParams.set("step", "1");
-    newSearchParams.set("screen", "2");
+    newSearchParams.set("screen", "1");
     router.push(`${pathname}?${newSearchParams.toString()}`);
   };
 
@@ -60,22 +55,26 @@ const DesSelStep2Screen2 = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className="relative min-h-full w-full max-w-7xl lg:max-w-xl mx-auto px-8 py-12 sm:p-4">
-        <div className="flex justify-between items-center">
-          <div className="flex items-center gap-6 lg:gap-2">
+        className="relative min-h-full w-full max-w-7xl lg:max-w-xl mx-auto px-8 py-12 lg:py-8 sm:p-4">
+        <div className="flex justify-between items-center lg:flex-col">
+          <div className="flex items-center gap-6 lg:gap-2 lg:self-start">
             <button
-              onClick={moveToStep1Screen2Handler}
+              onClick={moveToScreen1Handler}
               className="bg-[#EFEFEF] p-4 xl:p-3 rounded-full shadow-btn">
               <FaChevronLeft size={28} className="w-7 h-auto lg:w-5 sm:w-4" />
             </button>
           </div>
           <div className="text-[#2F2F2F] uppercase text-center">
-            <h1 className="text-3xl font-bold">set your budget</h1>
-            <h2>See homes OF utmost Comfort & Experience per your budget</h2>
+            <h1 className="text-3xl lg:text-2xl xs:text-lg font-bold">
+              set your budget
+            </h1>
+            <h2 className="lg:text-sm xs:text-xxs text-balance">
+              See homes OF utmost Comfort & Experience per your budget
+            </h2>
           </div>
           <div></div>
         </div>
-        <div className="px-40">
+        <div className="px-40 lg:px-0">
           <DesSelStep2Screen2InputDiv
             min={budgetRange.min}
             max={budgetRange.max}
@@ -87,15 +86,17 @@ const DesSelStep2Screen2 = () => {
             currencies={currencies}
           />
         </div>
-        <div className="mt-24">
-          <p className="text-[#2F2F2F]/65 text-center uppercase">
+        <div className="mt-24 lg:mt-12">
+          <p className="text-[#2F2F2F]/65 text-center uppercase lg:text-sm xs:text-xs">
             All figures are in <b>lakhs</b> , 1 <i>lakh</i> = 100,000
           </p>
-          <hr className="border-black/10 mt-3 mb-12" />
-          <div className="grid grid-cols-3 items-center">
-            <div className="col-span-2 justify-self-end uppercase text-[#2F2F2F]">
-              <span className="text-xl mr-4">my budget </span>
-              <span className="border border-black/40 py-2 px-8 rounded-full text-2xl">
+          <hr className="border-black/10 mt-3 mb-12 xs:mb-8" />
+          <div className="grid grid-cols-3 lg:grid-cols-1 items-center lg:gap-8">
+            <div className="col-span-2 lg:col-span-1 justify-self-end lg:justify-self-center uppercase text-[#2F2F2F]">
+              <span className="text-xl xl:text-lg lg:text-base sm:text-sm mr-4">
+                my budget{" "}
+              </span>
+              <span className="border border-black/40 py-2 px-8 rounded-full text-2xl xl:text-1.5xl lg:text-xl sm:text-base">
                 <i>{currency}</i>{" "}
                 {budget < 100 ? budget : (budget / 100).toFixed(2)}{" "}
                 <span>{budget < 100 ? "Lakh" : "Crore"}</span>
@@ -105,7 +106,7 @@ const DesSelStep2Screen2 = () => {
               onClick={nextStepHandler}
               text="next"
               color="gray-white"
-              className="text-lg px-12 py-3 mx-auto"
+              className="text-lg xl:text-base sm:text-sm px-12 lg:px-8 py-3 lg:py-2 mx-auto"
             />
           </div>
         </div>
