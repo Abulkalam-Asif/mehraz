@@ -4,16 +4,23 @@ import { db, storage } from "@/Firebase/firebase";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { getDownloadURL, ref } from "firebase/storage";
 
-// Note: This implementation is done by ChatGPT. Needed to be reviewed and tested.
+// Note: This is just a basic implementation by ChatGPT.
 
-// TODO: Fetch the products on the basis of these things.
-// The city must be same.
-// first priority: same style, same styleCost
-// second priority: different style, same styleCost
-// third priority: same style (budget closest to least closest)
-// fourth: different styles (budget closest to least closest)
+// TODO: Fetch the projects from READY_PROJECTS on the basis of these things.
 
-const getScreeen3Projects = async (
+// first priority : same : city, style, cost same
+
+// second priority : different styles , cost same, city same
+
+// third priority : same : style, city
+// (budget closest to least closest)
+
+// fourth : different styles ,city
+// (budget closest to least closest)
+
+// last options : different city
+
+const getStep1Screen2Projects = async (
   categoryParam,
   cityParam,
   styleParam,
@@ -106,4 +113,4 @@ const getScreeen3Projects = async (
   }
 };
 
-export default getScreeen3Projects;
+export default getStep1Screen2Projects;

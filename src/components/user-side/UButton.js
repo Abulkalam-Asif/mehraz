@@ -13,6 +13,8 @@ const UButton = ({
     gray: "bg-accent-gray text-white",
     "gray-white":
       "bg-accent-gray text-white border-2 border-accent-gray hover:bg-white hover:text-accent-gray transition-colors duration-300",
+    "solid-gold":
+      "border-2 border-accent-gold-2 bg-accent-gold-2 text-black hover:bg-white transition-colors duration-300",
   };
 
   return (

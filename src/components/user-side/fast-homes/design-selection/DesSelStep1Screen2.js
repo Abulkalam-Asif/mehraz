@@ -11,7 +11,7 @@ import {
   UserScreenSpinner,
 } from "@/components";
 import { useEffect, useState } from "react";
-import getScreeen3Projects from "@/Firebase/user-side/design-selection/step-1/getScreeen3Projects";
+import getStep1Screen2Projects from "@/Firebase/user-side/design-selection/step-1/getStep1Screen2Projects";
 import useRPS from "@/hooks/useRPS";
 import {
   getBookmarkedProjects,
@@ -32,7 +32,7 @@ const DesSelStep1Screen2 = ({ cities, styles }) => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const projectsFromDb = await getScreeen3Projects(
+        const projectsFromDb = await getStep1Screen2Projects(
           categoryParam,
           cityParam,
           styleParam,

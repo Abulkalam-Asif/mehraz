@@ -28,6 +28,7 @@ module.exports = {
         "accent-dark-blue": "#171E4D",
         "accent-sea-green": "#13617C",
         "accent-gold": "#BD9E48",
+        "accent-gold-2": "#D9BF77",
         "accent-gold-light": "#DCBB60",
         "accent-gold-lighter": "#FFDDB4",
         "accent-gray": "#3F3F3F",
