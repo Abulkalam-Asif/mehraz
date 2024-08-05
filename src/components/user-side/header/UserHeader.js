@@ -35,7 +35,7 @@ const UserHeader = () => {
                 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-800 opacity-0 group-hover:opacity-100"
               />
             </Link>
-            <UserHeaderMeetBtn />
+            {/* <UserHeaderMeetBtn /> */}
             <button className="inline-flex sm:hidden items-center gap-1 text-white border-2 border-white py-0.5 px-3 rounded hover:text-accent-dark-blue hover:bg-white transition-colors duration-300">
               <CiChat1 size={20} />
               <span className="text-sm">CHAT</span>

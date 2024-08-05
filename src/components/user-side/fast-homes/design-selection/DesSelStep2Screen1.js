@@ -56,6 +56,7 @@ const DesSelStep2Screen1 = ({ areas, floors, familyUnits }) => {
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set("step", "1");
     newSearchParams.set("screen", "2");
+    newSearchParams.delete("project");
     router.push(`${pathname}?${newSearchParams.toString()}`);
   };
 
@@ -67,54 +68,49 @@ const DesSelStep2Screen1 = ({ areas, floors, familyUnits }) => {
         transition={{ duration: 0.5 }}
         className="relative min-h-full w-full max-w-7xl lg:max-w-xl mx-auto p-8 sm:p-4">
         <div className="flex justify-between items-center">
-          <div className="flex items-center gap-10 lg:gap-2">
+          <div className="flex items-center gap-6 lg:gap-2">
             <button
               onClick={moveToStep1Screen2Handler}
               className="bg-[#EFEFEF] p-4 xl:p-3 rounded-full shadow-btn">
-              <FaChevronLeft size={24} className="w-6 h-auto sm:w-4" />
+              <FaChevronLeft size={28} className="w-7 h-auto lg:w-5 sm:w-4" />
             </button>
-            <h2 className="text-[#6A6A6A] text-3xl xl:text-2xl lg:text-3xl sm:text-2xl">
-              STEP 2/3
-            </h2>
-          </div>
-          <div className="text-center lg:hidden">
-            <h1 className="text-[#242424] text-3.5xl xl:text-3xl font-bold">
-              FINAL HOME SELECTION
-            </h1>
-            <h3 className="text-[#2F2F2F] text-lg xl:text-base uppercase">
-              Tell us how your home should <b>planned</b> <br /> so we find
-              perfect fit for you ...
-            </h3>
+            <div>
+              <h2 className="text-[#6A6A6A] text-3xl xl:text-2xl">STEP 2/3</h2>
+              <h1 className="text-[#242424] text-3xl xl:text-2xl lg:hidden">
+                <b>FINAL</b> HOME SELECTION
+              </h1>
+            </div>
           </div>
           <div>
-            <div className="lg:hidden text-[#6A6A6A] flex flex-col items-end mb-2">
+            <div className="lg:hidden text-[#6A6A6A] flex flex-col items-end mb-1">
               <h3 className="text-xl xl:text-lg font-semibold">
                 Make Right Home Decisions
               </h3>
-              <h4 className="xl:text-sm border-b border-b-black border-opacity-30 pb-1">
-                Click To See Various Building Home Options, More
+              <h4 className="xl:text-sm">
+                Know About Home Design Options & More?
               </h4>
             </div>
             <div className="hidden lg:flex text-[#6A6A6A] flex-col items-end mb-1">
-              <h3 className="text-lg sm:text-sm font-semibold">
+              <h3 className="text-base xs:text-sm font-semibold">
                 Make Right Decisions
               </h3>
-              <h4 className="text-sm sm:text-xs border-b border-b-black border-opacity-30">
-                Know Build Options & More?
+              <h4 className="text-xs xs:text-xxs">
+                Know Style Options & More?
               </h4>
             </div>
             <ULinkButton2
               text="all"
               href="/"
-              className="ml-auto lg:text-sm text-white bg-[#323232] border border-[#323232] shadow-btn px-12 py-1 transition-colors duration-300 hover:bg-white hover:text-[#323232] hover:shadow-none"
+              className="ml-auto lg:text-xs text-white bg-[#323232] border border-[#323232] shadow-btn px-12 py-1 transition-colors duration-300 hover:bg-white hover:text-[#323232] hover:shadow-none"
             />
           </div>
         </div>
-        <h3 className="hidden lg:block text-[#2F2F2F] text-sm sm:text-xs text-center uppercase mt-3">
-          Tell us how your home should <b>look</b> <br /> so we find perfect fit
-          for you ...
+        <hr className="border-t-0 border-b border-b-black/30 mt-2 w-11/12 mx-auto" />
+        <h3 className="text-[#2F2F2F] text-xl xl:text-base lg:text-sm xs:text-xs text-center mt-4 uppercase">
+          Tell us how your home should be <b>planned</b> <br /> so we find
+          perfect fit for you ...
         </h3>
-        <div className="bg-transparent relative flex lg:flex-col items-center justify-evenly lg:gap-4 px-8 py-6 sm:p-4 mr-6 lg:mr-2 mt-8 lg:mt-4 before:absolute before:z-[-2] before:top-0 before:left-0 before:right-0 before:bottom-0 before:bg-[#E5CD86] before:shadow-btn before:rounded-full lg:before:rounded-3xl before:border before:border-black before:border-opacity-30 after:absolute after:z-[-1] after:top-0 after:left-0 after:right-0 after:bottom-0 after:bg-[#efefef1a] after:translate-x-6 lg:after:translate-x-2 after:translate-y-3 lg:after:translate-y-2 after:shadow-btn after:rounded-full lg:after:rounded-3xl after:border after:border-black after:border-opacity-30">
+        <div className="bg-transparent relative flex lg:flex-col items-center justify-evenly lg:gap-4 px-8 py-6 sm:p-4 mr-6 lg:mr-2 mt-4 sm:mt-2 before:absolute before:z-[-2] before:top-0 before:left-0 before:right-0 before:bottom-0 before:bg-[#E5CD86] before:shadow-btn before:rounded-full lg:before:rounded-3xl before:border before:border-black before:border-opacity-30 after:absolute after:z-[-1] after:top-0 after:left-0 after:right-0 after:bottom-0 after:bg-[#efefef1a] after:translate-x-6 lg:after:translate-x-2 after:translate-y-3 lg:after:translate-y-2 after:shadow-btn after:rounded-full lg:after:rounded-3xl after:border after:border-black after:border-opacity-30">
           <DesSelStep1Screen1InputBox label={"area"}>
             <DesSelSelect
               options={
@@ -191,7 +187,7 @@ const DesSelStep2Screen1 = ({ areas, floors, familyUnits }) => {
             />
           </DesSelStep1Screen1InputBox>
         </div>
-        <div className="flex flex-col items-center w-full gap-2 mt-12 lg:mt-8">
+        <div className="flex flex-col items-center w-full gap-2 mt-10 sm:mt-6">
           <div className="w-4/5 sm:w-full relative">
             <span className="absolute top-0.5 right-0.5 text-xs font-medium">
               {step2Screen2FormData.requirements.length}/200
@@ -208,7 +204,10 @@ const DesSelStep2Screen1 = ({ areas, floors, familyUnits }) => {
               placeholder="TELL US YOUR RQUIREMENTS OR HOUSE DEVISIONS..."></textarea>
           </div>
         </div>
-        <div className="grid grid-cols-4 gap-8 lg:gap-6 mt-8 lg:mt-3">
+        <p className="text-black/60 text-center mt-2 sm:mt-0">
+          Specific Words Give The Best Result
+        </p>
+        <div className="grid grid-cols-4 gap-4 mt-4 sm:mt-2">
           <button
             onClick={nextStepHandler}
             className="col-start-2 col-span-2 uppercase font-bold text-white bg-gradient-to-r from-accent-dark-blue via-accent-dark-blue to-accent-sea-green rounded-full text-2xl xl:text-xl sm:text-base py-3 w-full text-nowrap relative z-[1] before:bg-white before:rounded-full before:opacity-0 before:z-[-1] before:absolute before:top-0.5 before:left-0.5 before:right-0.5 before:bottom-0.5 hover:text-accent-dark-blue hover:before:opacity-100 before:transition-opacity before:duration-300 duration-300">

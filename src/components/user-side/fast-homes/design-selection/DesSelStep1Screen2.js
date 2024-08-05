@@ -11,7 +11,7 @@ import {
   UserScreenSpinner,
 } from "@/components";
 import { useEffect, useState } from "react";
-import getScreeen3Projects from "@/Firebase/user-side/design-selection/step-1/getScreeen3Projects";
+import getStep1Screen2Projects from "@/Firebase/user-side/design-selection/step-1/getStep1Screen2Projects";
 import useRPS from "@/hooks/useRPS";
 import {
   getBookmarkedProjects,
@@ -24,7 +24,6 @@ const DesSelStep1Screen2 = ({ cities, styles }) => {
   const cityParam = searchParams.get("city");
   const styleParam = searchParams.get("style");
   const styleCostParam = searchParams.get("styleCost");
-  const descriptionParam = searchParams.get("description");
 
   const [allProjects, setAllProjects] = useState(null);
   const [projectsToShow, setProjectsToShow] = useState([]);
@@ -33,12 +32,11 @@ const DesSelStep1Screen2 = ({ cities, styles }) => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const projectsFromDb = await getScreeen3Projects(
+        const projectsFromDb = await getStep1Screen2Projects(
           categoryParam,
           cityParam,
           styleParam,
           styleCostParam,
-          descriptionParam,
         );
         setAllProjects(projectsFromDb);
       } catch (error) {
@@ -62,8 +60,6 @@ const DesSelStep1Screen2 = ({ cities, styles }) => {
     }
   }, []);
 
-  const [searchString, setSearchString] = useState("");
-
   useEffect(() => {
     if (allProjects) {
       setProjectsToShow(allProjects);
@@ -75,27 +71,6 @@ const DesSelStep1Screen2 = ({ cities, styles }) => {
       setProjectGroups(groups);
     }
   }, [allProjects]);
-
-  useEffect(() => {
-    // Must filter the projects from allProjects
-    if (allProjects) {
-      const filteredProjects = allProjects.filter(project => {
-        const search = searchString.toLowerCase();
-        return (
-          searchString === "" ||
-          project.description.toLowerCase().includes(search) ||
-          project.style.name.toLowerCase().includes(search)
-        );
-      });
-      setProjectsToShow(filteredProjects);
-
-      const groups = [];
-      for (let i = 0; i < filteredProjects.length; i += 4) {
-        groups.push(filteredProjects.slice(i, i + 4));
-      }
-      setProjectGroups(groups);
-    }
-  }, [searchString]);
 
   const [maxViewCurrSlide, setMaxViewCurrSlide] = useState(1);
 
@@ -134,8 +109,6 @@ const DesSelStep1Screen2 = ({ cities, styles }) => {
           transition={{ duration: 0.5 }}
           className="relative w-full h-full min-h-page-user-inner xl:min-h-page-user-inner-xl max-h-page-user-inner max-w-8xl flex flex-col gap-4 lg:gap-1 lg:max-w-xl mx-auto px-4 pt-8 pb-6 xl:py-4 sm:p-2">
           <DesSelStep1Screen2Header
-            searchString={searchString}
-            setSearchString={setSearchString}
             view={view}
             changeView={changeView}
             cities={cities}
@@ -193,7 +166,7 @@ const DesSelStep1Screen2 = ({ cities, styles }) => {
                 </DesSelStep1Screen2ProjectsCarouselMin>
                 {/* 4 slides grid carousel for mobile and tablet */}
                 <DesSelStep1Screen2ProjectsCarouselMinMobile>
-                  {projectGroups.map((group, groupIndex) => (
+                  {projectGroups?.map((group, groupIndex) => (
                     <div key={groupIndex}>
                       <div className="px-1 grid grid-cols-2 gap-2 mb-2">
                         {group.map((project, projectIndex) => (

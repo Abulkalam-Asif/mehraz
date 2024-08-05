@@ -49,16 +49,16 @@ const subMenuItems = {
         href: "/",
         src: highCustomIcon,
       },
-      {
-        text: "properties",
-        href: "/",
-        src: propertiesIcon,
-      },
-      {
-        text: "materials",
-        href: "/",
-        src: materialsIcon,
-      },
+      // {
+      //   text: "properties",
+      //   href: "/",
+      //   src: propertiesIcon,
+      // },
+      // {
+      //   text: "materials",
+      //   href: "/",
+      //   src: materialsIcon,
+      // },
     ],
   },
 };

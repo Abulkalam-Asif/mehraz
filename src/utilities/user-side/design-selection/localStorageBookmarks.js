@@ -13,4 +13,22 @@ const setBookmarkedProjects = projects => {
   localStorage.setItem("bookmarkedProjects", JSON.stringify(projects));
 };
 
-export { getBookmarkedProjects, setBookmarkedProjects };
+const getBookmarkedDesigns = () => {
+  if (!isBrowser) return [];
+  const localStorageBookmarkedDesigns = JSON.parse(
+    localStorage.getItem("bookmarkedDesigns"),
+  );
+  return localStorageBookmarkedDesigns || [];
+};
+
+const setBookmarkedDesigns = designs => {
+  if (!isBrowser) return;
+  localStorage.setItem("bookmarkedDesigns", JSON.stringify(designs));
+};
+
+export {
+  getBookmarkedProjects,
+  setBookmarkedProjects,
+  getBookmarkedDesigns,
+  setBookmarkedDesigns,
+};

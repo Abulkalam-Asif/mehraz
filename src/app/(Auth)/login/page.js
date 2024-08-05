@@ -1,12 +1,9 @@
 "use client";
 import { useState, useEffect } from "react";
-import {
-  signInWithEmailAndPassword,
-  signOut,
-} from "firebase/auth";
+import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { auth } from "@/Firebase/firebase";
 import { onAuthStateChanged } from "firebase/auth";
-const SignIn = () => {
+const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -64,4 +61,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default LoginPage;

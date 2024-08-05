@@ -2,24 +2,31 @@
 import { FaChevronLeft } from "react-icons/fa6";
 import Image from "next/image";
 import { jumpToIcon, maximizedViewIcon, minimizedViewIcon } from "@/assets";
-import { DesSelStep1Screen2JumpToModal, ULinkButton2 } from "@/components";
+import { DesSelStep2Screen3JumpToModal, ULinkButton2 } from "@/components";
 import { useState } from "react";
 import useRPS from "@/hooks/useRPS";
 
-const DesSelStep1Screen2Header = ({ view, changeView, cities, styles }) => {
+const DesSelStep2Screen3Header = ({
+  designView,
+  changeView,
+  areas,
+  floors,
+  familyUnits,
+}) => {
   const { router, pathname, searchParams } = useRPS();
 
   const changeViewHandler = () => {
-    changeView(view === "max" ? "min" : "max");
+    changeView(designView === "max" ? "min" : "max");
   };
 
-  const moveToScreen1Handler = () => {
+  const moveToScreen2Handler = () => {
     const newSearchParams = new URLSearchParams(searchParams);
-    newSearchParams.set("screen", "1");
-    newSearchParams.delete("city");
-    newSearchParams.delete("style");
-    newSearchParams.delete("styleCost");
-    newSearchParams.delete("view");
+    newSearchParams.set("screen", "2");
+    newSearchParams.delete("area");
+    newSearchParams.delete("floor");
+    newSearchParams.delete("familyUnit");
+    newSearchParams.delete("designView");
+
     router.push(`${pathname}?${newSearchParams.toString()}`);
   };
 
@@ -32,7 +39,7 @@ const DesSelStep1Screen2Header = ({ view, changeView, cities, styles }) => {
       <div className="relative flex justify-between items-center">
         <div className="flex items-center gap-10 lg:gap-2">
           <button
-            onClick={moveToScreen1Handler}
+            onClick={moveToScreen2Handler}
             className="bg-[#EFEFEF] p-4 xl:p-3 rounded-full shadow-btn">
             <FaChevronLeft size={24} className="w-6 h-auto sm:w-4" />
           </button>
@@ -54,14 +61,16 @@ const DesSelStep1Screen2Header = ({ view, changeView, cities, styles }) => {
             onClick={changeViewHandler}
             className="flex items-center gap-2 p-1 text-lg xl:text-base uppercase">
             <Image
-              src={view === "max" ? minimizedViewIcon : maximizedViewIcon}
+              src={designView === "max" ? minimizedViewIcon : maximizedViewIcon}
               width={48}
               height={48}
-              alt="Minimized view icon"
+              alt="Minimized designView icon"
               className="w-12 h-auto xl:w-10"
             />
             <span className="lg:hidden">
-              {view === "max" ? "minimized view" : "maximized view"}
+              {designView === "max"
+                ? "minimized designView"
+                : "maximized designView"}
             </span>
           </button>
           <div className="lg:hidden flex flex-col items-center gap-0.5">
@@ -75,15 +84,16 @@ const DesSelStep1Screen2Header = ({ view, changeView, cities, styles }) => {
         </div>
       </div>
       {isModalOpen && (
-        <DesSelStep1Screen2JumpToModal
+        <DesSelStep2Screen3JumpToModal
           isModalOpen={isModalOpen}
           toggleModal={toggleModal}
-          cities={cities}
-          styles={styles}
+          areas={areas}
+          floors={floors}
+          familyUnits={familyUnits}
         />
       )}
     </>
   );
 };
 
-export default DesSelStep1Screen2Header;
+export default DesSelStep2Screen3Header;

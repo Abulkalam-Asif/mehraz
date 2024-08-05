@@ -4,7 +4,7 @@ import { createUserWithEmailAndPassword, signOut } from "firebase/auth";
 import { auth } from "@/Firebase/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 
-const SignUp = () => {
+const SignupPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -59,4 +59,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default SignupPage;

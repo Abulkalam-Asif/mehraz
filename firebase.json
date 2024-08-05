@@ -1,14 +1,6 @@
 {
-  "hosting": {
-    "source": ".",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
-    "frameworksBackend": {
-      "region": "asia-east1"
-    }
+  "database": {
+    "rules": "database.rules.json"
   },
   "firestore": {
     "rules": "firestore.rules",
@@ -31,7 +23,7 @@
     }
   ],
   "storage": {
-    "rules": "y"
+    "rules": "storage.rules"
   },
   "emulators": {
     "auth": {
@@ -45,9 +37,6 @@
     },
     "database": {
       "port": 9000
-    },
-    "hosting": {
-      "port": 5000
     },
     "storage": {
       "port": 9199

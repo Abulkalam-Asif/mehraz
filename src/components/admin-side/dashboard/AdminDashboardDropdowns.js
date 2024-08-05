@@ -14,6 +14,7 @@ const AdminDashboardDropdowns = ({ linksCategories, linksData }) => {
           name={name}
           items={linksData[name]}
           expandedDropdown={expandedDropdown}
+          
           setExpandedDropdown={setExpandedDropdown}
         />
       ))}
