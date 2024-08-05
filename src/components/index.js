@@ -163,3 +163,4 @@ export { default as DesSelStep2Screen3Header } from "./user-side/fast-homes/desi
 export { default as DesSelStep2Screen3DesignSlideMax } from "./user-side/fast-homes/design-selection/DesSelStep2Screen3DesignSlideMax";
 export { default as DesSelStep2Screen3DesignSlideMin } from "./user-side/fast-homes/design-selection/DesSelStep2Screen3DesignSlideMin";
 export { default as DesSelStep2Screen3DesignSlideMinMobile } from "./user-side/fast-homes/design-selection/DesSelStep2Screen3DesignSlideMinMobile";
+export { default as DesSelStep2Screen3JumpToModal } from "./user-side/fast-homes/design-selection/DesSelStep2Screen3JumpToModal";

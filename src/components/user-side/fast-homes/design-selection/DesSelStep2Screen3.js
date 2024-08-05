@@ -99,16 +99,16 @@ const DesSelStep2Screen3 = ({ areas, floors, familyUnits }) => {
   const [designsToShow, setDesignsToShow] = useState([]);
   const [designGroups, setDesignGroups] = useState([]);
 
-  const view = searchParams.get("view") || "max";
+  const designView = searchParams.get("designView") || "max";
 
   const changeView = newView => {
     const newSearchParams = new URLSearchParams(searchParams);
-    newSearchParams.set("view", newView);
+    newSearchParams.set("designView", newView);
     router.push(`${pathname}?${newSearchParams.toString()}`);
   };
 
   useEffect(() => {
-    if (!view) {
+    if (!designView) {
       changeView("max");
     }
   }, []);
@@ -123,7 +123,7 @@ const DesSelStep2Screen3 = ({ areas, floors, familyUnits }) => {
       }
       setDesignGroups(groups);
     }
-  }, [allDesigns]);
+  }, [allDesigns, designsToShow]);
 
   const [maxViewCurrSlide, setMaxViewCurrSlide] = useState(1);
 
@@ -147,118 +147,118 @@ const DesSelStep2Screen3 = ({ areas, floors, familyUnits }) => {
     newParams.set("step", 2);
     newParams.set("screen", 0);
     newParams.set("design", id);
-    newParams.delete("view");
+    newParams.delete("designView");
     router.push(`${pathname}?${newParams.toString()}`);
   };
 
   return (
     <>
-      {/* {!allDesigns ? (
+      {!allDesigns ? (
         <UserScreenSpinner />
-      ) : ( */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
-        className="relative w-full h-full min-h-page-user-inner xl:min-h-page-user-inner-xl max-h-page-user-inner max-w-8xl flex flex-col gap-4 lg:gap-1 lg:max-w-xl mx-auto px-4 pt-8 pb-6 xl:py-4 sm:p-2">
-        <DesSelStep2Screen3Header
-          view={view}
-          changeView={changeView}
-          areas={areas}
-          floors={floors}
-          familyUnits={familyUnits}
-        />
-        {designsToShow.length === 0 ? (
-          <div className="flex items-center justify-center h-full">
-            <p className="text-lg text-gray-500">No designs found</p>
-          </div>
-        ) : view === "max" ? (
-          <Suspense fallback={<UserScreenSpinner />}>
-            <DesSelStep1Screen2ProjectsCarouselMax
-              currentIndex={maxViewCurrSlide}
-              setCurrentIndex={setMaxViewCurrSlide}>
-              {designsToShow.map(design => (
-                <DesSelStep2Screen3DesignSlideMax
-                  key={design.id}
-                  selectDesignHandler={() => {
-                    selectDesignHandler(design.id);
-                  }}
-                  design={design}
-                  isLocalStorageBookmarked={checkLocalStorageBookmarked(
-                    design.id,
-                  )}
-                  bookmarkLocalStorageHandler={() =>
-                    bookmarkLocalStorageHandler(design.id)
-                  }
-                />
-              ))}
-            </DesSelStep1Screen2ProjectsCarouselMax>
-          </Suspense>
-        ) : (
-          view === "min" && (
-            <>
-              {/* 3 slides carousel for descktop */}
-              <Suspense fallback={<UserScreenSpinner />}>
-                <DesSelStep1Screen2ProjectsCarouselMin>
-                  {designsToShow.map((project, index) => (
-                    <DesSelStep2Screen3DesignSlideMin
-                      key={project.id}
-                      project={project}
-                      selectDesignHandler={() => {
-                        selectDesignHandler(project.id);
-                      }}
-                      seeMoreHandler={() => {
-                        // index + 1 is because in the max view, the last slide is cloned to the 0th index and the first slide is cloned to the last index to produce a infinite carousel effect
-                        setMaxViewCurrSlide(index + 1);
-                        changeView("max");
-                      }}
-                      isLocalStorageBookmarked={checkLocalStorageBookmarked(
-                        project.id,
-                      )}
-                      bookmarkLocalStorageHandler={() =>
-                        bookmarkLocalStorageHandler(project.id)
-                      }
-                    />
-                  ))}
-                </DesSelStep1Screen2ProjectsCarouselMin>
-              </Suspense>
-              {/* 4 slides grid carousel for mobile and tablet */}
-              <Suspense fallback={<UserScreenSpinner />}>
-                <DesSelStep1Screen2ProjectsCarouselMinMobile>
-                  {designGroups.map((group, groupIndex) => (
-                    <div key={groupIndex}>
-                      <div className="px-1 grid grid-cols-2 gap-2 mb-2">
-                        {group.map((project, projectIndex) => (
-                          <DesSelStep2Screen3DesignSlideMinMobile
-                            key={project.id}
-                            project={project}
-                            seeMoreHandler={() => {
-                              setMaxViewCurrSlide(
-                                groupIndex * 4 + projectIndex + 1,
-                              );
-                              changeView("max");
-                            }}
-                            isLocalStorageBookmarked={checkLocalStorageBookmarked(
-                              project.id,
-                            )}
-                            bookmarkLocalStorageHandler={() =>
-                              bookmarkLocalStorageHandler(project.id)
-                            }
-                            selectDesignHandler={() => {
-                              selectDesignHandler(project.id);
-                            }}
-                          />
-                        ))}
+      ) : (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          className="relative w-full h-full min-h-page-user-inner xl:min-h-page-user-inner-xl max-h-page-user-inner max-w-8xl flex flex-col gap-2 lg:gap-1 lg:max-w-xl mx-auto px-4 pt-8 pb-6 xl:py-4 sm:p-2">
+          <DesSelStep2Screen3Header
+            designView={designView}
+            changeView={changeView}
+            areas={areas}
+            floors={floors}
+            familyUnits={familyUnits}
+          />
+          {designsToShow.length === 0 ? (
+            <div className="flex items-center justify-center h-full">
+              <p className="text-lg text-gray-500">No designs found</p>
+            </div>
+          ) : designView === "max" ? (
+            <Suspense fallback={<UserScreenSpinner />}>
+              <DesSelStep1Screen2ProjectsCarouselMax
+                currentIndex={maxViewCurrSlide}
+                setCurrentIndex={setMaxViewCurrSlide}>
+                {designsToShow.map(design => (
+                  <DesSelStep2Screen3DesignSlideMax
+                    key={design.id}
+                    selectDesignHandler={() => {
+                      selectDesignHandler(design.id);
+                    }}
+                    design={design}
+                    isLocalStorageBookmarked={checkLocalStorageBookmarked(
+                      design.id,
+                    )}
+                    bookmarkLocalStorageHandler={() =>
+                      bookmarkLocalStorageHandler(design.id)
+                    }
+                  />
+                ))}
+              </DesSelStep1Screen2ProjectsCarouselMax>
+            </Suspense>
+          ) : (
+            designView === "min" && (
+              <>
+                {/* 3 slides carousel for descktop */}
+                <Suspense fallback={<UserScreenSpinner />}>
+                  <DesSelStep1Screen2ProjectsCarouselMin>
+                    {designsToShow.map((design, index) => (
+                      <DesSelStep2Screen3DesignSlideMin
+                        key={design.id}
+                        design={design}
+                        selectDesignHandler={() => {
+                          selectDesignHandler(design.id);
+                        }}
+                        seeMoreHandler={() => {
+                          // index + 1 is because in the max designView, the last slide is cloned to the 0th index and the first slide is cloned to the last index to produce a infinite carousel effect
+                          setMaxViewCurrSlide(index + 1);
+                          changeView("max");
+                        }}
+                        isLocalStorageBookmarked={checkLocalStorageBookmarked(
+                          design.id,
+                        )}
+                        bookmarkLocalStorageHandler={() =>
+                          bookmarkLocalStorageHandler(design.id)
+                        }
+                      />
+                    ))}
+                  </DesSelStep1Screen2ProjectsCarouselMin>
+                </Suspense>
+                {/* 4 slides grid carousel for mobile and tablet */}
+                <Suspense fallback={<UserScreenSpinner />}>
+                  <DesSelStep1Screen2ProjectsCarouselMinMobile>
+                    {designGroups?.map((group, groupIndex) => (
+                      <div key={groupIndex}>
+                        <div className="px-1 grid grid-cols-2 gap-2 mb-2">
+                          {group?.map((design, designIndex) => (
+                            <DesSelStep2Screen3DesignSlideMinMobile
+                              key={design.id}
+                              design={design}
+                              seeMoreHandler={() => {
+                                setMaxViewCurrSlide(
+                                  groupIndex * 4 + designIndex + 1,
+                                );
+                                changeView("max");
+                              }}
+                              isLocalStorageBookmarked={checkLocalStorageBookmarked(
+                                design.id,
+                              )}
+                              bookmarkLocalStorageHandler={() =>
+                                bookmarkLocalStorageHandler(design.id)
+                              }
+                              selectDesignHandler={() => {
+                                selectDesignHandler(design.id);
+                              }}
+                            />
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                  ))}
-                </DesSelStep1Screen2ProjectsCarouselMinMobile>
-              </Suspense>
-            </>
-          )
-        )}
-      </motion.div>
-      {/* )} */}
+                    ))}
+                  </DesSelStep1Screen2ProjectsCarouselMinMobile>
+                </Suspense>
+              </>
+            )
+          )}
+        </motion.div>
+      )}
     </>
   );
 };

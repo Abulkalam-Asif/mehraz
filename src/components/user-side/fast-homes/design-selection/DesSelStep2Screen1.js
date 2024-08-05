@@ -56,6 +56,7 @@ const DesSelStep2Screen1 = ({ areas, floors, familyUnits }) => {
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set("step", "1");
     newSearchParams.set("screen", "2");
+    newSearchParams.delete("project");
     router.push(`${pathname}?${newSearchParams.toString()}`);
   };
 

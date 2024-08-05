@@ -6,23 +6,23 @@ import {
   DesSelStep1Screen2Select,
   DesSelStep1Screen2InputBox,
   Button,
-  DesSelStep1StylesModal,
 } from "@/components";
 import { useState } from "react";
 import useRPS from "@/hooks/useRPS";
 
-const DesSelStep1Screen2JumpToModal = ({
+const DesSelStep2Screen3JumpToModal = ({
   isModalOpen = false,
   toggleModal = () => {},
-  cities = [],
-  styles = [],
+  areas,
+  floors,
+  familyUnits,
 }) => {
   const { router, pathname, searchParams } = useRPS();
 
   const defaultStep1Screen3FormData = {
-    city: searchParams.get("city") || "",
-    styleCost: searchParams.get("styleCost") || "",
-    style: searchParams.get("style") || "",
+    area: searchParams.get("area") || "",
+    floor: searchParams.get("floor") || "",
+    familyUnit: searchParams.get("familyUnit") || "",
   };
 
   const [step1Screen3FormData, setStep1Screen3FormData] = useState(
@@ -35,14 +35,11 @@ const DesSelStep1Screen2JumpToModal = ({
     }));
   };
 
-  const [isStyleModalOpen, setIsStyleModalOpen] = useState(false);
-  const toggleStyleModal = () => setIsStyleModalOpen(prevState => !prevState);
-
   const applyChangesHandler = () => {
     const newSearchParams = new URLSearchParams(searchParams);
-    newSearchParams.set("city", step1Screen3FormData.city);
-    newSearchParams.set("styleCost", step1Screen3FormData.styleCost);
-    newSearchParams.set("style", step1Screen3FormData.style);
+    newSearchParams.set("area", step1Screen3FormData.area);
+    newSearchParams.set("floor", step1Screen3FormData.floor);
+    newSearchParams.set("familyUnit", step1Screen3FormData.familyUnit);
     router.push(`${pathname}?${newSearchParams.toString()}`);
     router.refresh();
     toggleModal();
@@ -78,52 +75,71 @@ const DesSelStep1Screen2JumpToModal = ({
             </button>
           </div>
           <div className="flex lg:flex-col items-center justify-center gap-8 lg:gap-6 pt-4 pb-20">
-            <DesSelStep1Screen2InputBox label={"city"}>
+            <DesSelStep1Screen2InputBox label={"area"}>
               <DesSelStep1Screen2Select
                 options={
-                  cities
+                  areas
                     ? [
                         {
                           label: "CHOOSE",
                           value: "",
                         },
-                        ...cities.map(city => ({
-                          label: city.name,
-                          value: city.id,
+                        ...areas?.map(({ area, unit, id }) => ({
+                          label: `${area} ${unit.name}`,
+                          value: id,
                         })),
                       ]
                     : []
                 }
-                selectedOption={step1Screen3FormData.city}
+                selectedOption={step1Screen3FormData.area}
                 selectHandler={value =>
-                  step1Screen3FormDataInputHandler("city", value)
+                  step1Screen3FormDataInputHandler("area", value)
                 }
               />
             </DesSelStep1Screen2InputBox>
-            <DesSelStep1Screen2InputBox label={"style cost"}>
+            <DesSelStep1Screen2InputBox label={"floor"}>
               <DesSelStep1Screen2Select
-                options={[
-                  { label: "CHOOSE", value: "" },
-                  { label: "LOW", value: "LOW" },
-                  { label: "MEDIUM", value: "MEDIUM" },
-                  { label: "HIGH", value: "HIGH" },
-                ]}
-                selectedOption={step1Screen3FormData.styleCost}
+                options={
+                  floors
+                    ? [
+                        {
+                          label: "CHOOSE",
+                          value: "",
+                        },
+                        ...floors?.map(floor => ({
+                          label: floor.name,
+                          value: floor.id,
+                        })),
+                      ]
+                    : []
+                }
+                selectedOption={step1Screen3FormData.floor}
                 selectHandler={value =>
-                  step1Screen3FormDataInputHandler("styleCost", value)
+                  step1Screen3FormDataInputHandler("floor", value)
                 }
               />
             </DesSelStep1Screen2InputBox>
-            <DesSelStep1Screen2InputBox label={"choose"}>
-              <button
-                onClick={toggleStyleModal}
-                className="text-xl xl:text-lg py-2 sm:py-1 px-10 sm:px-6 bg-[#8D8E97] rounded-full uppercase text-white shadow-btn font-bold border-2 border-white border-opacity-60 transition-colors duration-300 hover:bg-white hover:text-[#000000a6] hover:border-[#000000a6]">
-                {step1Screen3FormData.style === ""
-                  ? "styles"
-                  : styles.find(
-                      style => style.id === step1Screen3FormData.style,
-                    ).name}
-              </button>
+            <DesSelStep1Screen2InputBox label={"family unit"}>
+              <DesSelStep1Screen2Select
+                options={
+                  familyUnits
+                    ? [
+                        {
+                          label: "CHOOSE",
+                          value: "",
+                        },
+                        ...familyUnits.map(familyUnit => ({
+                          label: familyUnit.name,
+                          value: familyUnit.id,
+                        })),
+                      ]
+                    : []
+                }
+                selectedOption={step1Screen3FormData.familyUnit}
+                selectHandler={value =>
+                  step1Screen3FormDataInputHandler("familyUnit", value)
+                }
+              />
             </DesSelStep1Screen2InputBox>
           </div>
           <div>
@@ -138,17 +154,8 @@ const DesSelStep1Screen2JumpToModal = ({
           </div>
         </div>
       }
-      {isStyleModalOpen && (
-        <DesSelStep1StylesModal
-          isModalOpen={isStyleModalOpen}
-          toggleModal={toggleStyleModal}
-          styles={styles}
-          styleCost={step1Screen3FormData.styleCost}
-          step1Screen2FormDataInputHandler={step1Screen3FormDataInputHandler}
-        />
-      )}
     </>
   );
 };
 
-export default DesSelStep1Screen2JumpToModal;
+export default DesSelStep2Screen3JumpToModal;

@@ -25,7 +25,10 @@ const DesSelStep2Screen2 = () => {
       try {
         const budgetRange = await getBudgetRange();
         setBudgetRange(budgetRange);
-        const defaultBudget = (budgetRange.min + budgetRange.max) / 2;
+        const searchParamsBudget = searchParams.get("budget");
+        const defaultBudget = searchParamsBudget
+          ? searchParamsBudget
+          : (budgetRange.min + budgetRange.max) / 2;
         setBudget(defaultBudget);
       } catch (error) {
         console.error(error);
@@ -44,6 +47,7 @@ const DesSelStep2Screen2 = () => {
   const moveToScreen1Handler = () => {
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set("screen", "1");
+    newSearchParams.delete("budget");
     router.push(`${pathname}?${newSearchParams.toString()}`);
   };
 

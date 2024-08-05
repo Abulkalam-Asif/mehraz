@@ -16,6 +16,10 @@ const DesSelStep1Screen2Header = ({ view, changeView, cities, styles }) => {
   const moveToScreen1Handler = () => {
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set("screen", "1");
+    newSearchParams.delete("city");
+    newSearchParams.delete("style");
+    newSearchParams.delete("styleCost");
+    newSearchParams.delete("view");
     router.push(`${pathname}?${newSearchParams.toString()}`);
   };
 

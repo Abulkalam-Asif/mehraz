@@ -166,7 +166,7 @@ const DesSelStep1Screen2 = ({ cities, styles }) => {
                 </DesSelStep1Screen2ProjectsCarouselMin>
                 {/* 4 slides grid carousel for mobile and tablet */}
                 <DesSelStep1Screen2ProjectsCarouselMinMobile>
-                  {projectGroups.map((group, groupIndex) => (
+                  {projectGroups?.map((group, groupIndex) => (
                     <div key={groupIndex}>
                       <div className="px-1 grid grid-cols-2 gap-2 mb-2">
                         {group.map((project, projectIndex) => (

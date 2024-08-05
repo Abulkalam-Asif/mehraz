@@ -14,14 +14,21 @@ const pieChartOptions = {
   legend: "none",
   pieSliceText: "label",
   backgroundColor: "transparent",
-  width: 500,
-  height: 500,
   pieSliceBorderColor: "transparent",
   tooltip: {
     textStyle: { color: "#000" },
     showColorCode: true,
   },
 };
+
+const pieChartData = [
+  ["serice", "cost"],
+  ["Service 1", 2000000],
+  ["Service 2", 500000],
+  ["Service 3", 1000000],
+  ["Service 4", 700000],
+  ["Service 5", 1000000],
+];
 
 const DesSelStep2Screen3DesignSlideMax = ({
   design,
@@ -46,7 +53,7 @@ const DesSelStep2Screen3DesignSlideMax = ({
               <span>{design.style.budget.toLowerCase()} Budget</span>
             </h2>
           </div>
-          <div className="uppercase text-[#2F2F2F]/60 text-sm px-5 flex items-center justify-evenly mt-5">
+          <div className="uppercase text-[#2F2F2F]/60 text-sm sm:text-xs xs:text-xxs px-5 flex items-center justify-evenly xs:justify-between mt-4 lg:mt-2">
             <div className="flex items-center gap-2">
               <span>Area</span>
               <span className="border-2 border-[#2F2F2F]/60 rounded px-1 py-0.5">{`${design.area.area} ${design.area.unit}`}</span>
@@ -58,7 +65,7 @@ const DesSelStep2Screen3DesignSlideMax = ({
               </span>
             </div>
           </div>
-          <p className="text-lg xl:text-base sm:text-sm text-justify mt-3 px-5 sm:px-2 flex-1 lg:w-full">
+          <p className="text-lg xl:text-base sm:text-sm text-justify mt-3 lg:mt-1 px-5 sm:px-2 flex-1 lg:w-full">
             {design.description}
           </p>
           <div className="uppercase text-black/90 mt-4 sm:mt-2 px-5 sm:px-0 lg:w-full grid grid-cols-7 lg:block">
@@ -70,9 +77,7 @@ const DesSelStep2Screen3DesignSlideMax = ({
                 <h4>PKR {design.designCost}</h4>
               </div>
               <div className="text-sm font-bold w-full flex items-center justify-between px-3 py-1 text-white rounded-full bg-gradient-to-r from-accent-dark-blue to-accent-sea-green opacity-90">
-                <h4>
-                  build design <span className="text-xxxs">only</span>
-                </h4>
+                <h4>build design</h4>
                 <h4>PKR {design.constructionCost}</h4>
               </div>
               <button
@@ -118,7 +123,7 @@ const DesSelStep2Screen3DesignSlideMax = ({
               href={"/"}
               color="solid-gold"
               text="see details"
-              className="w-full text-center text-lg xl:text-base font-bold py-1.5 px-4 rounded-fulls"
+              className="w-full text-center text-lg xl:text-base font-bold py-1.5 px-4 rounded-full"
             />
             <UButton
               onClick={selectDesignHandler}
@@ -146,18 +151,16 @@ const DesSelStep2Screen3DesignSlideMax = ({
           {showChart ? (
             <div className="relative flex items-center justify-center w-full h-full bg-gradient-to-r from-accent-dark-blue to-accent-sea-green">
               <Chart
+                className="h-full w-full"
                 chartType="PieChart"
-                data={[
-                  ["serice", "cost"],
-                  ["Service 1", 2000000],
-                  ["Service 2", 500000],
-                  ["Service 3", 1000000],
-                  ["Service 4", 700000],
-                  ["Service 5", 1000000],
-                ]}
-                options={pieChartOptions}
+                data={pieChartData}
+                options={{
+                  ...pieChartOptions,
+                  width: "100%",
+                  height: "100%",
+                }}
               />
-              <span className="absolute bottom-0 right-0 text-white/50 uppercase text-lg px-4 py-1 border-t border-t-white/50">
+              <span className="lg:hidden absolute bottom-0 right-0 text-white/50 uppercase text-lg px-4 py-1 border-t border-t-white/50">
                 construction cost division
               </span>
             </div>
