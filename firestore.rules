@@ -67,7 +67,7 @@ service cloud.firestore {
     
     // Custom functions for OFFICES collection
     function isValidOfficeCreation() {
-      return isSignedIn() &&
+       return getIncomingData().keys().hasOnly(['name','address','mapsLink']) &&
              getIncomingData().name != "" &&
              getIncomingData().name != null &&
              getIncomingData().address != "" &&
@@ -77,8 +77,7 @@ service cloud.firestore {
     }
 
     function isValidOfficeUpdate() {
-      return isSignedIn() &&
-             (getIncomingData().name == null || getIncomingData().name != "") &&
+      return (getIncomingData().name == null || getIncomingData().name != "") &&
              onlyIncrementOneCurrencies() &&
              (getIncomingData().address == null || getIncomingData().address != "") &&
              (getIncomingData().mapsLink == null || getIncomingData().mapsLink != "");
