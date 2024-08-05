@@ -70,7 +70,7 @@ const DesSelStep2Screen1 = ({ areas, floors, familyUnits }) => {
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-6 lg:gap-2">
             <button
-              onClick={moveToStep1Screen2Handler}
+              onClick={ moveToStep1Screen2Handler}
               className="bg-[#EFEFEF] p-4 xl:p-3 rounded-full shadow-btn">
               <FaChevronLeft size={28} className="w-7 h-auto lg:w-5 sm:w-4" />
             </button>
