@@ -39,6 +39,10 @@ module.exports = {
         "dropdown-2": "5px 5px 20px 0px rgba(0, 0, 0, 0.25)",
         btn: "1px 4px 4px 0px rgba(0, 0, 0, 0.25)",
       },
+      strokeWidth: {
+        3: "3",
+        4: "4",
+      },
       lineHeight: {
         tighter: "1.125",
       },

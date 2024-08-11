@@ -164,3 +164,9 @@ export { default as DesSelStep2Screen3DesignSlideMax } from "./user-side/fast-ho
 export { default as DesSelStep2Screen3DesignSlideMin } from "./user-side/fast-homes/design-selection/DesSelStep2Screen3DesignSlideMin";
 export { default as DesSelStep2Screen3DesignSlideMinMobile } from "./user-side/fast-homes/design-selection/DesSelStep2Screen3DesignSlideMinMobile";
 export { default as DesSelStep2Screen3JumpToModal } from "./user-side/fast-homes/design-selection/DesSelStep2Screen3JumpToModal";
+
+// User Side - Desings
+export { default as DesignsClientPage } from "./user-side/designs/DesignsClientPage";
+export { default as DesignOptionsRadio} from "./user-side/designs/DesignOptionsRadio";
+export { default as DesignCarouselSmall} from "./user-side/designs/DesignCarouselSmall";
+export { default as DesignCarouselMain} from "./user-side/designs/DesignCarouselMain";

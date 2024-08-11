@@ -45,6 +45,8 @@ export { default as shareGrayIcon } from "./icons/user-fast-homes/share-gray.svg
 export { default as shareGrayFilledIcon } from "./icons/user-fast-homes/share-gray-filled.svg";
 export { default as circleCheckIcon } from "./icons/user-fast-homes/circle-check.svg";
 
+export { default as tour360icon } from "./icons/user-projects/360-tour.png";
+
 // Images
 export { default as logo1Img } from "./images/logo1.svg";
 export { default as logo2Img } from "./images/logo2.svg";
