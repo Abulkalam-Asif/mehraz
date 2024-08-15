@@ -37,7 +37,7 @@ module.exports = {
       boxShadow: {
         dropdown: "0px 1px 8px 2px rgba(0, 0, 0, 0.3)",
         "dropdown-2": "5px 5px 20px 0px rgba(0, 0, 0, 0.25)",
-        btn: "1px 4px 4px 0px rgba(0, 0, 0, 0.25)",
+        btn: "1px 3px 3px 0px rgba(0, 0, 0, 0.25)",
       },
       strokeWidth: {
         3: "3",

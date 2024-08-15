@@ -20,7 +20,7 @@ const Modal = ({
             : "hidden"
         }`}></div>
       <div
-        className={`fixed z-[3] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full ${maxWidth} bg-white rounded-xl overflow-hidden
+        className={`fixed z-[3] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full ${maxWidth} bg-white/90 rounded-xl overflow-hidden
          ${className}`}>
         <button
           onClick={toggleModal}

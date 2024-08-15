@@ -1,7 +1,7 @@
 "use client";
 import useRPS from "@/hooks/useRPS";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import { FaChevronLeft } from "react-icons/fa6";
 import DesignOptionsRadio from "./DesignOptionsRadio";
 import { motion } from "framer-motion";
@@ -12,6 +12,10 @@ import DesignCarouselSmall from "./DesignCarouselSmall";
 import UButton from "../UButton";
 import DesignCarouselMain from "./DesignCarouselMain";
 
+const Modal = lazy(() => import("../../Modal"));
+const HomeProgramModal = lazy(() => import("./HomeProgramModal"));
+
+// temp data
 const defaultDesign = {
   id: "hajfkajlj214141",
   title: "Design Title",
@@ -86,6 +90,54 @@ const defaultDesign = {
       price: "1500 PKR/CFT",
     },
   ],
+  programs: [
+    {
+      category: "bedroom",
+      quantity: 3,
+      subCategories: [
+        {
+          space: "main bedroom",
+          size: "12 by 6 feet",
+        },
+        {
+          space: "second bedroom",
+          size: "10 by 6 feet",
+        },
+        {
+          space: "third bedroom",
+          size: "10 by 5 feet",
+        },
+      ],
+    },
+    {
+      category: "bathroom",
+      quantity: 3,
+      subCategories: [
+        {
+          space: "main bathroom",
+          size: "6 by 6 feet",
+        },
+        {
+          space: "second bathroom",
+          size: "6 by 6 feet",
+        },
+        {
+          space: "third bathroom",
+          size: "6 by 6 feet",
+        },
+      ],
+    },
+    {
+      category: "kitchen",
+      quantity: 1,
+      subCategories: [
+        {
+          space: "kitchen",
+          size: "12 by 6 feet",
+        },
+      ],
+    },
+  ],
 };
 
 const DesignsClientPage = () => {
@@ -106,17 +158,20 @@ const DesignsClientPage = () => {
     setSelectedOption(option);
   };
 
+  const [isHomeProgramModalOpen, setIsHomeProgramModalOpen] = useState(false);
+  const toggleHomeProgramModal = () => {
+    setIsHomeProgramModalOpen(prev => !prev);
+  };
+
   return (
-    <>
-      {!design ? (
-        <UserScreenSpinner />
-      ) : (
+    design && (
+      <Suspense fallback={UserScreenSpinner}>
         <motion.section
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
           className="px-8 h-[calc(100vh-6rem)] lg:h-[calc(100vh-4rem)]">
-          <div className="max-w-8xl w-auto h-full min-h-page-user-inner max-h-page-user-inner mx-auto px-4 pt-8 pb-6 grid grid-cols-2 gap-16">
+          <div className="max-w-8xl w-auto h-full min-h-page-user-inner max-h-page-user-inner mx-auto px-4 pt-8 pb-6 grid grid-cols-2 gap-16 items-center">
             <div className="h-full flex flex-col">
               <div className="w-full flex items-center gap-4">
                 <Link
@@ -141,7 +196,7 @@ const DesignsClientPage = () => {
                 </div>
               </div>
               <div className="ml-8 h-full flex flex-col gap-2">
-                <p className="mt-8 flex-1">{design.description}</p>
+                <p className="mt-4 flex-1">{design.description}</p>
                 <div className="flex items-center justify-between text-lg">
                   <Link
                     href={"/"}
@@ -150,7 +205,7 @@ const DesignsClientPage = () => {
                     <Image src={tour360icon} width={28} height={28} />
                   </Link>
                   <button
-                    href={"/"}
+                    onClick={toggleHomeProgramModal}
                     className="uppercase bg-[#FFF3E4] text-[#2f2f2f] rounded-md px-4 py-1 shadow-btn">
                     home program
                   </button>
@@ -181,18 +236,23 @@ const DesignsClientPage = () => {
                 </DesignCarouselSmall>
                 <UButton
                   // onClick={selectDesignHandler}
-                  className="w-full flex items-center justify-center mt-2 gap-2 text-lg xl:text-xs font-bold py-1 xl:py-0.5 px-4"
+                  className="w-full flex flex-col items-center justify-center text-[#2F2F2F] py-0.5 px-4"
                   color="solid-gold"
                   text={
                     <>
-                      <Image
-                        src={circleCheckIcon}
-                        width={24}
-                        height={22}
-                        className="w-6 h-auto"
-                        alt="circle check"
-                      />
-                      <span>get designed</span>
+                      <span className="flex items-center justify-center mt-2 gap-1 text-lg xl:text-xs font-bold">
+                        <Image
+                          src={circleCheckIcon}
+                          width={24}
+                          height={22}
+                          className="w-6 h-auto mb-1"
+                          alt="circle check"
+                        />
+                        <span>get designed</span>
+                      </span>
+                      <span className="uppercase text-xs italic">
+                        purchase service, pkr 10,000
+                      </span>
                     </>
                   }
                 />
@@ -243,8 +303,17 @@ const DesignsClientPage = () => {
             </div>
           </div>
         </motion.section>
-      )}
-    </>
+        {isHomeProgramModalOpen && (
+          <Suspense fallback={UserScreenSpinner}>
+            <Modal
+              isModalOpen={isHomeProgramModalOpen}
+              toggleModal={toggleHomeProgramModal}>
+              <HomeProgramModal programs={design.programs} />
+            </Modal>
+          </Suspense>
+        )}
+      </Suspense>
+    )
   );
 };
 
